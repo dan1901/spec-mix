@@ -518,7 +518,7 @@ spec-mix init <project_name> --ai claude --ignore-agent-tools
 /spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성 및 성능 요구사항에 중점을 둔 원칙을 만드세요. 이러한 원칙이 기술 결정 및 구현 선택을 어떻게 안내해야 하는지에 대한 거버넌스를 포함하세요.
 ```
 
-이 단계는 AI 에이전트가 명세, 계획 및 구현 단계에서 참조할 프로젝트의 기본 가이드라인으로 `.specify/memory/constitution.md` 파일을 생성하거나 업데이트합니다.
+이 단계는 AI 에이전트가 명세, 계획 및 구현 단계에서 참조할 프로젝트의 기본 가이드라인으로 `.spec-mix/memory/constitution.md` 파일을 생성하거나 업데이트합니다.
 
 ### **2단계:** 프로젝트 명세 생성
 

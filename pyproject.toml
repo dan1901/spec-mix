@@ -14,19 +14,19 @@ dependencies = [
 ]
 
 [project.scripts]
-spec-mix = "specify_cli:main"
+spec-mix = "specmix:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/specify_cli"]
+packages = ["src/specmix"]
 
 [tool.hatch.build]
 include = [
-    "src/specify_cli/**/*.py",
-    "src/specify_cli/locales/**/*",
-    "src/specify_cli/static/**/*"
+    "src/specmix/**/*.py",
+    "src/specmix/locales/**/*",
+    "src/specmix/static/**/*"
 ]
 

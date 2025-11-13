@@ -136,6 +136,6 @@ else
     echo "Next steps:" >&2
     echo "  cd $WORKTREE_DIR" >&2
     echo "  # Work on your feature" >&2
-    echo "  # When done, use /speckit.merge to integrate" >&2
+    echo "  # When done, use /spec-mix.merge to integrate" >&2
     echo "" >&2
 fi

@@ -1,0 +1,114 @@
+{
+  "cli": {
+    "banner": {
+      "tagline": "GitHub Spec Kit - 스펙 주도 개발 툴킷"
+    },
+    "init": {
+      "setup_title": "Specify 프로젝트 설정",
+      "project": "프로젝트",
+      "working_path": "작업 경로",
+      "target_path": "대상 경로",
+      "select_ai": "AI 어시스턴트를 선택하세요:",
+      "select_script": "스크립트 타입 선택 (또는 Enter 입력)",
+      "selected_ai": "선택된 AI 어시스턴트:",
+      "selected_script": "선택된 스크립트 타입:",
+      "git_not_found": "Git을 찾을 수 없습니다 - 저장소 초기화를 건너뜁니다",
+      "warning_not_empty": "경고: 현재 디렉토리가 비어있지 않습니다 ({count}개 항목)",
+      "merge_warning": "템플릿 파일이 기존 내용과 병합되며 기존 파일을 덮어쓸 수 있습니다",
+      "force_skip": "--force 옵션 제공됨: 확인을 건너뛰고 병합을 진행합니다",
+      "confirm_continue": "계속하시겠습니까?",
+      "operation_cancelled": "작업이 취소되었습니다",
+      "directory_exists": "디렉토리 '{name}'이(가) 이미 존재합니다",
+      "choose_different": "다른 프로젝트 이름을 선택하거나 기존 디렉토리를 제거하세요.",
+      "project_ready": "프로젝트가 준비되었습니다.",
+      "error_invalid_ai": "오류: 잘못된 AI 어시스턴트 '{ai}'. 다음 중 선택하세요: {options}",
+      "error_invalid_script": "오류: 잘못된 스크립트 타입 '{type}'. 다음 중 선택하세요: {options}",
+      "error_both_name_here": "오류: 프로젝트 이름과 --here 플래그를 동시에 지정할 수 없습니다",
+      "error_no_project_name": "오류: 프로젝트 이름을 지정하거나, 현재 디렉토리는 '.', 또는 --here 플래그를 사용하세요"
+    },
+    "check": {
+      "title": "설치된 도구 확인 중...",
+      "ready": "Specify CLI 사용 준비 완료!",
+      "tip_git": "팁: 저장소 관리를 위해 git을 설치하세요",
+      "tip_agent": "팁: 최상의 경험을 위해 AI 어시스턴트를 설치하세요"
+    },
+    "lang": {
+      "list_title": "사용 가능한 언어",
+      "list_installed": "설치됨:",
+      "list_available": "설치 가능:",
+      "current_language": "현재 언어: {lang}",
+      "install_success": "언어팩 '{lang}'이(가) 성공적으로 설치되었습니다",
+      "install_error": "언어팩 '{lang}' 설치 중 오류 발생",
+      "already_installed": "언어팩 '{lang}'이(가) 이미 설치되어 있습니다",
+      "not_available": "언어 '{lang}'을(를) 사용할 수 없습니다",
+      "uninstall_success": "언어팩 '{lang}'이(가) 성공적으로 제거되었습니다",
+      "cannot_uninstall_default": "기본 언어팩은 제거할 수 없습니다",
+      "set_success": "기본 언어가 '{lang}'(으)로 설정되었습니다",
+      "set_error": "언어 '{lang}'이(가) 설치되지 않았습니다. 먼저 설치하세요: specify lang install {lang}"
+    },
+    "steps": {
+      "next_steps": "다음 단계",
+      "enhancement_commands": "향상 명령어",
+      "go_to_folder": "프로젝트 폴더로 이동: {cmd}",
+      "already_in_folder": "이미 프로젝트 디렉토리에 있습니다!",
+      "start_commands": "AI 에이전트와 함께 슬래시 명령어 사용 시작:",
+      "constitution": "/spec-mix.constitution - 프로젝트 원칙 수립",
+      "specify": "/spec-mix.specify - 기본 사양 생성",
+      "plan": "/spec-mix.plan - 구현 계획 생성",
+      "tasks": "/spec-mix.tasks - 실행 가능한 작업 생성",
+      "implement": "/spec-mix.implement - 구현 실행",
+      "clarify": "/spec-mix.clarify (선택사항) - 계획 전 모호한 영역을 명확히 하기 위한 구조화된 질문 (/spec-mix.plan 전에 실행)",
+      "analyze": "/spec-mix.analyze (선택사항) - 교차 아티팩트 일관성 및 정렬 보고서 (/spec-mix.tasks 후, /spec-mix.implement 전)",
+      "checklist": "/spec-mix.checklist (선택사항) - 요구사항 완전성, 명확성, 일관성 검증을 위한 품질 체크리스트 생성 (/spec-mix.plan 후)"
+    },
+    "security": {
+      "title": "에이전트 폴더 보안",
+      "message": "일부 에이전트는 프로젝트 내 에이전트 폴더에 자격 증명, 인증 토큰 또는 기타 식별 및 개인 아티팩트를 저장할 수 있습니다.\n실수로 자격 증명이 유출되는 것을 방지하려면 {folder} (또는 그 일부)를 {gitignore}에 추가하는 것을 고려하세요."
+    },
+    "git": {
+      "init_title": "Git 초기화 실패",
+      "init_warning": "경고: Git 저장소 초기화 실패",
+      "manual_instructions": "나중에 수동으로 git을 초기화할 수 있습니다:",
+      "initializing": "git 저장소 초기화 중...",
+      "initialized": "Git 저장소가 초기화되었습니다"
+    },
+    "tracker": {
+      "init_title": "Specify 프로젝트 초기화",
+      "check_title": "사용 가능한 도구 확인",
+      "precheck": "필수 도구 확인",
+      "ai_select": "AI 어시스턴트 선택",
+      "script_select": "스크립트 타입 선택",
+      "fetch": "최신 릴리스 가져오기",
+      "download": "템플릿 다운로드",
+      "extract": "템플릿 추출",
+      "archive_contents": "아카이브 내용",
+      "extraction_summary": "추출 요약",
+      "chmod": "스크립트 실행 권한 설정",
+      "cleanup": "정리",
+      "git": "Git 저장소 초기화",
+      "final": "완료"
+    },
+    "mission": {
+      "list_header": "사용 가능한 미션",
+      "current_mission": "현재 미션: {mission}",
+      "switched_to": "미션 전환됨: {mission}",
+      "not_found": "미션을 찾을 수 없음: {mission}",
+      "mission_info": "미션 정보"
+    },
+    "dashboard": {
+      "title": "Spec Kit 대시보드",
+      "features": "기능 목록",
+      "kanban": "칸반 보드",
+      "artifacts": "산출물",
+      "constitution": "헌장",
+      "health": "시스템 상태",
+      "no_features": "기능을 찾을 수 없습니다",
+      "lanes": {
+        "planned": "계획됨",
+        "doing": "진행 중",
+        "for_review": "검토 대기",
+        "done": "완료"
+      }
+    }
+  }
+}

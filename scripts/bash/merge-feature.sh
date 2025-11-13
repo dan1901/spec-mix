@@ -110,11 +110,11 @@ if [[ "$NO_VERIFY" != "true" ]]; then
     if [[ -f "$FEATURE_SPEC_DIR/acceptance.md" ]]; then
         if ! grep -q "APPROVED" "$FEATURE_SPEC_DIR/acceptance.md" 2>/dev/null; then
             echo "Error: Feature not approved for merge" >&2
-            echo "Run /speckit.accept first" >&2
+            echo "Run /spec-mix.accept first" >&2
             exit 1
         fi
     else
-        echo "Warning: No acceptance.md found. Consider running /speckit.accept first" >&2
+        echo "Warning: No acceptance.md found. Consider running /spec-mix.accept first" >&2
         read -p "Continue anyway? (y/N) " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then

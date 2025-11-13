@@ -1,13 +1,13 @@
 # Local Development Guide
 
-This guide shows how to iterate on the `specify` CLI locally without publishing a release or committing to `main` first.
+This guide shows how to iterate on the `spec-mix` CLI locally without publishing a release or committing to `main` first.
 
 > Scripts now have both Bash (`.sh`) and PowerShell (`.ps1`) variants. The CLI auto-selects based on OS unless you pass `--script sh|ps`.
 
 ## 1. Clone and Switch Branches
 
 ```bash
-git clone https://github.com/github/spec-kit.git
+git clone https://github.com/dan1901/spec-kit.git
 cd spec-kit
 # Work on a feature branch
 git checkout -b your-feature-branch
@@ -19,14 +19,14 @@ You can execute the CLI via the module entrypoint without installing anything:
 
 ```bash
 # From repo root
-python -m src.specify_cli --help
-python -m src.specify_cli init demo-project --ai claude --ignore-agent-tools --script sh
+python -m src.specmix --help
+python -m src.specmix init demo-project --ai claude --ignore-agent-tools --script sh
 ```
 
 If you prefer invoking the script file style (uses shebang):
 
 ```bash
-python src/specify_cli/__init__.py init demo-project --script ps
+python src/specmix/__init__.py init demo-project --script ps
 ```
 
 ## 3. Use Editable Install (Isolated Environment)
@@ -41,8 +41,8 @@ source .venv/bin/activate  # or on Windows PowerShell: .venv\Scripts\Activate.ps
 # Install project in editable mode
 uv pip install -e .
 
-# Now 'specify' entrypoint is available
-specify --help
+# Now 'spec-mix' entrypoint is available
+spec-mix --help
 ```
 
 Re-running after code edits requires no reinstall because of editable mode.
@@ -60,7 +60,7 @@ You can also point uvx at a specific branch without merging:
 ```bash
 # Push your working branch first
 git push origin your-feature-branch
-uvx --from git+https://github.com/github/spec-kit.git@your-feature-branch spec-mix init demo-branch-test --script ps
+uvx --from git+https://github.com/dan1901/spec-kit.git@your-feature-branch spec-mix init demo-branch-test --script ps
 ```
 
 ### 4a. Absolute Path uvx (Run From Anywhere)
@@ -68,7 +68,7 @@ uvx --from git+https://github.com/github/spec-kit.git@your-feature-branch spec-m
 If you're in another directory, use an absolute path instead of `.`:
 
 ```bash
-uvx --from /mnt/c/GitHub/spec-kit specify --help
+uvx --from /mnt/c/GitHub/spec-kit spec-mix --help
 uvx --from /mnt/c/GitHub/spec-kit spec-mix init demo-anywhere --ai copilot --ignore-agent-tools --script sh
 ```
 
@@ -82,7 +82,7 @@ uvx --from "$SPEC_KIT_SRC" spec-mix init demo-env --ai copilot --ignore-agent-to
 (Optional) Define a shell function:
 
 ```bash
-specify-dev() { uvx --from /mnt/c/GitHub/spec-kit specify "$@"; }
+specify-dev() { uvx --from /mnt/c/GitHub/spec-kit spec-mix "$@"; }
 # Then
 specify-dev --help
 ```
@@ -103,7 +103,7 @@ On Windows you will instead use the `.ps1` scripts (no chmod needed).
 Currently no enforced lint config is bundled, but you can quickly sanity check importability:
 
 ```bash
-python -c "import specify_cli; print('Import OK')"
+python -c "import specmix; print('Import OK')"
 ```
 
 ## 7. Build a Wheel Locally (Optional)
@@ -123,7 +123,7 @@ When testing `init --here` in a dirty directory, create a temp workspace:
 
 ```bash
 mkdir /tmp/spec-test && cd /tmp/spec-test
-python -m src.specify_cli init --here --ai claude --ignore-agent-tools --script sh  # if repo copied here
+python -m src.specmix init --here --ai claude --ignore-agent-tools --script sh  # if repo copied here
 ```
 
 Or copy only the modified CLI portion if you want a lighter sandbox.
@@ -133,7 +133,7 @@ Or copy only the modified CLI portion if you want a lighter sandbox.
 If you need to bypass TLS validation while experimenting:
 
 ```bash
-specify check --skip-tls
+spec-mix check --skip-tls
 spec-mix init demo --skip-tls --ai gemini --ignore-agent-tools --script ps
 ```
 
@@ -143,11 +143,11 @@ spec-mix init demo --skip-tls --ai gemini --ignore-agent-tools --script ps
 
 | Action | Command |
 |--------|---------|
-| Run CLI directly | `python -m src.specify_cli --help` |
-| Editable install | `uv pip install -e .` then `specify ...` |
-| Local uvx run (repo root) | `uvx --from . specify ...` |
-| Local uvx run (abs path) | `uvx --from /mnt/c/GitHub/spec-kit specify ...` |
-| Git branch uvx | `uvx --from git+URL@branch specify ...` |
+| Run CLI directly | `python -m src.specmix --help` |
+| Editable install | `uv pip install -e .` then `spec-mix ...` |
+| Local uvx run (repo root) | `uvx --from . spec-mix ...` |
+| Local uvx run (abs path) | `uvx --from /mnt/c/GitHub/spec-kit spec-mix ...` |
+| Git branch uvx | `uvx --from git+URL@branch spec-mix ...` |
 | Build wheel | `uv build` |
 
 ## 11. Cleaning Up
