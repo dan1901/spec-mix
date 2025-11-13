@@ -12,8 +12,8 @@ agent_scripts:
 
 ```text
 $ARGUMENTS
-```
 
+```text
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
@@ -84,4 +84,5 @@ You **MUST** consider the user input before proceeding (if not empty).
 ## Key rules
 
 - Use absolute paths
+
 - ERROR on gate failures or unresolved clarifications

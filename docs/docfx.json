@@ -9,8 +9,19 @@
       },
       {
         "files": [
+          "en/**/*.md",
+          "en/toc.yml"
+        ]
+      },
+      {
+        "files": [
+          "ko/**/*.md",
+          "ko/toc.yml"
+        ]
+      },
+      {
+        "files": [
           "../README.md",
-          "../README.ko.md",
           "../CONTRIBUTING.md",
           "../CODE_OF_CONDUCT.md",
           "../SECURITY.md",
@@ -65,7 +76,7 @@
       "_enableSearch": true,
       "_disableContribution": false,
       "_gitContribute": {
-        "repo": "https://github.com/dan1901/spec-kit",
+        "repo": "https://github.com/dan1901/spec-mix",
         "branch": "main"
       }
     }

@@ -475,8 +475,6 @@ spec-mix init . --force
 # 또는
 spec-mix init --here --force
 ```
-
-
 사용 중인 AI 에이전트를 선택하라는 메시지가 표시됩니다. 터미널에서 직접 미리 지정할 수도 있습니다:
 
 ```bash
@@ -508,8 +506,6 @@ spec-mix init <project_name> --ai claude --ignore-agent-tools
 ### **1단계:** 프로젝트 원칙 수립
 
 프로젝트 폴더로 이동하여 AI 에이전트를 실행하세요. 예제에서는 `claude`를 사용합니다.
-
-
 `/spec-mix.constitution`, `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks` 및 `/spec-mix.implement` 명령을 사용할 수 있다면 올바르게 구성된 것입니다.
 
 첫 번째 단계는 `/spec-mix.constitution` 명령을 사용하여 프로젝트의 지배 원칙을 수립하는 것입니다. 이는 모든 후속 개발 단계에서 일관된 의사 결정을 보장하는 데 도움이 됩니다:

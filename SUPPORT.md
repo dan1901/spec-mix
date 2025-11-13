@@ -6,7 +6,7 @@ This project uses GitHub issues to track bugs and feature requests. Please searc
 
 For help or questions about using this project, please:
 
-- Open a [GitHub issue](https://github.com/dan1901/spec-kit/issues/new) for bug reports, feature requests, or questions about the Spec-Driven Development methodology
+- Open a [GitHub issue](https://github.com/dan1901/spec-mix/issues/new) for bug reports, feature requests, or questions about the Spec-Driven Development methodology
 - Check the [comprehensive guide](./spec-driven.md) for detailed documentation on the Spec-Driven Development process
 - Review the [README](./README.md) for getting started instructions and troubleshooting tips
 - Check the [documentation site](https://dan1901.github.io/spec-kit/) for detailed guides

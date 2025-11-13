@@ -1,35 +1,50 @@
-# Documentation
+# Spec Mix Documentation
 
-This folder contains the documentation source files for Spec Kit, built using [DocFX](https://dotnet.github.io/docfx/).
+This folder contains the documentation source files for Spec Mix, built using [DocFX](https://dotnet.github.io/docfx/).
 
-## Building Locally
+## Languages
 
-To build the documentation locally:
+- **English** - [docs/](.) (default)
+- **한국어** - [docs/ko/](ko/)
 
-1. Install DocFX:
+## Build
 
-   ```bash
-   dotnet tool install -g docfx
-   ```
+The documentation is automatically built and published to GitHub Pages when changes are pushed to the `main` branch.
 
-2. Build the documentation:
+To build locally:
 
-   ```bash
-   cd docs
-   docfx docfx.json --serve
-   ```
+```bash
+cd docs
+docfx docfx.json --serve
+```
 
-3. Open your browser to `http://localhost:8080` to view the documentation.
+Then open http://localhost:8080
 
 ## Structure
 
-- `docfx.json` - DocFX configuration file
-- `index.md` - Main documentation homepage
-- `toc.yml` - Table of contents configuration
-- `installation.md` - Installation guide
-- `quickstart.md` - Quick start guide
-- `_site/` - Generated documentation output (ignored by git)
+```text
+docs/
+├── index.md              # English homepage
+├── features.md           # Enhanced features
+├── i18n.md              # Multi-language guide
+├── missions.md          # Mission system
+├── dashboard.md         # Dashboard guide
+├── installation.md      # Installation guide
+├── quickstart.md        # Quick start guide
+├── local-development.md # Development guide
+├── toc.yml              # English navigation
+└── ko/                  # Korean docs
+    ├── index.md
+    └── toc.yml
+```
 
-## Deployment
+## Contributing
 
-Documentation is automatically built and deployed to GitHub Pages when changes are pushed to the `main` branch. The workflow is defined in `.github/workflows/docs.yml`.
+To add or update documentation:
+
+1. Edit markdown files
+2. Update `toc.yml` if adding new pages
+3. Test locally with DocFX
+4. Submit PR
+
+For translations, create a new language directory under `docs/[lang-code]/`.

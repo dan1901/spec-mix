@@ -39,14 +39,21 @@
 ```text
 specs/[###-feature]/
 ├── plan.md              # 이 파일 (/spec-mix.plan 명령 출력)
+
 ├── research.md          # 0단계 출력 (/spec-mix.plan 명령)
+
 ├── data-model.md        # 1단계 출력 (/spec-mix.plan 명령)
+
 ├── quickstart.md        # 1단계 출력 (/spec-mix.plan 명령)
+
 ├── contracts/           # 1단계 출력 (/spec-mix.plan 명령)
+
 └── tasks.md             # 2단계 출력 (/spec-mix.tasks 명령 - /spec-mix.plan으로 생성되지 않음)
-```
+
+```text
 
 ### 소스 코드 (저장소 루트)
+
 <!--
   조치 필요: 아래 플레이스홀더 트리를 이 기능의 구체적인 레이아웃으로 교체하세요.
   사용하지 않는 옵션을 삭제하고 선택한 구조를 실제 경로로 확장하세요 (예: apps/admin, packages/something).
@@ -54,7 +61,9 @@ specs/[###-feature]/
 -->
 
 ```text
+
 # [사용하지 않는 경우 제거] 옵션 1: 단일 프로젝트 (기본값)
+
 src/
 ├── models/
 ├── services/
@@ -67,6 +76,7 @@ tests/
 └── unit/
 
 # [사용하지 않는 경우 제거] 옵션 2: 웹 애플리케이션 ("frontend" + "backend" 감지 시)
+
 backend/
 ├── src/
 │   ├── models/
@@ -82,13 +92,14 @@ frontend/
 └── tests/
 
 # [사용하지 않는 경우 제거] 옵션 3: 모바일 + API ("iOS/Android" 감지 시)
+
 api/
 └── [위의 backend와 동일]
 
 ios/ 또는 android/
 └── [플랫폼별 구조: 기능 모듈, UI 흐름, 플랫폼 테스트]
-```
 
+```text
 **구조 결정**: [선택한 구조를 문서화하고 위에 캡처된 실제 디렉토리 참조]
 
 ## 복잡성 추적

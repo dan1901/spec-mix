@@ -1,0 +1,29 @@
+# Home page
+- name: Home
+  href: index.md
+
+# Getting started section
+- name: Getting Started
+  items:
+    - name: Installation
+      href: installation.md
+    - name: Quick Start
+      href: quickstart.md
+
+# Enhanced Features
+- name: Enhanced Features
+  items:
+    - name: Overview
+      href: features.md
+    - name: Multi-Language Support
+      href: i18n.md
+    - name: Mission System
+      href: missions.md
+    - name: Web Dashboard
+      href: dashboard.md
+
+# Development workflows
+- name: Development
+  items:
+    - name: Local Development
+      href: local-development.md

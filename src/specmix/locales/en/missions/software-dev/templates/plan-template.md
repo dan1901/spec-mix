@@ -40,14 +40,21 @@
 ```text
 specs/[###-feature]/
 ├── plan.md              # This file (/spec-mix.plan command output)
+
 ├── research.md          # Phase 0 output (/spec-mix.plan command)
+
 ├── data-model.md        # Phase 1 output (/spec-mix.plan command)
+
 ├── quickstart.md        # Phase 1 output (/spec-mix.plan command)
+
 ├── contracts/           # Phase 1 output (/spec-mix.plan command)
+
 └── tasks.md             # Phase 2 output (/spec-mix.tasks command - NOT created by /spec-mix.plan)
-```
+
+```text
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -56,7 +63,9 @@ specs/[###-feature]/
 -->
 
 ```text
+
 # [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+
 src/
 ├── models/
 ├── services/
@@ -69,6 +78,7 @@ tests/
 └── unit/
 
 # [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+
 backend/
 ├── src/
 │   ├── models/
@@ -84,13 +94,14 @@ frontend/
 └── tests/
 
 # [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+
 api/
 └── [same as backend above]
 
 ios/ or android/
 └── [platform-specific structure: feature modules, UI flows, platform tests]
-```
 
+```text
 **Structure Decision**: [Document the selected structure and reference the real
 directories captured above]
 

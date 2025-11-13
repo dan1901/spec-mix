@@ -6,8 +6,8 @@ description: Create or update the project constitution from interactive or provi
 
 ```text
 $ARGUMENTS
-```
 
+```text
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
@@ -67,8 +67,11 @@ Follow this execution flow:
 Formatting & Style Requirements:
 
 - Use Markdown headings exactly as in the template (do not demote/promote levels).
+
 - Wrap long rationale lines to keep readability (<100 chars ideally) but do not hard enforce with awkward breaks.
+
 - Keep a single blank line between sections.
+
 - Avoid trailing whitespace.
 
 If the user supplies partial updates (e.g., only one principle revision), still perform validation and version decision steps.

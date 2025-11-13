@@ -78,7 +78,7 @@ uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.
 Run directly without installing:
 
 ```bash
-uvx --from git+https://github.com/dan1901/spec-kit.git spec-mix init <PROJECT_NAME>
+uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
 ```
 
 **Benefits of persistent installation:**
@@ -473,8 +473,6 @@ spec-mix init . --force
 # or
 spec-mix init --here --force
 ```
-
-
 You will be prompted to select the AI agent you are using. You can also proactively specify it directly in the terminal:
 
 ```bash
@@ -506,8 +504,6 @@ spec-mix init <project_name> --ai claude --ignore-agent-tools
 ### **STEP 1:** Establish project principles
 
 Go to the project folder and run your AI agent. In our example, we're using `claude`.
-
-
 You will know that things are configured correctly if you see the `/spec-mix.constitution`, `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks`, and `/spec-mix.implement` commands available.
 
 The first step should be establishing your project's governing principles using the `/spec-mix.constitution` command. This helps ensure consistent decision-making throughout all subsequent development phases:
@@ -759,6 +755,7 @@ rm gcm-linux_amd64.2.6.1.deb
 ## 💬 Support
 
 For support:
+
 - **Core Spec Kit issues**: Open a [GitHub issue](https://github.com/github/spec-kit/issues/new) in the upstream repository
 - **Multi-language or fork-specific issues**: Open an issue in this repository
 

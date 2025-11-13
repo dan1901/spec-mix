@@ -1,66 +1,34 @@
-# Spec Kit
+# Spec Mix Documentation
 
-*Build high-quality software faster.*
+Welcome to Spec Mix! An enhanced version of Spec Kit with multi-language support, mission-based workflows, and a visual dashboard.
 
-**An effort to allow organizations to focus on product scenarios rather than writing undifferentiated code with the help of Spec-Driven Development.**
+## Choose Your Language / 언어를 선택하세요
 
-## What is Spec-Driven Development?
+<div style="display: flex; gap: 20px; margin: 30px 0;">
+  <div style="flex: 1; padding: 20px; border: 2px solid #0066cc; border-radius: 8px;">
+    <h3>🇬🇧 English</h3>
+    <p>Read the documentation in English</p>
+    <a href="en/index.md" style="font-weight: bold;">Go to English docs →</a>
+  </div>
+  <div style="flex: 1; padding: 20px; border: 2px solid #0066cc; border-radius: 8px;">
+    <h3>🇰🇷 한국어</h3>
+    <p>한국어로 문서 읽기</p>
+    <a href="ko/index.md" style="font-weight: bold;">한국어 문서로 이동 →</a>
+  </div>
+</div>
 
-Spec-Driven Development **flips the script** on traditional software development. For decades, code has been king — specifications were just scaffolding we built and discarded once the "real work" of coding began. Spec-Driven Development changes this: **specifications become executable**, directly generating working implementations rather than just guiding them.
+---
 
-## Getting Started
+## About Spec Mix
 
-- [Installation Guide](installation.md)
-- [Quick Start Guide](quickstart.md)
-- [Local Development](local-development.md)
+Spec Mix is a fork of [Spec Kit](https://github.com/github/spec-kit) with enhanced features for international teams:
 
-## Core Philosophy
+- **🌍 Multi-Language Support** - Work in your preferred language
+- **🎯 Mission System** - Domain-specific workflow templates
+- **📊 Web Dashboard** - Visual project management
 
-Spec-Driven Development is a structured process that emphasizes:
+### Resources
 
-- **Intent-driven development** where specifications define the "*what*" before the "*how*"
-- **Rich specification creation** using guardrails and organizational principles
-- **Multi-step refinement** rather than one-shot code generation from prompts
-- **Heavy reliance** on advanced AI model capabilities for specification interpretation
-
-## Development Phases
-
-| Phase | Focus | Key Activities |
-|-------|-------|----------------|
-| **0-to-1 Development** ("Greenfield") | Generate from scratch | <ul><li>Start with high-level requirements</li><li>Generate specifications</li><li>Plan implementation steps</li><li>Build production-ready applications</li></ul> |
-| **Creative Exploration** | Parallel implementations | <ul><li>Explore diverse solutions</li><li>Support multiple technology stacks & architectures</li><li>Experiment with UX patterns</li></ul> |
-| **Iterative Enhancement** ("Brownfield") | Brownfield modernization | <ul><li>Add features iteratively</li><li>Modernize legacy systems</li><li>Adapt processes</li></ul> |
-
-## Experimental Goals
-
-Our research and experimentation focus on:
-
-### Technology Independence
-
-- Create applications using diverse technology stacks
-- Validate the hypothesis that Spec-Driven Development is a process not tied to specific technologies, programming languages, or frameworks
-
-### Enterprise Constraints
-
-- Demonstrate mission-critical application development
-- Incorporate organizational constraints (cloud providers, tech stacks, engineering practices)
-- Support enterprise design systems and compliance requirements
-
-### User-Centric Development
-
-- Build applications for different user cohorts and preferences
-- Support various development approaches (from vibe-coding to AI-native development)
-
-### Creative & Iterative Processes
-
-- Validate the concept of parallel implementation exploration
-- Provide robust iterative feature development workflows
-- Extend processes to handle upgrades and modernization tasks
-
-## Contributing
-
-Please see our [Contributing Guide](https://github.com/dan1901/spec-kit/blob/main/CONTRIBUTING.md) for information on how to contribute to this project.
-
-## Support
-
-For support, please check our [Support Guide](https://github.com/dan1901/spec-kit/blob/main/SUPPORT.md) or open an issue on GitHub.
+- [GitHub Repository](https://github.com/dan1901/spec-mix)
+- [Original Spec Kit](https://github.com/github/spec-kit)
+- [Report Issues](https://github.com/dan1901/spec-mix/issues)

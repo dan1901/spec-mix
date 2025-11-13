@@ -6,13 +6,25 @@
 - name: Getting Started
   items:
     - name: Installation
-      href: installation.md
+      href: en/installation.md
     - name: Quick Start
-      href: quickstart.md
+      href: en/quickstart.md
+
+# Enhanced Features
+- name: Enhanced Features
+  items:
+    - name: Overview
+      href: en/features.md
+    - name: Multi-Language Support
+      href: en/i18n.md
+    - name: Mission System
+      href: en/missions.md
+    - name: Web Dashboard
+      href: en/dashboard.md
 
 # Development workflows
 - name: Development
   items:
     - name: Local Development
-      href: local-development.md
+      href: en/local-development.md
 

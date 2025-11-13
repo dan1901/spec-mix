@@ -6,8 +6,8 @@ description: Review completed work and move approved tasks to done lane
 
 ```text
 $ARGUMENTS
-```
 
+```text
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
@@ -24,6 +24,7 @@ This command helps you review work that has been completed and moved to the `for
    ```bash
    ls specs/{feature}/tasks/for_review/*.md
    ```
+
    - If no tasks found, inform user and exit
    - List all work packages awaiting review
 
@@ -49,6 +50,7 @@ This command helps you review work that has been completed and moved to the `for
    ```bash
    .spec-mix/scripts/bash/move-task.sh WPxx for_review done specs/{feature}
    ```
+
    - Move work package from `for_review/` to `done/`
    - Update frontmatter: `lane: done`, `completed_at: <timestamp>`
    - Append to activity log
@@ -57,6 +59,7 @@ This command helps you review work that has been completed and moved to the `for
    ```bash
    .spec-mix/scripts/bash/move-task.sh WPxx for_review doing specs/{feature}
    ```
+
    - Move back to `doing/` lane
    - Document specific issues in activity log
    - Provide clear feedback on what needs to change
@@ -67,6 +70,7 @@ This command helps you review work that has been completed and moved to the `for
 
 7. **Report summary**:
    ```
+
    Review Summary:
    ✅ Approved: WP01, WP03, WP05
    🔄 Needs changes: WP02 (missing tests), WP04 (documentation incomplete)
@@ -78,16 +82,23 @@ This command helps you review work that has been completed and moved to the `for
 Before approving a task, verify:
 
 - [ ] **Functionality**: Feature works as specified
+
 - [ ] **Code Quality**: Readable, maintainable, follows conventions
+
 - [ ] **Tests**: Appropriate test coverage
+
 - [ ] **Documentation**: Code comments, README updates
+
 - [ ] **No Regressions**: Existing functionality still works
+
 - [ ] **Acceptance Criteria**: All criteria from WP file met
 
 ## Edge Cases
 
 - **Empty for_review lane**: Inform user no tasks are ready for review
+
 - **Partial completion**: If some criteria met but not all, provide specific feedback
+
 - **Multiple reviewers**: Check if task has review metadata to avoid duplicate reviews
 
 ## Output Format
@@ -95,6 +106,7 @@ Before approving a task, verify:
 Present review results clearly:
 
 ```markdown
+
 # Review Report: {feature-name}
 
 ## Reviewed: {date}
@@ -102,16 +114,23 @@ Present review results clearly:
 ### ✅ Approved Tasks (moved to done)
 
 #### WP01: User Authentication
+
 - All acceptance criteria met
+
 - Tests passing
+
 - Documentation updated
+
 - No issues found
 
 ### 🔄 Tasks Needing Changes (moved back to doing)
 
 #### WP02: Password Reset
+
 - ❌ Missing unit tests for edge cases
+
 - ❌ Error messages not user-friendly
+
 - ✅ Core functionality works
 
 **Action needed**: Add tests and improve error handling
@@ -119,6 +138,9 @@ Present review results clearly:
 ## Next Steps
 
 - Address feedback for WP02
+
 - Continue with remaining planned tasks
+
 - Run `/spec-mix.accept` when all tasks are in done lane
-```
+
+```text

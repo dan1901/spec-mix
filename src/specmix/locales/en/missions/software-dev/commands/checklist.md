@@ -12,16 +12,23 @@ scripts:
 **NOT for verification/testing**:
 
 - ❌ NOT "Verify the button clicks correctly"
+
 - ❌ NOT "Test error handling works"
+
 - ❌ NOT "Confirm the API returns 200"
+
 - ❌ NOT checking if code/implementation matches the spec
 
 **FOR requirements quality validation**:
 
 - ✅ "Are visual hierarchy requirements defined for all card types?" (completeness)
+
 - ✅ "Is 'prominent display' quantified with specific sizing/positioning?" (clarity)
+
 - ✅ "Are hover state requirements consistent across all interactive elements?" (consistency)
+
 - ✅ "Are accessibility requirements defined for keyboard navigation?" (coverage)
+
 - ✅ "Does the spec define what happens when logo image fails to load?" (edge cases)
 
 **Metaphor**: If your spec is code written in English, the checklist is its unit test suite. You're testing whether the requirements are well-written, complete, unambiguous, and ready for implementation - NOT whether the implementation works.
@@ -30,8 +37,8 @@ scripts:
 
 ```text
 $ARGUMENTS
-```
 
+```text
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Execution Steps
@@ -217,7 +224,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 **Important**: Each `/spec-mix.checklist` command invocation creates a checklist file using short, descriptive names unless file already exists. This allows:
 
 - Multiple checklists of different types (e.g., `ux.md`, `test.md`, `security.md`)
+
 - Simple, memorable filenames that indicate checklist purpose
+
 - Easy identification and navigation in the `checklists/` folder
 
 To avoid clutter, use descriptive types and clean up obsolete checklists when done.
@@ -229,10 +238,15 @@ To avoid clutter, use descriptive types and clean up obsolete checklists when do
 Sample items (testing the requirements, NOT the implementation):
 
 - "Are visual hierarchy requirements defined with measurable criteria? [Clarity, Spec §FR-1]"
+
 - "Is the number and positioning of UI elements explicitly specified? [Completeness, Spec §FR-1]"
+
 - "Are interaction state requirements (hover, focus, active) consistently defined? [Consistency]"
+
 - "Are accessibility requirements specified for all interactive elements? [Coverage, Gap]"
+
 - "Is fallback behavior defined when images fail to load? [Edge Case, Gap]"
+
 - "Can 'prominent display' be objectively measured? [Measurability, Spec §FR-4]"
 
 **API Requirements Quality:** `api.md`
@@ -240,9 +254,13 @@ Sample items (testing the requirements, NOT the implementation):
 Sample items:
 
 - "Are error response formats specified for all failure scenarios? [Completeness]"
+
 - "Are rate limiting requirements quantified with specific thresholds? [Clarity]"
+
 - "Are authentication requirements consistent across all endpoints? [Consistency]"
+
 - "Are retry/timeout requirements defined for external dependencies? [Coverage, Gap]"
+
 - "Is versioning strategy documented in requirements? [Gap]"
 
 **Performance Requirements Quality:** `performance.md`
@@ -250,9 +268,13 @@ Sample items:
 Sample items:
 
 - "Are performance requirements quantified with specific metrics? [Clarity]"
+
 - "Are performance targets defined for all critical user journeys? [Coverage]"
+
 - "Are performance requirements under different load conditions specified? [Completeness]"
+
 - "Can performance requirements be objectively measured? [Measurability]"
+
 - "Are degradation requirements defined for high-load scenarios? [Edge Case, Gap]"
 
 **Security Requirements Quality:** `security.md`
@@ -260,9 +282,13 @@ Sample items:
 Sample items:
 
 - "Are authentication requirements specified for all protected resources? [Coverage]"
+
 - "Are data protection requirements defined for sensitive information? [Completeness]"
+
 - "Is the threat model documented and requirements aligned to it? [Traceability]"
+
 - "Are security requirements consistent with compliance obligations? [Consistency]"
+
 - "Are security failure/breach response requirements defined? [Gap, Exception Flow]"
 
 ## Anti-Examples: What NOT To Do
@@ -270,28 +296,43 @@ Sample items:
 **❌ WRONG - These test implementation, not requirements:**
 
 ```markdown
-- [ ] CHK001 - Verify landing page displays 3 episode cards [Spec §FR-001]
-- [ ] CHK002 - Test hover states work correctly on desktop [Spec §FR-003]
-- [ ] CHK003 - Confirm logo click navigates to home page [Spec §FR-010]
-- [ ] CHK004 - Check that related episodes section shows 3-5 items [Spec §FR-005]
-```
 
+- [ ] CHK001 - Verify landing page displays 3 episode cards [Spec §FR-001]
+
+- [ ] CHK002 - Test hover states work correctly on desktop [Spec §FR-003]
+
+- [ ] CHK003 - Confirm logo click navigates to home page [Spec §FR-010]
+
+- [ ] CHK004 - Check that related episodes section shows 3-5 items [Spec §FR-005]
+
+```text
 **✅ CORRECT - These test requirements quality:**
 
 ```markdown
-- [ ] CHK001 - Are the number and layout of featured episodes explicitly specified? [Completeness, Spec §FR-001]
-- [ ] CHK002 - Are hover state requirements consistently defined for all interactive elements? [Consistency, Spec §FR-003]
-- [ ] CHK003 - Are navigation requirements clear for all clickable brand elements? [Clarity, Spec §FR-010]
-- [ ] CHK004 - Is the selection criteria for related episodes documented? [Gap, Spec §FR-005]
-- [ ] CHK005 - Are loading state requirements defined for asynchronous episode data? [Gap]
-- [ ] CHK006 - Can "visual hierarchy" requirements be objectively measured? [Measurability, Spec §FR-001]
-```
 
+- [ ] CHK001 - Are the number and layout of featured episodes explicitly specified? [Completeness, Spec §FR-001]
+
+- [ ] CHK002 - Are hover state requirements consistently defined for all interactive elements? [Consistency, Spec §FR-003]
+
+- [ ] CHK003 - Are navigation requirements clear for all clickable brand elements? [Clarity, Spec §FR-010]
+
+- [ ] CHK004 - Is the selection criteria for related episodes documented? [Gap, Spec §FR-005]
+
+- [ ] CHK005 - Are loading state requirements defined for asynchronous episode data? [Gap]
+
+- [ ] CHK006 - Can "visual hierarchy" requirements be objectively measured? [Measurability, Spec §FR-001]
+
+```text
 **Key Differences:**
 
 - Wrong: Tests if the system works correctly
+
 - Correct: Tests if the requirements are written correctly
+
 - Wrong: Verification of behavior
+
 - Correct: Validation of requirement quality
+
 - Wrong: "Does it do X?"
+
 - Correct: "Is X clearly specified?"

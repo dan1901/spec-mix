@@ -1,0 +1,29 @@
+# 홈
+- name: 홈
+  href: index.md
+
+# 시작하기
+- name: 시작하기
+  items:
+    - name: 설치
+      href: installation.md
+    - name: 빠른 시작
+      href: quickstart.md
+
+# 향상된 기능
+- name: 향상된 기능
+  items:
+    - name: 개요
+      href: features.md
+    - name: 다국어 지원
+      href: i18n.md
+    - name: 미션 시스템
+      href: missions.md
+    - name: 웹 대시보드
+      href: dashboard.md
+
+# 개발
+- name: 개발
+  items:
+    - name: 로컬 개발
+      href: local-development.md
