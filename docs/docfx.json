@@ -56,9 +56,9 @@
     "cleanupCacheHistory": false,
     "disableGitFeatures": false,
     "globalMetadata": {
-      "_appTitle": "Spec Kit Documentation",
-      "_appName": "Spec Kit",
-      "_appFooter": "Spec Kit - A specification-driven development toolkit",
+      "_appTitle": "Spec Mix Documentation",
+      "_appName": "Spec Mix",
+      "_appFooter": "Spec Mix - Enhanced Spec Kit with multi-language support",
       "_enableSearch": true,
       "_disableContribution": false,
       "_gitContribute": {
