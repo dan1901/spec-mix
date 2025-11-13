@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/github/spec-kit/actions/workflows/release.yml"><img src="https://github.com/github/spec-kit/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
-    <a href="https://github.com/github/spec-kit/stargazers"><img src="https://img.shields.io/github/stars/github/spec-kit?style=social" alt="GitHub stars"/></a>
-    <a href="https://github.com/github/spec-kit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/github/spec-kit" alt="License"/></a>
-    <a href="https://dan1901.github.io/spec-kit/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
+    <a href="https://github.com/dan1901/spec-mix/actions/workflows/release.yml"><img src="https://github.com/dan1901/spec-mix/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
+    <a href="https://github.com/dan1901/spec-mix/stargazers"><img src="https://img.shields.io/github/stars/dan1901/spec-mix?style=social" alt="GitHub stars"/></a>
+    <a href="https://github.com/dan1901/spec-mix/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dan1901/spec-mix" alt="License"/></a>
+    <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
 > **📢 Fork 공지**: 이 프로젝트는 [github/spec-kit](https://github.com/github/spec-kit)의 포크로, **다국어 지원(i18n)**이 추가되었습니다. 완전한 한국어 번역과 커뮤니티 번역을 위한 확장 가능한 아키텍처가 포함되어 있습니다. 자세한 내용은 [Fork 정보](#-fork-정보)를 참조하세요.
