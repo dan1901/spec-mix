@@ -79,6 +79,25 @@ function setupEventListeners() {
         window.history.back();
     });
 
+    // Modal close button
+    document.getElementById('modal-close').addEventListener('click', () => {
+        closeTaskModal();
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('task-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'task-modal') {
+            closeTaskModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeTaskModal();
+        }
+    });
+
     // Handle browser back/forward buttons
     window.addEventListener('popstate', (event) => {
         if (event.state) {
@@ -248,12 +267,21 @@ async function showKanban(featureId, pushState = true) {
                 container.innerHTML = '<p class="empty-state">No tasks</p>';
             } else {
                 container.innerHTML = tasks.map(task => `
-                    <div class="task-card">
+                    <div class="task-card" data-task-id="${task.id}" data-lane="${lane}">
                         <strong>${task.id}</strong>
                         <div>${task.title}</div>
                     </div>
                 `).join('');
             }
+        });
+
+        // Add click handlers to task cards
+        document.querySelectorAll('.task-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const taskId = card.dataset.taskId;
+                const lane = card.dataset.lane;
+                openTaskModal(featureId, lane, taskId);
+            });
         });
 
     } catch (error) {
@@ -328,6 +356,45 @@ function updateLastUpdate() {
     const now = new Date();
     const timeStr = now.toLocaleTimeString();
     document.getElementById('last-update').textContent = `Updated: ${timeStr}`;
+}
+
+// Open task detail modal
+async function openTaskModal(featureId, lane, taskId) {
+    const modal = document.getElementById('task-modal');
+    const modalTitle = document.getElementById('modal-task-title');
+    const modalBody = document.getElementById('modal-task-body');
+
+    // Show modal
+    modal.classList.add('show');
+    modalTitle.textContent = taskId;
+    modalBody.innerHTML = '<p class="loading">Loading task details...</p>';
+
+    try {
+        const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}`);
+
+        if (!response.ok) {
+            throw new Error('Task not found');
+        }
+
+        const taskData = await response.json();
+
+        // Update modal title
+        modalTitle.textContent = `${taskData.id}: ${taskData.title}`;
+
+        // Render markdown content
+        const html = marked.parse(taskData.content);
+        modalBody.innerHTML = html;
+
+    } catch (error) {
+        console.error('Failed to load task detail:', error);
+        modalBody.innerHTML = '<p class="error">Failed to load task details</p>';
+    }
+}
+
+// Close task detail modal
+function closeTaskModal() {
+    const modal = document.getElementById('task-modal');
+    modal.classList.remove('show');
 }
 
 // Cleanup on unload

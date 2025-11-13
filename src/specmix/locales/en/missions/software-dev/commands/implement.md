@@ -125,7 +125,63 @@ You **MUST** consider the user input before proceeding (if not empty).
    - For parallel tasks [P], continue with successful tasks, report failed ones
    - Provide clear error messages with context for debugging
    - Suggest next steps if implementation cannot proceed
-   - **IMPORTANT** For completed tasks, make sure to mark the task off as [X] in the tasks file.
+   - **IMPORTANT: Task Status Management (Hybrid Approach)**:
+
+     **Auto-Detection**: The system automatically selects the appropriate method based on project structure:
+
+     **Option 1 - Work Package File System (Most Recommended, uses move-task.sh)**:
+     - **Detection**: When `FEATURE_DIR/tasks/` directory contains `planned/`, `doing/`, `for_review/`, `done/` subdirectories with WPxx.md files
+     - **Usage**:
+       1. **Before starting a task**:
+          ```bash
+          bash scripts/bash/move-task.sh WP01 planned doing "$FEATURE_DIR"
+          ```
+       2. **After completing a task** (needs review):
+          ```bash
+          bash scripts/bash/move-task.sh WP01 doing for_review "$FEATURE_DIR"
+          ```
+       3. **After review is complete**:
+          ```bash
+          bash scripts/bash/move-task.sh WP01 for_review done "$FEATURE_DIR"
+          ```
+     - **Benefits**:
+       - Automatically updates Work Package file frontmatter (lane, started_at, completed_at)
+       - Automatically appends activity logs
+       - Perfect integration with the dashboard
+       - Each task managed as independent file, reducing merge conflicts
+     - **Note**: FEATURE_DIR is obtained from check-prerequisites.sh output
+
+     **Option 2 - tasks.md Section-based (When Work Package files don't exist)**:
+     - **Detection**: When tasks.md contains status sections (## Planned, ## Doing, ## For Review, ## Done)
+     - **Usage**:
+       1. **Before starting a task**: Move task from `## Planned` to `## Doing` section
+       2. **After completing a task**: Move task from `## Doing` to `## Done` section
+       3. **If task needs review**: Move task from `## Doing` to `## For Review` section
+     - Format: Cut the entire task entry (### WP-XXX: Title + description) and paste into target section
+     - This makes task status visible in the dashboard kanban board
+
+     **Option 3 - Checkbox-based (Simplest, when sections don't exist)**:
+     - **Detection**: When tasks.md uses checkbox format only without sections
+     - **Usage**:
+       1. **Before starting**: Change `- [ ] TXXX` to `- [ ] TXXX (In Progress)`
+       2. **After completing**: Change `- [ ] TXXX` to `- [x] TXXX`
+
+     **Creating Sections (if you want Option 2 but sections are missing)**:
+     - If tasks.md doesn't have status sections but you want dashboard support, add them:
+       ```markdown
+       ## Planned
+       [Move upcoming tasks here]
+
+       ## Doing
+       [Move tasks you're currently working on here]
+
+       ## For Review
+       [Move tasks awaiting review here]
+
+       ## Done
+       [Move completed tasks here]
+       ```
+     - Then move all task headers (### WP-XXX or ### TXXX) into appropriate sections
 
 9. Completion validation:
    - Verify all required tasks are completed

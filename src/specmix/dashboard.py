@@ -50,6 +50,13 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 feature_id = parts[0]
                 artifact_name = '/'.join(parts[1:])
                 self.serve_artifact(feature_id, artifact_name)
+        elif path.startswith('/api/task/'):
+            parts = path.split('/')[3:]  # Skip '', 'api', 'task'
+            if len(parts) >= 3:
+                feature_id = parts[0]
+                lane = parts[1]
+                task_id = parts[2]
+                self.serve_task_detail(feature_id, lane, task_id)
         elif path == '/api/constitution':
             self.serve_constitution()
         elif path == '/api/i18n/current':
@@ -131,6 +138,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.wfile.write(content.encode('utf-8'))
         else:
             self.send_error(404, f"Artifact not found: {artifact_name}")
+
+    def serve_task_detail(self, feature_id: str, lane: str, task_id: str):
+        """Serve detailed information about a specific task"""
+        task_detail = get_task_detail(feature_id, lane, task_id)
+        if task_detail is not None:
+            self.send_json(task_detail)
+        else:
+            self.send_error(404, f"Task not found: {task_id}")
 
     def serve_constitution(self):
         """Serve project constitution"""
@@ -345,11 +360,13 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
     Supports multiple task formats:
     1. Checkbox format: - [ ] T001 Description or - [x] T001 Description
     2. Header format: ### WP-001: Task Title or ### T001: Task Title
+    3. Section-based: ## Planned / ## Doing / ## For Review / ## Done sections
 
-    Categorization:
-    - Completed checkboxes (- [x]) -> 'done'
-    - Uncompleted checkboxes (- [ ]) -> 'planned'
-    - Header tasks (###) -> 'planned'
+    Categorization priority:
+    1. If task is under a lane section (## Planned, ## Doing, etc.) -> use that lane
+    2. If checkbox is completed (- [x]) -> 'done'
+    3. If checkbox is uncompleted (- [ ]) -> 'planned'
+    4. Header tasks (###) -> 'planned' by default
     """
     import re
 
@@ -364,45 +381,96 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
         with open(tasks_file, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Pattern 1: Checkbox tasks - [ ] T001 Description or - [x] T001 Description
-        checkbox_pattern = re.compile(r'^- \[([ xX])\] (T\d+.*?)$', re.MULTILINE)
+        # Detect if file uses section-based organization
+        # Look for ## headings that indicate lanes
+        section_pattern = re.compile(r'^## (Planned|Doing|In Progress|For Review|Review|Done|Completed).*?$', re.MULTILINE | re.IGNORECASE)
+        sections = list(section_pattern.finditer(content))
 
-        for match in checkbox_pattern.finditer(content):
-            is_completed = match.group(1).lower() == 'x'
-            task_text = match.group(2).strip()
+        if sections:
+            # Section-based parsing
+            current_lane = 'planned'
 
-            # Extract task ID and title
-            parts = task_text.split(' ', 1)
-            task_id = parts[0] if parts else task_text
-            task_title = parts[1] if len(parts) > 1 else task_text
+            # Split content by sections
+            for i, section_match in enumerate(sections):
+                section_name = section_match.group(1).lower()
+                section_start = section_match.end()
+                section_end = sections[i + 1].start() if i + 1 < len(sections) else len(content)
+                section_content = content[section_start:section_end]
 
-            task_info = {
-                'id': task_id,
-                'title': task_title,
-                'path': str(tasks_file)
-            }
+                # Map section names to lane names
+                if 'doing' in section_name or 'progress' in section_name:
+                    current_lane = 'doing'
+                elif 'review' in section_name:
+                    current_lane = 'for_review'
+                elif 'done' in section_name or 'completed' in section_name:
+                    current_lane = 'done'
+                else:
+                    current_lane = 'planned'
 
-            # Categorize by completion status
-            if is_completed:
-                lanes['done'].append(task_info)
-            else:
+                # Parse tasks in this section
+                # Checkbox tasks
+                checkbox_pattern = re.compile(r'^- \[([ xX])\] ((?:T|WP-)\d+.*?)$', re.MULTILINE)
+                for match in checkbox_pattern.finditer(section_content):
+                    task_text = match.group(2).strip()
+                    parts = task_text.split(' ', 1)
+                    task_id = parts[0] if parts else task_text
+                    task_title = parts[1] if len(parts) > 1 else task_text
+
+                    lanes[current_lane].append({
+                        'id': task_id,
+                        'title': task_title,
+                        'path': str(tasks_file)
+                    })
+
+                # Header tasks
+                header_pattern = re.compile(r'^### ([A-Z]+-\d+|T\d+):\s*(.+?)$', re.MULTILINE)
+                for match in header_pattern.finditer(section_content):
+                    task_id = match.group(1).strip()
+                    task_title = match.group(2).strip()
+
+                    lanes[current_lane].append({
+                        'id': task_id,
+                        'title': task_title,
+                        'path': str(tasks_file)
+                    })
+        else:
+            # Non-section-based parsing (original behavior)
+            # Pattern 1: Checkbox tasks
+            checkbox_pattern = re.compile(r'^- \[([ xX])\] ((?:T|WP-)\d+.*?)$', re.MULTILINE)
+
+            for match in checkbox_pattern.finditer(content):
+                is_completed = match.group(1).lower() == 'x'
+                task_text = match.group(2).strip()
+
+                parts = task_text.split(' ', 1)
+                task_id = parts[0] if parts else task_text
+                task_title = parts[1] if len(parts) > 1 else task_text
+
+                task_info = {
+                    'id': task_id,
+                    'title': task_title,
+                    'path': str(tasks_file)
+                }
+
+                if is_completed:
+                    lanes['done'].append(task_info)
+                else:
+                    lanes['planned'].append(task_info)
+
+            # Pattern 2: Header tasks
+            header_pattern = re.compile(r'^### ([A-Z]+-\d+|T\d+):\s*(.+?)$', re.MULTILINE)
+
+            for match in header_pattern.finditer(content):
+                task_id = match.group(1).strip()
+                task_title = match.group(2).strip()
+
+                task_info = {
+                    'id': task_id,
+                    'title': task_title,
+                    'path': str(tasks_file)
+                }
+
                 lanes['planned'].append(task_info)
-
-        # Pattern 2: Header tasks ### WP-001: Task Title or ### T001: Task Title
-        header_pattern = re.compile(r'^### ([A-Z]+-\d+|T\d+):\s*(.+?)$', re.MULTILINE)
-
-        for match in header_pattern.finditer(content):
-            task_id = match.group(1).strip()
-            task_title = match.group(2).strip()
-
-            task_info = {
-                'id': task_id,
-                'title': task_title,
-                'path': str(tasks_file)
-            }
-
-            # Header tasks are considered 'planned' by default
-            lanes['planned'].append(task_info)
 
     except Exception as e:
         print(f"Error parsing tasks file {tasks_file}: {e}")
@@ -501,6 +569,125 @@ def get_artifact_content(feature_id: str, artifact_name: str) -> Optional[str]:
             with open(artifact_path, 'r', encoding='utf-8') as f:
                 return f.read()
         except:
+            return None
+
+    return None
+
+
+def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[str, Any]]:
+    """Get detailed information about a specific task"""
+    import re
+
+    # Try to find feature
+    feature_path = None
+
+    specs_path = Path('specs') / feature_id
+    if specs_path.exists():
+        feature_path = specs_path
+    else:
+        worktrees_dir = Path('.worktrees')
+        if worktrees_dir.exists():
+            for worktree_dir in worktrees_dir.iterdir():
+                worktree_specs = worktree_dir / 'specs' / feature_id
+                if worktree_specs.exists():
+                    feature_path = worktree_specs
+                    break
+
+    if not feature_path:
+        return None
+
+    # Try 1: Work Package file in directory structure
+    tasks_dir = feature_path / 'tasks'
+    if tasks_dir.exists():
+        task_file = tasks_dir / lane / f'{task_id}.md'
+        if task_file.exists():
+            try:
+                with open(task_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+
+                # Extract title from first heading or frontmatter
+                title = task_id
+                lines = content.split('\n')
+
+                # Try to extract from frontmatter
+                if lines and lines[0].strip() == '---':
+                    for i, line in enumerate(lines[1:], 1):
+                        if line.strip() == '---':
+                            break
+                        if line.startswith('title:'):
+                            title = line.split(':', 1)[1].strip().strip('"\'')
+                            break
+
+                # If no frontmatter title, try first markdown heading
+                if title == task_id:
+                    for line in lines:
+                        if line.startswith('# '):
+                            title = line.strip('# \n')
+                            break
+
+                return {
+                    'id': task_id,
+                    'title': title,
+                    'lane': lane,
+                    'content': content,
+                    'path': str(task_file),
+                    'type': 'work_package'
+                }
+            except Exception as e:
+                print(f"Error reading task file {task_file}: {e}")
+                return None
+
+    # Try 2: Extract from tasks.md file
+    tasks_file = feature_path / 'tasks.md'
+    if tasks_file.exists():
+        try:
+            with open(tasks_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # Find task section (### TASK_ID: or - [ ] TASK_ID)
+            # Pattern 1: Header format (### WP-01: Task Title)
+            header_pattern = re.compile(
+                rf'^### ({re.escape(task_id)}):?\s*(.+?)$\n(.*?)(?=^### |^## |\Z)',
+                re.MULTILINE | re.DOTALL
+            )
+            match = header_pattern.search(content)
+
+            if match:
+                title = match.group(2).strip()
+                task_content = f"# {task_id}: {title}\n\n{match.group(3).strip()}"
+
+                return {
+                    'id': task_id,
+                    'title': title,
+                    'lane': lane,
+                    'content': task_content,
+                    'path': str(tasks_file),
+                    'type': 'tasks_md'
+                }
+
+            # Pattern 2: Checkbox format (- [ ] TASK_ID Description)
+            checkbox_pattern = re.compile(
+                rf'^- \[([ xX])\] ({re.escape(task_id)})\s*(.*)$',
+                re.MULTILINE
+            )
+            match = checkbox_pattern.search(content)
+
+            if match:
+                is_done = match.group(1).lower() == 'x'
+                title = match.group(3).strip() or task_id
+                task_content = f"# {task_id}\n\n{title}\n\n**Status**: {'Done' if is_done else 'Pending'}"
+
+                return {
+                    'id': task_id,
+                    'title': title,
+                    'lane': lane,
+                    'content': task_content,
+                    'path': str(tasks_file),
+                    'type': 'tasks_md'
+                }
+
+        except Exception as e:
+            print(f"Error parsing tasks file {tasks_file}: {e}")
             return None
 
     return None
