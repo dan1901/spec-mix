@@ -10,6 +10,7 @@
       {
         "files": [
           "../README.md",
+          "../README.ko.md",
           "../CONTRIBUTING.md",
           "../CODE_OF_CONDUCT.md",
           "../SECURITY.md",
@@ -59,6 +60,8 @@
       "_appTitle": "Spec Mix Documentation",
       "_appName": "Spec Mix",
       "_appFooter": "Spec Mix - Enhanced Spec Kit with multi-language support",
+      "_appLogoPath": "media/logo.png",
+      "_appFaviconPath": "media/logo.png",
       "_enableSearch": true,
       "_disableContribution": false,
       "_gitContribute": {

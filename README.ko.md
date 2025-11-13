@@ -12,7 +12,7 @@
     <a href="https://github.com/github/spec-kit/actions/workflows/release.yml"><img src="https://github.com/github/spec-kit/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
     <a href="https://github.com/github/spec-kit/stargazers"><img src="https://img.shields.io/github/stars/github/spec-kit?style=social" alt="GitHub stars"/></a>
     <a href="https://github.com/github/spec-kit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/github/spec-kit" alt="License"/></a>
-    <a href="https://github.github.io/spec-kit/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
+    <a href="https://dan1901.github.io/spec-kit/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
 > **📢 Fork 공지**: 이 프로젝트는 [github/spec-kit](https://github.com/github/spec-kit)의 포크로, **다국어 지원(i18n)**이 추가되었습니다. 완전한 한국어 번역과 커뮤니티 번역을 위한 확장 가능한 아키텍처가 포함되어 있습니다. 자세한 내용은 [Fork 정보](#-fork-정보)를 참조하세요.
@@ -57,7 +57,7 @@ Spec-Driven Development는 전통적인 소프트웨어 개발의 **판도를 �
 한 번 설치하고 어디서나 사용:
 
 ```bash
-uv tool install spec-mix --from git+https://github.com/dan1901/spec-kit.git
+uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
 ```
 
 그런 다음 도구를 직접 사용:
@@ -70,7 +70,7 @@ spec-mix check
 spec-mix를 업그레이드하려면:
 
 ```bash
-uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-kit.git
+uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.git
 ```
 
 #### 옵션 2: 일회성 사용
@@ -78,7 +78,7 @@ uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-kit.
 설치 없이 직접 실행:
 
 ```bash
-uvx --from git+https://github.com/dan1901/spec-kit.git spec-mix init <PROJECT_NAME>
+uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
 ```
 
 **영구 설치의 장점:**
