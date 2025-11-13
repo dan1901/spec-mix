@@ -67,7 +67,7 @@ spec-mix init <PROJECT_NAME>
 spec-mix check
 ```
 
-To upgrade specify run:
+To upgrade spec-mix run:
 
 ```bash
 uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-kit.git

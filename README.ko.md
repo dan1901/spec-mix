@@ -67,7 +67,7 @@ spec-mix init <PROJECT_NAME>
 spec-mix check
 ```
 
-specify를 업그레이드하려면:
+spec-mix를 업그레이드하려면:
 
 ```bash
 uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-kit.git
