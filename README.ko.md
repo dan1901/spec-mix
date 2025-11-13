@@ -28,7 +28,7 @@
 - [📽️ 비디오 개요](#️-비디오-개요)
 - [🤖 지원되는 AI 에이전트](#-지원되는-ai-에이전트)
 - [🌍 다국어 지원](#-다국어-지원)
-- [🔧 Specify CLI 참조](#-specify-cli-참조)
+- [🔧 Spec Mix CLI 참조](#-spec-mix-cli-참조)
 - [📚 핵심 철학](#-핵심-철학)
 - [🌟 개발 단계](#-개발-단계)
 - [🎯 실험적 목표](#-실험적-목표)
@@ -48,7 +48,7 @@ Spec-Driven Development는 전통적인 소프트웨어 개발의 **판도를 �
 
 ## ⚡ 시작하기
 
-### 1. Specify CLI 설치
+### 1. Spec Mix CLI 설치
 
 선호하는 설치 방법을 선택하세요:
 
@@ -263,7 +263,7 @@ spec-mix init my-project --ai claude
 
 자세한 문서는 **[docs/i18n.md](docs/i18n.md)**를 참조하세요.
 
-## 🔧 Specify CLI 참조
+## 🔧 Spec Mix CLI 참조
 
 `specify` 명령은 다음 옵션을 지원합니다:
 
@@ -271,7 +271,7 @@ spec-mix init my-project --ai claude
 
 | 명령     | 설명                                                    |
 |-------------|----------------------------------------------------------------|
-| `init`      | 최신 템플릿에서 새 Specify 프로젝트 초기화      |
+| `init`      | 최신 템플릿에서 새 Spec Mix 프로젝트 초기화      |
 | `check`     | 설치된 도구 확인 (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `windsurf`, `qwen`, `opencode`, `codex`) |
 | `lang`      | 언어 팩 관리 (`list`, `current`, `set`, `install`)    |
 | `mission`   | 미션 관리 (`list`, `current`, `switch`, `info`)    |
@@ -458,7 +458,7 @@ Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입�
 <details>
 <summary>단계별 워크스루를 확장하려면 클릭하세요</summary>
 
-Specify CLI를 사용하여 프로젝트를 부트스트랩할 수 있으며, 이는 환경에 필요한 아티팩트를 가져옵니다. 실행:
+Spec Mix CLI를 사용하여 프로젝트를 부트스트랩할 수 있으며, 이는 환경에 필요한 아티팩트를 가져옵니다. 실행:
 
 ```bash
 spec-mix init <project_name>

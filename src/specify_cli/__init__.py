@@ -10,18 +10,18 @@
 # ]
 # ///
 """
-Specify CLI - Setup tool for Specify projects
+Spec Mix CLI - Enhanced Spec Kit with multi-language support
 
 Usage:
-    uvx specify-cli.py init <project-name>
-    uvx specify-cli.py init .
-    uvx specify-cli.py init --here
+    uvx spec-mix init <project-name>
+    uvx spec-mix init .
+    uvx spec-mix init --here
 
 Or install globally:
-    uv tool install --from specify-cli.py specify-cli
-    specify init <project-name>
-    specify init .
-    specify init --here
+    uv tool install spec-mix --from git+https://github.com/dan1901/spec-kit.git
+    spec-mix init <project-name>
+    spec-mix init .
+    spec-mix init --here
 """
 
 import os
@@ -185,15 +185,15 @@ SCRIPT_TYPE_CHOICES = {"sh": "POSIX Shell (bash/zsh)", "ps": "PowerShell"}
 CLAUDE_LOCAL_PATH = Path.home() / ".claude" / "local" / "claude"
 
 BANNER = """
-███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗
-██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝
-███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝ 
-╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝  
-███████║██║     ███████╗╚██████╗██║██║        ██║   
-╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝   
+███████╗██████╗ ███████╗ ██████╗    ███╗   ███╗██╗██╗  ██╗
+██╔════╝██╔══██╗██╔════╝██╔════╝    ████╗ ████║██║╚██╗██╔╝
+███████╗██████╔╝█████╗  ██║         ██╔████╔██║██║ ╚███╔╝
+╚════██║██╔═══╝ ██╔══╝  ██║         ██║╚██╔╝██║██║ ██╔██╗
+███████║██║     ███████╗╚██████╗    ██║ ╚═╝ ██║██║██╔╝ ██╗
+╚══════╝╚═╝     ╚══════╝ ╚═════╝    ╚═╝     ╚═╝╚═╝╚═╝  ╚═╝
 """
 
-TAGLINE = "GitHub Spec Kit - Spec-Driven Development Toolkit"
+TAGLINE = "Enhanced Spec Kit - Multi-language, Missions & Dashboard"
 class StepTracker:
     """Track and render hierarchical steps without emojis, similar to Claude Code tree output.
     Supports live auto-refresh via an attached refresh callback.
@@ -387,7 +387,7 @@ class BannerGroup(TyperGroup):
 
 app = typer.Typer(
     name="specify",
-    help="Setup tool for Specify spec-driven development projects",
+    help="Enhanced Spec Kit with multi-language support, missions, and dashboard",
     add_completion=False,
     invoke_without_command=True,
     cls=BannerGroup,
@@ -513,7 +513,7 @@ def init_git_repo(project_path: Path, quiet: bool = False) -> Tuple[bool, Option
             console.print("[cyan]Initializing git repository...[/cyan]")
         subprocess.run(["git", "init"], check=True, capture_output=True, text=True)
         subprocess.run(["git", "add", "."], check=True, capture_output=True, text=True)
-        subprocess.run(["git", "commit", "-m", "Initial commit from Specify template"], check=True, capture_output=True, text=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit from Spec Mix template"], check=True, capture_output=True, text=True)
         if not quiet:
             console.print("[green]✓[/green] Git repository initialized")
         return True, None
@@ -918,7 +918,7 @@ def init(
     github_token: str = typer.Option(None, "--github-token", help="GitHub token to use for API requests (or set GH_TOKEN or GITHUB_TOKEN environment variable)"),
 ):
     """
-    Initialize a new Specify project from the latest template.
+    Initialize a new Spec Mix project from the latest template.
     
     This command will:
     1. Check that required tools are installed (git is optional)
@@ -988,7 +988,7 @@ def init(
     current_dir = Path.cwd()
 
     setup_lines = [
-        "[cyan]Specify Project Setup[/cyan]",
+        "[cyan]Spec Mix Project Setup[/cyan]",
         "",
         f"{'Project':<15} [green]{project_path.name}[/green]",
         f"{'Working Path':<15} [dim]{current_dir}[/dim]",
@@ -1081,7 +1081,7 @@ def init(
     console.print(f"[cyan]Selected language:[/cyan] {AVAILABLE_LANGUAGES[selected_lang]}")
     console.print(f"[cyan]Selected mission:[/cyan] {AVAILABLE_MISSIONS[selected_mission]}")
 
-    tracker = StepTracker("Initialize Specify Project")
+    tracker = StepTracker("Initialize Spec Mix Project")
 
     sys._specify_tracker_active = True
 
@@ -1297,7 +1297,7 @@ def check():
 
     console.print(tracker.render())
 
-    console.print("\n[bold green]Specify CLI is ready to use![/bold green]")
+    console.print("\n[bold green]Spec Mix is ready to use![/bold green]")
 
     if not git_ok:
         console.print("[dim]Tip: Install git for repository management[/dim]")

@@ -28,7 +28,7 @@
 - [📽️ Video Overview](#️-video-overview)
 - [🤖 Supported AI Agents](#-supported-ai-agents)
 - [🌍 Multi-Language Support](#-multi-language-support)
-- [🔧 Specify CLI Reference](#-specify-cli-reference)
+- [🔧 Spec Mix CLI Reference](#-spec-mix-cli-reference)
 - [📚 Core Philosophy](#-core-philosophy)
 - [🌟 Development Phases](#-development-phases)
 - [🎯 Experimental Goals](#-experimental-goals)
@@ -48,7 +48,7 @@ Spec-Driven Development **flips the script** on traditional software development
 
 ## ⚡ Get Started
 
-### 1. Install Specify CLI
+### 1. Install Spec Mix CLI
 
 Choose your preferred installation method:
 
@@ -263,7 +263,7 @@ Want to add support for your language? We welcome community translations! See ou
 
 For detailed documentation, see **[docs/i18n.md](docs/i18n.md)**.
 
-## 🔧 Specify CLI Reference
+## 🔧 Spec Mix CLI Reference
 
 The `specify` command supports the following options:
 
@@ -271,7 +271,7 @@ The `specify` command supports the following options:
 
 | Command     | Description                                                    |
 |-------------|----------------------------------------------------------------|
-| `init`      | Initialize a new Specify project from the latest template      |
+| `init`      | Initialize a new Spec Mix project from the latest template    |
 | `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `windsurf`, `qwen`, `opencode`, `codex`) |
 | `lang`      | Manage language packs (`list`, `current`, `set`, `install`)    |
 
@@ -456,7 +456,7 @@ If you encounter issues with an agent, please open an issue so we can refine the
 <details>
 <summary>Click to expand the detailed step-by-step walkthrough</summary>
 
-You can use the Specify CLI to bootstrap your project, which will bring in the required artifacts in your environment. Run:
+You can use the Spec Mix CLI to bootstrap your project, which will bring in the required artifacts in your environment. Run:
 
 ```bash
 spec-mix init <project_name>
