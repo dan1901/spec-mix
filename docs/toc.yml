@@ -1,30 +1,53 @@
 # Home page
-- name: Home
+- name: Home / 홈
   href: index.md
 
-# Getting started section
-- name: Getting Started
+# Language sections
+- name: 🇬🇧 English
+  href: en/index.md
   items:
-    - name: Installation
-      href: en/installation.md
-    - name: Quick Start
-      href: en/quickstart.md
+    - name: Getting Started
+      items:
+        - name: Installation
+          href: en/installation.md
+        - name: Quick Start
+          href: en/quickstart.md
+    - name: Enhanced Features
+      items:
+        - name: Overview
+          href: en/features.md
+        - name: Multi-Language Support
+          href: en/i18n.md
+        - name: Mission System
+          href: en/missions.md
+        - name: Web Dashboard
+          href: en/dashboard.md
+    - name: Development
+      items:
+        - name: Local Development
+          href: en/local-development.md
 
-# Enhanced Features
-- name: Enhanced Features
+- name: 🇰🇷 한국어
+  href: ko/index.md
   items:
-    - name: Overview
-      href: en/features.md
-    - name: Multi-Language Support
-      href: en/i18n.md
-    - name: Mission System
-      href: en/missions.md
-    - name: Web Dashboard
-      href: en/dashboard.md
-
-# Development workflows
-- name: Development
-  items:
-    - name: Local Development
-      href: en/local-development.md
+    - name: 시작하기
+      items:
+        - name: 설치
+          href: ko/installation.md
+        - name: 빠른 시작
+          href: ko/quickstart.md
+    - name: 향상된 기능
+      items:
+        - name: 개요
+          href: ko/features.md
+        - name: 다국어 지원
+          href: ko/i18n.md
+        - name: 미션 시스템
+          href: ko/missions.md
+        - name: 웹 대시보드
+          href: ko/dashboard.md
+    - name: 개발
+      items:
+        - name: 로컬 개발
+          href: ko/local-development.md
 
