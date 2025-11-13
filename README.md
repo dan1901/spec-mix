@@ -24,22 +24,39 @@
 ## Table of Contents
 
 - [🤔 What is Spec-Driven Development?](#-what-is-spec-driven-development)
+
 - [⚡ Get Started](#-get-started)
+
 - [📽️ Video Overview](#️-video-overview)
+
 - [🤖 Supported AI Agents](#-supported-ai-agents)
+
 - [🌍 Multi-Language Support](#-multi-language-support)
+
 - [🔧 Spec Mix CLI Reference](#-spec-mix-cli-reference)
+
 - [📚 Core Philosophy](#-core-philosophy)
+
 - [🌟 Development Phases](#-development-phases)
+
 - [🎯 Experimental Goals](#-experimental-goals)
+
 - [🔧 Prerequisites](#-prerequisites)
+
 - [📖 Learn More](#-learn-more)
+
 - [📋 Detailed Process](#-detailed-process)
+
 - [🔍 Troubleshooting](#-troubleshooting)
+
 - [👥 Maintainers](#-maintainers)
+
 - [💬 Support](#-support)
+
 - [🙏 Acknowledgements](#-acknowledgements)
+
 - [🔀 Fork Information](#-fork-information)
+
 - [📄 License](#-license)
 
 ## 🤔 What is Spec-Driven Development?
@@ -58,6 +75,7 @@ Install once and use everywhere:
 
 ```bash
 uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
+
 ```
 
 Then use the tool directly:
@@ -65,12 +83,14 @@ Then use the tool directly:
 ```bash
 spec-mix init <PROJECT_NAME>
 spec-mix check
+
 ```
 
 To upgrade spec-mix run:
 
 ```bash
 uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.git
+
 ```
 
 #### Option 2: One-time Usage
@@ -79,13 +99,17 @@ Run directly without installing:
 
 ```bash
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
+
 ```
 
 **Benefits of persistent installation:**
 
 - Tool stays installed and available in PATH
+
 - No need to create shell aliases
+
 - Better tool management with `uv tool list`, `uv tool upgrade`, `uv tool uninstall`
+
 - Cleaner shell configuration
 
 ### 2. Establish project principles
@@ -96,6 +120,7 @@ Use the **`/spec-mix.constitution`** command to create your project's governing 
 
 ```bash
 /spec-mix.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+
 ```
 
 ### 3. Create the spec
@@ -104,6 +129,7 @@ Use the **`/spec-mix.specify`** command to describe what you want to build. Focu
 
 ```bash
 /spec-mix.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+
 ```
 
 ### 4. Create a technical implementation plan
@@ -112,6 +138,7 @@ Use the **`/spec-mix.plan`** command to provide your tech stack and architecture
 
 ```bash
 /spec-mix.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+
 ```
 
 ### 5. Break down into tasks
@@ -120,6 +147,7 @@ Use **`/spec-mix.tasks`** to create an actionable task list from your implementa
 
 ```bash
 /spec-mix.tasks
+
 ```
 
 ### 6. Execute implementation
@@ -128,6 +156,7 @@ Use **`/spec-mix.implement`** to execute all tasks and build your feature accord
 
 ```bash
 /spec-mix.implement
+
 ```
 
 For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
@@ -178,6 +207,7 @@ export SPECIFY_LANG=ko
 
 # Or use per-session
 SPECIFY_LANG=ko spec-mix init my-project
+
 ```
 
 #### Language Management Commands
@@ -191,6 +221,7 @@ spec-mix lang current
 
 # Set default language
 spec-mix lang set ko
+
 ```
 
 #### Mission Management Commands
@@ -207,6 +238,7 @@ spec-mix mission switch research
 
 # View mission details
 spec-mix mission info software-dev
+
 ```
 
 #### Dashboard Commands
@@ -223,6 +255,7 @@ spec-mix dashboard status
 
 # Stop dashboard
 spec-mix dashboard stop
+
 ```
 
 ### What Gets Translated
@@ -230,9 +263,13 @@ spec-mix dashboard stop
 When you use Spec Kit in your preferred language, the following are translated:
 
 - **CLI Messages**: All prompts, errors, success messages, and help text
+
 - **Command Instructions**: All `/spec-mix.*` slash command workflows
+
   - `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks`, etc.
+
 - **Templates**: Specification, implementation plan, and task breakdown templates
+
 - **Documentation**: Inline comments and guidance within generated files
 
 ### Example: Korean Workflow
@@ -250,6 +287,7 @@ spec-mix init my-project --ai claude
 /spec-mix.plan          # 구현 계획 생성
 /spec-mix.tasks         # 작업 분석 생성
 /spec-mix.implement     # 구현 실행
+
 ```
 
 ### Contributing Translations
@@ -257,8 +295,11 @@ spec-mix init my-project --ai claude
 Want to add support for your language? We welcome community translations! See our [Internationalization Guide](docs/i18n.md) for:
 
 - Setting up a new language
+
 - Translation guidelines and best practices
+
 - Testing your translations
+
 - Submitting contributions
 
 For detailed documentation, see **[docs/i18n.md](docs/i18n.md)**.
@@ -346,6 +387,7 @@ spec-mix init my-project --ai claude --github-token ghp_your_token_here
 
 # Check system requirements
 spec-mix check
+
 ```
 
 ### Available Slash Commands
@@ -396,8 +438,11 @@ Additional commands for enhanced quality and validation:
 Spec-Driven Development is a structured process that emphasizes:
 
 - **Intent-driven development** where specifications define the "*what*" before the "*how*"
+
 - **Rich specification creation** using guardrails and organizational principles
+
 - **Multi-step refinement** rather than one-shot code generation from prompts
+
 - **Heavy reliance** on advanced AI model capabilities for specification interpretation
 
 ## 🌟 Development Phases
@@ -415,31 +460,41 @@ Our research and experimentation focus on:
 ### Technology independence
 
 - Create applications using diverse technology stacks
+
 - Validate the hypothesis that Spec-Driven Development is a process not tied to specific technologies, programming languages, or frameworks
 
 ### Enterprise constraints
 
 - Demonstrate mission-critical application development
+
 - Incorporate organizational constraints (cloud providers, tech stacks, engineering practices)
+
 - Support enterprise design systems and compliance requirements
 
 ### User-centric development
 
 - Build applications for different user cohorts and preferences
+
 - Support various development approaches (from vibe-coding to AI-native development)
 
 ### Creative & iterative processes
 
 - Validate the concept of parallel implementation exploration
+
 - Provide robust iterative feature development workflows
+
 - Extend processes to handle upgrades and modernization tasks
 
 ## 🔧 Prerequisites
 
 - **Linux/macOS/Windows**
+
 - [Supported](#-supported-ai-agents) AI coding agent.
+
 - [uv](https://docs.astral.sh/uv/) for package management
+
 - [Python 3.11+](https://www.python.org/downloads/)
+
 - [Git](https://git-scm.com/downloads)
 
 If you encounter issues with an agent, please open an issue so we can refine the integration.
@@ -447,6 +502,7 @@ If you encounter issues with an agent, please open an issue so we can refine the
 ## 📖 Learn More
 
 - **[Complete Spec-Driven Development Methodology](./spec-driven.md)** - Deep dive into the full process
+
 - **[Detailed Walkthrough](#-detailed-process)** - Step-by-step implementation guide
 
 ---
@@ -460,6 +516,7 @@ You can use the Spec Mix CLI to bootstrap your project, which will bring in the 
 
 ```bash
 spec-mix init <project_name>
+
 ```
 
 Or initialize in the current directory:
@@ -472,7 +529,9 @@ spec-mix init --here
 spec-mix init . --force
 # or
 spec-mix init --here --force
+
 ```
+
 You will be prompted to select the AI agent you are using. You can also proactively specify it directly in the terminal:
 
 ```bash
@@ -493,12 +552,14 @@ spec-mix init . --force --ai claude
 
 # or
 spec-mix init --here --force --ai claude
+
 ```
 
 The CLI will check if you have Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI, or Amazon Q Developer CLI installed. If you do not, or you prefer to get the templates without checking for the right tools, use `--ignore-agent-tools` with your command:
 
 ```bash
 spec-mix init <project_name> --ai claude --ignore-agent-tools
+
 ```
 
 ### **STEP 1:** Establish project principles
@@ -510,6 +571,7 @@ The first step should be establishing your project's governing principles using 
 
 ```text
 /spec-mix.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements. Include governance for how these principles should guide technical decisions and implementation choices.
+
 ```
 
 This step creates or updates the `.spec-mix/memory/constitution.md` file with your project's foundational guidelines that the AI agent will reference during specification, planning, and implementation phases.
@@ -540,6 +602,7 @@ You'll be able to drag and drop cards back and forth between different columns. 
 assigned to you, the currently logged in user, in a different color from all the other ones, so you can quickly
 see yours. You can edit any comments that you make, but you can't edit comments that other people made. You can
 delete any comments that you made, but you can't delete comments anybody else made.
+
 ```
 
 After this prompt is entered, you should see Claude Code kick off the planning and spec drafting process. Claude Code will also trigger some of the built-in scripts to set up the repository.
@@ -567,6 +630,7 @@ At this stage, your project folder contents should resemble the following:
         ├── plan-template.md
         ├── spec-template.md
         └── tasks-template.md
+
 ```
 
 ### **STEP 3:** Functional specification clarification (required before planning)
@@ -588,12 +652,14 @@ Example free-form refinement prompt (after `/spec-mix.clarify` if still needed):
 For each sample project or project that you create there should be a variable number of tasks between 5 and 15
 tasks for each one randomly distributed into different states of completion. Make sure that there's at least
 one task in each stage of completion.
+
 ```
 
 You should also ask Claude Code to validate the **Review & Acceptance Checklist**, checking off the things that are validated/pass the requirements, and leave the ones that are not unchecked. The following prompt can be used:
 
 ```text
 Read the review and acceptance checklist, and check off each item in the checklist if the feature spec meets the criteria. Leave it empty if it does not.
+
 ```
 
 It's important to use the interaction with Claude Code as an opportunity to clarify and ask questions around the specification - **do not treat its first attempt as final**.
@@ -606,6 +672,7 @@ You can now be specific about the tech stack and other technical requirements. Y
 We are going to generate this using .NET Aspire, using Postgres as the database. The frontend should use
 Blazor server with drag-and-drop task boards, real-time updates. There should be a REST API created with a projects API,
 tasks API, and a notifications API.
+
 ```
 
 The output of this step will include a number of implementation detail documents, with your directory tree resembling this:
@@ -636,6 +703,7 @@ The output of this step will include a number of implementation detail documents
     ├── plan-template.md
     ├── spec-template.md
     └── tasks-template.md
+
 ```
 
 Check the `research.md` document to ensure that the right tech stack is used, based on your instructions. You can ask Claude Code to refine it if any of the components stand out, or even have it check the locally-installed version of the platform/framework you want to use (e.g., .NET).
@@ -648,6 +716,7 @@ benefit from additional research as .NET Aspire is a rapidly changing library. F
 require further research, I want you to update the research document with additional details about the specific
 versions that we are going to be using in this Taskify application and spawn parallel research tasks to clarify
 any details using research from the web.
+
 ```
 
 During this process, you might find that Claude Code gets stuck researching the wrong thing - you can help nudge it in the right direction with a prompt like this:
@@ -660,6 +729,7 @@ I want you to spin up a separate research task so that the net results is we are
 all of those very specific tasks in parallel. What I saw you doing was it looks like you were
 researching .NET Aspire in general and I don't think that's gonna do much for us in this case.
 That's way too untargeted research. The research needs to help you solve a specific targeted question.
+
 ```
 
 >[!NOTE]
@@ -675,6 +745,7 @@ Read through it with an eye on determining whether or not there is a sequence of
 to be doing that are obvious from reading this. Because I don't know if there's enough here. For example,
 when I look at the core implementation, it would be useful to reference the appropriate places in the implementation
 details where it can find the information as it walks through each step in the core implementation or in the refinement.
+
 ```
 
 This helps refine the implementation plan and helps you avoid potential blind spots that Claude Code missed in its planning cycle. Once the initial refinement pass is complete, ask Claude Code to go through the checklist once more before you can get to the implementation.
@@ -690,15 +761,21 @@ With the implementation plan validated, you can now break down the plan into spe
 
 ```text
 /spec-mix.tasks
+
 ```
 
 This step creates a `tasks.md` file in your feature specification directory that contains:
 
 - **Task breakdown organized by user story** - Each user story becomes a separate implementation phase with its own set of tasks
+
 - **Dependency management** - Tasks are ordered to respect dependencies between components (e.g., models before services, services before endpoints)
+
 - **Parallel execution markers** - Tasks that can run in parallel are marked with `[P]` to optimize development workflow
+
 - **File path specifications** - Each task includes the exact file paths where implementation should occur
+
 - **Test-driven development structure** - If tests are requested, test tasks are included and ordered to be written before implementation
+
 - **Checkpoint validation** - Each user story phase includes checkpoints to validate independent functionality
 
 The generated tasks.md provides a clear roadmap for the `/spec-mix.implement` command, ensuring systematic implementation that maintains code quality and allows for incremental delivery of user stories.
@@ -709,14 +786,19 @@ Once ready, use the `/spec-mix.implement` command to execute your implementation
 
 ```text
 /spec-mix.implement
+
 ```
 
 The `/spec-mix.implement` command will:
 
 - Validate that all prerequisites are in place (constitution, spec, plan, and tasks)
+
 - Parse the task breakdown from `tasks.md`
+
 - Execute tasks in the correct order, respecting dependencies and parallel execution markers
+
 - Follow the TDD approach defined in your task plan
+
 - Provide progress updates and handle errors appropriately
 
 >[!IMPORTANT]
@@ -745,11 +827,13 @@ echo "Configuring Git to use GCM..."
 git config --global credential.helper manager
 echo "Cleaning up..."
 rm gcm-linux_amd64.2.6.1.deb
+
 ```
 
 ## 👥 Maintainers
 
 - Den Delimarsky ([@localden](https://github.com/localden))
+
 - John Lam ([@jflam](https://github.com/jflam))
 
 ## 💬 Support
@@ -757,6 +841,7 @@ rm gcm-linux_amd64.2.6.1.deb
 For support:
 
 - **Core Spec Kit issues**: Open a [GitHub issue](https://github.com/github/spec-kit/issues/new) in the upstream repository
+
 - **Multi-language or fork-specific issues**: Open an issue in this repository
 
 We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
@@ -772,30 +857,49 @@ This is a fork of the original [github/spec-kit](https://github.com/github/spec-
 ### Added Features in This Fork
 
 - **🌍 Multi-Language Support (i18n)**: Complete internationalization infrastructure
+
   - Full Korean (한국어) translation
+
   - Language management commands (`spec-mix lang`)
+
   - Automatic language detection based on system locale
+
   - Extensible architecture for adding more languages
 
 - **🎯 Mission System**: Domain-specific workflows and templates
+
   - Software Development mission (코드 품질, 테스팅, UX 중점)
+
   - Deep Research mission (증거 기반 분석, 리서치 방법론)
+
   - Mission-specific templates, commands, and validation rules
+
   - Multilingual mission support
+
   - Mission management commands (`spec-mix mission`)
 
 - **📊 Web Dashboard**: Visual monitoring and navigation
+
   - Real-time feature overview with task statistics
+
   - Interactive kanban boards (planned/doing/for_review/done)
+
   - Artifact viewer with markdown rendering
+
   - Multi-worktree support
+
   - Auto-refresh (2s intervals)
+
   - Multilingual UI (adapts to system locale)
 
 - **🔄 Enhanced Workflow**: Advanced task management
+
   - Git worktree integration for feature isolation
+
   - Task lane system (Kanban-style)
+
   - Review, acceptance, and merge commands
+
   - Work package (WPxx) tracking with frontmatter metadata
 
 ### Upstream Synchronization
@@ -805,13 +909,17 @@ This fork aims to stay synchronized with the upstream repository while maintaini
 ### Contributing
 
 For contributions related to:
+
 - **Core Spec Kit features**: Please submit to the [upstream repository](https://github.com/github/spec-kit)
+
 - **Multi-language support or fork-specific features**: Submit to this repository
 
 ### Upstream Credits
 
 Original project maintained by:
+
 - Den Delimarsky ([@localden](https://github.com/localden))
+
 - John Lam ([@jflam](https://github.com/jflam))
 
 ## 📄 License

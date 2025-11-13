@@ -5,9 +5,11 @@ description: Verify feature readiness and prepare for merge
 ## User Input
 
 ```text
+
 $ARGUMENTS
 
 ```text
+
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
@@ -17,14 +19,15 @@ This command performs a final acceptance check before merging a feature. It veri
 ## Execution Flow
 
 1. **Identify feature**:
-   - Determine current feature from branch or user input
-   - Locate `specs/{feature}/` directory
+- Determine current feature from branch or user input
+- Locate `specs/{feature}/` directory
 
-2. **Run comprehensive checks**:
+1. **Run comprehensive checks**:
 
-   ### ✅ Task Completion Check
+### ✅ Task Completion Check
 
    ```bash
+
    # Verify all tasks are in done lane
 
    ls specs/{feature}/tasks/done/*.md
@@ -33,33 +36,44 @@ This command performs a final acceptance check before merging a feature. It veri
    ls specs/{feature}/tasks/for_review/*.md
    ```
 
-   - **PASS**: All WP files in `done/` lane
-   - **FAIL**: Tasks remaining in other lanes
+- **PASS**: All WP files in `done/` lane
+- **FAIL**: Tasks remaining in other lanes
 
-   ### ✅ Artifact Completeness Check
+### ✅ Artifact Completeness Check
 
-   - [ ] `spec.md` exists and complete
-   - [ ] `plan.md` exists and complete
-   - [ ] `tasks.md` exists with all tasks marked `[x]`
-   - [ ] `research.md` (if Phase 0 was used)
-   - [ ] `data-model.md` (if applicable)
+- [ ] `spec.md` exists and complete
 
-   ### ✅ Quality Gate Check
+- [ ] `plan.md` exists and complete
 
-   - [ ] All acceptance criteria met (check each WP file)
-   - [ ] Tests passing (run test suite if available)
-   - [ ] Documentation updated
-   - [ ] No [TODO] or [FIXME] markers in code
-   - [ ] Code review completed
+- [ ] `tasks.md` exists with all tasks marked `[x]`
 
-   ### ✅ Constitution Compliance (if applicable)
+- [ ] `research.md` (if Phase 0 was used)
 
-   - [ ] Follows project principles from `/memory/constitution.md`
-   - [ ] No violations of complexity gates
-   - [ ] Adheres to architecture decisions
+- [ ] `data-model.md` (if applicable)
 
-3. **Generate acceptance report**:
+### ✅ Quality Gate Check
+
+- [ ] All acceptance criteria met (check each WP file)
+
+- [ ] Tests passing (run test suite if available)
+
+- [ ] Documentation updated
+
+- [ ] No [TODO] or [FIXME] markers in code
+
+- [ ] Code review completed
+
+### ✅ Constitution Compliance (if applicable)
+
+- [ ] Follows project principles from `/memory/constitution.md`
+
+- [ ] No violations of complexity gates
+
+- [ ] Adheres to architecture decisions
+
+1. **Generate acceptance report**:
    ```markdown
+
    # Acceptance Report: {feature}
 
    **Date**: {timestamp}
@@ -67,23 +81,23 @@ This command performs a final acceptance check before merging a feature. It veri
 
    ## Checklist Results
 
-   ### Task Completion: ✅ / ❌
+### Task Completion: ✅ / ❌
 
-   - Total tasks: X
-   - Completed: X
-   - Pending: X
+- Total tasks: X
+- Completed: X
+- Pending: X
 
-   ### Artifacts: ✅ / ❌
+### Artifacts: ✅ / ❌
 
-   - spec.md: ✅
-   - plan.md: ✅
-   - tasks.md: ✅
+- spec.md: ✅
+- plan.md: ✅
+- tasks.md: ✅
 
-   ### Quality Gates: ✅ / ❌
+### Quality Gates: ✅ / ❌
 
-   - All acceptance criteria met: ✅
-   - Tests passing: ✅
-   - Documentation complete: ✅
+- All acceptance criteria met: ✅
+- Tests passing: ✅
+- Documentation complete: ✅
 
    ## Issues Found
 
@@ -94,10 +108,11 @@ This command performs a final acceptance check before merging a feature. It veri
    APPROVED FOR MERGE / NEEDS WORK
    ```
 
-4. **Record acceptance**:
-   - Create `specs/{feature}/acceptance.md` with report
-   - Update `meta.json` if it exists:
+1. **Record acceptance**:
+- Create `specs/{feature}/acceptance.md` with report
+- Update `meta.json` if it exists:
      ```json
+
      {
        "feature": "001-user-auth",
        "accepted_at": "2025-01-12T10:30:00Z",
@@ -106,7 +121,7 @@ This command performs a final acceptance check before merging a feature. It veri
      }
      ```
 
-5. **Final actions**:
+1. **Final actions**:
 
    **If APPROVED**:
    ```
@@ -122,8 +137,10 @@ This command performs a final acceptance check before merging a feature. It veri
    ❌ Feature {feature} is not ready for merge.
 
    Address the following issues:
-   - [Issue 1]
-   - [Issue 2]
+
+- [Issue 1]
+
+- [Issue 2]
 
    Re-run /spec-mix.accept when issues are resolved.
    ```
@@ -134,13 +151,13 @@ Feature must meet ALL of the following:
 
 1. **100% Task Completion**: All WP files in `done/` lane
 
-2. **Artifact Completeness**: All required documents present
+1. **Artifact Completeness**: All required documents present
 
-3. **Quality Standards**: Tests pass, documentation complete
+1. **Quality Standards**: Tests pass, documentation complete
 
-4. **Constitution Compliance**: No principle violations
+1. **Constitution Compliance**: No principle violations
 
-5. **Review Approval**: All tasks reviewed and approved
+1. **Review Approval**: All tasks reviewed and approved
 
 ## Edge Cases
 
@@ -187,12 +204,15 @@ Provide clear, actionable feedback:
 Ready to merge! Run:
 
 ```bash
+
 /spec-mix.merge
 
 ```text
+
 Or with options:
 
 ```bash
+
 /spec-mix.merge --strategy squash    # Squash all commits
 
 /spec-mix.merge --cleanup-worktree   # Remove worktree after merge

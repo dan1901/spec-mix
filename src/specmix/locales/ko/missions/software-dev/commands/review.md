@@ -5,9 +5,11 @@ description: 완료된 작업을 검토하고 승인된 작업을 done 레인으
 ## 사용자 입력
 
 ```text
+
 $ARGUMENTS
 
 ```text
+
 진행하기 전에 사용자 입력을 **반드시** 고려해야 합니다(비어있지 않은 경우).
 
 ## 개요
@@ -17,18 +19,19 @@ $ARGUMENTS
 ## 실행 흐름
 
 1. **기능 디렉토리 식별**:
-   - 현재 브랜치를 사용하여 기능 찾기 (예: `001-feature-name`)
-   - `specs/{feature}/tasks/for_review/` 디렉토리 위치 확인
+- 현재 브랜치를 사용하여 기능 찾기 (예: `001-feature-name`)
+- `specs/{feature}/tasks/for_review/` 디렉토리 위치 확인
 
-2. **검토 대상 작업 스캔**:
+1. **검토 대상 작업 스캔**:
    ```bash
+
    ls specs/{feature}/tasks/for_review/*.md
    ```
 
-   - 작업이 없으면 사용자에게 알리고 종료
-   - 검토 대기 중인 모든 작업 패키지 나열
+- 작업이 없으면 사용자에게 알리고 종료
+- 검토 대기 중인 모든 작업 패키지 나열
 
-3. **for_review의 각 작업에 대해**:
+1. **for_review의 각 작업에 대해**:
 
    a. **작업 패키지 읽기**:
       - `WPxx.md` 파일 열기
@@ -46,29 +49,31 @@ $ARGUMENTS
       - **승인**: 작업이 모든 기준 충족
       - **변경 요청**: 수정이 필요한 문제 발견
 
-4. **승인된 작업의 경우**:
+1. **승인된 작업의 경우**:
    ```bash
+
    .spec-mix/scripts/bash/move-task.sh WPxx for_review done specs/{feature}
    ```
 
-   - 작업 패키지를 `for_review/`에서 `done/`으로 이동
-   - 프론트매터 업데이트: `lane: done`, `completed_at: <timestamp>`
-   - 활동 로그에 추가
+- 작업 패키지를 `for_review/`에서 `done/`으로 이동
+- 프론트매터 업데이트: `lane: done`, `completed_at: <timestamp>`
+- 활동 로그에 추가
 
-5. **변경이 필요한 작업의 경우**:
+1. **변경이 필요한 작업의 경우**:
    ```bash
+
    .spec-mix/scripts/bash/move-task.sh WPxx for_review doing specs/{feature}
    ```
 
-   - `doing/` 레인으로 되돌리기
-   - 활동 로그에 구체적인 문제 문서화
-   - 변경해야 할 사항에 대한 명확한 피드백 제공
+- `doing/` 레인으로 되돌리기
+- 활동 로그에 구체적인 문제 문서화
+- 변경해야 할 사항에 대한 명확한 피드백 제공
 
-6. **tasks.md 업데이트**:
-   - 완료된 작업을 `[x]`로 표시
-   - 상태 요약 업데이트
+1. **tasks.md 업데이트**:
+- 완료된 작업을 `[x]`로 표시
+- 상태 요약 업데이트
 
-7. **요약 보고**:
+1. **요약 보고**:
    ```
 
    검토 요약:

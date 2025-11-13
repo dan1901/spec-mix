@@ -8,9 +8,11 @@ scripts:
 ## User Input
 
 ```text
+
 $ARGUMENTS
 
 ```text
+
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
@@ -23,36 +25,42 @@ Before running this command:
 
 1. ✅ Feature must be accepted (run `/spec-mix.accept` first)
 
-2. ✅ All tasks in `done/` lane
+1. ✅ All tasks in `done/` lane
 
-3. ✅ All tests passing
+1. ✅ All tests passing
 
-4. ✅ Working directory clean (no uncommitted changes)
+1. ✅ Working directory clean (no uncommitted changes)
 
 ## Merge Strategies
 
 ### Standard Merge (default)
 
 ```bash
+
 /spec-mix.merge
 
 ```text
+
 Creates a merge commit preserving full feature history.
 
 ### Squash Merge
 
 ```bash
+
 /spec-mix.merge --strategy squash
 
 ```text
+
 Combines all feature commits into a single commit.
 
 ### Fast-Forward Merge
 
 ```bash
+
 /spec-mix.merge --strategy ff-only
 
 ```text
+
 Only merge if can fast-forward (linear history).
 
 ## Options
@@ -70,6 +78,7 @@ Only merge if can fast-forward (linear history).
 
 1. **Pre-merge verification** (unless `--no-verify`):
    ```bash
+
    # Check acceptance status
 
    if [[ -f "specs/{feature}/acceptance.md" ]]; then
@@ -88,8 +97,9 @@ Only merge if can fast-forward (linear history).
    fi
    ```
 
-2. **Prepare for merge**:
+1. **Prepare for merge**:
    ```bash
+
    # Stash any changes (just in case)
 
    git stash save "Pre-merge stash"
@@ -103,15 +113,17 @@ Only merge if can fast-forward (linear history).
    git pull origin main
    ```
 
-3. **Execute merge**:
+1. **Execute merge**:
 
    **Standard merge**:
    ```bash
+
    git merge {feature-branch} --no-ff -m "Merge feature {feature}"
    ```
 
    **Squash merge**:
    ```bash
+
    git merge {feature-branch} --squash
    git commit -m "feat: {feature-description}
 
@@ -122,31 +134,36 @@ Only merge if can fast-forward (linear history).
 
    **Fast-forward**:
    ```bash
+
    git merge {feature-branch} --ff-only
    ```
 
-4. **Post-merge actions**:
+1. **Post-merge actions**:
 
    a. **Push to remote** (if `--push`):
       ```bash
+
       git push origin main
       ```
 
    b. **Cleanup worktree** (if `--cleanup-worktree`):
       ```bash
+
       .spec-mix/scripts/bash/setup-worktree.sh --feature {feature} --cleanup
       ```
 
    c. **Delete feature branch** (unless `--keep-branch`):
       ```bash
+
       git branch -d {feature-branch}
       # Also delete remote branch if exists
 
       git push origin --delete {feature-branch} 2>/dev/null || true
       ```
 
-5. **Archive feature documentation** (optional):
+1. **Archive feature documentation** (optional):
    ```bash
+
    # Move specs to archive
 
    mkdir -p archive/
@@ -155,8 +172,9 @@ Only merge if can fast-forward (linear history).
    git commit -m "chore: archive {feature} documentation"
    ```
 
-6. **Report summary**:
+1. **Report summary**:
    ```markdown
+
    ✅ Feature merged successfully!
 
    **Feature**: {feature}
@@ -164,17 +182,17 @@ Only merge if can fast-forward (linear history).
    **Commits**: {commit-count}
    **Branch**: main
 
-   ### Changes
+### Changes
 
-   - Files changed: {file-count}
-   - Insertions: {additions}
-   - Deletions: {deletions}
+- Files changed: {file-count}
+- Insertions: {additions}
+- Deletions: {deletions}
 
-   ### Next Steps
+### Next Steps
 
-   - Feature branch deleted: {feature-branch}
-   - Worktree cleaned up: .worktrees/{feature}
-   - Documentation archived: archive/{feature}/
+- Feature branch deleted: {feature-branch}
+- Worktree cleaned up: .worktrees/{feature}
+- Documentation archived: archive/{feature}/
 
    Ready to start next feature! Run:
    /spec-mix.specify "Next feature description"
@@ -186,25 +204,27 @@ If merge conflicts occur:
 
 1. **Show conflict files**:
    ```bash
+
    git status
    ```
 
-2. **Guide user to resolve**:
+1. **Guide user to resolve**:
    ```markdown
+
    ⚠️ Merge conflicts detected in:
-   - {file1}
-   - {file2}
+- {file1}
+- {file2}
 
    Please resolve conflicts manually:
    1. Open conflicted files
-   2. Edit to resolve conflicts
-   3. Stage resolved files: git add {file}
-   4. Complete merge: git commit
+   1. Edit to resolve conflicts
+   1. Stage resolved files: git add {file}
+   1. Complete merge: git commit
 
    Or abort merge: git merge --abort
    ```
 
-3. **Wait for resolution**: Command pauses until conflicts resolved
+1. **Wait for resolution**: Command pauses until conflicts resolved
 
 ## Rollback
 
@@ -231,6 +251,7 @@ git worktree add .worktrees/{feature} {feature-branch}
 With `--dry-run`:
 
 ```markdown
+
 🔍 Merge Preview: {feature}
 
 **Strategy**: {merge-strategy}
@@ -249,15 +270,15 @@ With `--dry-run`:
 
 1. Switch to main branch
 
-2. Pull latest changes
+1. Pull latest changes
 
-3. Merge {feature-branch} using {strategy}
+1. Merge {feature-branch} using {strategy}
 
-4. [x] Push to remote
+1. [x] Push to remote
 
-5. [x] Cleanup worktree
+1. [x] Cleanup worktree
 
-6. [x] Delete feature branch
+1. [x] Delete feature branch
 
 ⚠️ This is a dry run. No changes made.
 To execute, run without --dry-run flag.
@@ -269,6 +290,7 @@ To execute, run without --dry-run flag.
 ### Simple merge
 
 ```bash
+
 /spec-mix.merge
 
 ```text
@@ -276,6 +298,7 @@ To execute, run without --dry-run flag.
 ### Squash and push
 
 ```bash
+
 /spec-mix.merge --strategy squash --push
 
 ```text
@@ -283,6 +306,7 @@ To execute, run without --dry-run flag.
 ### Full cleanup
 
 ```bash
+
 /spec-mix.merge --push --cleanup-worktree
 
 ```text
@@ -290,6 +314,7 @@ To execute, run without --dry-run flag.
 ### Preview only
 
 ```bash
+
 /spec-mix.merge --dry-run
 
 ```text

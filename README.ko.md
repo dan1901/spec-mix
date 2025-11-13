@@ -24,22 +24,39 @@
 ## 목차
 
 - [🤔 Spec-Driven Development란?](#-spec-driven-development란)
+
 - [⚡ 시작하기](#-시작하기)
+
 - [📽️ 비디오 개요](#️-비디오-개요)
+
 - [🤖 지원되는 AI 에이전트](#-지원되는-ai-에이전트)
+
 - [🌍 다국어 지원](#-다국어-지원)
+
 - [🔧 Spec Mix CLI 참조](#-spec-mix-cli-참조)
+
 - [📚 핵심 철학](#-핵심-철학)
+
 - [🌟 개발 단계](#-개발-단계)
+
 - [🎯 실험적 목표](#-실험적-목표)
+
 - [🔧 전제 조건](#-전제-조건)
+
 - [📖 더 알아보기](#-더-알아보기)
+
 - [📋 상세 프로세스](#-상세-프로세스)
+
 - [🔍 문제 해결](#-문제-해결)
+
 - [👥 메인테이너](#-메인테이너)
+
 - [💬 지원](#-지원)
+
 - [🙏 감사의 말](#-감사의-말)
+
 - [🔀 Fork 정보](#-fork-정보)
+
 - [📄 라이선스](#-라이선스)
 
 ## 🤔 Spec-Driven Development란?
@@ -58,6 +75,7 @@ Spec-Driven Development는 전통적인 소프트웨어 개발의 **판도를 �
 
 ```bash
 uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
+
 ```
 
 그런 다음 도구를 직접 사용:
@@ -65,12 +83,14 @@ uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
 ```bash
 spec-mix init <PROJECT_NAME>
 spec-mix check
+
 ```
 
 spec-mix를 업그레이드하려면:
 
 ```bash
 uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.git
+
 ```
 
 #### 옵션 2: 일회성 사용
@@ -79,13 +99,17 @@ uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.
 
 ```bash
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
+
 ```
 
 **영구 설치의 장점:**
 
 - 도구가 설치되어 PATH에서 사용 가능
+
 - 쉘 별칭 생성 불필요
+
 - `uv tool list`, `uv tool upgrade`, `uv tool uninstall`로 더 나은 도구 관리
+
 - 더 깔끔한 쉘 구성
 
 ### 2. 프로젝트 원칙 수립
@@ -96,6 +120,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 
 ```bash
 /spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성, 성능 요구사항에 중점을 둔 원칙 생성
+
 ```
 
 ### 3. 명세 생성
@@ -104,6 +129,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 
 ```bash
 /spec-mix.specify 사진을 별도의 포토 앨범으로 정리할 수 있는 애플리케이션을 만들어주세요. 앨범은 날짜별로 그룹화되며 메인 페이지에서 드래그 앤 드롭으로 재정렬할 수 있습니다. 앨범은 다른 중첩 앨범 안에 있지 않습니다. 각 앨범 내에서 사진은 타일 형태의 인터페이스로 미리보기됩니다.
+
 ```
 
 ### 4. 기술 구현 계획 생성
@@ -112,6 +138,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 
 ```bash
 /spec-mix.plan 애플리케이션은 최소한의 라이브러리로 Vite를 사용합니다. 가능한 한 바닐라 HTML, CSS, JavaScript를 사용하세요. 이미지는 어디에도 업로드되지 않으며 메타데이터는 로컬 SQLite 데이터베이스에 저장됩니다.
+
 ```
 
 ### 5. 작업으로 분해
@@ -120,6 +147,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 
 ```bash
 /spec-mix.tasks
+
 ```
 
 ### 6. 구현 실행
@@ -128,6 +156,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 
 ```bash
 /spec-mix.implement
+
 ```
 
 자세한 단계별 지침은 [종합 가이드](./spec-driven.md)를 참조하세요.
@@ -178,6 +207,7 @@ export SPECIFY_LANG=ko
 
 # 또는 세션별로 사용
 SPECIFY_LANG=ko spec-mix init my-project
+
 ```
 
 #### 언어 관리 명령
@@ -191,6 +221,7 @@ spec-mix lang current
 
 # 기본 언어 설정
 spec-mix lang set ko
+
 ```
 
 #### 미션 관리 명령
@@ -207,6 +238,7 @@ spec-mix mission switch research
 
 # 미션 세부정보 보기
 spec-mix mission info software-dev
+
 ```
 
 #### 대시보드 명령
@@ -223,6 +255,7 @@ spec-mix dashboard status
 
 # 대시보드 중지
 spec-mix dashboard stop
+
 ```
 
 ### 번역되는 내용
@@ -230,9 +263,13 @@ spec-mix dashboard stop
 선호하는 언어로 Spec Kit을 사용할 때 다음이 번역됩니다:
 
 - **CLI 메시지**: 모든 프롬프트, 오류, 성공 메시지 및 도움말 텍스트
+
 - **명령 지침**: 모든 `/spec-mix.*` 슬래시 명령 워크플로우
+
   - `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks` 등
+
 - **템플릿**: 명세, 구현 계획 및 작업 분해 템플릿
+
 - **문서**: 생성된 파일 내의 인라인 주석 및 가이드
 
 ### 예제: 한국어 워크플로우
@@ -250,6 +287,7 @@ spec-mix init my-project --ai claude
 /spec-mix.plan          # 구현 계획 생성
 /spec-mix.tasks         # 작업 분석 생성
 /spec-mix.implement     # 구현 실행
+
 ```
 
 ### 번역 기여
@@ -257,8 +295,11 @@ spec-mix init my-project --ai claude
 귀하의 언어에 대한 지원을 추가하고 싶으신가요? 커뮤니티 번역을 환영합니다! 다음에 대한 [국제화 가이드](docs/i18n.md)를 참조하세요:
 
 - 새 언어 설정
+
 - 번역 가이드라인 및 모범 사례
+
 - 번역 테스트
+
 - 기여 제출
 
 자세한 문서는 **[docs/i18n.md](docs/i18n.md)**를 참조하세요.
@@ -348,6 +389,7 @@ spec-mix init my-project --ai claude --github-token ghp_your_token_here
 
 # 시스템 요구사항 확인
 spec-mix check
+
 ```
 
 ### 사용 가능한 슬래시 명령
@@ -398,8 +440,11 @@ Spec-Driven Development 워크플로우를 위한 필수 명령:
 Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입니다:
 
 - 명세가 "*어떻게*" 전에 "*무엇을*"을 정의하는 **의도 기반 개발**
+
 - 가드레일 및 조직 원칙을 사용한 **풍부한 명세 생성**
+
 - 프롬프트에서 원샷 코드 생성이 아닌 **다단계 개선**
+
 - 명세 해석을 위한 고급 AI 모델 기능에 대한 **높은 의존도**
 
 ## 🌟 개발 단계
@@ -417,31 +462,41 @@ Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입�
 ### 기술 독립성
 
 - 다양한 기술 스택을 사용하여 애플리케이션 생성
+
 - Spec-Driven Development가 특정 기술, 프로그래밍 언어 또는 프레임워크에 국한되지 않는 프로세스라는 가설 검증
 
 ### 엔터프라이즈 제약
 
 - 미션 크리티컬 애플리케이션 개발 시연
+
 - 조직 제약 통합 (클라우드 제공업체, 기술 스택, 엔지니어링 관행)
+
 - 엔터프라이즈 디자인 시스템 및 규정 준수 요구사항 지원
 
 ### 사용자 중심 개발
 
 - 다양한 사용자 집단 및 선호도를 위한 애플리케이션 구축
+
 - 다양한 개발 접근 방식 지원 (vibe-coding에서 AI 네이티브 개발까지)
 
 ### 창의적 및 반복적 프로세스
 
 - 병렬 구현 탐색 개념 검증
+
 - 강력한 반복적 기능 개발 워크플로우 제공
+
 - 업그레이드 및 현대화 작업을 처리하도록 프로세스 확장
 
 ## 🔧 전제 조건
 
 - **Linux/macOS/Windows**
+
 - [지원되는](#-지원되는-ai-에이전트) AI 코딩 에이전트
+
 - 패키지 관리를 위한 [uv](https://docs.astral.sh/uv/)
+
 - [Python 3.11+](https://www.python.org/downloads/)
+
 - [Git](https://git-scm.com/downloads)
 
 에이전트에 문제가 발생하면 통합을 개선할 수 있도록 이슈를 열어주세요.
@@ -449,6 +504,7 @@ Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입�
 ## 📖 더 알아보기
 
 - **[완전한 Spec-Driven Development 방법론](./spec-driven.md)** - 전체 프로세스에 대한 심층 분석
+
 - **[상세 워크스루](#-상세-프로세스)** - 단계별 구현 가이드
 
 ---
@@ -462,6 +518,7 @@ Spec Mix CLI를 사용하여 프로젝트를 부트스트랩할 수 있으며, �
 
 ```bash
 spec-mix init <project_name>
+
 ```
 
 또는 현재 디렉토리에서 초기화:
@@ -474,7 +531,9 @@ spec-mix init --here
 spec-mix init . --force
 # 또는
 spec-mix init --here --force
+
 ```
+
 사용 중인 AI 에이전트를 선택하라는 메시지가 표시됩니다. 터미널에서 직접 미리 지정할 수도 있습니다:
 
 ```bash
@@ -495,12 +554,14 @@ spec-mix init . --force --ai claude
 
 # 또는
 spec-mix init --here --force --ai claude
+
 ```
 
 CLI는 Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI 또는 Amazon Q Developer CLI가 설치되어 있는지 확인합니다. 설치되어 있지 않거나 올바른 도구를 확인하지 않고 템플릿을 가져오려는 경우 명령에 `--ignore-agent-tools`를 사용하세요:
 
 ```bash
 spec-mix init <project_name> --ai claude --ignore-agent-tools
+
 ```
 
 ### **1단계:** 프로젝트 원칙 수립
@@ -512,6 +573,7 @@ spec-mix init <project_name> --ai claude --ignore-agent-tools
 
 ```text
 /spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성 및 성능 요구사항에 중점을 둔 원칙을 만드세요. 이러한 원칙이 기술 결정 및 구현 선택을 어떻게 안내해야 하는지에 대한 거버넌스를 포함하세요.
+
 ```
 
 이 단계는 AI 에이전트가 명세, 계획 및 구현 단계에서 참조할 프로젝트의 기본 가이드라인으로 `.spec-mix/memory/constitution.md` 파일을 생성하거나 업데이트합니다.
@@ -539,6 +601,7 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
 카드를 드래그 앤 드롭할 수 있습니다. 현재 로그인한 사용자인 자신에게 할당된 카드는 다른 모든 카드와 다른 색상으로
 표시되므로 자신의 카드를 빠르게 볼 수 있습니다. 자신이 작성한 댓글은 편집할 수 있지만 다른 사람이 작성한 댓글은
 편집할 수 없습니다. 자신이 작성한 댓글은 삭제할 수 있지만 다른 사람이 작성한 댓글은 삭제할 수 없습니다.
+
 ```
 
 이 프롬프트를 입력한 후 Claude Code가 계획 및 명세 초안 프로세스를 시작하는 것을 볼 수 있습니다. Claude Code는 또한 저장소를 설정하기 위해 일부 내장 스크립트를 트리거합니다.
@@ -566,6 +629,7 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
         ├── plan-template.md
         ├── spec-template.md
         └── tasks-template.md
+
 ```
 
 ### **3단계:** 기능 명세 명확화 (계획 전 필수)
@@ -586,12 +650,14 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
 ```text
 생성하는 각 샘플 프로젝트 또는 프로젝트에 대해 각각에 대해 5개에서 15개 사이의 가변 작업 수가 있어야 하며
 완료의 다양한 상태로 무작위로 분산되어야 합니다. 각 완료 단계에 최소한 하나의 작업이 있는지 확인하세요.
+
 ```
 
 또한 Claude Code에게 **검토 및 수락 체크리스트**를 검증하고 요구사항을 충족하는 검증된/통과된 항목을 체크하고 그렇지 않은 항목은 체크하지 않은 상태로 두도록 요청해야 합니다. 다음 프롬프트를 사용할 수 있습니다:
 
 ```text
 검토 및 수락 체크리스트를 읽고 기능 명세가 기준을 충족하면 체크리스트의 각 항목을 체크하세요. 그렇지 않으면 비워 두세요.
+
 ```
 
 Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하고 묻는 기회로 사용하는 것이 중요합니다 - **첫 번째 시도를 최종으로 취급하지 마세요**.
@@ -604,6 +670,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 .NET Aspire를 사용하여 생성하고 데이터베이스로 Postgres를 사용합니다. 프론트엔드는 드래그 앤 드롭 작업 보드,
 실시간 업데이트가 있는 Blazor 서버를 사용해야 합니다. 프로젝트 API, 작업 API 및 알림 API로 생성된 REST API가
 있어야 합니다.
+
 ```
 
 이 단계의 출력에는 여러 구현 세부정보 문서가 포함되며 디렉토리 트리는 다음과 유사합니다:
@@ -634,6 +701,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
     ├── plan-template.md
     ├── spec-template.md
     └── tasks-template.md
+
 ```
 
 `research.md` 문서를 확인하여 지침에 따라 올바른 기술 스택이 사용되는지 확인하세요. 구성 요소가 눈에 띄는 경우 Claude Code에 이를 개선하도록 요청하거나 사용하려는 플랫폼/프레임워크의 로컬 설치 버전(예: .NET)을 확인하도록 할 수도 있습니다.
@@ -645,6 +713,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 있는 영역을 찾고 싶습니다. 추가 연구가 필요하다고 식별한 영역에 대해 이 Taskify 애플리케이션에서 사용할 특정 버전에
 대한 추가 세부정보로 연구 문서를 업데이트하고 웹에서 연구를 사용하여 세부정보를 명확하게 하기 위해 병렬 연구 작업을
 생성하기를 원합니다.
+
 ```
 
 이 프로세스 중에 Claude Code가 잘못된 것을 조사하는 데 막히는 것을 발견할 수 있습니다 - 다음과 같은 프롬프트로 올바른 방향으로 유도할 수 있습니다:
@@ -655,6 +724,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 최종 결과가 매우 구체적인 모든 작업을 병렬로 조사하는 것입니다. 내가 본 것은 .NET Aspire를 일반적으로 조사하는 것처럼
 보였고 이 경우에 많은 도움이 되지 않을 것 같습니다. 그것은 너무 타겟이 없는 연구입니다. 연구는 특정 타겟 질문을 해결하는
 데 도움이 되어야 합니다.
+
 ```
 
 >[!NOTE]
@@ -668,6 +738,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 이제 구현 계획 및 구현 세부정보 파일을 감사하기를 원합니다. 수행해야 하는 일련의 작업이 있는지 여부를 결정하는
 데 중점을 두고 읽어보세요. 여기에 충분한 것이 있는지 모르기 때문입니다. 예를 들어 핵심 구현을 볼 때 각 단계를
 안내할 때 정보를 찾을 수 있는 구현 세부정보의 적절한 위치를 핵심 구현 또는 개선에서 참조하는 것이 유용할 것입니다.
+
 ```
 
 이는 구현 계획을 개선하는 데 도움이 되며 Claude Code가 계획 주기에서 놓친 잠재적인 맹점을 피하는 데 도움이 됩니다. 초기 개선 패스가 완료되면 구현을 시작하기 전에 Claude Code에 체크리스트를 다시 한 번 확인하도록 요청하세요.
@@ -683,15 +754,21 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 
 ```text
 /spec-mix.tasks
+
 ```
 
 이 단계는 기능 명세 디렉토리에 다음을 포함하는 `tasks.md` 파일을 생성합니다:
 
 - **사용자 스토리별로 구성된 작업 분해** - 각 사용자 스토리는 자체 작업 세트가 있는 별도의 구현 단계가 됩니다
+
 - **종속성 관리** - 작업은 구성 요소 간 종속성을 존중하도록 순서가 지정됩니다(예: 서비스 전의 모델, 엔드포인트 전의 서비스)
+
 - **병렬 실행 마커** - 병렬로 실행할 수 있는 작업은 개발 워크플로우를 최적화하기 위해 `[P]`로 표시됩니다
+
 - **파일 경로 사양** - 각 작업에는 구현이 발생해야 하는 정확한 파일 경로가 포함됩니다
+
 - **테스트 주도 개발 구조** - 테스트가 요청되면 테스트 작업이 포함되고 구현 전에 작성되도록 순서가 지정됩니다
+
 - **체크포인트 검증** - 각 사용자 스토리 단계에는 독립적인 기능을 검증하기 위한 체크포인트가 포함됩니다
 
 생성된 tasks.md는 `/spec-mix.implement` 명령에 대한 명확한 로드맵을 제공하여 코드 품질을 유지하고 사용자 스토리의 점진적 전달을 허용하는 체계적인 구현을 보장합니다.
@@ -702,14 +779,19 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 
 ```text
 /spec-mix.implement
+
 ```
 
 `/spec-mix.implement` 명령은:
 
 - 모든 전제 조건이 준비되어 있는지 검증합니다(constitution, spec, plan 및 tasks)
+
 - `tasks.md`에서 작업 분해를 구문 분석합니다
+
 - 종속성 및 병렬 실행 마커를 존중하면서 올바른 순서로 작업을 실행합니다
+
 - 작업 계획에 정의된 TDD 접근 방식을 따릅니다
+
 - 진행 상황 업데이트를 제공하고 오류를 적절하게 처리합니다
 
 >[!IMPORTANT]
@@ -738,17 +820,21 @@ echo "Git이 GCM을 사용하도록 구성 중..."
 git config --global credential.helper manager
 echo "정리 중..."
 rm gcm-linux_amd64.2.6.1.deb
+
 ```
 
 ## 👥 메인테이너
 
 - Den Delimarsky ([@localden](https://github.com/localden))
+
 - John Lam ([@jflam](https://github.com/jflam))
 
 ## 💬 지원
 
 지원이 필요하면:
+
 - **핵심 Spec Kit 이슈**: 업스트림 저장소에서 [GitHub 이슈](https://github.com/github/spec-kit/issues/new)를 여세요
+
 - **다국어 또는 포크 관련 이슈**: 이 저장소에서 이슈를 여세요
 
 버그 보고서, 기능 요청 및 Spec-Driven Development 사용에 대한 질문을 환영합니다.
@@ -764,30 +850,49 @@ rm gcm-linux_amd64.2.6.1.deb
 ### 이 포크에 추가된 기능
 
 - **🌍 다국어 지원 (i18n)**: 완전한 국제화 인프라
+
   - 완전한 한국어 번역
+
   - 언어 관리 명령 (`spec-mix lang`)
+
   - 시스템 로케일 기반 자동 언어 감지
+
   - 더 많은 언어 추가를 위한 확장 가능한 아키텍처
 
 - **🎯 미션 시스템**: 도메인별 워크플로우 및 템플릿
+
   - 소프트웨어 개발 미션 (코드 품질, 테스팅, UX 중점)
+
   - 심층 연구 미션 (증거 기반 분석, 리서치 방법론)
+
   - 미션별 템플릿, 명령 및 검증 규칙
+
   - 다국어 미션 지원
+
   - 미션 관리 명령 (`spec-mix mission`)
 
 - **📊 웹 대시보드**: 시각적 모니터링 및 탐색
+
   - 작업 통계가 있는 실시간 기능 개요
+
   - 대화형 칸반 보드 (planned/doing/for_review/done)
+
   - 마크다운 렌더링이 있는 산출물 뷰어
+
   - 다중 워크트리 지원
+
   - 자동 새로고침 (2초 간격)
+
   - 다국어 UI (시스템 로케일에 적응)
 
 - **🔄 향상된 워크플로우**: 고급 작업 관리
+
   - 기능 격리를 위한 Git 워크트리 통합
+
   - 작업 레인 시스템 (칸반 스타일)
+
   - 검토, 수락 및 병합 명령
+
   - 프론트매터 메타데이터를 사용한 작업 패키지 (WPxx) 추적
 
 ### 업스트림 동기화
@@ -797,13 +902,17 @@ rm gcm-linux_amd64.2.6.1.deb
 ### 기여
 
 다음과 관련된 기여:
+
 - **핵심 Spec Kit 기능**: [업스트림 저장소](https://github.com/github/spec-kit)에 제출하세요
+
 - **다국어 지원 또는 포크별 기능**: 이 저장소에 제출하세요
 
 ### 업스트림 크레딧
 
 원본 프로젝트는 다음에 의해 유지 관리됩니다:
+
 - Den Delimarsky ([@localden](https://github.com/localden))
+
 - John Lam ([@jflam](https://github.com/jflam))
 
 ## 📄 라이선스
