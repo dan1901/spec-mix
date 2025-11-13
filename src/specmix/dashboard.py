@@ -85,7 +85,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             html = """<!DOCTYPE html>
 <html>
 <head>
-    <title>Spec Kit Dashboard</title>
+    <title>Spec Mix Dashboard</title>
     <meta charset="utf-8">
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; margin: 40px; }
@@ -93,7 +93,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
     </style>
 </head>
 <body>
-    <h1>Spec Kit Dashboard</h1>
+    <h1>Spec Mix Dashboard</h1>
     <p>Dashboard is running. Frontend files will be added next.</p>
 </body>
 </html>"""
@@ -153,7 +153,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
             # Get dashboard-specific strings
             strings = {
-                'title': locale_mgr.get('cli.dashboard.title', 'Spec Kit Dashboard'),
+                'title': locale_mgr.get('cli.dashboard.title', 'Spec Mix Dashboard'),
                 'features': locale_mgr.get('cli.dashboard.features', 'Features'),
                 'kanban': locale_mgr.get('cli.dashboard.kanban', 'Kanban Board'),
                 'artifacts': locale_mgr.get('cli.dashboard.artifacts', 'Artifacts'),
@@ -170,7 +170,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except:
             # Fallback to English if i18n not available
             self.send_json({
-                'title': 'Spec Kit Dashboard',
+                'title': 'Spec Mix Dashboard',
                 'features': 'Features',
                 'kanban': 'Kanban Board',
                 'artifacts': 'Artifacts',

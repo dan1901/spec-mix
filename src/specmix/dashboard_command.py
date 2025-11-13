@@ -14,7 +14,7 @@ console = Console()
 
 dashboard_app = typer.Typer(
     name="dashboard",
-    help="Start and manage the Spec Kit dashboard"
+    help="Start and manage the Spec Mix dashboard"
 )
 
 
@@ -88,7 +88,7 @@ def status():
 @dashboard_app.callback(invoke_without_command=True)
 def main(ctx: typer.Context):
     """
-    Manage the Spec Kit dashboard.
+    Manage the Spec Mix dashboard.
 
     If no subcommand is provided, starts the dashboard.
     """

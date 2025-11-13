@@ -23,7 +23,7 @@ async function loadI18n() {
         console.error('Failed to load i18n:', error);
         // Fallback to English
         i18n = {
-            title: 'Spec Kit Dashboard',
+            title: 'Spec Mix Dashboard',
             features: 'Features',
             kanban: 'Kanban Board',
             constitution: 'Constitution',
@@ -41,7 +41,7 @@ async function loadI18n() {
 
 // Apply i18n to UI
 function applyI18n() {
-    document.getElementById('page-title').textContent = i18n.title || 'Spec Kit Dashboard';
+    document.getElementById('page-title').textContent = i18n.title || 'Spec Mix Dashboard';
     document.getElementById('tab-features').querySelector('.tab-label').textContent = i18n.features || 'Features';
     document.getElementById('tab-constitution').querySelector('.tab-label').textContent = i18n.constitution || 'Constitution';
     document.getElementById('features-title').textContent = i18n.features || 'Features';
