@@ -45,7 +45,7 @@ Spec Mix adds three major enhancements:
 
 - [Spec Kit GitHub](https://github.com/github/spec-kit) - Original project
 - [Spec Mix GitHub](https://github.com/dan1901/spec-mix) - This fork
-- [Documentation Site](https://dan1901.github.io/spec-kit/) - Online docs
+- [Documentation Site](https://dan1901.github.io/spec-mix/) - Online docs
 
 ---
 

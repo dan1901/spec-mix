@@ -8,7 +8,7 @@ This guide shows how to iterate on the `spec-mix` CLI locally without publishing
 
 ```bash
 git clone https://github.com/dan1901/spec-mix.git
-cd spec-kit
+cd spec-mix
 # Work on a feature branch
 git checkout -b your-feature-branch
 ```
@@ -68,23 +68,23 @@ uvx --from git+https://github.com/dan1901/spec-mix.git@your-feature-branch spec-
 If you're in another directory, use an absolute path instead of `.`:
 
 ```bash
-uvx --from /mnt/c/GitHub/spec-kit spec-mix --help
-uvx --from /mnt/c/GitHub/spec-kit spec-mix init demo-anywhere --ai copilot --ignore-agent-tools --script sh
+uvx --from /path/to/spec-mix spec-mix --help
+uvx --from /path/to/spec-mix spec-mix init demo-anywhere --ai copilot --ignore-agent-tools --script sh
 ```
 
 Set an environment variable for convenience:
 
 ```bash
-export SPEC_KIT_SRC=/mnt/c/GitHub/spec-kit
-uvx --from "$SPEC_KIT_SRC" spec-mix init demo-env --ai copilot --ignore-agent-tools --script ps
+export SPEC_MIX_SRC=/path/to/spec-mix
+uvx --from "$SPEC_MIX_SRC" spec-mix init demo-env --ai copilot --ignore-agent-tools --script ps
 ```
 
 (Optional) Define a shell function:
 
 ```bash
-specify-dev() { uvx --from /mnt/c/GitHub/spec-kit spec-mix "$@"; }
+spec-mix-dev() { uvx --from /path/to/spec-mix spec-mix "$@"; }
 # Then
-specify-dev --help
+spec-mix-dev --help
 ```
 
 ## 5. Testing Script Permission Logic
@@ -146,7 +146,7 @@ spec-mix init demo --skip-tls --ai gemini --ignore-agent-tools --script ps
 | Run CLI directly | `python -m src.specmix --help` |
 | Editable install | `uv pip install -e .` then `spec-mix ...` |
 | Local uvx run (repo root) | `uvx --from . spec-mix ...` |
-| Local uvx run (abs path) | `uvx --from /mnt/c/GitHub/spec-kit spec-mix ...` |
+| Local uvx run (abs path) | `uvx --from /path/to/spec-mix spec-mix ...` |
 | Git branch uvx | `uvx --from git+URL@branch spec-mix ...` |
 | Build wheel | `uv build` |
 

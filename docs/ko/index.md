@@ -45,7 +45,7 @@ Spec Mix는 세 가지 주요 개선사항을 추가합니다:
 
 - [Spec Kit GitHub](https://github.com/github/spec-kit) - 원본 프로젝트
 - [Spec Mix GitHub](https://github.com/dan1901/spec-mix) - 이 포크
-- [문서 사이트](https://dan1901.github.io/spec-kit/) - 온라인 문서
+- [문서 사이트](https://dan1901.github.io/spec-mix/) - 온라인 문서
 
 ---
 

@@ -15,7 +15,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/dan1901/spec-mix"
-Documentation = "https://dan1901.github.io/spec-kit/"
+Documentation = "https://dan1901.github.io/spec-mix/"
 Repository = "https://github.com/dan1901/spec-mix"
 Issues = "https://github.com/dan1901/spec-mix/issues"
 

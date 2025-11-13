@@ -8,7 +8,7 @@
 
 ```bash
 git clone https://github.com/dan1901/spec-mix.git
-cd spec-kit
+cd spec-mix
 # 기능 브랜치에서 작업
 git checkout -b your-feature-branch
 ```
@@ -68,23 +68,23 @@ uvx --from git+https://github.com/dan1901/spec-mix.git@your-feature-branch spec-
 다른 디렉토리에 있는 경우 `.` 대신 절대 경로를 사용하세요:
 
 ```bash
-uvx --from /mnt/c/GitHub/spec-kit spec-mix --help
-uvx --from /mnt/c/GitHub/spec-kit spec-mix init demo-anywhere --ai copilot --ignore-agent-tools --script sh
+uvx --from /path/to/spec-mix spec-mix --help
+uvx --from /path/to/spec-mix spec-mix init demo-anywhere --ai copilot --ignore-agent-tools --script sh
 ```
 
 편의를 위해 환경 변수 설정:
 
 ```bash
-export SPEC_KIT_SRC=/mnt/c/GitHub/spec-kit
-uvx --from "$SPEC_KIT_SRC" spec-mix init demo-env --ai copilot --ignore-agent-tools --script ps
+export SPEC_MIX_SRC=/path/to/spec-mix
+uvx --from "$SPEC_MIX_SRC" spec-mix init demo-env --ai copilot --ignore-agent-tools --script ps
 ```
 
 (선택 사항) 셸 함수 정의:
 
 ```bash
-specify-dev() { uvx --from /mnt/c/GitHub/spec-kit spec-mix "$@"; }
+spec-mix-dev() { uvx --from /path/to/spec-mix spec-mix "$@"; }
 # 그런 다음
-specify-dev --help
+spec-mix-dev --help
 ```
 
 ## 5. 스크립트 권한 로직 테스트
@@ -146,7 +146,7 @@ spec-mix init demo --skip-tls --ai gemini --ignore-agent-tools --script ps
 | CLI 직접 실행 | `python -m src.specmix --help` |
 | 편집 가능한 설치 | `uv pip install -e .` 그런 다음 `spec-mix ...` |
 | 로컬 uvx 실행 (저장소 루트) | `uvx --from . spec-mix ...` |
-| 로컬 uvx 실행 (절대 경로) | `uvx --from /mnt/c/GitHub/spec-kit spec-mix ...` |
+| 로컬 uvx 실행 (절대 경로) | `uvx --from /path/to/spec-mix spec-mix ...` |
 | Git 브랜치 uvx | `uvx --from git+URL@branch spec-mix ...` |
 | 휠 빌드 | `uv build` |
 

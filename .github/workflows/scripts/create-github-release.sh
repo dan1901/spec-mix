@@ -16,33 +16,33 @@ VERSION="$1"
 VERSION_NO_V=${VERSION#v}
 
 gh release create "$VERSION" \
-  .genreleases/spec-kit-template-copilot-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-copilot-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-claude-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-claude-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-gemini-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-gemini-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-cursor-agent-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-cursor-agent-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-opencode-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-opencode-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-qwen-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-qwen-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-windsurf-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-windsurf-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-codex-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-codex-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-kilocode-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-kilocode-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-auggie-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-auggie-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-roo-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-roo-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-codebuddy-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-codebuddy-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-amp-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-amp-ps-"$VERSION".zip \
-  .genreleases/spec-kit-template-q-sh-"$VERSION".zip \
-  .genreleases/spec-kit-template-q-ps-"$VERSION".zip \
-  --title "Spec Kit Templates - $VERSION_NO_V" \
+  .genreleases/spec-mix-template-copilot-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-copilot-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-claude-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-claude-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-gemini-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-gemini-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-cursor-agent-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-cursor-agent-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-opencode-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-opencode-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-qwen-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-qwen-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-windsurf-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-windsurf-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-codex-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-codex-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-kilocode-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-kilocode-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-auggie-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-auggie-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-roo-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-roo-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-codebuddy-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-codebuddy-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-amp-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-amp-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-q-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-q-ps-"$VERSION".zip \
+  --title "Spec Mix Templates - $VERSION_NO_V" \
   --notes-file release_notes.md
