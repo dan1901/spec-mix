@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec Kit Dashboard</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌱 <span id="page-title">Spec Kit Dashboard</span></h1>
+            <div class="header-actions">
+                <button id="refresh-btn" class="btn btn-secondary">↻ Refresh</button>
+                <span id="last-update" class="last-update"></span>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="features" id="tab-features">
+                <span class="tab-label">Features</span>
+            </button>
+            <button class="tab" data-tab="constitution" id="tab-constitution">
+                <span class="tab-label">Constitution</span>
+            </button>
+        </nav>
+
+        <main id="main-content">
+            <!-- Features View -->
+            <div id="features-view" class="tab-content active">
+                <div class="features-header">
+                    <h2 id="features-title">Features</h2>
+                    <div class="features-stats" id="features-stats"></div>
+                </div>
+                <div id="features-list" class="features-list">
+                    <p class="loading">Loading features...</p>
+                </div>
+            </div>
+
+            <!-- Constitution View -->
+            <div id="constitution-view" class="tab-content">
+                <h2 id="constitution-title">Constitution</h2>
+                <div id="constitution-content" class="markdown-content">
+                    <p class="loading">Loading constitution...</p>
+                </div>
+            </div>
+
+            <!-- Kanban View (shown when feature clicked) -->
+            <div id="kanban-view" class="tab-content kanban-view" style="display: none;">
+                <div class="kanban-header">
+                    <button id="back-to-features" class="btn btn-secondary">← Back to Features</button>
+                    <h2 id="kanban-title">Kanban Board</h2>
+                </div>
+                <div id="kanban-board" class="kanban-board">
+                    <div class="lane" data-lane="planned">
+                        <h3 id="lane-planned">Planned</h3>
+                        <div class="lane-content" id="lane-planned-content"></div>
+                    </div>
+                    <div class="lane" data-lane="doing">
+                        <h3 id="lane-doing">Doing</h3>
+                        <div class="lane-content" id="lane-doing-content"></div>
+                    </div>
+                    <div class="lane" data-lane="for_review">
+                        <h3 id="lane-for-review">For Review</h3>
+                        <div class="lane-content" id="lane-for-review-content"></div>
+                    </div>
+                    <div class="lane" data-lane="done">
+                        <h3 id="lane-done">Done</h3>
+                        <div class="lane-content" id="lane-done-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artifact View (shown when artifact clicked) -->
+            <div id="artifact-view" class="tab-content" style="display: none;">
+                <div class="artifact-header">
+                    <button id="back-from-artifact" class="btn btn-secondary">← Back</button>
+                    <h2 id="artifact-title">Artifact</h2>
+                </div>
+                <div id="artifact-content" class="markdown-content">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Spec Kit Dashboard • Auto-refreshing every 2 seconds</p>
+        </footer>
+    </div>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

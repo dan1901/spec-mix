@@ -1,0 +1,18 @@
+{
+  "default_locale": "en",
+  "supported_locales": [
+    {
+      "code": "en",
+      "name": "English",
+      "native_name": "English",
+      "is_default": true
+    },
+    {
+      "code": "ko",
+      "name": "Korean",
+      "native_name": "한국어",
+      "is_default": false
+    }
+  ],
+  "fallback_locale": "en"
+}

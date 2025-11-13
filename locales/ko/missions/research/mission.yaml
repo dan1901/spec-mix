@@ -1,0 +1,78 @@
+name: "심층 연구"
+description: "심층적인 연구, 분석 및 지식 발견을 위한 미션"
+version: "1.0.0"
+domain: "research"
+
+# 디렉토리 경로 (미션 루트 기준 상대 경로)
+directories:
+  templates: "templates"
+  commands: "commands"
+  constitution: "constitution"
+
+# 워크플로우 설정
+workflow:
+  phases:
+    - name: "Research Question"
+      required: true
+      description: "연구 목표 및 질문 정의"
+    - name: "Literature Review"
+      required: true
+      description: "기존 지식 및 출처 검토"
+    - name: "Data Collection"
+      required: true
+      description: "증거 및 정보 수집"
+    - name: "Analysis"
+      required: true
+      description: "발견 사항 분석 및 인사이트 도출"
+    - name: "Documentation"
+      required: true
+      description: "발견 사항 및 결론 문서화"
+    - name: "Review"
+      required: true
+      description: "동료 검토 및 검증"
+
+# 예상 아티팩트
+artifacts:
+  required:
+    - research-question.md
+    - findings.md
+    - analysis.md
+  optional:
+    - literature-review.md
+    - data-sources.md
+    - methodology.md
+    - conclusions.md
+    - bibliography.md
+
+# 검증 체크리스트
+validation:
+  checks:
+    - verify_research_question
+    - check_evidence_quality
+    - validate_citations
+    - ensure_methodology_documented
+    - check_conclusion_support
+
+# 에이전트 성격 및 컨텍스트
+agent_context:
+  personality: "당신은 증거 기반 분석과 비판적 사고에 중점을 둔 철저한 연구 도우미입니다."
+  focus: "증거 품질, 출처 신뢰성, 논리적 추론, 포괄적 분석"
+  principles:
+    - "증거를 기반으로 결론 도출"
+    - "모든 출처를 적절히 인용"
+    - "다양한 관점 고려"
+    - "한계 및 불확실성 인정"
+    - "지적 정직성 유지"
+    - "방법론을 명확하게 문서화"
+
+# 명령어별 설정
+commands:
+  specify:
+    focus: "연구 질문 및 목표"
+    avoid: "조사 전 성급한 결론"
+  plan:
+    focus: "연구 방법론 및 접근법"
+    require: "명확한 데이터 수집 전략"
+  implement:
+    focus: "증거 수집 및 분석"
+    require: "모든 출처의 적절한 인용"

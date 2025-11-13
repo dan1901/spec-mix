@@ -15,6 +15,10 @@
     <a href="https://github.github.io/spec-kit/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
+> **📢 Fork Notice**: This is a fork of [github/spec-kit](https://github.com/github/spec-kit) with additional **Multi-Language Support (i18n)**. Includes full Korean translation and extensible architecture for community translations. See [Fork Information](#-fork-information) for details.
+
+**Language / 언어**: **English** | [한국어](README.ko.md)
+
 ---
 
 ## Table of Contents
@@ -23,6 +27,7 @@
 - [⚡ Get Started](#-get-started)
 - [📽️ Video Overview](#️-video-overview)
 - [🤖 Supported AI Agents](#-supported-ai-agents)
+- [🌍 Multi-Language Support](#-multi-language-support)
 - [🔧 Specify CLI Reference](#-specify-cli-reference)
 - [📚 Core Philosophy](#-core-philosophy)
 - [🌟 Development Phases](#-development-phases)
@@ -34,6 +39,7 @@
 - [👥 Maintainers](#-maintainers)
 - [💬 Support](#-support)
 - [🙏 Acknowledgements](#-acknowledgements)
+- [🔀 Fork Information](#-fork-information)
 - [📄 License](#-license)
 
 ## 🤔 What is Spec-Driven Development?
@@ -51,7 +57,7 @@ Choose your preferred installation method:
 Install once and use everywhere:
 
 ```bash
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+uv tool install specify-cli --from git+https://github.com/dan1901/spec-kit.git
 ```
 
 Then use the tool directly:
@@ -64,7 +70,7 @@ specify check
 To upgrade specify run:
 
 ```bash
-uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
+uv tool install specify-cli --force --from git+https://github.com/dan1901/spec-kit.git
 ```
 
 #### Option 2: One-time Usage
@@ -72,7 +78,7 @@ uv tool install specify-cli --force --from git+https://github.com/github/spec-ki
 Run directly without installing:
 
 ```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
+uvx --from git+https://github.com/dan1901/spec-kit.git specify init <PROJECT_NAME>
 ```
 
 **Benefits of persistent installation:**
@@ -151,6 +157,114 @@ Want to see Spec Kit in action? Watch our [video overview](https://www.youtube.c
 | [Amazon Q Developer CLI](https://aws.amazon.com/developer/learning/q-developer-cli/) | ⚠️ | Amazon Q Developer CLI [does not support](https://github.com/aws/amazon-q-developer-cli/issues/3064) custom arguments for slash commands. |
 | [Amp](https://ampcode.com/) | ✅ | |
 
+## 🌍 Multi-Language Support
+
+Spec Kit supports multiple languages for commands, templates, and CLI interfaces, making it accessible to developers worldwide.
+
+### Supported Languages
+
+| Language | Code | Status | Coverage |
+|----------|------|--------|----------|
+| English  | `en` | ✅ Default | 100% (CLI + Commands + Templates) |
+| Korean   | `ko` | ✅ Available | 100% (CLI + Commands + Templates) |
+
+### Using Spec Kit in Your Language
+
+Spec Kit automatically detects your system language. To use a specific language:
+
+#### Quick Start
+
+```bash
+# Set language via environment variable (permanent)
+export SPECIFY_LANG=ko
+
+# Or use per-session
+SPECIFY_LANG=ko specify init my-project
+```
+
+#### Language Management Commands
+
+```bash
+# List available languages
+specify lang list
+
+# Show current language
+specify lang current
+
+# Set default language
+specify lang set ko
+```
+
+#### Mission Management Commands
+
+```bash
+# List available missions
+specify mission list
+
+# Show current mission info
+specify mission current
+
+# Switch mission
+specify mission switch research
+
+# View mission details
+specify mission info software-dev
+```
+
+#### Dashboard Commands
+
+```bash
+# Start dashboard (opens in browser)
+specify dashboard
+
+# Start on specific port
+specify dashboard start --port 9000
+
+# Check dashboard status
+specify dashboard status
+
+# Stop dashboard
+specify dashboard stop
+```
+
+### What Gets Translated
+
+When you use Spec Kit in your preferred language, the following are translated:
+
+- **CLI Messages**: All prompts, errors, success messages, and help text
+- **Command Instructions**: All `/speckit.*` slash command workflows
+  - `/speckit.specify`, `/speckit.plan`, `/speckit.tasks`, etc.
+- **Templates**: Specification, implementation plan, and task breakdown templates
+- **Documentation**: Inline comments and guidance within generated files
+
+### Example: Korean Workflow
+
+```bash
+# Set Korean language
+export SPECIFY_LANG=ko
+
+# Initialize project (all prompts in Korean)
+specify init my-project --ai claude
+
+# Use slash commands in Korean
+/speckit.constitution  # 프로젝트 원칙 수립
+/speckit.specify       # 기능 사양 생성
+/speckit.plan          # 구현 계획 생성
+/speckit.tasks         # 작업 분석 생성
+/speckit.implement     # 구현 실행
+```
+
+### Contributing Translations
+
+Want to add support for your language? We welcome community translations! See our [Internationalization Guide](docs/i18n.md) for:
+
+- Setting up a new language
+- Translation guidelines and best practices
+- Testing your translations
+- Submitting contributions
+
+For detailed documentation, see **[docs/i18n.md](docs/i18n.md)**.
+
 ## 🔧 Specify CLI Reference
 
 The `specify` command supports the following options:
@@ -161,6 +275,7 @@ The `specify` command supports the following options:
 |-------------|----------------------------------------------------------------|
 | `init`      | Initialize a new Specify project from the latest template      |
 | `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `windsurf`, `qwen`, `opencode`, `codex`) |
+| `lang`      | Manage language packs (`list`, `current`, `set`, `install`)    |
 
 ### `specify init` Arguments & Options
 
@@ -169,6 +284,8 @@ The `specify` command supports the following options:
 | `<project-name>`       | Argument | Name for your new project directory (optional if using `--here`, or use `.` for current directory) |
 | `--ai`                 | Option   | AI assistant to use: `claude`, `gemini`, `copilot`, `cursor-agent`, `qwen`, `opencode`, `codex`, `windsurf`, `kilocode`, `auggie`, `roo`, `codebuddy`, `amp`, or `q` |
 | `--script`             | Option   | Script variant to use: `sh` (bash/zsh) or `ps` (PowerShell)                 |
+| `--lang`               | Option   | Language to use: `en`, `ko` (default: `en`)                                 |
+| `--mission`            | Option   | Mission to use: `software-dev`, `research` (default: `software-dev`)        |
 | `--ignore-agent-tools` | Flag     | Skip checks for AI agent tools like Claude Code                             |
 | `--no-git`             | Flag     | Skip git repository initialization                                          |
 | `--here`               | Flag     | Initialize project in the current directory instead of creating a new one   |
@@ -194,6 +311,18 @@ specify init my-project --ai windsurf
 
 # Initialize with Amp support
 specify init my-project --ai amp
+
+# Initialize with Korean language
+specify init my-project --ai claude --lang ko
+
+# Initialize with research mission
+specify init my-project --ai claude --mission research
+
+# Initialize with both language and mission
+specify init my-project --ai claude --lang ko --mission research
+
+# Interactive selection (will prompt for language and mission if not specified)
+specify init my-project --ai claude
 
 # Initialize with PowerShell scripts (Windows/cross-platform)
 specify init my-project --ai copilot --script ps
@@ -236,6 +365,17 @@ Essential commands for the Spec-Driven Development workflow:
 | `/speckit.plan`          | Create technical implementation plans with your chosen tech stack     |
 | `/speckit.tasks`         | Generate actionable task lists for implementation                     |
 | `/speckit.implement`     | Execute all tasks to build the feature according to the plan         |
+
+#### Workflow Management Commands
+
+Commands for managing feature development with worktrees and task lanes:
+
+| Command              | Description                                                           |
+|----------------------|-----------------------------------------------------------------------|
+| `/speckit.dashboard` | Launch web dashboard to visualize features, kanban boards, and artifacts |
+| `/speckit.review`    | Review completed work in the `for_review` lane and move approved tasks to `done` |
+| `/speckit.accept`    | Verify feature readiness with comprehensive checks before merging     |
+| `/speckit.merge`     | Merge feature branch to main with cleanup options (supports multiple strategies) |
 
 #### Optional Commands
 
@@ -622,11 +762,64 @@ rm gcm-linux_amd64.2.6.1.deb
 
 ## 💬 Support
 
-For support, please open a [GitHub issue](https://github.com/github/spec-kit/issues/new). We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
+For support:
+- **Core Spec Kit issues**: Open a [GitHub issue](https://github.com/github/spec-kit/issues/new) in the upstream repository
+- **Multi-language or fork-specific issues**: Open an issue in this repository
+
+We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
 
 ## 🙏 Acknowledgements
 
 This project is heavily influenced by and based on the work and research of [John Lam](https://github.com/jflam).
+
+## 🔀 Fork Information
+
+This is a fork of the original [github/spec-kit](https://github.com/github/spec-kit) project, maintained for personal and team use with additional features:
+
+### Added Features in This Fork
+
+- **🌍 Multi-Language Support (i18n)**: Complete internationalization infrastructure
+  - Full Korean (한국어) translation
+  - Language management commands (`specify lang`)
+  - Automatic language detection based on system locale
+  - Extensible architecture for adding more languages
+
+- **🎯 Mission System**: Domain-specific workflows and templates
+  - Software Development mission (코드 품질, 테스팅, UX 중점)
+  - Deep Research mission (증거 기반 분석, 리서치 방법론)
+  - Mission-specific templates, commands, and validation rules
+  - Multilingual mission support
+  - Mission management commands (`specify mission`)
+
+- **📊 Web Dashboard**: Visual monitoring and navigation
+  - Real-time feature overview with task statistics
+  - Interactive kanban boards (planned/doing/for_review/done)
+  - Artifact viewer with markdown rendering
+  - Multi-worktree support
+  - Auto-refresh (2s intervals)
+  - Multilingual UI (adapts to system locale)
+
+- **🔄 Enhanced Workflow**: Advanced task management
+  - Git worktree integration for feature isolation
+  - Task lane system (Kanban-style)
+  - Review, acceptance, and merge commands
+  - Work package (WPxx) tracking with frontmatter metadata
+
+### Upstream Synchronization
+
+This fork aims to stay synchronized with the upstream repository while maintaining additional features. If you want the original version without these modifications, please visit the [upstream repository](https://github.com/github/spec-kit).
+
+### Contributing
+
+For contributions related to:
+- **Core Spec Kit features**: Please submit to the [upstream repository](https://github.com/github/spec-kit)
+- **Multi-language support or fork-specific features**: Submit to this repository
+
+### Upstream Credits
+
+Original project maintained by:
+- Den Delimarsky ([@localden](https://github.com/localden))
+- John Lam ([@jflam](https://github.com/jflam))
 
 ## 📄 License
 

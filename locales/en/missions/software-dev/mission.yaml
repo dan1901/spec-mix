@@ -1,0 +1,83 @@
+name: "Software Development"
+description: "Mission for building software applications with focus on code quality, testing, and user experience"
+version: "1.0.0"
+domain: "software"
+
+# Directory paths (relative to mission root)
+directories:
+  templates: "templates"
+  commands: "commands"
+  constitution: "constitution"
+
+# Workflow configuration
+workflow:
+  phases:
+    - name: "Research"
+      required: false
+      description: "Optional research and discovery phase"
+    - name: "Specification"
+      required: true
+      description: "Define what needs to be built"
+    - name: "Planning"
+      required: true
+      description: "Create technical implementation plan"
+    - name: "Task Breakdown"
+      required: true
+      description: "Break down into actionable tasks"
+    - name: "Implementation"
+      required: true
+      description: "Build the feature"
+    - name: "Review"
+      required: true
+      description: "Review completed work"
+    - name: "Acceptance"
+      required: true
+      description: "Final acceptance check"
+    - name: "Merge"
+      required: true
+      description: "Integrate to main branch"
+
+# Expected artifacts
+artifacts:
+  required:
+    - spec.md
+    - plan.md
+    - tasks.md
+  optional:
+    - research.md
+    - data-model.md
+    - checklist.md
+    - acceptance.md
+
+# Validation checks
+validation:
+  checks:
+    - check_spec_completeness
+    - check_plan_completeness
+    - verify_task_breakdown
+    - validate_acceptance_criteria
+    - check_test_coverage
+
+# Agent personality and context
+agent_context:
+  personality: "You are a helpful software development assistant focused on building high-quality applications."
+  focus: "code quality, testing standards, user experience consistency, and performance requirements"
+  principles:
+    - "Write clean, maintainable code"
+    - "Include comprehensive tests"
+    - "Document code and decisions"
+    - "Follow established patterns and conventions"
+    - "Consider edge cases and error handling"
+    - "Optimize for readability first, performance second"
+
+# Command-specific configuration
+commands:
+  specify:
+    focus: "user requirements and product scenarios"
+    avoid: "technical implementation details"
+  plan:
+    focus: "architecture, tech stack, and implementation approach"
+    require: "clear justification for technical choices"
+  implement:
+    focus: "code quality and test coverage"
+    require: "working tests for new functionality"

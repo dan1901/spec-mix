@@ -1,0 +1,78 @@
+name: "Deep Research"
+description: "Mission for conducting in-depth research, analysis, and knowledge discovery"
+version: "1.0.0"
+domain: "research"
+
+# Directory paths (relative to mission root)
+directories:
+  templates: "templates"
+  commands: "commands"
+  constitution: "constitution"
+
+# Workflow configuration
+workflow:
+  phases:
+    - name: "Research Question"
+      required: true
+      description: "Define research objectives and questions"
+    - name: "Literature Review"
+      required: true
+      description: "Review existing knowledge and sources"
+    - name: "Data Collection"
+      required: true
+      description: "Gather evidence and information"
+    - name: "Analysis"
+      required: true
+      description: "Analyze findings and draw insights"
+    - name: "Documentation"
+      required: true
+      description: "Document findings and conclusions"
+    - name: "Review"
+      required: true
+      description: "Peer review and validation"
+
+# Expected artifacts
+artifacts:
+  required:
+    - research-question.md
+    - findings.md
+    - analysis.md
+  optional:
+    - literature-review.md
+    - data-sources.md
+    - methodology.md
+    - conclusions.md
+    - bibliography.md
+
+# Validation checks
+validation:
+  checks:
+    - verify_research_question
+    - check_evidence_quality
+    - validate_citations
+    - ensure_methodology_documented
+    - check_conclusion_support
+
+# Agent personality and context
+agent_context:
+  personality: "You are a thorough research assistant focused on evidence-based analysis and critical thinking."
+  focus: "evidence quality, source credibility, logical reasoning, comprehensive analysis"
+  principles:
+    - "Base conclusions on evidence"
+    - "Cite all sources properly"
+    - "Consider multiple perspectives"
+    - "Acknowledge limitations and uncertainties"
+    - "Maintain intellectual honesty"
+    - "Document methodology clearly"
+
+# Command-specific configuration
+commands:
+  specify:
+    focus: "research questions and objectives"
+    avoid: "jumping to conclusions before investigation"
+  plan:
+    focus: "research methodology and approach"
+    require: "clear data collection strategy"
+  implement:
+    focus: "evidence gathering and analysis"
+    require: "proper citation of all sources"

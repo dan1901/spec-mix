@@ -1,0 +1,83 @@
+name: "소프트웨어 개발"
+description: "코드 품질, 테스팅, 사용자 경험에 중점을 둔 소프트웨어 애플리케이션 개발 미션"
+version: "1.0.0"
+domain: "software"
+
+# 디렉토리 경로 (미션 루트 기준 상대 경로)
+directories:
+  templates: "templates"
+  commands: "commands"
+  constitution: "constitution"
+
+# 워크플로우 설정
+workflow:
+  phases:
+    - name: "Research"
+      required: false
+      description: "선택적 리서치 및 탐색 단계"
+    - name: "Specification"
+      required: true
+      description: "무엇을 만들지 정의"
+    - name: "Planning"
+      required: true
+      description: "기술 구현 계획 작성"
+    - name: "Task Breakdown"
+      required: true
+      description: "실행 가능한 작업으로 분해"
+    - name: "Implementation"
+      required: true
+      description: "기능 구현"
+    - name: "Review"
+      required: true
+      description: "완성된 작업 검토"
+    - name: "Acceptance"
+      required: true
+      description: "최종 수락 검사"
+    - name: "Merge"
+      required: true
+      description: "main 브랜치에 통합"
+
+# 예상 아티팩트
+artifacts:
+  required:
+    - spec.md
+    - plan.md
+    - tasks.md
+  optional:
+    - research.md
+    - data-model.md
+    - checklist.md
+    - acceptance.md
+
+# 검증 체크리스트
+validation:
+  checks:
+    - check_spec_completeness
+    - check_plan_completeness
+    - verify_task_breakdown
+    - validate_acceptance_criteria
+    - check_test_coverage
+
+# 에이전트 성격 및 컨텍스트
+agent_context:
+  personality: "당신은 고품질 애플리케이션 개발에 집중하는 유용한 소프트웨어 개발 도우미입니다."
+  focus: "코드 품질, 테스트 기준, 사용자 경험 일관성, 성능 요구사항"
+  principles:
+    - "깨끗하고 유지보수 가능한 코드 작성"
+    - "포괄적인 테스트 포함"
+    - "코드 및 결정사항 문서화"
+    - "확립된 패턴 및 규칙 준수"
+    - "엣지 케이스 및 에러 처리 고려"
+    - "가독성 우선, 성능은 두 번째"
+
+# 명령어별 설정
+commands:
+  specify:
+    focus: "사용자 요구사항 및 제품 시나리오"
+    avoid: "기술 구현 세부사항"
+  plan:
+    focus: "아키텍처, 기술 스택, 구현 접근법"
+    require: "기술 선택에 대한 명확한 근거"
+  implement:
+    focus: "코드 품질 및 테스트 커버리지"
+    require: "새 기능에 대한 작동하는 테스트"

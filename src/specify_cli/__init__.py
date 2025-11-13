@@ -52,6 +52,34 @@ import readchar
 import ssl
 import truststore
 
+# Import i18n support
+try:
+    from .i18n import init_i18n, get_locale_manager, t
+    from .lang_command import lang_app
+    HAS_I18N = True
+except ImportError:
+    HAS_I18N = False
+    # Fallback if i18n modules not available
+    def t(key, **kwargs):
+        return key
+    lang_app = None
+
+# Import mission support
+try:
+    from .mission_command import mission_app
+    HAS_MISSION = True
+except ImportError:
+    HAS_MISSION = False
+    mission_app = None
+
+# Import dashboard support
+try:
+    from .dashboard_command import dashboard_app
+    HAS_DASHBOARD = True
+except ImportError:
+    HAS_DASHBOARD = False
+    dashboard_app = None
+
 ssl_context = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 client = httpx.Client(verify=ssl_context)
 
@@ -364,6 +392,18 @@ app = typer.Typer(
     invoke_without_command=True,
     cls=BannerGroup,
 )
+
+# Add lang subcommand if available
+if HAS_I18N and lang_app is not None:
+    app.add_typer(lang_app, name="lang")
+
+# Add mission subcommand if available
+if HAS_MISSION and mission_app is not None:
+    app.add_typer(mission_app, name="mission")
+
+# Add dashboard subcommand if available
+if HAS_DASHBOARD and dashboard_app is not None:
+    app.add_typer(dashboard_app, name="dashboard")
 
 def show_banner():
     """Display the ASCII art banner."""
@@ -867,6 +907,8 @@ def init(
     project_name: str = typer.Argument(None, help="Name for your new project directory (optional if using --here, or use '.' for current directory)"),
     ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, gemini, copilot, cursor-agent, qwen, opencode, codex, windsurf, kilocode, auggie, codebuddy, amp, or q"),
     script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps"),
+    language: str = typer.Option(None, "--lang", help="Language to use: en, ko (default: en)"),
+    mission: str = typer.Option(None, "--mission", help="Mission to use: software-dev, research (default: software-dev)"),
     ignore_agent_tools: bool = typer.Option(False, "--ignore-agent-tools", help="Skip checks for AI agent tools like Claude Code"),
     no_git: bool = typer.Option(False, "--no-git", help="Skip git repository initialization"),
     here: bool = typer.Option(False, "--here", help="Initialize project in the current directory instead of creating a new one"),
@@ -1008,8 +1050,36 @@ def init(
         else:
             selected_script = default_script
 
+    # Language selection
+    AVAILABLE_LANGUAGES = {"en": "English", "ko": "한국어 (Korean)"}
+    if language:
+        if language not in AVAILABLE_LANGUAGES:
+            console.print(f"[red]Error:[/red] Invalid language '{language}'. Choose from: {', '.join(AVAILABLE_LANGUAGES.keys())}")
+            raise typer.Exit(1)
+        selected_lang = language
+    else:
+        if sys.stdin.isatty():
+            selected_lang = select_with_arrows(AVAILABLE_LANGUAGES, "Choose language:", "en")
+        else:
+            selected_lang = "en"
+
+    # Mission selection
+    AVAILABLE_MISSIONS = {"software-dev": "Software Development", "research": "Deep Research"}
+    if mission:
+        if mission not in AVAILABLE_MISSIONS:
+            console.print(f"[red]Error:[/red] Invalid mission '{mission}'. Choose from: {', '.join(AVAILABLE_MISSIONS.keys())}")
+            raise typer.Exit(1)
+        selected_mission = mission
+    else:
+        if sys.stdin.isatty():
+            selected_mission = select_with_arrows(AVAILABLE_MISSIONS, "Choose mission:", "software-dev")
+        else:
+            selected_mission = "software-dev"
+
     console.print(f"[cyan]Selected AI assistant:[/cyan] {selected_ai}")
     console.print(f"[cyan]Selected script type:[/cyan] {selected_script}")
+    console.print(f"[cyan]Selected language:[/cyan] {AVAILABLE_LANGUAGES[selected_lang]}")
+    console.print(f"[cyan]Selected mission:[/cyan] {AVAILABLE_MISSIONS[selected_mission]}")
 
     tracker = StepTracker("Initialize Specify Project")
 
@@ -1084,6 +1154,39 @@ def init(
             pass
 
     console.print(tracker.render())
+
+    # Save project configuration
+    try:
+        specify_dir = project_path / '.specify'
+        specify_dir.mkdir(exist_ok=True)
+
+        config_data = {
+            'language': selected_lang,
+            'mission': selected_mission,
+            'ai_assistant': selected_ai,
+            'script_type': selected_script
+        }
+
+        config_file = specify_dir / 'config.json'
+        with open(config_file, 'w', encoding='utf-8') as f:
+            json.dump(config_data, f, indent=2, ensure_ascii=False)
+
+        # Set active mission
+        if HAS_MISSION:
+            from .mission import MissionManager
+            try:
+                manager = MissionManager(locale=selected_lang)
+                manager.set_active_mission(selected_mission)
+            except Exception as e:
+                console.print(f"[yellow]Warning: Could not set active mission: {e}[/yellow]")
+
+        # Initialize i18n with selected language
+        if HAS_I18N:
+            os.environ['SPECIFY_LANG'] = selected_lang
+
+    except Exception as e:
+        console.print(f"[yellow]Warning: Could not save project config: {e}[/yellow]")
+
     console.print("\n[bold green]Project ready.[/bold green]")
     
     # Show git error details if initialization failed
