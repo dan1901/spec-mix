@@ -72,17 +72,26 @@ function setupEventListeners() {
 
     // Back buttons
     document.getElementById('back-to-features').addEventListener('click', () => {
-        showView('features-view');
-        currentFeature = null;
+        window.history.back();
     });
 
     document.getElementById('back-from-artifact').addEventListener('click', () => {
-        if (currentFeature) {
-            showKanban(currentFeature);
-        } else {
-            showView('features-view');
+        window.history.back();
+    });
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', (event) => {
+        if (event.state) {
+            if (event.state.view === 'features') {
+                showView('features-view');
+                currentFeature = null;
+                currentArtifact = null;
+            } else if (event.state.view === 'kanban') {
+                showKanban(event.state.featureId, false);
+            } else if (event.state.view === 'artifact') {
+                showArtifact(event.state.featureId, event.state.artifactName, false);
+            }
         }
-        currentArtifact = null;
     });
 }
 
@@ -96,9 +105,11 @@ function switchTab(tabName) {
     if (tabName === 'features') {
         showView('features-view');
         loadFeatures();
+        window.history.pushState({ view: 'features' }, '', '#features');
     } else if (tabName === 'constitution') {
         showView('constitution-view');
         loadConstitution();
+        window.history.pushState({ view: 'constitution' }, '', '#constitution');
     }
 }
 
@@ -203,9 +214,18 @@ function renderFeatureCard(feature) {
 }
 
 // Show kanban board for feature
-async function showKanban(featureId) {
+async function showKanban(featureId, pushState = true) {
     currentFeature = featureId;
     showView('kanban-view');
+
+    // Add to browser history
+    if (pushState) {
+        window.history.pushState(
+            { view: 'kanban', featureId: featureId },
+            '',
+            `#kanban/${featureId}`
+        );
+    }
 
     document.getElementById('kanban-title').textContent = `${i18n.kanban || 'Kanban Board'}: ${featureId}`;
 
@@ -242,10 +262,19 @@ async function showKanban(featureId) {
 }
 
 // Show artifact
-async function showArtifact(featureId, artifactName) {
+async function showArtifact(featureId, artifactName, pushState = true) {
     currentFeature = featureId;
     currentArtifact = artifactName;
     showView('artifact-view');
+
+    // Add to browser history
+    if (pushState) {
+        window.history.pushState(
+            { view: 'artifact', featureId: featureId, artifactName: artifactName },
+            '',
+            `#artifact/${featureId}/${artifactName}`
+        );
+    }
 
     document.getElementById('artifact-title').textContent = `${featureId} / ${artifactName}`;
     document.getElementById('artifact-content').innerHTML = '<p class="loading">Loading...</p>';

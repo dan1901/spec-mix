@@ -301,28 +301,100 @@ def get_feature_info(feature_path: Path, worktree: Optional[str] = None) -> Opti
         for artifact in artifacts:
             info['artifacts'][artifact.replace('.md', '')] = (feature_path / artifact).exists()
 
-        # Check for kanban directory
+        # Check for kanban (either directory or tasks.md file)
         tasks_dir = feature_path / 'tasks'
-        info['artifacts']['kanban'] = tasks_dir.exists()
+        tasks_file = feature_path / 'tasks.md'
+        info['artifacts']['kanban'] = tasks_dir.exists() or tasks_file.exists()
 
         # Count tasks by lane
-        if tasks_dir.exists():
+        kanban_stats = {'planned': 0, 'doing': 0, 'for_review': 0, 'done': 0}
+
+        if tasks_dir.exists() and tasks_dir.is_dir():
+            # Directory-based kanban
+            has_lane_dirs = any((tasks_dir / lane).exists() for lane in ['planned', 'doing', 'for_review', 'done'])
+            if has_lane_dirs:
+                kanban_stats = {
+                    'planned': len(list((tasks_dir / 'planned').glob('*.md'))) if (tasks_dir / 'planned').exists() else 0,
+                    'doing': len(list((tasks_dir / 'doing').glob('*.md'))) if (tasks_dir / 'doing').exists() else 0,
+                    'for_review': len(list((tasks_dir / 'for_review').glob('*.md'))) if (tasks_dir / 'for_review').exists() else 0,
+                    'done': len(list((tasks_dir / 'done').glob('*.md'))) if (tasks_dir / 'done').exists() else 0
+                }
+        elif tasks_file.exists():
+            # Single tasks.md file - parse it to count tasks
+            kanban_data = parse_tasks_markdown(tasks_file)
             kanban_stats = {
-                'planned': len(list((tasks_dir / 'planned').glob('*.md'))) if (tasks_dir / 'planned').exists() else 0,
-                'doing': len(list((tasks_dir / 'doing').glob('*.md'))) if (tasks_dir / 'doing').exists() else 0,
-                'for_review': len(list((tasks_dir / 'for_review').glob('*.md'))) if (tasks_dir / 'for_review').exists() else 0,
-                'done': len(list((tasks_dir / 'done').glob('*.md'))) if (tasks_dir / 'done').exists() else 0
+                'planned': len(kanban_data['lanes']['planned']),
+                'doing': len(kanban_data['lanes']['doing']),
+                'for_review': len(kanban_data['lanes']['for_review']),
+                'done': len(kanban_data['lanes']['done'])
             }
-            info['kanban_stats'] = kanban_stats
-            info['total_tasks'] = sum(kanban_stats.values())
-        else:
-            info['kanban_stats'] = {}
-            info['total_tasks'] = 0
+
+        info['kanban_stats'] = kanban_stats
+        info['total_tasks'] = sum(kanban_stats.values())
 
         return info
     except Exception as e:
         print(f"Error reading feature {feature_path}: {e}")
         return None
+
+
+def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
+    """
+    Parse a single tasks.md file and extract tasks.
+
+    Tasks are identified by checkbox lines: - [ ] or - [x]
+    For now, we categorize:
+    - Uncompleted tasks (- [ ]) -> 'planned'
+    - Completed tasks (- [x]) -> 'done'
+
+    Future enhancement: Parse task descriptions to identify lane markers or status
+    """
+    import re
+
+    lanes = {
+        'planned': [],
+        'doing': [],
+        'for_review': [],
+        'done': []
+    }
+
+    try:
+        with open(tasks_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Match task lines: - [ ] T001 Description or - [x] T001 Description
+        task_pattern = re.compile(r'^- \[([ xX])\] (T\d+.*?)$', re.MULTILINE)
+
+        for match in task_pattern.finditer(content):
+            is_completed = match.group(1).lower() == 'x'
+            task_text = match.group(2).strip()
+
+            # Extract task ID and title
+            # Format examples:
+            # - T001 Create project structure
+            # - T002 [P] [US1] Implement feature
+            parts = task_text.split(' ', 1)
+            task_id = parts[0] if parts else task_text
+            task_title = parts[1] if len(parts) > 1 else task_text
+
+            task_info = {
+                'id': task_id,
+                'title': task_title,
+                'path': str(tasks_file)
+            }
+
+            # Categorize by completion status
+            if is_completed:
+                lanes['done'].append(task_info)
+            else:
+                # Future: Parse task description for lane indicators
+                # For now, all uncompleted tasks go to 'planned'
+                lanes['planned'].append(task_info)
+
+    except Exception as e:
+        print(f"Error parsing tasks file {tasks_file}: {e}")
+
+    return {'lanes': lanes}
 
 
 def scan_feature_kanban(feature_id: str) -> Dict[str, Any]:
@@ -346,37 +418,48 @@ def scan_feature_kanban(feature_id: str) -> Dict[str, Any]:
     if not feature_path:
         return {'error': 'Feature not found', 'lanes': {}}
 
+    # First try: Check for directory-based kanban structure (tasks/{lane}/*.md)
     tasks_dir = feature_path / 'tasks'
-    if not tasks_dir.exists():
-        return {'lanes': {'planned': [], 'doing': [], 'for_review': [], 'done': []}}
+    if tasks_dir.exists() and tasks_dir.is_dir():
+        # Check if it contains lane subdirectories
+        has_lane_dirs = any((tasks_dir / lane).exists() for lane in ['planned', 'doing', 'for_review', 'done'])
 
-    lanes = {}
-    for lane in ['planned', 'doing', 'for_review', 'done']:
-        lane_dir = tasks_dir / lane
-        lanes[lane] = []
+        if has_lane_dirs:
+            lanes = {}
+            for lane in ['planned', 'doing', 'for_review', 'done']:
+                lane_dir = tasks_dir / lane
+                lanes[lane] = []
 
-        if lane_dir.exists():
-            for task_file in sorted(lane_dir.glob('*.md')):
-                task_info = {
-                    'id': task_file.stem,
-                    'title': task_file.stem,
-                    'path': str(task_file)
-                }
+                if lane_dir.exists():
+                    for task_file in sorted(lane_dir.glob('*.md')):
+                        task_info = {
+                            'id': task_file.stem,
+                            'title': task_file.stem,
+                            'path': str(task_file)
+                        }
 
-                # Try to extract title from file
-                try:
-                    with open(task_file, 'r', encoding='utf-8') as f:
-                        lines = f.readlines()
-                        for line in lines:
-                            if line.startswith('# '):
-                                task_info['title'] = line.strip('# \n')
-                                break
-                except:
-                    pass
+                        # Try to extract title from file
+                        try:
+                            with open(task_file, 'r', encoding='utf-8') as f:
+                                lines = f.readlines()
+                                for line in lines:
+                                    if line.startswith('# '):
+                                        task_info['title'] = line.strip('# \n')
+                                        break
+                        except:
+                            pass
 
-                lanes[lane].append(task_info)
+                        lanes[lane].append(task_info)
 
-    return {'lanes': lanes}
+            return {'lanes': lanes}
+
+    # Second try: Parse single tasks.md file
+    tasks_file = feature_path / 'tasks.md'
+    if tasks_file.exists():
+        return parse_tasks_markdown(tasks_file)
+
+    # No tasks found
+    return {'lanes': {'planned': [], 'doing': [], 'for_review': [], 'done': []}}
 
 
 def get_artifact_content(feature_id: str, artifact_name: str) -> Optional[str]:
