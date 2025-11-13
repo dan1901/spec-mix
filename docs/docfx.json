@@ -38,9 +38,8 @@
       },
       {
         "files": [
-          "../media/**"
-        ],
-        "dest": "media"
+          "media/**"
+        ]
       }
     ],
     "overwrite": [
