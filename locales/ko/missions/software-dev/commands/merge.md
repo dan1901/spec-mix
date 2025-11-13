@@ -20,7 +20,7 @@ $ARGUMENTS
 ## 전제조건
 
 이 명령을 실행하기 전에:
-1. ✅ 기능이 수락되어야 함 (먼저 `/speckit.accept` 실행)
+1. ✅ 기능이 수락되어야 함 (먼저 `/spec-mix.accept` 실행)
 2. ✅ 모든 작업이 `done/` 레인에 있어야 함
 3. ✅ 모든 테스트가 통과해야 함
 4. ✅ 작업 디렉토리가 깨끗해야 함 (커밋되지 않은 변경사항 없음)
@@ -29,19 +29,19 @@ $ARGUMENTS
 
 ### 표준 병합 (기본값)
 ```bash
-/speckit.merge
+/spec-mix.merge
 ```
 전체 기능 히스토리를 보존하는 병합 커밋을 생성합니다.
 
 ### 스쿼시 병합
 ```bash
-/speckit.merge --strategy squash
+/spec-mix.merge --strategy squash
 ```
 모든 기능 커밋을 단일 커밋으로 결합합니다.
 
 ### Fast-Forward 병합
 ```bash
-/speckit.merge --strategy ff-only
+/spec-mix.merge --strategy ff-only
 ```
 fast-forward 가능한 경우에만 병합 (선형 히스토리).
 
@@ -64,7 +64,7 @@ fast-forward 가능한 경우에만 병합 (선형 히스토리).
    if [[ -f "specs/{feature}/acceptance.md" ]]; then
        # 상태가 APPROVED인지 확인
    else
-       echo "Error: 기능이 수락되지 않음. 먼저 /speckit.accept 실행"
+       echo "Error: 기능이 수락되지 않음. 먼저 /spec-mix.accept 실행"
        exit 1
    fi
 
@@ -157,7 +157,7 @@ fast-forward 가능한 경우에만 병합 (선형 히스토리).
    - 문서 보관됨: archive/{feature}/
 
    다음 기능을 시작할 준비 완료! 실행:
-   /speckit.specify "다음 기능 설명"
+   /spec-mix.specify "다음 기능 설명"
    ```
 
 ## 충돌 해결
@@ -233,22 +233,22 @@ git worktree add .worktrees/{feature} {feature-branch}
 
 ### 간단한 병합
 ```bash
-/speckit.merge
+/spec-mix.merge
 ```
 
 ### 스쿼시 및 푸시
 ```bash
-/speckit.merge --strategy squash --push
+/spec-mix.merge --strategy squash --push
 ```
 
 ### 전체 정리
 ```bash
-/speckit.merge --push --cleanup-worktree
+/spec-mix.merge --push --cleanup-worktree
 ```
 
 ### 미리보기만
 ```bash
-/speckit.merge --dry-run
+/spec-mix.merge --dry-run
 ```
 
 ## 안전 기능

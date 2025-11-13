@@ -101,7 +101,7 @@ $ARGUMENTS
    ```
    ✅ 기능 {feature}이(가) 병합 준비되었습니다!
 
-   다음 단계: /speckit.merge를 실행하여 main 브랜치에 통합하세요
+   다음 단계: /spec-mix.merge를 실행하여 main 브랜치에 통합하세요
    ```
 
    **준비되지 않은 경우**:
@@ -112,7 +112,7 @@ $ARGUMENTS
    - [문제 1]
    - [문제 2]
 
-   문제가 해결되면 /speckit.accept를 다시 실행하세요.
+   문제가 해결되면 /spec-mix.accept를 다시 실행하세요.
    ```
 
 ## 수락 기준
@@ -156,12 +156,12 @@ $ARGUMENTS
 ### 다음 단계
 병합 준비 완료! 실행:
 ```bash
-/speckit.merge
+/spec-mix.merge
 ```
 
 또는 옵션과 함께:
 ```bash
-/speckit.merge --strategy squash    # 모든 커밋 스쿼시
-/speckit.merge --cleanup-worktree   # 병합 후 워크트리 제거
+/spec-mix.merge --strategy squash    # 모든 커밋 스쿼시
+/spec-mix.merge --cleanup-worktree   # 병합 후 워크트리 제거
 ```
 ```

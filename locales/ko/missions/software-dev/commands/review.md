@@ -120,5 +120,5 @@ $ARGUMENTS
 
 - WP02에 대한 피드백 처리
 - 남은 계획된 작업 계속 진행
-- 모든 작업이 done 레인에 있을 때 `/speckit.accept` 실행
+- 모든 작업이 done 레인에 있을 때 `/spec-mix.accept` 실행
 ```

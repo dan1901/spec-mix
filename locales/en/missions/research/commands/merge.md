@@ -20,7 +20,7 @@ This command integrates a completed feature into the main branch, with options f
 ## Prerequisites
 
 Before running this command:
-1. ✅ Feature must be accepted (run `/speckit.accept` first)
+1. ✅ Feature must be accepted (run `/spec-mix.accept` first)
 2. ✅ All tasks in `done/` lane
 3. ✅ All tests passing
 4. ✅ Working directory clean (no uncommitted changes)
@@ -29,19 +29,19 @@ Before running this command:
 
 ### Standard Merge (default)
 ```bash
-/speckit.merge
+/spec-mix.merge
 ```
 Creates a merge commit preserving full feature history.
 
 ### Squash Merge
 ```bash
-/speckit.merge --strategy squash
+/spec-mix.merge --strategy squash
 ```
 Combines all feature commits into a single commit.
 
 ### Fast-Forward Merge
 ```bash
-/speckit.merge --strategy ff-only
+/spec-mix.merge --strategy ff-only
 ```
 Only merge if can fast-forward (linear history).
 
@@ -64,7 +64,7 @@ Only merge if can fast-forward (linear history).
    if [[ -f "specs/{feature}/acceptance.md" ]]; then
        # Verify status is APPROVED
    else
-       echo "Error: Feature not accepted. Run /speckit.accept first"
+       echo "Error: Feature not accepted. Run /spec-mix.accept first"
        exit 1
    fi
 
@@ -157,7 +157,7 @@ Only merge if can fast-forward (linear history).
    - Documentation archived: archive/{feature}/
 
    Ready to start next feature! Run:
-   /speckit.specify "Next feature description"
+   /spec-mix.specify "Next feature description"
    ```
 
 ## Conflict Resolution
@@ -233,22 +233,22 @@ To execute, run without --dry-run flag.
 
 ### Simple merge
 ```bash
-/speckit.merge
+/spec-mix.merge
 ```
 
 ### Squash and push
 ```bash
-/speckit.merge --strategy squash --push
+/spec-mix.merge --strategy squash --push
 ```
 
 ### Full cleanup
 ```bash
-/speckit.merge --push --cleanup-worktree
+/spec-mix.merge --push --cleanup-worktree
 ```
 
 ### Preview only
 ```bash
-/speckit.merge --dry-run
+/spec-mix.merge --dry-run
 ```
 
 ## Safety Features

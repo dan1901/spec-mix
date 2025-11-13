@@ -58,8 +58,8 @@ $ARGUMENTS
 
 ## 사용 시기
 
-- `/speckit.plan` 후: 사양 완전성 검증
-- `/speckit.tasks` 후: 계획 및 작업 품질 검증
+- `/spec-mix.plan` 후: 사양 완전성 검증
+- `/spec-mix.tasks` 후: 계획 및 작업 품질 검증
 - 반복 개선 중: 진행 상황 추적
 
 ## 출력 형식

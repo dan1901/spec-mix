@@ -1,7 +1,7 @@
 [project]
-name = "specify-cli"
+name = "spec-mix"
 version = "0.0.20"
-description = "Specify CLI, part of GitHub Spec Kit. A tool to bootstrap your projects for Spec-Driven Development (SDD)."
+description = "Spec Mix - Enhanced Spec Kit with multi-language support, mission system, and web dashboard for Spec-Driven Development (SDD)."
 requires-python = ">=3.11"
 dependencies = [
     "typer",
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-specify = "specify_cli:main"
+spec-mix = "specify_cli:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,8 +1,8 @@
 ---
 description: Spec Kit 웹 대시보드 실행
 scripts:
-  sh: echo "대시보드는 specify CLI로 관리됩니다. 실행: specify dashboard"
-  ps: Write-Host "대시보드는 specify CLI로 관리됩니다. 실행: specify dashboard"
+  sh: echo "대시보드는 specify CLI로 관리됩니다. 실행: spec-mix dashboard"
+  ps: Write-Host "대시보드는 specify CLI로 관리됩니다. 실행: spec-mix dashboard"
 ---
 
 ## 사용자 입력
@@ -32,31 +32,31 @@ $ARGUMENTS
 ### 빠른 시작
 ```bash
 # 대시보드 시작 및 브라우저에서 열기
-specify dashboard
+spec-mix dashboard
 ```
 
 ### 고급 옵션
 ```bash
 # 특정 포트에서 시작
-specify dashboard start --port 9000
+spec-mix dashboard start --port 9000
 
 # 브라우저를 열지 않고 시작
-specify dashboard start
+spec-mix dashboard start
 
 # 수동으로 브라우저 열기
-specify dashboard start --open
+spec-mix dashboard start --open
 ```
 
 ## 대시보드 명령어
 
 | 명령어 | 설명 |
 |--------|------|
-| `specify dashboard` | 대시보드 시작 및 브라우저 열기 (기본) |
-| `specify dashboard start` | 대시보드 서버 시작 |
-| `specify dashboard start --port <port>` | 특정 포트에서 시작 |
-| `specify dashboard start --open` | 시작 후 브라우저에서 열기 |
-| `specify dashboard stop` | 실행 중인 대시보드 중지 |
-| `specify dashboard status` | 대시보드 실행 여부 확인 |
+| `spec-mix dashboard` | 대시보드 시작 및 브라우저 열기 (기본) |
+| `spec-mix dashboard start` | 대시보드 서버 시작 |
+| `spec-mix dashboard start --port <port>` | 특정 포트에서 시작 |
+| `spec-mix dashboard start --open` | 시작 후 브라우저에서 열기 |
+| `spec-mix dashboard stop` | 실행 중인 대시보드 중지 |
+| `spec-mix dashboard status` | 대시보드 실행 여부 확인 |
 
 ## 대시보드 URL
 
@@ -96,7 +96,7 @@ http://localhost:<PORT>
 
 ```bash
 # 대시보드 중지
-specify dashboard stop
+spec-mix dashboard stop
 
 # 또는 포그라운드 실행 중이면 Ctrl+C 사용
 ```
@@ -114,7 +114,7 @@ specify dashboard stop
 ## 지원되는 워크플로우
 
 ### 기능 진행 모니터링
-1. 대시보드 시작: `specify dashboard`
+1. 대시보드 시작: `spec-mix dashboard`
 2. 기능 목록 보기
 3. 기능을 클릭하여 칸반 보드 확인
 4. 실시간으로 레인을 통해 이동하는 작업 관찰
@@ -140,17 +140,17 @@ specify dashboard stop
 ## 워크플로우와의 통합
 
 대시보드는 다음 명령어를 보완합니다:
-- `/speckit.specify` - 대시보드에 표시되는 기능 생성
-- `/speckit.implement` - 레인을 통해 작업 이동
-- `/speckit.review` - 칸반에 표시되는 작업 상태 변경
-- `/speckit.accept` - 산출물로 표시되는 acceptance.md 생성
-- `/speckit.merge` - 기능 라이프사이클 완료
+- `/spec-mix.specify` - 대시보드에 표시되는 기능 생성
+- `/spec-mix.implement` - 레인을 통해 작업 이동
+- `/spec-mix.review` - 칸반에 표시되는 작업 상태 변경
+- `/spec-mix.accept` - 산출물로 표시되는 acceptance.md 생성
+- `/spec-mix.merge` - 기능 라이프사이클 완료
 
 ## 문제 해결
 
 **대시보드가 시작되지 않음:**
-- 포트가 이미 사용 중인지 확인: `specify dashboard status`
-- 다른 포트 시도: `specify dashboard start --port 9000`
+- 포트가 이미 사용 중인지 확인: `spec-mix dashboard status`
+- 다른 포트 시도: `spec-mix dashboard start --port 9000`
 
 **기능이 표시되지 않음:**
 - `specs/` 디렉토리가 존재하는지 확인
@@ -158,7 +158,7 @@ specify dashboard stop
 - UI의 버튼으로 수동 새로고침
 
 **대시보드가 중지되지 않음:**
-- `specify dashboard stop` 사용
+- `spec-mix dashboard stop` 사용
 - 멈춘 경우, 프로세스 찾기: `lsof -i :9237`
 - 수동 종료: `kill <PID>`
 

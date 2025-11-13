@@ -101,7 +101,7 @@ This command performs a final acceptance check before merging a feature. It veri
    ```
    ✅ Feature {feature} is ready for merge!
 
-   Next step: Run /speckit.merge to integrate to main branch
+   Next step: Run /spec-mix.merge to integrate to main branch
    ```
 
    **If NOT READY**:
@@ -112,7 +112,7 @@ This command performs a final acceptance check before merging a feature. It veri
    - [Issue 1]
    - [Issue 2]
 
-   Re-run /speckit.accept when issues are resolved.
+   Re-run /spec-mix.accept when issues are resolved.
    ```
 
 ## Acceptance Criteria
@@ -156,12 +156,12 @@ Provide clear, actionable feedback:
 ### Next Step
 Ready to merge! Run:
 ```bash
-/speckit.merge
+/spec-mix.merge
 ```
 
 Or with options:
 ```bash
-/speckit.merge --strategy squash    # Squash all commits
-/speckit.merge --cleanup-worktree   # Remove worktree after merge
+/spec-mix.merge --strategy squash    # Squash all commits
+/spec-mix.merge --cleanup-worktree   # Remove worktree after merge
 ```
 ```

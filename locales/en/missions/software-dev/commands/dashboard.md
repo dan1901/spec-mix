@@ -1,8 +1,8 @@
 ---
 description: Launch the Spec Kit web dashboard
 scripts:
-  sh: echo "Dashboard is managed via the specify CLI. Run: specify dashboard"
-  ps: Write-Host "Dashboard is managed via the specify CLI. Run: specify dashboard"
+  sh: echo "Dashboard is managed via the specify CLI. Run: spec-mix dashboard"
+  ps: Write-Host "Dashboard is managed via the specify CLI. Run: spec-mix dashboard"
 ---
 
 ## User Input
@@ -32,31 +32,31 @@ The dashboard provides:
 ### Quick Start
 ```bash
 # Start dashboard and open in browser
-specify dashboard
+spec-mix dashboard
 ```
 
 ### Advanced Options
 ```bash
 # Start on specific port
-specify dashboard start --port 9000
+spec-mix dashboard start --port 9000
 
 # Start without opening browser
-specify dashboard start
+spec-mix dashboard start
 
 # Open browser manually
-specify dashboard start --open
+spec-mix dashboard start --open
 ```
 
 ## Dashboard Commands
 
 | Command | Description |
 |---------|-------------|
-| `specify dashboard` | Start dashboard and open browser (default) |
-| `specify dashboard start` | Start dashboard server |
-| `specify dashboard start --port <port>` | Start on specific port |
-| `specify dashboard start --open` | Open in browser after start |
-| `specify dashboard stop` | Stop running dashboard |
-| `specify dashboard status` | Check if dashboard is running |
+| `spec-mix dashboard` | Start dashboard and open browser (default) |
+| `spec-mix dashboard start` | Start dashboard server |
+| `spec-mix dashboard start --port <port>` | Start on specific port |
+| `spec-mix dashboard start --open` | Open in browser after start |
+| `spec-mix dashboard stop` | Stop running dashboard |
+| `spec-mix dashboard status` | Check if dashboard is running |
 
 ## Dashboard URL
 
@@ -96,7 +96,7 @@ http://localhost:<PORT>
 
 ```bash
 # Stop the dashboard
-specify dashboard stop
+spec-mix dashboard stop
 
 # Or use Ctrl+C if running in foreground
 ```
@@ -114,7 +114,7 @@ The dashboard stores state in:
 ## Supported Workflows
 
 ### Monitoring Feature Progress
-1. Start dashboard: `specify dashboard`
+1. Start dashboard: `spec-mix dashboard`
 2. View features list
 3. Click a feature to see kanban board
 4. Watch tasks move through lanes in real-time
@@ -140,17 +140,17 @@ The dashboard stores state in:
 ## Integration with Workflow
 
 The dashboard complements these commands:
-- `/speckit.specify` - Creates features shown in dashboard
-- `/speckit.implement` - Moves tasks through lanes
-- `/speckit.review` - Changes task status visible in kanban
-- `/speckit.accept` - Creates acceptance.md shown as artifact
-- `/speckit.merge` - Completes feature lifecycle
+- `/spec-mix.specify` - Creates features shown in dashboard
+- `/spec-mix.implement` - Moves tasks through lanes
+- `/spec-mix.review` - Changes task status visible in kanban
+- `/spec-mix.accept` - Creates acceptance.md shown as artifact
+- `/spec-mix.merge` - Completes feature lifecycle
 
 ## Troubleshooting
 
 **Dashboard won't start:**
-- Check if port is already in use: `specify dashboard status`
-- Try different port: `specify dashboard start --port 9000`
+- Check if port is already in use: `spec-mix dashboard status`
+- Try different port: `spec-mix dashboard start --port 9000`
 
 **Features not showing:**
 - Ensure `specs/` directory exists
@@ -158,7 +158,7 @@ The dashboard complements these commands:
 - Refresh manually with button in UI
 
 **Dashboard won't stop:**
-- Use `specify dashboard stop`
+- Use `spec-mix dashboard stop`
 - If stuck, find process: `lsof -i :9237`
 - Kill manually: `kill <PID>`
 
@@ -167,14 +167,14 @@ The dashboard complements these commands:
 ```bash
 # Start working on a feature
 cd my-project
-specify dashboard
+spec-mix dashboard
 
 # Dashboard opens showing your features
 
 # In another terminal, work on features
-/speckit.specify Build a new login page
-/speckit.plan Use React and TypeScript
-/speckit.implement
+/spec-mix.specify Build a new login page
+/spec-mix.plan Use React and TypeScript
+/spec-mix.implement
 
 # Watch progress in dashboard as tasks move through lanes
 

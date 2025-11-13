@@ -1,6 +1,6 @@
 <div align="center">
-    <img src="./media/logo_small.webp" alt="Spec Kit Logo"/>
-    <h1>🌱 Spec Kit</h1>
+    <img src="./media/logo.png" alt="Spec Mix Logo" width="120"/>
+    <h1>🌱 Spec Mix</h1>
     <h3><em>고품질 소프트웨어를 더 빠르게 구축하세요.</em></h3>
 </div>
 
@@ -57,20 +57,20 @@ Spec-Driven Development는 전통적인 소프트웨어 개발의 **판도를 �
 한 번 설치하고 어디서나 사용:
 
 ```bash
-uv tool install specify-cli --from git+https://github.com/dan1901/spec-kit.git
+uv tool install spec-mix --from git+https://github.com/dan1901/spec-kit.git
 ```
 
 그런 다음 도구를 직접 사용:
 
 ```bash
-specify init <PROJECT_NAME>
-specify check
+spec-mix init <PROJECT_NAME>
+spec-mix check
 ```
 
 specify를 업그레이드하려면:
 
 ```bash
-uv tool install specify-cli --force --from git+https://github.com/dan1901/spec-kit.git
+uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-kit.git
 ```
 
 #### 옵션 2: 일회성 사용
@@ -78,7 +78,7 @@ uv tool install specify-cli --force --from git+https://github.com/dan1901/spec-k
 설치 없이 직접 실행:
 
 ```bash
-uvx --from git+https://github.com/dan1901/spec-kit.git specify init <PROJECT_NAME>
+uvx --from git+https://github.com/dan1901/spec-kit.git spec-mix init <PROJECT_NAME>
 ```
 
 **영구 설치의 장점:**
@@ -90,44 +90,44 @@ uvx --from git+https://github.com/dan1901/spec-kit.git specify init <PROJECT_NAM
 
 ### 2. 프로젝트 원칙 수립
 
-프로젝트 디렉토리에서 AI 어시스턴트를 실행하세요. `/speckit.*` 명령어를 어시스턴트에서 사용할 수 있습니다.
+프로젝트 디렉토리에서 AI 어시스턴트를 실행하세요. `/spec-mix.*` 명령어를 어시스턴트에서 사용할 수 있습니다.
 
-**`/speckit.constitution`** 명령을 사용하여 모든 후속 개발을 안내할 프로젝트의 지배 원칙과 개발 가이드라인을 만드세요.
+**`/spec-mix.constitution`** 명령을 사용하여 모든 후속 개발을 안내할 프로젝트의 지배 원칙과 개발 가이드라인을 만드세요.
 
 ```bash
-/speckit.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성, 성능 요구사항에 중점을 둔 원칙 생성
+/spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성, 성능 요구사항에 중점을 둔 원칙 생성
 ```
 
 ### 3. 명세 생성
 
-**`/speckit.specify`** 명령을 사용하여 구축하려는 것을 설명하세요. 기술 스택이 아닌 **무엇을**과 **왜**에 집중하세요.
+**`/spec-mix.specify`** 명령을 사용하여 구축하려는 것을 설명하세요. 기술 스택이 아닌 **무엇을**과 **왜**에 집중하세요.
 
 ```bash
-/speckit.specify 사진을 별도의 포토 앨범으로 정리할 수 있는 애플리케이션을 만들어주세요. 앨범은 날짜별로 그룹화되며 메인 페이지에서 드래그 앤 드롭으로 재정렬할 수 있습니다. 앨범은 다른 중첩 앨범 안에 있지 않습니다. 각 앨범 내에서 사진은 타일 형태의 인터페이스로 미리보기됩니다.
+/spec-mix.specify 사진을 별도의 포토 앨범으로 정리할 수 있는 애플리케이션을 만들어주세요. 앨범은 날짜별로 그룹화되며 메인 페이지에서 드래그 앤 드롭으로 재정렬할 수 있습니다. 앨범은 다른 중첩 앨범 안에 있지 않습니다. 각 앨범 내에서 사진은 타일 형태의 인터페이스로 미리보기됩니다.
 ```
 
 ### 4. 기술 구현 계획 생성
 
-**`/speckit.plan`** 명령을 사용하여 기술 스택과 아키텍처 선택을 제공하세요.
+**`/spec-mix.plan`** 명령을 사용하여 기술 스택과 아키텍처 선택을 제공하세요.
 
 ```bash
-/speckit.plan 애플리케이션은 최소한의 라이브러리로 Vite를 사용합니다. 가능한 한 바닐라 HTML, CSS, JavaScript를 사용하세요. 이미지는 어디에도 업로드되지 않으며 메타데이터는 로컬 SQLite 데이터베이스에 저장됩니다.
+/spec-mix.plan 애플리케이션은 최소한의 라이브러리로 Vite를 사용합니다. 가능한 한 바닐라 HTML, CSS, JavaScript를 사용하세요. 이미지는 어디에도 업로드되지 않으며 메타데이터는 로컬 SQLite 데이터베이스에 저장됩니다.
 ```
 
 ### 5. 작업으로 분해
 
-**`/speckit.tasks`**를 사용하여 구현 계획에서 실행 가능한 작업 목록을 생성하세요.
+**`/spec-mix.tasks`**를 사용하여 구현 계획에서 실행 가능한 작업 목록을 생성하세요.
 
 ```bash
-/speckit.tasks
+/spec-mix.tasks
 ```
 
 ### 6. 구현 실행
 
-**`/speckit.implement`**를 사용하여 모든 작업을 실행하고 계획에 따라 기능을 구축하세요.
+**`/spec-mix.implement`**를 사용하여 모든 작업을 실행하고 계획에 따라 기능을 구축하세요.
 
 ```bash
-/speckit.implement
+/spec-mix.implement
 ```
 
 자세한 단계별 지침은 [종합 가이드](./spec-driven.md)를 참조하세요.
@@ -135,8 +135,6 @@ uvx --from git+https://github.com/dan1901/spec-kit.git specify init <PROJECT_NAM
 ## 📽️ 비디오 개요
 
 Spec Kit의 실제 동작을 보고 싶으신가요? [비디오 개요](https://www.youtube.com/watch?v=a9eR1xsfvHg&pp=0gcJCckJAYcqIYzv)를 시청하세요!
-
-[![Spec Kit video header](/media/spec-kit-video-header.jpg)](https://www.youtube.com/watch?v=a9eR1xsfvHg&pp=0gcJCckJAYcqIYzv)
 
 ## 🤖 지원되는 AI 에이전트
 
@@ -179,52 +177,52 @@ Spec Kit은 시스템 언어를 자동으로 감지합니다. 특정 언어를 �
 export SPECIFY_LANG=ko
 
 # 또는 세션별로 사용
-SPECIFY_LANG=ko specify init my-project
+SPECIFY_LANG=ko spec-mix init my-project
 ```
 
 #### 언어 관리 명령
 
 ```bash
 # 사용 가능한 언어 목록
-specify lang list
+spec-mix lang list
 
 # 현재 언어 표시
-specify lang current
+spec-mix lang current
 
 # 기본 언어 설정
-specify lang set ko
+spec-mix lang set ko
 ```
 
 #### 미션 관리 명령
 
 ```bash
 # 사용 가능한 미션 목록
-specify mission list
+spec-mix mission list
 
 # 현재 미션 정보 표시
-specify mission current
+spec-mix mission current
 
 # 미션 전환
-specify mission switch research
+spec-mix mission switch research
 
 # 미션 세부정보 보기
-specify mission info software-dev
+spec-mix mission info software-dev
 ```
 
 #### 대시보드 명령
 
 ```bash
 # 대시보드 시작 (브라우저에서 열림)
-specify dashboard
+spec-mix dashboard
 
 # 특정 포트에서 시작
-specify dashboard start --port 9000
+spec-mix dashboard start --port 9000
 
 # 대시보드 상태 확인
-specify dashboard status
+spec-mix dashboard status
 
 # 대시보드 중지
-specify dashboard stop
+spec-mix dashboard stop
 ```
 
 ### 번역되는 내용
@@ -232,8 +230,8 @@ specify dashboard stop
 선호하는 언어로 Spec Kit을 사용할 때 다음이 번역됩니다:
 
 - **CLI 메시지**: 모든 프롬프트, 오류, 성공 메시지 및 도움말 텍스트
-- **명령 지침**: 모든 `/speckit.*` 슬래시 명령 워크플로우
-  - `/speckit.specify`, `/speckit.plan`, `/speckit.tasks` 등
+- **명령 지침**: 모든 `/spec-mix.*` 슬래시 명령 워크플로우
+  - `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks` 등
 - **템플릿**: 명세, 구현 계획 및 작업 분해 템플릿
 - **문서**: 생성된 파일 내의 인라인 주석 및 가이드
 
@@ -244,14 +242,14 @@ specify dashboard stop
 export SPECIFY_LANG=ko
 
 # 프로젝트 초기화 (모든 프롬프트가 한국어로)
-specify init my-project --ai claude
+spec-mix init my-project --ai claude
 
 # 한국어로 슬래시 명령 사용
-/speckit.constitution  # 프로젝트 원칙 수립
-/speckit.specify       # 기능 사양 생성
-/speckit.plan          # 구현 계획 생성
-/speckit.tasks         # 작업 분석 생성
-/speckit.implement     # 구현 실행
+/spec-mix.constitution  # 프로젝트 원칙 수립
+/spec-mix.specify       # 기능 사양 생성
+/spec-mix.plan          # 구현 계획 생성
+/spec-mix.tasks         # 작업 분석 생성
+/spec-mix.implement     # 구현 실행
 ```
 
 ### 번역 기여
@@ -279,7 +277,7 @@ specify init my-project --ai claude
 | `mission`   | 미션 관리 (`list`, `current`, `switch`, `info`)    |
 | `dashboard` | 웹 대시보드 관리 (`start`, `stop`, `status`)    |
 
-### `specify init` 인수 및 옵션
+### `spec-mix init` 인수 및 옵션
 
 | 인수/옵션              | 유형     | 설명                                                                  |
 |------------------------|----------|------------------------------------------------------------------------------|
@@ -300,61 +298,61 @@ specify init my-project --ai claude
 
 ```bash
 # 기본 프로젝트 초기화
-specify init my-project
+spec-mix init my-project
 
 # 특정 AI 어시스턴트로 초기화
-specify init my-project --ai claude
+spec-mix init my-project --ai claude
 
 # Cursor 지원으로 초기화
-specify init my-project --ai cursor-agent
+spec-mix init my-project --ai cursor-agent
 
 # Windsurf 지원으로 초기화
-specify init my-project --ai windsurf
+spec-mix init my-project --ai windsurf
 
 # Amp 지원으로 초기화
-specify init my-project --ai amp
+spec-mix init my-project --ai amp
 
 # 한국어로 초기화
-specify init my-project --ai claude --lang ko
+spec-mix init my-project --ai claude --lang ko
 
 # 연구 미션으로 초기화
-specify init my-project --ai claude --mission research
+spec-mix init my-project --ai claude --mission research
 
 # 언어와 미션 모두 지정하여 초기화
-specify init my-project --ai claude --lang ko --mission research
+spec-mix init my-project --ai claude --lang ko --mission research
 
 # 대화형 선택 (지정하지 않으면 언어와 미션을 묻습니다)
-specify init my-project --ai claude
+spec-mix init my-project --ai claude
 
 # PowerShell 스크립트로 초기화 (Windows/크로스 플랫폼)
-specify init my-project --ai copilot --script ps
+spec-mix init my-project --ai copilot --script ps
 
 # 현재 디렉토리에서 초기화
-specify init . --ai copilot
+spec-mix init . --ai copilot
 # 또는 --here 플래그 사용
-specify init --here --ai copilot
+spec-mix init --here --ai copilot
 
 # 확인 없이 현재 (비어 있지 않은) 디렉토리로 강제 병합
-specify init . --force --ai copilot
+spec-mix init . --force --ai copilot
 # 또는
-specify init --here --force --ai copilot
+spec-mix init --here --force --ai copilot
 
 # git 초기화 건너뛰기
-specify init my-project --ai gemini --no-git
+spec-mix init my-project --ai gemini --no-git
 
 # 문제 해결을 위한 디버그 출력 활성화
-specify init my-project --ai claude --debug
+spec-mix init my-project --ai claude --debug
 
 # API 요청을 위한 GitHub 토큰 사용 (기업 환경에 유용)
-specify init my-project --ai claude --github-token ghp_your_token_here
+spec-mix init my-project --ai claude --github-token ghp_your_token_here
 
 # 시스템 요구사항 확인
-specify check
+spec-mix check
 ```
 
 ### 사용 가능한 슬래시 명령
 
-`specify init`을 실행한 후 AI 코딩 에이전트는 구조화된 개발을 위해 다음 슬래시 명령에 액세스할 수 있습니다:
+`spec-mix init`을 실행한 후 AI 코딩 에이전트는 구조화된 개발을 위해 다음 슬래시 명령에 액세스할 수 있습니다:
 
 #### 핵심 명령
 
@@ -362,11 +360,11 @@ Spec-Driven Development 워크플로우를 위한 필수 명령:
 
 | 명령                  | 설명                                                           |
 |--------------------------|-----------------------------------------------------------------------|
-| `/speckit.constitution`  | 프로젝트 지배 원칙 및 개발 가이드라인 생성 또는 업데이트 |
-| `/speckit.specify`       | 구축하려는 것 정의 (요구사항 및 사용자 스토리)        |
-| `/speckit.plan`          | 선택한 기술 스택으로 기술 구현 계획 생성     |
-| `/speckit.tasks`         | 구현을 위한 실행 가능한 작업 목록 생성                     |
-| `/speckit.implement`     | 계획에 따라 기능을 구축하기 위해 모든 작업 실행         |
+| `/spec-mix.constitution`  | 프로젝트 지배 원칙 및 개발 가이드라인 생성 또는 업데이트 |
+| `/spec-mix.specify`       | 구축하려는 것 정의 (요구사항 및 사용자 스토리)        |
+| `/spec-mix.plan`          | 선택한 기술 스택으로 기술 구현 계획 생성     |
+| `/spec-mix.tasks`         | 구현을 위한 실행 가능한 작업 목록 생성                     |
+| `/spec-mix.implement`     | 계획에 따라 기능을 구축하기 위해 모든 작업 실행         |
 
 #### 워크플로우 관리 명령
 
@@ -374,10 +372,10 @@ Spec-Driven Development 워크플로우를 위한 필수 명령:
 
 | 명령              | 설명                                                           |
 |----------------------|-----------------------------------------------------------------------|
-| `/speckit.dashboard` | 웹 대시보드를 실행하여 기능, 칸반 보드 및 산출물 시각화 |
-| `/speckit.review`    | `for_review` 레인의 완료된 작업을 검토하고 승인된 작업을 `done`으로 이동     |
-| `/speckit.accept`    | 병합 전에 포괄적인 검사로 기능 준비 확인     |
-| `/speckit.merge`     | 정리 옵션으로 기능 브랜치를 main으로 병합 (여러 전략 지원) |
+| `/spec-mix.dashboard` | 웹 대시보드를 실행하여 기능, 칸반 보드 및 산출물 시각화 |
+| `/spec-mix.review`    | `for_review` 레인의 완료된 작업을 검토하고 승인된 작업을 `done`으로 이동     |
+| `/spec-mix.accept`    | 병합 전에 포괄적인 검사로 기능 준비 확인     |
+| `/spec-mix.merge`     | 정리 옵션으로 기능 브랜치를 main으로 병합 (여러 전략 지원) |
 
 #### 선택적 명령
 
@@ -385,15 +383,15 @@ Spec-Driven Development 워크플로우를 위한 필수 명령:
 
 | 명령              | 설명                                                           |
 |----------------------|-----------------------------------------------------------------------|
-| `/speckit.clarify`   | 불충분하게 지정된 영역 명확화 (`/speckit.plan` 전에 권장; 이전 `/quizme`) |
-| `/speckit.analyze`   | 교차 산출물 일관성 및 커버리지 분석 (`/speckit.tasks` 후, `/speckit.implement` 전에 실행) |
-| `/speckit.checklist` | 요구사항 완전성, 명확성 및 일관성을 검증하는 사용자 정의 품질 체크리스트 생성 ("영어를 위한 단위 테스트"와 같음) |
+| `/spec-mix.clarify`   | 불충분하게 지정된 영역 명확화 (`/spec-mix.plan` 전에 권장; 이전 `/quizme`) |
+| `/spec-mix.analyze`   | 교차 산출물 일관성 및 커버리지 분석 (`/spec-mix.tasks` 후, `/spec-mix.implement` 전에 실행) |
+| `/spec-mix.checklist` | 요구사항 완전성, 명확성 및 일관성을 검증하는 사용자 정의 품질 체크리스트 생성 ("영어를 위한 단위 테스트"와 같음) |
 
 ### 환경 변수
 
 | 변수         | 설명                                                                                    |
 |------------------|------------------------------------------------------------------------------------------------|
-| `SPECIFY_FEATURE` | Git 저장소가 아닌 경우 기능 감지 재정의. 기능 디렉토리 이름(예: `001-photo-albums`)으로 설정하여 Git 브랜치를 사용하지 않을 때 특정 기능에서 작업합니다.<br/>**`/speckit.plan` 또는 후속 명령을 사용하기 전에 작업 중인 에이전트의 컨텍스트에서 설정해야 합니다.** |
+| `SPECIFY_FEATURE` | Git 저장소가 아닌 경우 기능 감지 재정의. 기능 디렉토리 이름(예: `001-photo-albums`)으로 설정하여 Git 브랜치를 사용하지 않을 때 특정 기능에서 작업합니다.<br/>**`/spec-mix.plan` 또는 후속 명령을 사용하기 전에 작업 중인 에이전트의 컨텍스트에서 설정해야 합니다.** |
 
 ## 📚 핵심 철학
 
@@ -463,70 +461,68 @@ Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입�
 Specify CLI를 사용하여 프로젝트를 부트스트랩할 수 있으며, 이는 환경에 필요한 아티팩트를 가져옵니다. 실행:
 
 ```bash
-specify init <project_name>
+spec-mix init <project_name>
 ```
 
 또는 현재 디렉토리에서 초기화:
 
 ```bash
-specify init .
+spec-mix init .
 # 또는 --here 플래그 사용
-specify init --here
+spec-mix init --here
 # 디렉토리에 이미 파일이 있을 때 확인 건너뛰기
-specify init . --force
+spec-mix init . --force
 # 또는
-specify init --here --force
+spec-mix init --here --force
 ```
 
-![터미널에서 새 프로젝트를 부트스트래핑하는 Specify CLI](./media/specify_cli.gif)
 
 사용 중인 AI 에이전트를 선택하라는 메시지가 표시됩니다. 터미널에서 직접 미리 지정할 수도 있습니다:
 
 ```bash
-specify init <project_name> --ai claude
-specify init <project_name> --ai gemini
-specify init <project_name> --ai copilot
+spec-mix init <project_name> --ai claude
+spec-mix init <project_name> --ai gemini
+spec-mix init <project_name> --ai copilot
 
 # 또는 현재 디렉토리에서:
-specify init . --ai claude
-specify init . --ai codex
+spec-mix init . --ai claude
+spec-mix init . --ai codex
 
 # 또는 --here 플래그 사용
-specify init --here --ai claude
-specify init --here --ai codex
+spec-mix init --here --ai claude
+spec-mix init --here --ai codex
 
 # 비어 있지 않은 현재 디렉토리로 강제 병합
-specify init . --force --ai claude
+spec-mix init . --force --ai claude
 
 # 또는
-specify init --here --force --ai claude
+spec-mix init --here --force --ai claude
 ```
 
 CLI는 Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI 또는 Amazon Q Developer CLI가 설치되어 있는지 확인합니다. 설치되어 있지 않거나 올바른 도구를 확인하지 않고 템플릿을 가져오려는 경우 명령에 `--ignore-agent-tools`를 사용하세요:
 
 ```bash
-specify init <project_name> --ai claude --ignore-agent-tools
+spec-mix init <project_name> --ai claude --ignore-agent-tools
 ```
 
 ### **1단계:** 프로젝트 원칙 수립
 
 프로젝트 폴더로 이동하여 AI 에이전트를 실행하세요. 예제에서는 `claude`를 사용합니다.
 
-![Claude Code 환경 부트스트래핑](./media/bootstrap-claude-code.gif)
 
-`/speckit.constitution`, `/speckit.specify`, `/speckit.plan`, `/speckit.tasks` 및 `/speckit.implement` 명령을 사용할 수 있다면 올바르게 구성된 것입니다.
+`/spec-mix.constitution`, `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks` 및 `/spec-mix.implement` 명령을 사용할 수 있다면 올바르게 구성된 것입니다.
 
-첫 번째 단계는 `/speckit.constitution` 명령을 사용하여 프로젝트의 지배 원칙을 수립하는 것입니다. 이는 모든 후속 개발 단계에서 일관된 의사 결정을 보장하는 데 도움이 됩니다:
+첫 번째 단계는 `/spec-mix.constitution` 명령을 사용하여 프로젝트의 지배 원칙을 수립하는 것입니다. 이는 모든 후속 개발 단계에서 일관된 의사 결정을 보장하는 데 도움이 됩니다:
 
 ```text
-/speckit.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성 및 성능 요구사항에 중점을 둔 원칙을 만드세요. 이러한 원칙이 기술 결정 및 구현 선택을 어떻게 안내해야 하는지에 대한 거버넌스를 포함하세요.
+/spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성 및 성능 요구사항에 중점을 둔 원칙을 만드세요. 이러한 원칙이 기술 결정 및 구현 선택을 어떻게 안내해야 하는지에 대한 거버넌스를 포함하세요.
 ```
 
 이 단계는 AI 에이전트가 명세, 계획 및 구현 단계에서 참조할 프로젝트의 기본 가이드라인으로 `.specify/memory/constitution.md` 파일을 생성하거나 업데이트합니다.
 
 ### **2단계:** 프로젝트 명세 생성
 
-프로젝트 원칙이 수립되면 이제 기능 명세를 생성할 수 있습니다. `/speckit.specify` 명령을 사용한 다음 개발하려는 프로젝트에 대한 구체적인 요구사항을 제공하세요.
+프로젝트 원칙이 수립되면 이제 기능 명세를 생성할 수 있습니다. `/spec-mix.specify` 명령을 사용한 다음 개발하려는 프로젝트에 대한 구체적인 요구사항을 제공하세요.
 
 >[!IMPORTANT]
 >무엇을 구축하려고 하는지와 그 이유에 대해 가능한 한 명시적으로 설명하세요. **이 시점에서는 기술 스택에 집중하지 마세요**.
@@ -584,12 +580,12 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
 
 선호하는 순서:
 
-1. `/speckit.clarify` 사용 (구조화됨) – 명확화 섹션에 답변을 기록하는 순차적, 커버리지 기반 질문.
+1. `/spec-mix.clarify` 사용 (구조화됨) – 명확화 섹션에 답변을 기록하는 순차적, 커버리지 기반 질문.
 2. 여전히 모호하게 느껴지는 경우 임시 자유 형식 개선으로 선택적으로 후속 조치.
 
 의도적으로 명확화를 건너뛰려는 경우(예: 스파이크 또는 탐색적 프로토타입), 에이전트가 누락된 명확화에서 차단되지 않도록 명시적으로 명시하세요.
 
-예제 자유 형식 개선 프롬프트 (`/speckit.clarify` 후에도 여전히 필요한 경우):
+예제 자유 형식 개선 프롬프트 (`/spec-mix.clarify` 후에도 여전히 필요한 경우):
 
 ```text
 생성하는 각 샘플 프로젝트 또는 프로젝트에 대해 각각에 대해 5개에서 15개 사이의 가변 작업 수가 있어야 하며
@@ -606,7 +602,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 
 ### **4단계:** 계획 생성
 
-이제 기술 스택 및 기타 기술 요구사항에 대해 구체적으로 설명할 수 있습니다. 다음과 같은 프롬프트와 함께 프로젝트 템플릿에 내장된 `/speckit.plan` 명령을 사용할 수 있습니다:
+이제 기술 스택 및 기타 기술 요구사항에 대해 구체적으로 설명할 수 있습니다. 다음과 같은 프롬프트와 함께 프로젝트 템플릿에 내장된 `/spec-mix.plan` 명령을 사용할 수 있습니다:
 
 ```text
 .NET Aspire를 사용하여 생성하고 데이터베이스로 Postgres를 사용합니다. 프론트엔드는 드래그 앤 드롭 작업 보드,
@@ -685,12 +681,12 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 >[!NOTE]
 >에이전트가 구현하기 전에 Claude Code에 세부정보를 교차 확인하여 과도하게 엔지니어링된 부분이 있는지 확인하는 것도 가치가 있습니다(기억하세요 - 과도하게 열심일 수 있습니다). 과도하게 엔지니어링된 구성 요소 또는 결정이 존재하는 경우 Claude Code에 이를 해결하도록 요청할 수 있습니다. Claude Code가 계획을 수립할 때 반드시 준수해야 하는 기본 부분으로 [constitution](base/memory/constitution.md)을 따르는지 확인하세요.
 
-### **6단계:** /speckit.tasks로 작업 분해 생성
+### **6단계:** /spec-mix.tasks로 작업 분해 생성
 
-구현 계획이 검증되면 이제 올바른 순서로 실행할 수 있는 특정 실행 가능한 작업으로 계획을 세분화할 수 있습니다. `/speckit.tasks` 명령을 사용하여 구현 계획에서 자동으로 상세한 작업 분해를 생성하세요:
+구현 계획이 검증되면 이제 올바른 순서로 실행할 수 있는 특정 실행 가능한 작업으로 계획을 세분화할 수 있습니다. `/spec-mix.tasks` 명령을 사용하여 구현 계획에서 자동으로 상세한 작업 분해를 생성하세요:
 
 ```text
-/speckit.tasks
+/spec-mix.tasks
 ```
 
 이 단계는 기능 명세 디렉토리에 다음을 포함하는 `tasks.md` 파일을 생성합니다:
@@ -702,17 +698,17 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 - **테스트 주도 개발 구조** - 테스트가 요청되면 테스트 작업이 포함되고 구현 전에 작성되도록 순서가 지정됩니다
 - **체크포인트 검증** - 각 사용자 스토리 단계에는 독립적인 기능을 검증하기 위한 체크포인트가 포함됩니다
 
-생성된 tasks.md는 `/speckit.implement` 명령에 대한 명확한 로드맵을 제공하여 코드 품질을 유지하고 사용자 스토리의 점진적 전달을 허용하는 체계적인 구현을 보장합니다.
+생성된 tasks.md는 `/spec-mix.implement` 명령에 대한 명확한 로드맵을 제공하여 코드 품질을 유지하고 사용자 스토리의 점진적 전달을 허용하는 체계적인 구현을 보장합니다.
 
 ### **7단계:** 구현
 
-준비가 되면 `/speckit.implement` 명령을 사용하여 구현 계획을 실행하세요:
+준비가 되면 `/spec-mix.implement` 명령을 사용하여 구현 계획을 실행하세요:
 
 ```text
-/speckit.implement
+/spec-mix.implement
 ```
 
-`/speckit.implement` 명령은:
+`/spec-mix.implement` 명령은:
 
 - 모든 전제 조건이 준비되어 있는지 검증합니다(constitution, spec, plan 및 tasks)
 - `tasks.md`에서 작업 분해를 구문 분석합니다
@@ -773,7 +769,7 @@ rm gcm-linux_amd64.2.6.1.deb
 
 - **🌍 다국어 지원 (i18n)**: 완전한 국제화 인프라
   - 완전한 한국어 번역
-  - 언어 관리 명령 (`specify lang`)
+  - 언어 관리 명령 (`spec-mix lang`)
   - 시스템 로케일 기반 자동 언어 감지
   - 더 많은 언어 추가를 위한 확장 가능한 아키텍처
 
@@ -782,7 +778,7 @@ rm gcm-linux_amd64.2.6.1.deb
   - 심층 연구 미션 (증거 기반 분석, 리서치 방법론)
   - 미션별 템플릿, 명령 및 검증 규칙
   - 다국어 미션 지원
-  - 미션 관리 명령 (`specify mission`)
+  - 미션 관리 명령 (`spec-mix mission`)
 
 - **📊 웹 대시보드**: 시각적 모니터링 및 탐색
   - 작업 통계가 있는 실시간 기능 개요

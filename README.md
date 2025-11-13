@@ -1,6 +1,6 @@
 <div align="center">
-    <img src="./media/logo_small.webp" alt="Spec Kit Logo"/>
-    <h1>🌱 Spec Kit</h1>
+    <img src="./media/logo.png" alt="Spec Mix Logo" width="120"/>
+    <h1>🌱 Spec Mix</h1>
     <h3><em>Build high-quality software faster.</em></h3>
 </div>
 
@@ -57,20 +57,20 @@ Choose your preferred installation method:
 Install once and use everywhere:
 
 ```bash
-uv tool install specify-cli --from git+https://github.com/dan1901/spec-kit.git
+uv tool install spec-mix --from git+https://github.com/dan1901/spec-kit.git
 ```
 
 Then use the tool directly:
 
 ```bash
-specify init <PROJECT_NAME>
-specify check
+spec-mix init <PROJECT_NAME>
+spec-mix check
 ```
 
 To upgrade specify run:
 
 ```bash
-uv tool install specify-cli --force --from git+https://github.com/dan1901/spec-kit.git
+uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-kit.git
 ```
 
 #### Option 2: One-time Usage
@@ -78,7 +78,7 @@ uv tool install specify-cli --force --from git+https://github.com/dan1901/spec-k
 Run directly without installing:
 
 ```bash
-uvx --from git+https://github.com/dan1901/spec-kit.git specify init <PROJECT_NAME>
+uvx --from git+https://github.com/dan1901/spec-kit.git spec-mix init <PROJECT_NAME>
 ```
 
 **Benefits of persistent installation:**
@@ -90,44 +90,44 @@ uvx --from git+https://github.com/dan1901/spec-kit.git specify init <PROJECT_NAM
 
 ### 2. Establish project principles
 
-Launch your AI assistant in the project directory. The `/speckit.*` commands are available in the assistant.
+Launch your AI assistant in the project directory. The `/spec-mix.*` commands are available in the assistant.
 
-Use the **`/speckit.constitution`** command to create your project's governing principles and development guidelines that will guide all subsequent development.
+Use the **`/spec-mix.constitution`** command to create your project's governing principles and development guidelines that will guide all subsequent development.
 
 ```bash
-/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+/spec-mix.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
 ```
 
 ### 3. Create the spec
 
-Use the **`/speckit.specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
+Use the **`/spec-mix.specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
 
 ```bash
-/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+/spec-mix.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
 ```
 
 ### 4. Create a technical implementation plan
 
-Use the **`/speckit.plan`** command to provide your tech stack and architecture choices.
+Use the **`/spec-mix.plan`** command to provide your tech stack and architecture choices.
 
 ```bash
-/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+/spec-mix.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
 ```
 
 ### 5. Break down into tasks
 
-Use **`/speckit.tasks`** to create an actionable task list from your implementation plan.
+Use **`/spec-mix.tasks`** to create an actionable task list from your implementation plan.
 
 ```bash
-/speckit.tasks
+/spec-mix.tasks
 ```
 
 ### 6. Execute implementation
 
-Use **`/speckit.implement`** to execute all tasks and build your feature according to the plan.
+Use **`/spec-mix.implement`** to execute all tasks and build your feature according to the plan.
 
 ```bash
-/speckit.implement
+/spec-mix.implement
 ```
 
 For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
@@ -135,8 +135,6 @@ For detailed step-by-step instructions, see our [comprehensive guide](./spec-dri
 ## 📽️ Video Overview
 
 Want to see Spec Kit in action? Watch our [video overview](https://www.youtube.com/watch?v=a9eR1xsfvHg&pp=0gcJCckJAYcqIYzv)!
-
-[![Spec Kit video header](/media/spec-kit-video-header.jpg)](https://www.youtube.com/watch?v=a9eR1xsfvHg&pp=0gcJCckJAYcqIYzv)
 
 ## 🤖 Supported AI Agents
 
@@ -179,52 +177,52 @@ Spec Kit automatically detects your system language. To use a specific language:
 export SPECIFY_LANG=ko
 
 # Or use per-session
-SPECIFY_LANG=ko specify init my-project
+SPECIFY_LANG=ko spec-mix init my-project
 ```
 
 #### Language Management Commands
 
 ```bash
 # List available languages
-specify lang list
+spec-mix lang list
 
 # Show current language
-specify lang current
+spec-mix lang current
 
 # Set default language
-specify lang set ko
+spec-mix lang set ko
 ```
 
 #### Mission Management Commands
 
 ```bash
 # List available missions
-specify mission list
+spec-mix mission list
 
 # Show current mission info
-specify mission current
+spec-mix mission current
 
 # Switch mission
-specify mission switch research
+spec-mix mission switch research
 
 # View mission details
-specify mission info software-dev
+spec-mix mission info software-dev
 ```
 
 #### Dashboard Commands
 
 ```bash
 # Start dashboard (opens in browser)
-specify dashboard
+spec-mix dashboard
 
 # Start on specific port
-specify dashboard start --port 9000
+spec-mix dashboard start --port 9000
 
 # Check dashboard status
-specify dashboard status
+spec-mix dashboard status
 
 # Stop dashboard
-specify dashboard stop
+spec-mix dashboard stop
 ```
 
 ### What Gets Translated
@@ -232,8 +230,8 @@ specify dashboard stop
 When you use Spec Kit in your preferred language, the following are translated:
 
 - **CLI Messages**: All prompts, errors, success messages, and help text
-- **Command Instructions**: All `/speckit.*` slash command workflows
-  - `/speckit.specify`, `/speckit.plan`, `/speckit.tasks`, etc.
+- **Command Instructions**: All `/spec-mix.*` slash command workflows
+  - `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks`, etc.
 - **Templates**: Specification, implementation plan, and task breakdown templates
 - **Documentation**: Inline comments and guidance within generated files
 
@@ -244,14 +242,14 @@ When you use Spec Kit in your preferred language, the following are translated:
 export SPECIFY_LANG=ko
 
 # Initialize project (all prompts in Korean)
-specify init my-project --ai claude
+spec-mix init my-project --ai claude
 
 # Use slash commands in Korean
-/speckit.constitution  # 프로젝트 원칙 수립
-/speckit.specify       # 기능 사양 생성
-/speckit.plan          # 구현 계획 생성
-/speckit.tasks         # 작업 분석 생성
-/speckit.implement     # 구현 실행
+/spec-mix.constitution  # 프로젝트 원칙 수립
+/spec-mix.specify       # 기능 사양 생성
+/spec-mix.plan          # 구현 계획 생성
+/spec-mix.tasks         # 작업 분석 생성
+/spec-mix.implement     # 구현 실행
 ```
 
 ### Contributing Translations
@@ -277,7 +275,7 @@ The `specify` command supports the following options:
 | `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `windsurf`, `qwen`, `opencode`, `codex`) |
 | `lang`      | Manage language packs (`list`, `current`, `set`, `install`)    |
 
-### `specify init` Arguments & Options
+### `spec-mix init` Arguments & Options
 
 | Argument/Option        | Type     | Description                                                                  |
 |------------------------|----------|------------------------------------------------------------------------------|
@@ -298,61 +296,61 @@ The `specify` command supports the following options:
 
 ```bash
 # Basic project initialization
-specify init my-project
+spec-mix init my-project
 
 # Initialize with specific AI assistant
-specify init my-project --ai claude
+spec-mix init my-project --ai claude
 
 # Initialize with Cursor support
-specify init my-project --ai cursor-agent
+spec-mix init my-project --ai cursor-agent
 
 # Initialize with Windsurf support
-specify init my-project --ai windsurf
+spec-mix init my-project --ai windsurf
 
 # Initialize with Amp support
-specify init my-project --ai amp
+spec-mix init my-project --ai amp
 
 # Initialize with Korean language
-specify init my-project --ai claude --lang ko
+spec-mix init my-project --ai claude --lang ko
 
 # Initialize with research mission
-specify init my-project --ai claude --mission research
+spec-mix init my-project --ai claude --mission research
 
 # Initialize with both language and mission
-specify init my-project --ai claude --lang ko --mission research
+spec-mix init my-project --ai claude --lang ko --mission research
 
 # Interactive selection (will prompt for language and mission if not specified)
-specify init my-project --ai claude
+spec-mix init my-project --ai claude
 
 # Initialize with PowerShell scripts (Windows/cross-platform)
-specify init my-project --ai copilot --script ps
+spec-mix init my-project --ai copilot --script ps
 
 # Initialize in current directory
-specify init . --ai copilot
+spec-mix init . --ai copilot
 # or use the --here flag
-specify init --here --ai copilot
+spec-mix init --here --ai copilot
 
 # Force merge into current (non-empty) directory without confirmation
-specify init . --force --ai copilot
+spec-mix init . --force --ai copilot
 # or 
-specify init --here --force --ai copilot
+spec-mix init --here --force --ai copilot
 
 # Skip git initialization
-specify init my-project --ai gemini --no-git
+spec-mix init my-project --ai gemini --no-git
 
 # Enable debug output for troubleshooting
-specify init my-project --ai claude --debug
+spec-mix init my-project --ai claude --debug
 
 # Use GitHub token for API requests (helpful for corporate environments)
-specify init my-project --ai claude --github-token ghp_your_token_here
+spec-mix init my-project --ai claude --github-token ghp_your_token_here
 
 # Check system requirements
-specify check
+spec-mix check
 ```
 
 ### Available Slash Commands
 
-After running `specify init`, your AI coding agent will have access to these slash commands for structured development:
+After running `spec-mix init`, your AI coding agent will have access to these slash commands for structured development:
 
 #### Core Commands
 
@@ -360,11 +358,11 @@ Essential commands for the Spec-Driven Development workflow:
 
 | Command                  | Description                                                           |
 |--------------------------|-----------------------------------------------------------------------|
-| `/speckit.constitution`  | Create or update project governing principles and development guidelines |
-| `/speckit.specify`       | Define what you want to build (requirements and user stories)        |
-| `/speckit.plan`          | Create technical implementation plans with your chosen tech stack     |
-| `/speckit.tasks`         | Generate actionable task lists for implementation                     |
-| `/speckit.implement`     | Execute all tasks to build the feature according to the plan         |
+| `/spec-mix.constitution`  | Create or update project governing principles and development guidelines |
+| `/spec-mix.specify`       | Define what you want to build (requirements and user stories)        |
+| `/spec-mix.plan`          | Create technical implementation plans with your chosen tech stack     |
+| `/spec-mix.tasks`         | Generate actionable task lists for implementation                     |
+| `/spec-mix.implement`     | Execute all tasks to build the feature according to the plan         |
 
 #### Workflow Management Commands
 
@@ -372,10 +370,10 @@ Commands for managing feature development with worktrees and task lanes:
 
 | Command              | Description                                                           |
 |----------------------|-----------------------------------------------------------------------|
-| `/speckit.dashboard` | Launch web dashboard to visualize features, kanban boards, and artifacts |
-| `/speckit.review`    | Review completed work in the `for_review` lane and move approved tasks to `done` |
-| `/speckit.accept`    | Verify feature readiness with comprehensive checks before merging     |
-| `/speckit.merge`     | Merge feature branch to main with cleanup options (supports multiple strategies) |
+| `/spec-mix.dashboard` | Launch web dashboard to visualize features, kanban boards, and artifacts |
+| `/spec-mix.review`    | Review completed work in the `for_review` lane and move approved tasks to `done` |
+| `/spec-mix.accept`    | Verify feature readiness with comprehensive checks before merging     |
+| `/spec-mix.merge`     | Merge feature branch to main with cleanup options (supports multiple strategies) |
 
 #### Optional Commands
 
@@ -383,15 +381,15 @@ Additional commands for enhanced quality and validation:
 
 | Command              | Description                                                           |
 |----------------------|-----------------------------------------------------------------------|
-| `/speckit.clarify`   | Clarify underspecified areas (recommended before `/speckit.plan`; formerly `/quizme`) |
-| `/speckit.analyze`   | Cross-artifact consistency & coverage analysis (run after `/speckit.tasks`, before `/speckit.implement`) |
-| `/speckit.checklist` | Generate custom quality checklists that validate requirements completeness, clarity, and consistency (like "unit tests for English") |
+| `/spec-mix.clarify`   | Clarify underspecified areas (recommended before `/spec-mix.plan`; formerly `/quizme`) |
+| `/spec-mix.analyze`   | Cross-artifact consistency & coverage analysis (run after `/spec-mix.tasks`, before `/spec-mix.implement`) |
+| `/spec-mix.checklist` | Generate custom quality checklists that validate requirements completeness, clarity, and consistency (like "unit tests for English") |
 
 ### Environment Variables
 
 | Variable         | Description                                                                                    |
 |------------------|------------------------------------------------------------------------------------------------|
-| `SPECIFY_FEATURE` | Override feature detection for non-Git repositories. Set to the feature directory name (e.g., `001-photo-albums`) to work on a specific feature when not using Git branches.<br/>**Must be set in the context of the agent you're working with prior to using `/speckit.plan` or follow-up commands. |
+| `SPECIFY_FEATURE` | Override feature detection for non-Git repositories. Set to the feature directory name (e.g., `001-photo-albums`) to work on a specific feature when not using Git branches.<br/>**Must be set in the context of the agent you're working with prior to using `/spec-mix.plan` or follow-up commands. |
 
 ## 📚 Core Philosophy
 
@@ -461,70 +459,68 @@ If you encounter issues with an agent, please open an issue so we can refine the
 You can use the Specify CLI to bootstrap your project, which will bring in the required artifacts in your environment. Run:
 
 ```bash
-specify init <project_name>
+spec-mix init <project_name>
 ```
 
 Or initialize in the current directory:
 
 ```bash
-specify init .
+spec-mix init .
 # or use the --here flag
-specify init --here
+spec-mix init --here
 # Skip confirmation when the directory already has files
-specify init . --force
+spec-mix init . --force
 # or
-specify init --here --force
+spec-mix init --here --force
 ```
 
-![Specify CLI bootstrapping a new project in the terminal](./media/specify_cli.gif)
 
 You will be prompted to select the AI agent you are using. You can also proactively specify it directly in the terminal:
 
 ```bash
-specify init <project_name> --ai claude
-specify init <project_name> --ai gemini
-specify init <project_name> --ai copilot
+spec-mix init <project_name> --ai claude
+spec-mix init <project_name> --ai gemini
+spec-mix init <project_name> --ai copilot
 
 # Or in current directory:
-specify init . --ai claude
-specify init . --ai codex
+spec-mix init . --ai claude
+spec-mix init . --ai codex
 
 # or use --here flag
-specify init --here --ai claude
-specify init --here --ai codex
+spec-mix init --here --ai claude
+spec-mix init --here --ai codex
 
 # Force merge into a non-empty current directory
-specify init . --force --ai claude
+spec-mix init . --force --ai claude
 
 # or
-specify init --here --force --ai claude
+spec-mix init --here --force --ai claude
 ```
 
 The CLI will check if you have Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI, or Amazon Q Developer CLI installed. If you do not, or you prefer to get the templates without checking for the right tools, use `--ignore-agent-tools` with your command:
 
 ```bash
-specify init <project_name> --ai claude --ignore-agent-tools
+spec-mix init <project_name> --ai claude --ignore-agent-tools
 ```
 
 ### **STEP 1:** Establish project principles
 
 Go to the project folder and run your AI agent. In our example, we're using `claude`.
 
-![Bootstrapping Claude Code environment](./media/bootstrap-claude-code.gif)
 
-You will know that things are configured correctly if you see the `/speckit.constitution`, `/speckit.specify`, `/speckit.plan`, `/speckit.tasks`, and `/speckit.implement` commands available.
+You will know that things are configured correctly if you see the `/spec-mix.constitution`, `/spec-mix.specify`, `/spec-mix.plan`, `/spec-mix.tasks`, and `/spec-mix.implement` commands available.
 
-The first step should be establishing your project's governing principles using the `/speckit.constitution` command. This helps ensure consistent decision-making throughout all subsequent development phases:
+The first step should be establishing your project's governing principles using the `/spec-mix.constitution` command. This helps ensure consistent decision-making throughout all subsequent development phases:
 
 ```text
-/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements. Include governance for how these principles should guide technical decisions and implementation choices.
+/spec-mix.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements. Include governance for how these principles should guide technical decisions and implementation choices.
 ```
 
 This step creates or updates the `.specify/memory/constitution.md` file with your project's foundational guidelines that the AI agent will reference during specification, planning, and implementation phases.
 
 ### **STEP 2:** Create project specifications
 
-With your project principles established, you can now create the functional specifications. Use the `/speckit.specify` command and then provide the concrete requirements for the project you want to develop.
+With your project principles established, you can now create the functional specifications. Use the `/spec-mix.specify` command and then provide the concrete requirements for the project you want to develop.
 
 >[!IMPORTANT]
 >Be as explicit as possible about *what* you are trying to build and *why*. **Do not focus on the tech stack at this point**.
@@ -585,12 +581,12 @@ You should run the structured clarification workflow **before** creating a techn
 
 Preferred order:
 
-1. Use `/speckit.clarify` (structured) – sequential, coverage-based questioning that records answers in a Clarifications section.
+1. Use `/spec-mix.clarify` (structured) – sequential, coverage-based questioning that records answers in a Clarifications section.
 2. Optionally follow up with ad-hoc free-form refinement if something still feels vague.
 
 If you intentionally want to skip clarification (e.g., spike or exploratory prototype), explicitly state that so the agent doesn't block on missing clarifications.
 
-Example free-form refinement prompt (after `/speckit.clarify` if still needed):
+Example free-form refinement prompt (after `/spec-mix.clarify` if still needed):
 
 ```text
 For each sample project or project that you create there should be a variable number of tasks between 5 and 15
@@ -608,7 +604,7 @@ It's important to use the interaction with Claude Code as an opportunity to clar
 
 ### **STEP 4:** Generate a plan
 
-You can now be specific about the tech stack and other technical requirements. You can use the `/speckit.plan` command that is built into the project template with a prompt like this:
+You can now be specific about the tech stack and other technical requirements. You can use the `/spec-mix.plan` command that is built into the project template with a prompt like this:
 
 ```text
 We are going to generate this using .NET Aspire, using Postgres as the database. The frontend should use
@@ -692,12 +688,12 @@ You can also ask Claude Code (if you have the [GitHub CLI](https://docs.github.c
 >[!NOTE]
 >Before you have the agent implement it, it's also worth prompting Claude Code to cross-check the details to see if there are any over-engineered pieces (remember - it can be over-eager). If over-engineered components or decisions exist, you can ask Claude Code to resolve them. Ensure that Claude Code follows the [constitution](base/memory/constitution.md) as the foundational piece that it must adhere to when establishing the plan.
 
-### **STEP 6:** Generate task breakdown with /speckit.tasks
+### **STEP 6:** Generate task breakdown with /spec-mix.tasks
 
-With the implementation plan validated, you can now break down the plan into specific, actionable tasks that can be executed in the correct order. Use the `/speckit.tasks` command to automatically generate a detailed task breakdown from your implementation plan:
+With the implementation plan validated, you can now break down the plan into specific, actionable tasks that can be executed in the correct order. Use the `/spec-mix.tasks` command to automatically generate a detailed task breakdown from your implementation plan:
 
 ```text
-/speckit.tasks
+/spec-mix.tasks
 ```
 
 This step creates a `tasks.md` file in your feature specification directory that contains:
@@ -709,17 +705,17 @@ This step creates a `tasks.md` file in your feature specification directory that
 - **Test-driven development structure** - If tests are requested, test tasks are included and ordered to be written before implementation
 - **Checkpoint validation** - Each user story phase includes checkpoints to validate independent functionality
 
-The generated tasks.md provides a clear roadmap for the `/speckit.implement` command, ensuring systematic implementation that maintains code quality and allows for incremental delivery of user stories.
+The generated tasks.md provides a clear roadmap for the `/spec-mix.implement` command, ensuring systematic implementation that maintains code quality and allows for incremental delivery of user stories.
 
 ### **STEP 7:** Implementation
 
-Once ready, use the `/speckit.implement` command to execute your implementation plan:
+Once ready, use the `/spec-mix.implement` command to execute your implementation plan:
 
 ```text
-/speckit.implement
+/spec-mix.implement
 ```
 
-The `/speckit.implement` command will:
+The `/spec-mix.implement` command will:
 
 - Validate that all prerequisites are in place (constitution, spec, plan, and tasks)
 - Parse the task breakdown from `tasks.md`
@@ -780,7 +776,7 @@ This is a fork of the original [github/spec-kit](https://github.com/github/spec-
 
 - **🌍 Multi-Language Support (i18n)**: Complete internationalization infrastructure
   - Full Korean (한국어) translation
-  - Language management commands (`specify lang`)
+  - Language management commands (`spec-mix lang`)
   - Automatic language detection based on system locale
   - Extensible architecture for adding more languages
 
@@ -789,7 +785,7 @@ This is a fork of the original [github/spec-kit](https://github.com/github/spec-
   - Deep Research mission (증거 기반 분석, 리서치 방법론)
   - Mission-specific templates, commands, and validation rules
   - Multilingual mission support
-  - Mission management commands (`specify mission`)
+  - Mission management commands (`spec-mix mission`)
 
 - **📊 Web Dashboard**: Visual monitoring and navigation
   - Real-time feature overview with task statistics

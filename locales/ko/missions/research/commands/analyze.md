@@ -12,7 +12,7 @@ $ARGUMENTS
 
 ## 개요
 
-이 명령은 `/speckit.tasks` 후 `/speckit.implement` 전에 실행되어 모든 아티팩트 간의 일관성과 완전성을 검증합니다.
+이 명령은 `/spec-mix.tasks` 후 `/spec-mix.implement` 전에 실행되어 모든 아티팩트 간의 일관성과 완전성을 검증합니다.
 
 ## 분석 영역
 
@@ -48,4 +48,4 @@ $ARGUMENTS
 
 - 오류가 있는 경우: 구현 전 해당 아티팩트 수정
 - 경고가 있는 경우: 검토 및 필요시 수정
-- 모든 것이 통과한 경우: `/speckit.implement` 진행 가능
+- 모든 것이 통과한 경우: `/spec-mix.implement` 진행 가능

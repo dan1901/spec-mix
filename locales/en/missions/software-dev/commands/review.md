@@ -120,5 +120,5 @@ Present review results clearly:
 
 - Address feedback for WP02
 - Continue with remaining planned tasks
-- Run `/speckit.accept` when all tasks are in done lane
+- Run `/spec-mix.accept` when all tasks are in done lane
 ```

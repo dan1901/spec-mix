@@ -3,7 +3,7 @@
 **브랜치**: `[###-feature-name]` | **날짜**: [날짜] | **사양**: [링크]
 **입력**: `/specs/[###-feature-name]/spec.md`의 기능 사양
 
-**참고**: 이 템플릿은 `/speckit.plan` 명령에 의해 작성됩니다. 실행 워크플로는 `.specify/templates/commands/plan.md`를 참조하세요.
+**참고**: 이 템플릿은 `/spec-mix.plan` 명령에 의해 작성됩니다. 실행 워크플로는 `.specify/templates/commands/plan.md`를 참조하세요.
 
 ## 요약
 
@@ -38,12 +38,12 @@
 
 ```text
 specs/[###-feature]/
-├── plan.md              # 이 파일 (/speckit.plan 명령 출력)
-├── research.md          # 0단계 출력 (/speckit.plan 명령)
-├── data-model.md        # 1단계 출력 (/speckit.plan 명령)
-├── quickstart.md        # 1단계 출력 (/speckit.plan 명령)
-├── contracts/           # 1단계 출력 (/speckit.plan 명령)
-└── tasks.md             # 2단계 출력 (/speckit.tasks 명령 - /speckit.plan으로 생성되지 않음)
+├── plan.md              # 이 파일 (/spec-mix.plan 명령 출력)
+├── research.md          # 0단계 출력 (/spec-mix.plan 명령)
+├── data-model.md        # 1단계 출력 (/spec-mix.plan 명령)
+├── quickstart.md        # 1단계 출력 (/spec-mix.plan 명령)
+├── contracts/           # 1단계 출력 (/spec-mix.plan 명령)
+└── tasks.md             # 2단계 출력 (/spec-mix.tasks 명령 - /spec-mix.plan으로 생성되지 않음)
 ```
 
 ### 소스 코드 (저장소 루트)
