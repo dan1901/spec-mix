@@ -20,5 +20,10 @@
     "MD050": {
       "style": "asterisk"
     }
-  }
+  },
+  "ignores": [
+    "src/specmix/locales/**/commands/**/*.md",
+    "src/specmix/locales/**/templates/**/*.md",
+    "src/specmix/locales/**/constitution/**/*.md"
+  ]
 }
