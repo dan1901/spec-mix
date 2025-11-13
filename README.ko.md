@@ -11,7 +11,7 @@
 <p align="center">
     <a href="https://github.com/dan1901/spec-mix/actions/workflows/release.yml"><img src="https://github.com/dan1901/spec-mix/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
     <a href="https://github.com/dan1901/spec-mix/stargazers"><img src="https://img.shields.io/github/stars/dan1901/spec-mix?style=social" alt="GitHub stars"/></a>
-    <a href="https://github.com/dan1901/spec-mix/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dan1901/spec-mix" alt="License"/></a>
+    <a href="https://github.com/dan1901/spec-mix/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/></a>
     <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
