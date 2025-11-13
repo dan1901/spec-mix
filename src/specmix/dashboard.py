@@ -342,12 +342,14 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
     """
     Parse a single tasks.md file and extract tasks.
 
-    Tasks are identified by checkbox lines: - [ ] or - [x]
-    For now, we categorize:
-    - Uncompleted tasks (- [ ]) -> 'planned'
-    - Completed tasks (- [x]) -> 'done'
+    Supports multiple task formats:
+    1. Checkbox format: - [ ] T001 Description or - [x] T001 Description
+    2. Header format: ### WP-001: Task Title or ### T001: Task Title
 
-    Future enhancement: Parse task descriptions to identify lane markers or status
+    Categorization:
+    - Completed checkboxes (- [x]) -> 'done'
+    - Uncompleted checkboxes (- [ ]) -> 'planned'
+    - Header tasks (###) -> 'planned'
     """
     import re
 
@@ -362,17 +364,14 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
         with open(tasks_file, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Match task lines: - [ ] T001 Description or - [x] T001 Description
-        task_pattern = re.compile(r'^- \[([ xX])\] (T\d+.*?)$', re.MULTILINE)
+        # Pattern 1: Checkbox tasks - [ ] T001 Description or - [x] T001 Description
+        checkbox_pattern = re.compile(r'^- \[([ xX])\] (T\d+.*?)$', re.MULTILINE)
 
-        for match in task_pattern.finditer(content):
+        for match in checkbox_pattern.finditer(content):
             is_completed = match.group(1).lower() == 'x'
             task_text = match.group(2).strip()
 
             # Extract task ID and title
-            # Format examples:
-            # - T001 Create project structure
-            # - T002 [P] [US1] Implement feature
             parts = task_text.split(' ', 1)
             task_id = parts[0] if parts else task_text
             task_title = parts[1] if len(parts) > 1 else task_text
@@ -387,9 +386,23 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
             if is_completed:
                 lanes['done'].append(task_info)
             else:
-                # Future: Parse task description for lane indicators
-                # For now, all uncompleted tasks go to 'planned'
                 lanes['planned'].append(task_info)
+
+        # Pattern 2: Header tasks ### WP-001: Task Title or ### T001: Task Title
+        header_pattern = re.compile(r'^### ([A-Z]+-\d+|T\d+):\s*(.+?)$', re.MULTILINE)
+
+        for match in header_pattern.finditer(content):
+            task_id = match.group(1).strip()
+            task_title = match.group(2).strip()
+
+            task_info = {
+                'id': task_id,
+                'title': task_title,
+                'path': str(tasks_file)
+            }
+
+            # Header tasks are considered 'planned' by default
+            lanes['planned'].append(task_info)
 
     except Exception as e:
         print(f"Error parsing tasks file {tasks_file}: {e}")
