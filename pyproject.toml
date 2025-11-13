@@ -23,3 +23,10 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/specify_cli"]
 
+[tool.hatch.build]
+include = [
+    "src/specify_cli/**/*.py",
+    "src/specify_cli/locales/**/*",
+    "src/specify_cli/static/**/*"
+]
+

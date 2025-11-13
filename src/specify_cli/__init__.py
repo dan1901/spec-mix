@@ -408,7 +408,8 @@ if HAS_DASHBOARD and dashboard_app is not None:
 def show_banner():
     """Display the ASCII art banner."""
     banner_lines = BANNER.strip().split('\n')
-    colors = ["bright_blue", "blue", "cyan", "bright_cyan", "white", "bright_white"]
+    # Darker colors that work well on both light and dark backgrounds
+    colors = ["bold blue", "bold cyan", "bold magenta", "bold blue", "bold cyan", "bold magenta"]
 
     styled_banner = Text()
     for i, line in enumerate(banner_lines):
@@ -416,7 +417,7 @@ def show_banner():
         styled_banner.append(line + "\n", style=color)
 
     console.print(Align.center(styled_banner))
-    console.print(Align.center(Text(TAGLINE, style="italic bright_yellow")))
+    console.print(Align.center(Text(TAGLINE, style="bold green")))
     console.print()
 
 @app.callback()
@@ -708,7 +709,7 @@ def download_template_from_github(ai_assistant: str, download_dir: Path, *, scri
     }
     return zip_path, metadata
 
-def download_and_extract_template(project_path: Path, ai_assistant: str, script_type: str, is_current_dir: bool = False, *, verbose: bool = True, tracker: StepTracker | None = None, client: httpx.Client = None, debug: bool = False, github_token: str = None) -> Path:
+def download_and_extract_template(project_path: Path, ai_assistant: str, script_type: str, is_current_dir: bool = False, *, verbose: bool = True, tracker: StepTracker | None = None, client: httpx.Client = None, debug: bool = False, github_token: str = None, language: str = "en", mission: str = "software-dev") -> Path:
     """Download the latest release and extract it to create a new project.
     Returns project_path. Uses tracker if provided (with keys: fetch, download, extract, cleanup)
     """
@@ -844,6 +845,33 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
     else:
         if tracker:
             tracker.complete("extract")
+
+        # Copy language-specific and mission-specific commands
+        try:
+            pkg_dir = Path(__file__).parent
+            locales_dir = pkg_dir / "locales" / language / "missions" / mission / "commands"
+
+            if locales_dir.exists():
+                claude_commands_dir = project_path / ".claude" / "commands"
+                claude_commands_dir.mkdir(parents=True, exist_ok=True)
+
+                if tracker:
+                    tracker.add("localize", f"Apply {language} commands")
+                    tracker.start("localize")
+
+                # Copy all command files
+                for cmd_file in locales_dir.glob("*.md"):
+                    dest_file = claude_commands_dir / cmd_file.name
+                    shutil.copy2(cmd_file, dest_file)
+
+                if tracker:
+                    tracker.complete("localize", f"{mission} ({language})")
+                elif verbose:
+                    console.print(f"[cyan]Applied {language} commands for {mission} mission[/cyan]")
+        except Exception as e:
+            if verbose and not tracker:
+                console.print(f"[yellow]Warning: Could not apply language-specific commands: {e}[/yellow]")
+
     finally:
         if tracker:
             tracker.add("cleanup", "Remove temporary archive")
@@ -1114,7 +1142,7 @@ def init(
             local_ssl_context = ssl_context if verify else False
             local_client = httpx.Client(verify=local_ssl_context)
 
-            download_and_extract_template(project_path, selected_ai, selected_script, here, verbose=False, tracker=tracker, client=local_client, debug=debug, github_token=github_token)
+            download_and_extract_template(project_path, selected_ai, selected_script, here, verbose=False, tracker=tracker, client=local_client, debug=debug, github_token=github_token, language=selected_lang, mission=selected_mission)
 
             ensure_executable_scripts(project_path, tracker=tracker)
 
