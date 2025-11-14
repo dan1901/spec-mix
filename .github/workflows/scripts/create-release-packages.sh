@@ -18,8 +18,9 @@ if [[ $# -ne 1 ]]; then
   exit 1
 fi
 NEW_VERSION="$1"
-if [[ ! $NEW_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  echo "Version must look like v0.0.0" >&2
+# Support semantic versioning with pre-release tags (e.g., v1.0.0-alpha.1, v1.0.0-beta, v1.0.0-rc.1)
+if [[ ! $NEW_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?(\+[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?$ ]]; then
+  echo "Version must look like v0.0.0 or v0.0.0-alpha.1 (semantic versioning)" >&2
   exit 1
 fi
 
