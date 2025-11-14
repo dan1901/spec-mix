@@ -381,9 +381,36 @@ async function openTaskModal(featureId, lane, taskId) {
         // Update modal title
         modalTitle.textContent = `${taskData.id}: ${taskData.title}`;
 
+        // Build HTML with dependencies
+        let html = '';
+
+        // Add dependencies section at the top if present
+        if (taskData.dependencies && taskData.dependencies.length > 0) {
+            html += '<div class="task-dependencies">';
+            html += '<h3>📦 Dependencies</h3>';
+            html += '<div class="dependency-links">';
+            taskData.dependencies.forEach(dep => {
+                html += `<a href="#" class="dependency-link" data-feature-id="${featureId}" data-lane="${dep.lane}" data-task-id="${dep.id}">${dep.id}</a>`;
+            });
+            html += '</div>';
+            html += '</div>';
+        }
+
         // Render markdown content
-        const html = marked.parse(taskData.content);
+        html += marked.parse(taskData.content);
+
         modalBody.innerHTML = html;
+
+        // Add click handlers to dependency links
+        document.querySelectorAll('.dependency-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const depFeatureId = link.dataset.featureId;
+                const depLane = link.dataset.lane;
+                const depTaskId = link.dataset.taskId;
+                openTaskModal(depFeatureId, depLane, depTaskId);
+            });
+        });
 
     } catch (error) {
         console.error('Failed to load task detail:', error);

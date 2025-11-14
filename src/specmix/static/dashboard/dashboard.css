@@ -481,6 +481,51 @@ footer {
     border-color: var(--primary-color);
 }
 
+/* Task Dependencies */
+.task-dependencies {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+}
+
+.task-dependencies h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--text-color);
+}
+
+.dependency-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.dependency-link {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.dependency-link:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+.dependency-link:active {
+    transform: translateY(0);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .kanban-board {

@@ -577,6 +577,7 @@ def get_artifact_content(feature_id: str, artifact_name: str) -> Optional[str]:
 def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[str, Any]]:
     """Get detailed information about a specific task"""
     import re
+    import yaml
 
     # Try to find feature
     feature_path = None
@@ -605,18 +606,36 @@ def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[s
                 with open(task_file, 'r', encoding='utf-8') as f:
                     content = f.read()
 
-                # Extract title from first heading or frontmatter
+                # Extract title and dependencies from frontmatter
                 title = task_id
+                dependencies = []
                 lines = content.split('\n')
 
                 # Try to extract from frontmatter
                 if lines and lines[0].strip() == '---':
+                    frontmatter_lines = []
+                    end_index = 0
                     for i, line in enumerate(lines[1:], 1):
                         if line.strip() == '---':
+                            end_index = i
                             break
-                        if line.startswith('title:'):
-                            title = line.split(':', 1)[1].strip().strip('"\'')
-                            break
+                        frontmatter_lines.append(line)
+
+                    if frontmatter_lines:
+                        try:
+                            frontmatter = yaml.safe_load('\n'.join(frontmatter_lines))
+                            if frontmatter:
+                                if 'title' in frontmatter:
+                                    title = str(frontmatter['title'])
+                                if 'dependencies' in frontmatter:
+                                    deps = frontmatter['dependencies']
+                                    if isinstance(deps, list):
+                                        dependencies = deps
+                                    elif isinstance(deps, str):
+                                        # Parse comma-separated or space-separated
+                                        dependencies = [d.strip() for d in re.split(r'[,\s]+', deps) if d.strip()]
+                        except:
+                            pass
 
                 # If no frontmatter title, try first markdown heading
                 if title == task_id:
@@ -625,11 +644,32 @@ def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[s
                             title = line.strip('# \n')
                             break
 
+                # Extract dependencies from content if not in frontmatter
+                if not dependencies:
+                    # Look for "Dependencies:", "Depends on:", "Requires:" sections
+                    dep_pattern = re.compile(r'(?:Dependencies|Depends on|Requires):\s*(.+?)(?:\n\n|\Z)', re.IGNORECASE | re.DOTALL)
+                    match = dep_pattern.search(content)
+                    if match:
+                        dep_text = match.group(1).strip()
+                        # Extract task IDs (WP-XX, TXXXX, etc.)
+                        task_id_pattern = re.compile(r'\b([A-Z]+-?\d+)\b')
+                        dependencies = task_id_pattern.findall(dep_text)
+
+                # Find lane for each dependency
+                dependencies_with_lane = []
+                for dep_id in dependencies:
+                    dep_lane = find_task_lane(feature_path, dep_id)
+                    dependencies_with_lane.append({
+                        'id': dep_id,
+                        'lane': dep_lane or 'planned'
+                    })
+
                 return {
                     'id': task_id,
                     'title': title,
                     'lane': lane,
                     'content': content,
+                    'dependencies': dependencies_with_lane,
                     'path': str(task_file),
                     'type': 'work_package'
                 }
@@ -644,6 +684,8 @@ def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[s
             with open(tasks_file, 'r', encoding='utf-8') as f:
                 content = f.read()
 
+            dependencies = []
+
             # Find task section (### TASK_ID: or - [ ] TASK_ID)
             # Pattern 1: Header format (### WP-01: Task Title)
             header_pattern = re.compile(
@@ -654,13 +696,32 @@ def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[s
 
             if match:
                 title = match.group(2).strip()
-                task_content = f"# {task_id}: {title}\n\n{match.group(3).strip()}"
+                task_section = match.group(3).strip()
+                task_content = f"# {task_id}: {title}\n\n{task_section}"
+
+                # Extract dependencies from task section
+                dep_pattern = re.compile(r'(?:Dependencies|Depends on|Requires):\s*(.+?)(?:\n\n|\Z)', re.IGNORECASE | re.DOTALL)
+                dep_match = dep_pattern.search(task_section)
+                if dep_match:
+                    dep_text = dep_match.group(1).strip()
+                    task_id_pattern = re.compile(r'\b([A-Z]+-?\d+)\b')
+                    dependencies = task_id_pattern.findall(dep_text)
+
+                # Find lane for each dependency
+                dependencies_with_lane = []
+                for dep_id in dependencies:
+                    dep_lane = find_task_lane(feature_path, dep_id)
+                    dependencies_with_lane.append({
+                        'id': dep_id,
+                        'lane': dep_lane or 'planned'
+                    })
 
                 return {
                     'id': task_id,
                     'title': title,
                     'lane': lane,
                     'content': task_content,
+                    'dependencies': dependencies_with_lane,
                     'path': str(tasks_file),
                     'type': 'tasks_md'
                 }
@@ -682,6 +743,7 @@ def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[s
                     'title': title,
                     'lane': lane,
                     'content': task_content,
+                    'dependencies': [],
                     'path': str(tasks_file),
                     'type': 'tasks_md'
                 }
@@ -689,6 +751,34 @@ def get_task_detail(feature_id: str, lane: str, task_id: str) -> Optional[Dict[s
         except Exception as e:
             print(f"Error parsing tasks file {tasks_file}: {e}")
             return None
+
+    return None
+
+
+def find_task_lane(feature_path: Path, task_id: str) -> Optional[str]:
+    """Find which lane a task is in"""
+    tasks_dir = feature_path / 'tasks'
+
+    if tasks_dir.exists() and tasks_dir.is_dir():
+        # Check directory-based structure
+        for lane in ['planned', 'doing', 'for_review', 'done']:
+            lane_dir = tasks_dir / lane
+            if lane_dir.exists():
+                task_file = lane_dir / f'{task_id}.md'
+                if task_file.exists():
+                    return lane
+
+    # Check tasks.md file
+    tasks_file = feature_path / 'tasks.md'
+    if tasks_file.exists():
+        try:
+            kanban_data = parse_tasks_markdown(tasks_file)
+            for lane, tasks in kanban_data['lanes'].items():
+                for task in tasks:
+                    if task['id'] == task_id:
+                        return lane
+        except:
+            pass
 
     return None
 

@@ -846,31 +846,60 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
         if tracker:
             tracker.complete("extract")
 
-        # Copy language-specific and mission-specific commands
+        # Link agent commands to active mission commands
         try:
-            pkg_dir = Path(__file__).parent
-            locales_dir = pkg_dir / "locales" / language / "missions" / mission / "commands"
-
-            if locales_dir.exists():
-                claude_commands_dir = project_path / ".claude" / "commands"
-                claude_commands_dir.mkdir(parents=True, exist_ok=True)
-
-                if tracker:
-                    tracker.add("localize", f"Apply {language} commands")
-                    tracker.start("localize")
-
-                # Copy all command files
-                for cmd_file in locales_dir.glob("*.md"):
-                    dest_file = claude_commands_dir / cmd_file.name
-                    shutil.copy2(cmd_file, dest_file)
+            # Get agent folder from config
+            agent_config = AGENT_CONFIG.get(selected_ai)
+            if agent_config:
+                agent_folder = agent_config["folder"]
+                agent_commands_dir = project_path / agent_folder / "commands"
+                mission_commands_dir = project_path / ".spec-mix" / "active-mission" / "commands"
 
                 if tracker:
-                    tracker.complete("localize", f"{mission} ({language})")
-                elif verbose:
-                    console.print(f"[cyan]Applied {language} commands for {mission} mission[/cyan]")
+                    tracker.add("link-commands", f"Link {agent_config['name']} commands")
+                    tracker.start("link-commands")
+
+                # Ensure parent directory exists
+                agent_commands_dir.parent.mkdir(parents=True, exist_ok=True)
+
+                # Remove existing commands directory if it exists
+                if agent_commands_dir.exists() or agent_commands_dir.is_symlink():
+                    if agent_commands_dir.is_symlink():
+                        agent_commands_dir.unlink()
+                    else:
+                        shutil.rmtree(agent_commands_dir)
+
+                # Try to create symlink
+                try:
+                    # Create relative symlink for portability
+                    rel_target = os.path.relpath(mission_commands_dir, agent_commands_dir.parent)
+                    agent_commands_dir.symlink_to(rel_target, target_is_directory=True)
+
+                    if tracker:
+                        tracker.complete("link-commands", f"Symlinked to mission commands")
+                    elif verbose:
+                        console.print(f"[cyan]Linked {agent_folder}commands → .spec-mix/active-mission/commands[/cyan]")
+
+                except (OSError, NotImplementedError) as e:
+                    # Fallback to copying files on systems without symlink support (Windows)
+                    if verbose:
+                        console.print(f"[yellow]Symlink not supported, copying files instead[/yellow]")
+
+                    agent_commands_dir.mkdir(parents=True, exist_ok=True)
+
+                    if mission_commands_dir.exists():
+                        for cmd_file in mission_commands_dir.glob("*.md"):
+                            dest_file = agent_commands_dir / cmd_file.name
+                            shutil.copy2(cmd_file, dest_file)
+
+                    if tracker:
+                        tracker.complete("link-commands", f"Copied mission commands")
+                    elif verbose:
+                        console.print(f"[cyan]Copied commands to {agent_folder}commands[/cyan]")
+
         except Exception as e:
             if verbose and not tracker:
-                console.print(f"[yellow]Warning: Could not apply language-specific commands: {e}[/yellow]")
+                console.print(f"[yellow]Warning: Could not link/copy commands: {e}[/yellow]")
 
     finally:
         if tracker:
@@ -1188,16 +1217,29 @@ def init(
         specify_dir = project_path / '.spec-mix'
         specify_dir.mkdir(exist_ok=True)
 
+        # Get current Spec Mix version
+        from importlib.metadata import version as get_version
+        try:
+            spec_mix_version = get_version("spec-mix")
+        except Exception:
+            spec_mix_version = "0.0.1-alpha.2"  # Fallback version
+
         config_data = {
             'language': selected_lang,
             'mission': selected_mission,
             'ai_assistant': selected_ai,
-            'script_type': selected_script
+            'script_type': selected_script,
+            'spec_mix_version': spec_mix_version
         }
 
         config_file = specify_dir / 'config.json'
         with open(config_file, 'w', encoding='utf-8') as f:
             json.dump(config_data, f, indent=2, ensure_ascii=False)
+
+        # Also save version in separate file for easy access
+        version_file = specify_dir / 'version'
+        with open(version_file, 'w', encoding='utf-8') as f:
+            f.write(spec_mix_version)
 
         # Set active mission
         if HAS_MISSION:
@@ -1332,6 +1374,64 @@ def check():
 
     if not any(agent_results.values()):
         console.print("[dim]Tip: Install an AI assistant for the best experience[/dim]")
+
+
+@app.command()
+def migrate(
+    target_version: str = typer.Option(None, "--to", help="Target version to migrate to (default: latest)"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show what would be done without making changes"),
+    project_dir: str = typer.Option(".", "--project", help="Path to project directory (default: current directory)"),
+):
+    """
+    Migrate project to a newer Spec Mix version.
+
+    This command applies necessary structural changes when upgrading between versions.
+    """
+    from .migrations import run_migrations, get_project_version, get_registry
+    from rich.panel import Panel
+
+    project_path = Path(project_dir).resolve()
+
+    # Check if this is a Spec Mix project
+    spec_mix_dir = project_path / ".spec-mix"
+    if not spec_mix_dir.exists():
+        console.print("[red]Error:[/red] Not a Spec Mix project (no .spec-mix/ directory found)")
+        console.print(f"\n[dim]Checked: {project_path}[/dim]")
+        raise typer.Exit(1)
+
+    console.print(Panel(
+        "[bold]Spec Mix Project Migration[/bold]\n\n"
+        "This will apply structural changes needed for version upgrades.",
+        border_style="cyan"
+    ))
+
+    current_version = get_project_version(project_path)
+
+    if dry_run:
+        console.print("\n[yellow]DRY RUN MODE[/yellow] - No changes will be made\n")
+
+    # Show available migrations
+    if not target_version:
+        registry = get_registry()
+        all_migrations = registry.get_all_migrations()
+        if all_migrations:
+            console.print("\n[bold]Available migrations:[/bold]\n")
+            for mig in all_migrations:
+                status = "✓" if mig.version_from == current_version else " "
+                console.print(f"  {status} {mig.version_from} → {mig.version_to}: {mig.description}")
+            console.print()
+
+    # Run migrations
+    success = run_migrations(project_path, target_version, dry_run)
+
+    if success:
+        if not dry_run:
+            console.print("\n[bold green]✓ Migration completed successfully![/bold green]")
+        raise typer.Exit(0)
+    else:
+        console.print("\n[bold red]✗ Migration failed[/bold red]")
+        raise typer.Exit(1)
+
 
 def main():
     app()
