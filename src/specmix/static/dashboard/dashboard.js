@@ -5,6 +5,22 @@ let currentFeature = null;
 let currentArtifact = null;
 let refreshInterval = null;
 
+// Get history state from URL hash
+function getCurrentStateFromHash() {
+    const hash = window.location.hash;
+
+    if (hash.startsWith('#kanban/')) {
+        return { view: 'kanban', featureId: hash.substring(8) };
+    } else if (hash.startsWith('#artifact/')) {
+        const parts = hash.substring(10).split('/');
+        return { view: 'artifact', featureId: parts[0], artifactName: parts.slice(1).join('/') };
+    } else if (hash === '#constitution') {
+        return { view: 'constitution' };
+    } else {
+        return { view: 'features' };
+    }
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
     await loadI18n();
@@ -29,6 +45,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Default to features tab
         switchTab('features');
     }
+
+    // Initialize browser history state for back/forward buttons
+    window.history.replaceState(
+        getCurrentStateFromHash(),
+        '',
+        window.location.hash || '#features'
+    );
 
     startAutoRefresh();
 });
@@ -120,16 +143,23 @@ function setupEventListeners() {
 
     // Handle browser back/forward buttons
     window.addEventListener('popstate', (event) => {
-        if (event.state) {
-            if (event.state.view === 'features') {
-                showView('features-view');
-                currentFeature = null;
-                currentArtifact = null;
-            } else if (event.state.view === 'kanban') {
-                showKanban(event.state.featureId, false);
-            } else if (event.state.view === 'artifact') {
-                showArtifact(event.state.featureId, event.state.artifactName, false);
-            }
+        // Use event.state if available, otherwise restore from hash
+        const state = event.state || getCurrentStateFromHash();
+
+        if (state.view === 'features') {
+            switchTab('features');
+            showView('features-view');
+            loadFeatures();
+            currentFeature = null;
+            currentArtifact = null;
+        } else if (state.view === 'kanban') {
+            switchTab('features');
+            showKanban(state.featureId, false);
+        } else if (state.view === 'artifact') {
+            switchTab('features');
+            showArtifact(state.featureId, state.artifactName, false);
+        } else if (state.view === 'constitution') {
+            switchTab('constitution');
         }
     });
 }
@@ -142,28 +172,24 @@ function switchTab(tabName) {
 
     // Show appropriate view
     if (tabName === 'features') {
-        // Check URL hash to restore previous state
-        const hash = window.location.hash;
+        // Use history state to restore previous view (not hash, which may be overwritten)
+        const currentState = window.history.state;
 
-        if (hash.startsWith('#kanban/')) {
-            const featureId = hash.substring(8); // Remove '#kanban/'
-            showKanban(featureId, false);
-        } else if (hash.startsWith('#artifact/')) {
-            const parts = hash.substring(10).split('/'); // Remove '#artifact/'
-            const featureId = parts[0];
-            const artifactName = parts.slice(1).join('/');
-            showArtifact(featureId, artifactName, false);
+        if (currentState && currentState.view === 'kanban') {
+            showKanban(currentState.featureId, false);
+        } else if (currentState && currentState.view === 'artifact') {
+            showArtifact(currentState.featureId, currentState.artifactName, false);
         } else {
             // Default to features list
             showView('features-view');
             loadFeatures();
-            window.location.hash = '#features';
+            window.history.pushState({ view: 'features' }, '', '#features');
         }
 
     } else if (tabName === 'constitution') {
         showView('constitution-view');
         loadConstitution();
-        window.location.hash = '#constitution';
+        window.history.pushState({ view: 'constitution' }, '', '#constitution');
     }
 }
 
