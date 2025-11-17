@@ -20,7 +20,7 @@ $ARGUMENTS
    - `spec.md`가 존재하고 완료됨
    - `plan.md`가 존재하고 완료됨
    - `research.md` 및 `data-model.md`가 존재함
-   - **헌장**: `.spec-mix/memory/constitution.md`가 존재하는 경우 작업 우선순위 및 구성을 위한 프로젝트 원칙 이해를 위해 로드
+   - **헌장**: `specs/constitution.md`가 존재하는 경우 작업 우선순위 및 구성을 위한 프로젝트 원칙 이해를 위해 로드
 
 2. **사용자 스토리별 작업 생성**:
    - 각 사용자 스토리를 독립적인 구현 단계로 처리

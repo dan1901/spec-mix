@@ -66,7 +66,7 @@ Given that feature description, do this:
 3. Load `.spec-mix/active-mission/templates/spec-template.md` to understand required sections.
 
 4. **Load project constitution** (if exists):
-   - Read `.spec-mix/memory/constitution.md` to understand project principles
+   - Read `specs/constitution.md` to understand project principles
    - Keep these principles in mind when writing requirements and success criteria
    - Ensure the feature aligns with project governance and constraints
 
@@ -141,7 +141,7 @@ Given that feature description, do this:
       ## Constitution Compliance
 
 
-      - [ ] Feature aligns with project principles (if `.spec-mix/memory/constitution.md` exists)
+      - [ ] Feature aligns with project principles (if `specs/constitution.md` exists)
       - [ ] No conflicts with governance constraints or standards
       - [ ] Requirements honor architectural/technical principles defined in constitution
 

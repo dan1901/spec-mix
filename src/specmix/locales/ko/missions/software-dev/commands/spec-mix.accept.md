@@ -65,7 +65,7 @@ $ARGUMENTS
 
 ### ✅ 헌장 준수 (해당되는 경우)
 
-- [ ] `.spec-mix/memory/constitution.md`의 프로젝트 원칙 준수
+- [ ] `specs/constitution.md`의 프로젝트 원칙 준수
 
 - [ ] 복잡성 게이트 위반 없음
 

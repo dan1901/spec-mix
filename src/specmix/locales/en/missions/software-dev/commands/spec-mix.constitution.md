@@ -12,12 +12,12 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
 
-You are creating or updating the project constitution at `.spec-mix/memory/constitution.md`. Your job is to (a) collect/derive project principles, (b) create a comprehensive constitution, and (c) propagate any amendments across dependent artifacts.
+You are creating or updating the project constitution at `specs/constitution.md`. Your job is to (a) collect/derive project principles, (b) create a comprehensive constitution, and (c) propagate any amendments across dependent artifacts.
 
 Follow this execution flow:
 
 1. Load or create the constitution:
-   - **If `.spec-mix/memory/constitution.md` exists**: Load it for updates.
+   - **If `specs/constitution.md` exists**: Load it for updates.
    - **If it doesn't exist**: Use `.spec-mix/active-mission/constitution/constitution-template.md` as the starting template and copy its structure.
    **IMPORTANT**: The user might require less or more principles than the ones used in the template. If a number is specified, respect that - follow the general template structure. You will update the doc accordingly.
 
@@ -59,7 +59,7 @@ Follow this execution flow:
    - Dates ISO format YYYY-MM-DD.
    - Principles are declarative, testable, and free of vague language ("should" → replace with MUST/SHOULD rationale where appropriate).
 
-7. Write the completed constitution back to `.spec-mix/memory/constitution.md` (overwrite).
+7. Write the completed constitution back to `specs/constitution.md` (overwrite).
 
 8. Output a final summary to the user with:
    - New version and bump rationale.
@@ -80,4 +80,4 @@ If the user supplies partial updates (e.g., only one principle revision), still 
 
 If critical info missing (e.g., ratification date truly unknown), insert `TODO(<FIELD_NAME>): explanation` and include in the Sync Impact Report under deferred items.
 
-Do not create a new template; always operate on the existing `.spec-mix/memory/constitution.md` file.
+Do not create a new template; always operate on the existing `specs/constitution.md` file.

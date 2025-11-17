@@ -33,7 +33,6 @@ rm -rf "$GENRELEASES_DIR"/* || true
 
 rewrite_paths() {
   sed -E \
-    -e 's@(/?)memory/@.spec-mix/memory/@g' \
     -e 's@(/?)scripts/@.spec-mix/scripts/@g' \
     -e 's@(/?)templates/@.spec-mix/templates/@g'
 }
@@ -111,9 +110,7 @@ build_variant() {
   # Copy base structure but filter scripts by variant
   SPEC_DIR="$base_dir/.spec-mix"
   mkdir -p "$SPEC_DIR"
-  
-  [[ -d memory ]] && { cp -r memory "$SPEC_DIR/"; echo "Copied memory -> .spec-mix"; }
-  
+
   # Only copy the relevant script variant directory
   if [[ -d scripts ]]; then
     mkdir -p "$SPEC_DIR/scripts"

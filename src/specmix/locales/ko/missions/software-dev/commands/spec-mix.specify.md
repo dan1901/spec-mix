@@ -65,7 +65,7 @@ $ARGUMENTS
 3. 필수 섹션을 이해하기 위해 `.spec-mix/active-mission/templates/spec-template.md` 로드.
 
 4. **프로젝트 헌장 로드** (존재하는 경우):
-   - `.spec-mix/memory/constitution.md`를 읽어 프로젝트 원칙 이해
+   - `specs/constitution.md`를 읽어 프로젝트 원칙 이해
    - 요구사항 및 성공 기준 작성 시 이러한 원칙 염두
    - 기능이 프로젝트 거버넌스 및 제약조건과 일치하는지 확인
 
@@ -135,7 +135,7 @@ $ARGUMENTS
 
       ## 헌장 준수
 
-      - [ ] 기능이 프로젝트 원칙과 일치함 (`.spec-mix/memory/constitution.md`가 존재하는 경우)
+      - [ ] 기능이 프로젝트 원칙과 일치함 (`specs/constitution.md`가 존재하는 경우)
       - [ ] 거버넌스 제약조건 또는 표준과 충돌하지 않음
       - [ ] 요구사항이 헌장에 정의된 아키텍처/기술 원칙을 준수함
 

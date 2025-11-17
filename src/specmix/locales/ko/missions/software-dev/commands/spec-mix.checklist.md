@@ -38,7 +38,7 @@ $ARGUMENTS
 
 1. **문서 분석**:
    - 대상 아티팩트 읽기
-   - `.spec-mix/memory/constitution.md` (존재하는 경우): 체크리스트 검증이 필요할 수 있는 프로젝트 원칙
+   - `specs/constitution.md` (존재하는 경우): 체크리스트 검증이 필요할 수 있는 프로젝트 원칙
    - 품질 기준 식별
    - 검증 포인트 추출
 

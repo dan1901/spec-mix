@@ -22,7 +22,7 @@ $ARGUMENTS
 
 1. **설정**: 저장소 루트에서 `{SCRIPT}`를 실행하고 FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH에 대한 JSON 파싱. "I'm Groot"와 같은 인수의 작은따옴표의 경우 이스케이프 구문 사용: 예 'I'\''m Groot' (또는 가능하면 큰따옴표 사용: "I'm Groot").
 
-1. **컨텍스트 로드**: FEATURE_SPEC 및 `.spec-mix/memory/constitution.md` 읽기. IMPL_PLAN 템플릿 로드 (이미 복사됨).
+1. **컨텍스트 로드**: FEATURE_SPEC 및 `specs/constitution.md` 읽기. IMPL_PLAN 템플릿 로드 (이미 복사됨).
 
 1. **계획 워크플로 실행**: IMPL_PLAN 템플릿의 구조를 따라:
 - 기술 컨텍스트 작성 (알 수 없는 것은 "명확화 필요"로 표시)

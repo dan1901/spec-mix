@@ -12,12 +12,12 @@ $ARGUMENTS
 
 ## 개요
 
-`.spec-mix/memory/constitution.md`에서 프로젝트 헌장을 생성하거나 업데이트합니다. 작업은 (a) 프로젝트 원칙 수집/파생, (b) 포괄적인 헌장 작성, (c) 종속 아티팩트 전반에 걸친 수정사항 전파입니다.
+`specs/constitution.md`에서 프로젝트 헌장을 생성하거나 업데이트합니다. 작업은 (a) 프로젝트 원칙 수집/파생, (b) 포괄적인 헌장 작성, (c) 종속 아티팩트 전반에 걸친 수정사항 전파입니다.
 
 다음 실행 흐름을 따르세요:
 
 1. 헌장 로드 또는 생성:
-   - **`.spec-mix/memory/constitution.md`가 존재하는 경우**: 업데이트를 위해 로드.
+   - **`specs/constitution.md`가 존재하는 경우**: 업데이트를 위해 로드.
    - **존재하지 않는 경우**: `.spec-mix/active-mission/constitution/constitution-template.md`를 시작 템플릿으로 사용하고 구조 복사.
    **중요**: 사용자는 템플릿에 사용된 것보다 적거나 많은 원칙을 요구할 수 있습니다. 숫자가 지정된 경우 이를 존중 - 일반 템플릿 구조를 따르세요. 문서를 그에 따라 업데이트할 것입니다.
 
@@ -59,7 +59,7 @@ $ARGUMENTS
    - 날짜는 ISO 형식 YYYY-MM-DD.
    - 원칙은 선언적이고 테스트 가능하며 모호한 언어가 없음 ("should" → 적절한 경우 MUST/SHOULD 근거로 교체).
 
-7. 완성된 헌장을 `.spec-mix/memory/constitution.md`에 다시 쓰기 (덮어쓰기).
+7. 완성된 헌장을 `specs/constitution.md`에 다시 쓰기 (덮어쓰기).
 
 8. 다음과 함께 사용자에게 최종 요약 출력:
    - 새 버전 및 범프 근거.
@@ -80,4 +80,4 @@ $ARGUMENTS
 
 중요 정보가 누락된 경우 (예: 비준 날짜가 정말 알 수 없는 경우), `TODO(<FIELD_NAME>): explanation` 삽입하고 연기된 항목 아래 동기화 영향 보고서에 포함.
 
-새 템플릿을 만들지 말고 항상 기존 `.spec-mix/memory/constitution.md` 파일에서 작업하세요.
+새 템플릿을 만들지 말고 항상 기존 `specs/constitution.md` 파일에서 작업하세요.
