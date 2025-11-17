@@ -10,6 +10,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadI18n();
     setupEventListeners();
     await loadFeatures();
+
+    // Restore state from URL hash
+    const hash = window.location.hash;
+    if (hash.startsWith('#kanban/')) {
+        const featureId = hash.substring(8);
+        switchTab('features');
+        await showKanban(featureId, false);
+    } else if (hash.startsWith('#artifact/')) {
+        const parts = hash.substring(10).split('/');
+        const featureId = parts[0];
+        const artifactName = parts.slice(1).join('/');
+        switchTab('features');
+        await showArtifact(featureId, artifactName, false);
+    } else if (hash === '#constitution') {
+        switchTab('constitution');
+    } else {
+        // Default to features tab
+        switchTab('features');
+    }
+
     startAutoRefresh();
 });
 
@@ -122,13 +142,28 @@ function switchTab(tabName) {
 
     // Show appropriate view
     if (tabName === 'features') {
-        showView('features-view');
-        loadFeatures();
-        window.history.pushState({ view: 'features' }, '', '#features');
+        // Check URL hash to restore previous state
+        const hash = window.location.hash;
+
+        if (hash.startsWith('#kanban/')) {
+            const featureId = hash.substring(8); // Remove '#kanban/'
+            showKanban(featureId, false);
+        } else if (hash.startsWith('#artifact/')) {
+            const parts = hash.substring(10).split('/'); // Remove '#artifact/'
+            const featureId = parts[0];
+            const artifactName = parts.slice(1).join('/');
+            showArtifact(featureId, artifactName, false);
+        } else {
+            // Default to features list
+            showView('features-view');
+            loadFeatures();
+            window.location.hash = '#features';
+        }
+
     } else if (tabName === 'constitution') {
         showView('constitution-view');
         loadConstitution();
-        window.history.pushState({ view: 'constitution' }, '', '#constitution');
+        window.location.hash = '#constitution';
     }
 }
 

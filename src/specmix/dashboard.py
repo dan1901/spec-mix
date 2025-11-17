@@ -148,17 +148,57 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_error(404, f"Task not found: {task_id}")
 
     def serve_constitution(self):
-        """Serve project constitution"""
-        constitution_path = Path('specs/constitution.md')
-        if constitution_path.exists():
-            with open(constitution_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain; charset=utf-8')
-            self.end_headers()
-            self.wfile.write(content.encode('utf-8'))
-        else:
-            self.send_error(404, "Constitution not found")
+        """Serve project constitution with fallback paths"""
+        # Try multiple locations in priority order
+        paths = [
+            Path('specs/constitution.md'),      # User project (priority 1)
+            Path('constitution.md'),            # Root level (priority 2)
+            Path('memory/constitution.md')      # Template/example (priority 3)
+        ]
+
+        for constitution_path in paths:
+            if constitution_path.exists():
+                try:
+                    with open(constitution_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    # Add header indicating source
+                    source_note = f"<!-- Loaded from: {constitution_path} -->\n\n"
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/plain; charset=utf-8')
+                    self.end_headers()
+                    self.wfile.write((source_note + content).encode('utf-8'))
+                    return
+                except Exception as e:
+                    # Continue to next path if read fails
+                    continue
+
+        # No constitution found - send helpful message
+        helpful_msg = """# No Constitution Found
+
+Create a project constitution by running:
+- `/spec-mix.constitution` command in your project
+- Or manually create `specs/constitution.md`
+
+This file defines your project's core principles and governance.
+
+## Why Constitution?
+
+A project constitution establishes:
+- Core principles and values
+- Development standards
+- Quality requirements
+- Governance rules
+
+## Getting Started
+
+Run `/spec-mix.constitution` to create one interactively, or use the template at:
+`.spec-mix/active-mission/constitution/constitution-template.md`
+"""
+
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain; charset=utf-8')
+        self.end_headers()
+        self.wfile.write(helpful_msg.encode('utf-8'))
 
     def serve_i18n(self):
         """Serve i18n strings for dashboard UI"""
