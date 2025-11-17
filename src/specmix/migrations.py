@@ -212,7 +212,7 @@ def get_registry() -> MigrationRegistry:
     return _registry
 
 
-def get_project_version(project_path: Path) -> Optional[str]:
+def get_project_version(project_path: Path) -> str:
     """
     Get the current version of a Spec Mix project.
 
@@ -220,7 +220,7 @@ def get_project_version(project_path: Path) -> Optional[str]:
         project_path: Path to the project directory
 
     Returns:
-        Version string or None if not found
+        Version string (defaults to "0.0.1-alpha.1" if not found)
     """
     version_file = project_path / ".spec-mix" / "version"
 
@@ -238,7 +238,9 @@ def get_project_version(project_path: Path) -> Optional[str]:
             import json
             with open(config_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
-                return config.get('spec_mix_version')
+                ver = config.get('spec_mix_version')
+                if ver:  # Only return if not None or empty
+                    return ver
         except Exception:
             pass
 
