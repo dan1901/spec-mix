@@ -63,9 +63,14 @@ Given that feature description, do this:
    - The JSON output will contain BRANCH_NAME and SPEC_FILE paths
    - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot")
 
-3. Load `templates/spec-template.md` to understand required sections.
+3. Load `.spec-mix/active-mission/templates/spec-template.md` to understand required sections.
 
-4. Follow this execution flow:
+4. **Load project constitution** (if exists):
+   - Read `.spec-mix/memory/constitution.md` to understand project principles
+   - Keep these principles in mind when writing requirements and success criteria
+   - Ensure the feature aligns with project governance and constraints
+
+5. Follow this execution flow:
 
     1. Parse user description from Input
        If empty: ERROR "No feature description provided"
@@ -127,12 +132,19 @@ Given that feature description, do this:
       
       ## Feature Readiness
 
-      
+
       - [ ] All functional requirements have clear acceptance criteria
       - [ ] User scenarios cover primary flows
       - [ ] Feature meets measurable outcomes defined in Success Criteria
       - [ ] No implementation details leak into specification
-      
+
+      ## Constitution Compliance
+
+
+      - [ ] Feature aligns with project principles (if `.spec-mix/memory/constitution.md` exists)
+      - [ ] No conflicts with governance constraints or standards
+      - [ ] Requirements honor architectural/technical principles defined in constitution
+
       ## Notes
 
       

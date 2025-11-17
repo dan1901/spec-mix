@@ -51,6 +51,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 3. Load and analyze the implementation context:
    - **REQUIRED**: Read tasks.md for the complete task list and execution plan
    - **REQUIRED**: Read plan.md for tech stack, architecture, and file structure
+   - **CONSTITUTION**: If `.spec-mix/memory/constitution.md` exists, read it to ensure implementation follows project principles (code quality, testing standards, architectural constraints)
    - **IF EXISTS**: Read data-model.md for entities and relationships
    - **IF EXISTS**: Read contracts/ for API specifications and test requirements
    - **IF EXISTS**: Read research.md for technical decisions and constraints

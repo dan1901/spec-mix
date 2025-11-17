@@ -38,6 +38,7 @@ This command helps you review work that has been completed and moved to the `for
    b. **Verify completion**:
       - ✅ All acceptance criteria met?
       - ✅ Code quality acceptable?
+      - ✅ Follows project principles (if `.spec-mix/memory/constitution.md` exists)?
       - ✅ Tests passing (if applicable)?
       - ✅ Documentation updated?
       - ✅ No obvious bugs or issues?
@@ -84,6 +85,8 @@ Before approving a task, verify:
 - [ ] **Functionality**: Feature works as specified
 
 - [ ] **Code Quality**: Readable, maintainable, follows conventions
+
+- [ ] **Constitution Compliance**: Follows project principles defined in `.spec-mix/memory/constitution.md` (if exists)
 
 - [ ] **Tests**: Appropriate test coverage
 

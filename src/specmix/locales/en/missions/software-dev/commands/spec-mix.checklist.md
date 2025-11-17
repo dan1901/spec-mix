@@ -89,6 +89,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - spec.md: Feature requirements and scope
    - plan.md (if exists): Technical details, dependencies
    - tasks.md (if exists): Implementation tasks
+   - `.spec-mix/memory/constitution.md` (if exists): Project principles that may require checklist validation
 
    **Context Loading Strategy**:
    - Load only necessary portions relevant to active focus areas (avoid full-file dumping)

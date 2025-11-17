@@ -20,6 +20,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 2. **Load design documents**: Read from FEATURE_DIR:
    - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
    - **Optional**: data-model.md (entities), contracts/ (API endpoints), research.md (decisions), quickstart.md (test scenarios)
+   - **Constitution**: If `.spec-mix/memory/constitution.md` exists, load it to understand project principles for task prioritization and organization
    - Note: Not all projects have all documents. Generate tasks based on what's available.
 
 3. **Execute task generation workflow**:
@@ -28,6 +29,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - If data-model.md exists: Extract entities and map to user stories
    - If contracts/ exists: Map endpoints to user stories
    - If research.md exists: Extract decisions for setup tasks
+   - If constitution exists: Consider principles when categorizing tasks (e.g., testing requirements, code quality standards, observability needs)
    - Generate tasks organized by user story (see Task Generation Rules below)
    - Generate dependency graph showing user story completion order
    - Create parallel execution examples per user story
