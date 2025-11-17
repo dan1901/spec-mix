@@ -54,7 +54,7 @@ This command performs a final acceptance check before merging a feature. It veri
 
    ### ✅ Constitution Compliance (if applicable)
 
-   - [ ] Follows project principles from `/memory/constitution.md`
+   - [ ] Follows project principles from `.spec-mix/memory/constitution.md`
    - [ ] No violations of complexity gates
    - [ ] Adheres to architecture decisions
 

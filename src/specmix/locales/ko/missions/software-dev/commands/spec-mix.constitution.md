@@ -12,11 +12,11 @@ $ARGUMENTS
 
 ## 개요
 
-`/memory/constitution.md`에서 프로젝트 헌장을 업데이트합니다. 이 파일은 대괄호로 묶인 플레이스홀더 토큰을 포함하는 템플릿입니다 (예: `[PROJECT_NAME]`, `[PRINCIPLE_1_NAME]`). 작업은 (a) 구체적인 값 수집/파생, (b) 템플릿 정확하게 작성, (c) 종속 아티팩트 전반에 걸친 수정사항 전파입니다.
+`.spec-mix/memory/constitution.md`에서 프로젝트 헌장을 업데이트합니다. 이 파일은 대괄호로 묶인 플레이스홀더 토큰을 포함하는 템플릿입니다 (예: `[PROJECT_NAME]`, `[PRINCIPLE_1_NAME]`). 작업은 (a) 구체적인 값 수집/파생, (b) 템플릿 정확하게 작성, (c) 종속 아티팩트 전반에 걸친 수정사항 전파입니다.
 
 다음 실행 흐름을 따르세요:
 
-1. `/memory/constitution.md`에서 기존 헌장 템플릿 로드.
+1. `.spec-mix/memory/constitution.md`에서 기존 헌장 템플릿 로드.
    - `[ALL_CAPS_IDENTIFIER]` 형식의 모든 플레이스홀더 토큰 식별.
    **중요**: 사용자는 템플릿에 사용된 것보다 적거나 많은 원칙을 요구할 수 있습니다. 숫자가 지정된 경우 이를 존중 - 일반 템플릿을 따르세요. 문서를 그에 따라 업데이트할 것입니다.
 
@@ -37,10 +37,10 @@ $ARGUMENTS
    - 거버넌스 섹션은 수정 절차, 버전 관리 정책 및 준수 검토 기대사항 나열 보장.
 
 4. 일관성 전파 체크리스트 (이전 체크리스트를 활성 검증으로 변환):
-   - `/templates/plan-template.md` 읽고 "헌장 확인" 또는 규칙이 업데이트된 원칙과 일치하는지 확인.
-   - `/templates/spec-template.md` 읽어 범위/요구사항 정렬 - 헌장이 필수 섹션 또는 제약조건을 추가/제거하는 경우 업데이트.
-   - `/templates/tasks-template.md` 읽고 작업 분류가 새로운 또는 제거된 원칙 기반 작업 유형을 반영하는지 확인 (예: 관찰 가능성, 버전 관리, 테스트 규율).
-   - `/templates/commands/*.md`의 각 명령 파일을 읽어 일반 지침이 필요할 때 오래된 참조(CLAUDE와 같은 에이전트별 이름만)가 남아있지 않은지 확인.
+   - `.spec-mix/active-mission/templates/plan-template.md` 읽고 "헌장 확인" 또는 규칙이 업데이트된 원칙과 일치하는지 확인.
+   - `.spec-mix/active-mission/templates/spec-template.md` 읽어 범위/요구사항 정렬 - 헌장이 필수 섹션 또는 제약조건을 추가/제거하는 경우 업데이트.
+   - `.spec-mix/active-mission/templates/tasks-template.md` 읽고 작업 분류가 새로운 또는 제거된 원칙 기반 작업 유형을 반영하는지 확인 (예: 관찰 가능성, 버전 관리, 테스트 규율).
+   - `.spec-mix/active-mission/templates/commands/*.md`의 각 명령 파일을 읽어 일반 지침이 필요할 때 오래된 참조(CLAUDE와 같은 에이전트별 이름만)가 남아있지 않은지 확인.
    - 런타임 지침 문서 읽기 (예: `README.md`, `docs/quickstart.md` 또는 에이전트별 지침 파일이 있는 경우). 변경된 원칙에 대한 참조 업데이트.
 
 5. 동기화 영향 보고서 생성 (업데이트 후 헌장 파일 상단에 HTML 주석으로 추가):
@@ -57,7 +57,7 @@ $ARGUMENTS
    - 날짜는 ISO 형식 YYYY-MM-DD.
    - 원칙은 선언적이고 테스트 가능하며 모호한 언어가 없음 ("should" → 적절한 경우 MUST/SHOULD 근거로 교체).
 
-7. 완성된 헌장을 `/memory/constitution.md`에 다시 쓰기 (덮어쓰기).
+7. 완성된 헌장을 `.spec-mix/memory/constitution.md`에 다시 쓰기 (덮어쓰기).
 
 8. 다음과 함께 사용자에게 최종 요약 출력:
    - 새 버전 및 범프 근거.
@@ -78,4 +78,4 @@ $ARGUMENTS
 
 중요 정보가 누락된 경우 (예: 비준 날짜가 정말 알 수 없는 경우), `TODO(<FIELD_NAME>): explanation` 삽입하고 연기된 항목 아래 동기화 영향 보고서에 포함.
 
-새 템플릿을 만들지 말고 항상 기존 `/memory/constitution.md` 파일에서 작업하세요.
+새 템플릿을 만들지 말고 항상 기존 `.spec-mix/memory/constitution.md` 파일에서 작업하세요.
