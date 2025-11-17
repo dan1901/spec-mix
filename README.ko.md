@@ -27,8 +27,6 @@
 
 - [⚡ 시작하기](#-시작하기)
 
-- [📽️ 비디오 개요](#️-비디오-개요)
-
 - [🤖 지원되는 AI 에이전트](#-지원되는-ai-에이전트)
 
 - [🌍 다국어 지원](#-다국어-지원)
@@ -160,10 +158,6 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 ```
 
 자세한 단계별 지침은 [종합 가이드](./spec-driven.md)를 참조하세요.
-
-## 📽️ 비디오 개요
-
-Spec Kit의 실제 동작을 보고 싶으신가요? [비디오 개요](https://www.youtube.com/watch?v=a9eR1xsfvHg&pp=0gcJCckJAYcqIYzv)를 시청하세요!
 
 ## 🤖 지원되는 AI 에이전트
 
