@@ -149,7 +149,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def serve_constitution(self):
         """Serve project constitution"""
-        constitution_path = Path('memory/constitution.md')
+        constitution_path = Path('specs/constitution.md')
         if constitution_path.exists():
             with open(constitution_path, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -422,8 +422,8 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
                         'path': str(tasks_file)
                     })
 
-                # Header tasks
-                header_pattern = re.compile(r'^### ([A-Z]+-\d+|T\d+):\s*(.+?)$', re.MULTILINE)
+                # Header tasks (supports T0.1, T1.1, WP-001, etc.)
+                header_pattern = re.compile(r'^### ([A-Z]+-[\d.]+|T[\d.]+):\s*(.+?)$', re.MULTILINE)
                 for match in header_pattern.finditer(section_content):
                     task_id = match.group(1).strip()
                     task_title = match.group(2).strip()
@@ -457,8 +457,8 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
                 else:
                     lanes['planned'].append(task_info)
 
-            # Pattern 2: Header tasks
-            header_pattern = re.compile(r'^### ([A-Z]+-\d+|T\d+):\s*(.+?)$', re.MULTILINE)
+            # Pattern 2: Header tasks (supports T0.1, T1.1, WP-001, etc.)
+            header_pattern = re.compile(r'^### ([A-Z]+-[\d.]+|T[\d.]+):\s*(.+?)$', re.MULTILINE)
 
             for match in header_pattern.finditer(content):
                 task_id = match.group(1).strip()
