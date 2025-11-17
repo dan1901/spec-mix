@@ -12,6 +12,10 @@ description: "Task list template for feature implementation"
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
+**Task Tracking Formats**: This file uses checkbox format for task tracking. For enhanced kanban visualization, Work Package files can be generated in `tasks/{planned,doing,for_review,done}/` directories. Both formats work together:
+- **tasks.md** (this file): Overview and planning, checkbox format
+- **Work Package files** (optional): Individual WPxx.md files with frontmatter for detailed tracking, dashboard kanban visualization, and `/spec-mix.review` workflow integration
+
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)

@@ -39,6 +39,26 @@ $ARGUMENTS
    - 각 사용자 스토리를 섹션으로
    - 체크포인트 검증 포함
 
+5. **Work Package 파일 생성** (선택사항이지만 권장):
+   - tasks.md 생성 후, Work Package 디렉토리 구조 생성
+   - `FEATURE_DIR/tasks/`에 하위 디렉토리 생성: `planned/`, `doing/`, `for_review/`, `done/`
+   - tasks.md의 각 작업에 대해 `planned/`에 Work Package 파일 생성:
+     - 파일명: `WPxx.y.md` (xx = 페이즈 번호, y = 페이즈 내 작업 번호)
+     - `.spec-mix/active-mission/templates/work-package-template.md`를 템플릿으로 사용
+     - frontmatter 필드 채우기:
+       - `id`: WPxx.y (예: WP01.1, WP02.3)
+       - `task_id`: tasks.md의 원래 작업 ID (예: T001)
+       - `title`: 작업 설명에서 추출
+       - `phase`: tasks.md의 페이즈 이름
+       - `lane`: 처음에는 항상 "planned"
+       - `status`: 처음에는 항상 "pending"
+       - `created_at`: 현재 날짜 (YYYY-MM-DD)
+       - `estimated_time`: 사용자가 채우도록 [ESTIMATED_TIME]으로 남겨둠
+       - `depends_on`: Dependencies 섹션에서 파싱
+     - tasks.md의 작업 세부사항으로 콘텐츠 섹션 채우기
+   - 대시보드가 시각화할 수 있는 칸반 준비 구조 생성
+   - 두 형식(tasks.md + WP 파일) 함께 작동: tasks.md는 개요용, WP 파일은 상세 추적용
+
 ## 작업 품질 기준
 
 - 각 작업은 30분 이내에 완료 가능해야 함

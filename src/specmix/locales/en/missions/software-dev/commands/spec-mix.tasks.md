@@ -48,13 +48,34 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Parallel execution examples per story
    - Implementation strategy section (MVP first, incremental delivery)
 
-5. **Report**: Output path to generated tasks.md and summary:
+5. **Generate Work Package files** (Optional but Recommended):
+   - After generating tasks.md, create Work Package directory structure
+   - Create `FEATURE_DIR/tasks/` with subdirectories: `planned/`, `doing/`, `for_review/`, `done/`
+   - For each task in tasks.md, create a Work Package file in `planned/`:
+     - Filename: `WPxx.y.md` (where xx = phase number, y = task number in phase)
+     - Use `.spec-mix/active-mission/templates/work-package-template.md` as template
+     - Fill frontmatter fields:
+       - `id`: WPxx.y (e.g., WP01.1, WP02.3)
+       - `task_id`: Original task ID from tasks.md (e.g., T001)
+       - `title`: Extracted from task description
+       - `phase`: Phase name from tasks.md
+       - `lane`: Always "planned" initially
+       - `status`: Always "pending" initially
+       - `created_at`: Current date (YYYY-MM-DD)
+       - `estimated_time`: Leave as [ESTIMATED_TIME] for user to fill
+       - `depends_on`: Parse from Dependencies section
+     - Fill content sections from tasks.md task details
+   - This creates a kanban-ready structure that dashboard can visualize
+   - Both formats (tasks.md + WP files) work together: tasks.md for overview, WP files for detailed tracking
+
+6. **Report**: Output path to generated tasks.md and summary:
    - Total task count
    - Task count per user story
    - Parallel opportunities identified
    - Independent test criteria for each story
    - Suggested MVP scope (typically just User Story 1)
    - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
+   - If WP files generated: Report directory structure created
 
 Context for task generation: {ARGS}
 
