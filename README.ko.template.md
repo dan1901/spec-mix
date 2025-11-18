@@ -1,6 +1,6 @@
 <div align="center">
     <img src="./media/logo.png" alt="Spec Mix Logo" width="120"/>
-    <h1>🌱 Spec Mix</h1>
+    <h1>Spec Mix</h1>
     <h3><em>고품질 소프트웨어를 더 빠르게 구축하세요.</em></h3>
 </div>
 

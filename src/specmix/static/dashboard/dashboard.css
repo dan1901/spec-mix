@@ -58,6 +58,14 @@ header {
 header h1 {
     font-size: 28px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+header h1 .logo {
+    height: 40px;
+    width: auto;
 }
 
 .header-actions {
