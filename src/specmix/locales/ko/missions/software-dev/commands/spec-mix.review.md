@@ -67,8 +67,8 @@ $ARGUMENTS
    ```
 
 - `doing/` 레인으로 되돌리기
-- 활동 로그에 구체적인 문제 문서화
-- 변경해야 할 사항에 대한 명확한 피드백 제공
+- **중요**: WP 파일의 활동 로그에 구조화된 리뷰 피드백 추가
+- 아래 형식을 사용하여 명확하고 실행 가능한 피드백 제공
 
 1. **tasks.md 업데이트**:
 - 완료된 작업을 `[x]`로 표시
@@ -150,5 +150,87 @@ $ARGUMENTS
 - 남은 계획된 작업 계속 진행
 
 - 모든 작업이 done 레인에 있을 때 `/spec-mix.accept` 실행
+
+## 구조화된 리뷰 피드백 형식
+
+Work Package 파일의 활동 로그에 리뷰 피드백을 추가할 때는 명확성과 일관성을 위해 다음 구조화된 형식을 사용하세요:
+
+### 승인된 작업의 경우:
+
+```markdown
+- {TIMESTAMP}: [REVIEW] APPROVED by {REVIEWER_NAME}
+  - ✅ 모든 수락 기준 충족
+  - ✅ 코드 품질이 기준 충족
+  - ✅ 테스트 통과
+  - ✅ 문서 업데이트됨
+```
+
+### 변경이 필요한 작업의 경우:
+
+```markdown
+- {TIMESTAMP}: [REVIEW] CHANGES REQUESTED by {REVIEWER_NAME}
+  - ❌ 문제 1: {문제 설명}
+    - 위치: {file:line 또는 section}
+    - 조치: {수정해야 할 사항}
+  - ❌ 문제 2: {문제 설명}
+    - 위치: {file:line 또는 section}
+    - 조치: {수정해야 할 사항}
+  - ✅ {잘 된 부분}
+  - 다음 단계: {필요한 변경사항 요약}
+```
+
+### 예시 - 승인됨:
+
+```markdown
+- 2025-11-18T10:30:00Z: [REVIEW] APPROVED by Claude
+  - ✅ 모든 수락 기준 충족
+  - ✅ HttpMethod enum이 GET, POST, PUT, DELETE, PATCH를 올바르게 구현
+  - ✅ 단위 테스트가 100% 커버리지로 모든 메서드 포함
+  - ✅ Type hint와 docstring 완료
+  - ✅ 프로젝트 코드 스타일 가이드라인 준수
+```
+
+### 예시 - 변경 요청:
+
+```markdown
+- 2025-11-18T10:45:00Z: [REVIEW] CHANGES REQUESTED by Claude
+  - ❌ 로그인 함수에 오류 처리 누락
+    - 위치: src/auth/login.py:45-60
+    - 조치: 네트워크 오류 및 잘못된 자격 증명에 대한 try-catch 블록 추가
+  - ❌ 테스트 커버리지 부족
+    - 위치: tests/test_auth.py
+    - 조치: 엣지 케이스 테스트 추가 (빈 비밀번호, 특수 문자, SQL injection)
+  - ❌ API 문서 업데이트 필요
+    - 위치: docs/api.md
+    - 조치: 새로운 오류 코드로 인증 엔드포인트 문서 업데이트
+  - ✅ 핵심 인증 로직이 견고하고 잘 구조화됨
+  - ✅ 비밀번호 해싱 구현이 모범 사례 준수
+  - 다음 단계: 위 3가지 문제 해결 후 for_review로 다시 이동
+```
+
+### 구조화된 형식의 장점:
+
+- **명확성**: 리뷰어와 구현자 모두 필요한 사항을 이해
+- **실행 가능성**: 구체적인 위치와 조치로 수정이 간단함
+- **추적 가능성**: 다음 리뷰에서 모든 문제 해결 여부 확인 용이
+- **긍정적**: 문제뿐만 아니라 잘된 부분도 인정
+- **감사 추적**: WP 파일의 활동 로그에 영구 기록 생성
+- **대시보드 준비**: 구조화된 형식을 파싱하여 타임라인에 표시 가능
+
+### WP 파일에 추가하는 방법:
+
+`move-task.sh` 실행 후, WP 파일에 리뷰 피드백을 수동으로 추가:
+
+```bash
+# 예시: 리뷰 피드백 추가
+echo "" >> specs/{feature}/tasks/doing/WP02.md
+echo "- $(date -u +%Y-%m-%dT%H:%M:%SZ): [REVIEW] CHANGES REQUESTED by Claude" >> specs/{feature}/tasks/doing/WP02.md
+echo "  - ❌ 로그인 함수에 오류 처리 누락" >> specs/{feature}/tasks/doing/WP02.md
+echo "    - 위치: src/auth/login.py:45-60" >> specs/{feature}/tasks/doing/WP02.md
+echo "    - 조치: 네트워크 오류에 대한 try-catch 블록 추가" >> specs/{feature}/tasks/doing/WP02.md
+# ... 등
+```
+
+또는 WP 파일을 직접 편집하여 활동 로그 섹션에 구조화된 피드백을 추가하세요.
 
 ```text

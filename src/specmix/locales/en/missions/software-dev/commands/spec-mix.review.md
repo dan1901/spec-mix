@@ -62,8 +62,8 @@ This command helps you review work that has been completed and moved to the `for
    ```
 
    - Move back to `doing/` lane
-   - Document specific issues in activity log
-   - Provide clear feedback on what needs to change
+   - **IMPORTANT**: Append structured review feedback to the WP file's Activity Log
+   - Use the format below to provide clear, actionable feedback
 
 6. **Update tasks.md**:
    - Mark completed tasks with `[x]`
@@ -145,5 +145,87 @@ Present review results clearly:
 - Continue with remaining planned tasks
 
 - Run `/spec-mix.accept` when all tasks are in done lane
+
+## Structured Review Feedback Format
+
+When appending review feedback to a Work Package file's Activity Log, use this structured format for clarity and consistency:
+
+### For APPROVED tasks:
+
+```markdown
+- {TIMESTAMP}: [REVIEW] APPROVED by {REVIEWER_NAME}
+  - ✅ All acceptance criteria met
+  - ✅ Code quality meets standards
+  - ✅ Tests passing
+  - ✅ Documentation updated
+```
+
+### For tasks NEEDING CHANGES:
+
+```markdown
+- {TIMESTAMP}: [REVIEW] CHANGES REQUESTED by {REVIEWER_NAME}
+  - ❌ Issue 1: {Description of problem}
+    - Location: {file:line or section}
+    - Action: {What needs to be fixed}
+  - ❌ Issue 2: {Description of problem}
+    - Location: {file:line or section}
+    - Action: {What needs to be fixed}
+  - ✅ {What was done well}
+  - Next steps: {Summary of required changes}
+```
+
+### Example - Approved:
+
+```markdown
+- 2025-11-18T10:30:00Z: [REVIEW] APPROVED by Claude
+  - ✅ All acceptance criteria met
+  - ✅ HttpMethod enum correctly implements GET, POST, PUT, DELETE, PATCH
+  - ✅ Unit tests cover all methods with 100% coverage
+  - ✅ Type hints and docstrings complete
+  - ✅ Follows project code style guidelines
+```
+
+### Example - Changes Requested:
+
+```markdown
+- 2025-11-18T10:45:00Z: [REVIEW] CHANGES REQUESTED by Claude
+  - ❌ Missing error handling in login function
+    - Location: src/auth/login.py:45-60
+    - Action: Add try-catch blocks for network errors and invalid credentials
+  - ❌ Test coverage insufficient
+    - Location: tests/test_auth.py
+    - Action: Add tests for edge cases (empty password, special characters, SQL injection)
+  - ❌ API documentation outdated
+    - Location: docs/api.md
+    - Action: Update authentication endpoint documentation with new error codes
+  - ✅ Core authentication logic is solid and well-structured
+  - ✅ Password hashing implementation follows best practices
+  - Next steps: Address the 3 issues above, then move back to for_review
+```
+
+### Benefits of Structured Format:
+
+- **Clarity**: Reviewer and implementer both understand what's needed
+- **Actionable**: Specific locations and actions make fixes straightforward
+- **Trackable**: Easy to verify all issues are addressed in next review
+- **Positive**: Acknowledges what works well, not just problems
+- **Audit Trail**: Creates permanent record in WP file's Activity Log
+- **Dashboard-ready**: Structured format can be parsed and displayed in timeline
+
+### How to Append to WP File:
+
+After running `move-task.sh`, manually append the review feedback to the WP file:
+
+```bash
+# Example: Appending review feedback
+echo "" >> specs/{feature}/tasks/doing/WP02.md
+echo "- $(date -u +%Y-%m-%dT%H:%M:%SZ): [REVIEW] CHANGES REQUESTED by Claude" >> specs/{feature}/tasks/doing/WP02.md
+echo "  - ❌ Missing error handling in login function" >> specs/{feature}/tasks/doing/WP02.md
+echo "    - Location: src/auth/login.py:45-60" >> specs/{feature}/tasks/doing/WP02.md
+echo "    - Action: Add try-catch blocks for network errors" >> specs/{feature}/tasks/doing/WP02.md
+# ... etc
+```
+
+Or simply edit the WP file directly and add the structured feedback to the Activity Log section.
 
 ```text
