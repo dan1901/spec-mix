@@ -56,7 +56,21 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 feature_id = parts[0]
                 lane = parts[1]
                 task_id = parts[2]
-                self.serve_task_detail(feature_id, lane, task_id)
+
+                # Check for sub-paths: commits, files, diff
+                if len(parts) >= 4:
+                    subpath = parts[3]
+                    if subpath == 'commits':
+                        self.serve_task_commits(feature_id, task_id)
+                    elif subpath == 'files':
+                        self.serve_task_files(feature_id, task_id)
+                    elif subpath == 'diff' and len(parts) >= 5:
+                        commit_sha = parts[4]
+                        self.serve_commit_diff(commit_sha)
+                    else:
+                        self.send_error(404, "Not found")
+                else:
+                    self.serve_task_detail(feature_id, lane, task_id)
         elif path == '/api/constitution':
             self.serve_constitution()
         elif path == '/api/i18n/current':
@@ -146,6 +160,27 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_json(task_detail)
         else:
             self.send_error(404, f"Task not found: {task_id}")
+
+    def serve_task_commits(self, feature_id: str, task_id: str):
+        """Serve git commits for a task"""
+        commits = get_task_commits(feature_id, task_id)
+        self.send_json(commits)
+
+    def serve_task_files(self, feature_id: str, task_id: str):
+        """Serve modified files for a task"""
+        files = get_task_files(feature_id, task_id)
+        self.send_json(files)
+
+    def serve_commit_diff(self, commit_sha: str):
+        """Serve diff for a specific commit"""
+        diff = get_commit_diff(commit_sha)
+        if diff is not None:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(diff.encode('utf-8'))
+        else:
+            self.send_error(404, f"Commit not found: {commit_sha}")
 
     def serve_constitution(self):
         """Serve project constitution with fallback paths"""
@@ -821,6 +856,145 @@ def find_task_lane(feature_path: Path, task_id: str) -> Optional[str]:
             pass
 
     return None
+
+
+def get_task_commits(feature_id: str, task_id: str) -> List[Dict[str, Any]]:
+    """
+    Get git commits associated with a task.
+
+    Args:
+        feature_id: Feature ID (e.g., '001-feature-name')
+        task_id: Task ID (e.g., 'WP01', 'WP01.1', 'T005')
+
+    Returns:
+        List of commits with sha, message, date, author
+    """
+    import subprocess
+
+    # Check if git is available
+    try:
+        subprocess.run(['git', 'rev-parse', '--git-dir'],
+                      capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+
+    try:
+        # Get commits that mention this task ID in square brackets
+        # Format: [task_id] or [TASK_ID]
+        result = subprocess.run(
+            ['git', 'log', '--all', f'--grep=\\[{task_id}\\]',
+             '--format=%H|%s|%cd|%an', '--date=iso-strict'],
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if result.returncode != 0:
+            return []
+
+        commits = []
+        for line in result.stdout.strip().split('\n'):
+            if not line:
+                continue
+
+            parts = line.split('|', 3)
+            if len(parts) >= 4:
+                sha, message, date, author = parts
+                commits.append({
+                    'sha': sha,
+                    'short_sha': sha[:7],
+                    'message': message,
+                    'date': date,
+                    'author': author
+                })
+
+        return commits
+    except Exception as e:
+        print(f"Error getting commits for task {task_id}: {e}")
+        return []
+
+
+def get_task_files(feature_id: str, task_id: str) -> List[Dict[str, Any]]:
+    """
+    Get files modified in commits associated with a task.
+
+    Args:
+        feature_id: Feature ID
+        task_id: Task ID
+
+    Returns:
+        List of file changes with commit, path, action, timestamp
+    """
+    import subprocess
+
+    commits = get_task_commits(feature_id, task_id)
+    if not commits:
+        return []
+
+    file_changes = []
+
+    for commit in commits:
+        try:
+            # Get files changed in this commit
+            result = subprocess.run(
+                ['git', 'show', '--name-status', '--format=', commit['sha']],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+
+            if result.returncode != 0:
+                continue
+
+            for line in result.stdout.strip().split('\n'):
+                if not line:
+                    continue
+
+                parts = line.split('\t', 1)
+                if len(parts) >= 2:
+                    status, path = parts
+                    file_changes.append({
+                        'commit': commit['short_sha'],
+                        'commit_sha': commit['sha'],
+                        'path': path,
+                        'action': status,  # A=added, M=modified, D=deleted
+                        'timestamp': commit['date'],
+                        'message': commit['message']
+                    })
+        except Exception as e:
+            print(f"Error getting files for commit {commit['sha']}: {e}")
+            continue
+
+    return file_changes
+
+
+def get_commit_diff(commit_sha: str) -> Optional[str]:
+    """
+    Get the diff for a specific commit.
+
+    Args:
+        commit_sha: Full or short commit SHA
+
+    Returns:
+        Diff output as string, or None if error
+    """
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ['git', 'show', commit_sha],
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if result.returncode != 0:
+            return None
+
+        return result.stdout
+    except Exception as e:
+        print(f"Error getting diff for commit {commit_sha}: {e}")
+        return None
 
 
 def find_free_port(start_port: int = DEFAULT_PORT) -> int:
