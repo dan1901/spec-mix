@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/dan1901/spec-mix/actions/workflows/release.yml"><img src="https://github.com/dan1901/spec-mix/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
-    <a href="https://github.com/dan1901/spec-mix/stargazers"><img src="https://img.shields.io/github/stars/dan1901/spec-mix?style=social" alt="GitHub stars"/></a>
-    <a href="https://github.com/dan1901/spec-mix/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/></a>
-    <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
+    <a href="https://github.com/letsur-dev/spec-mix/actions/workflows/release.yml"><img src="https://github.com/letsur-dev/spec-mix/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
+    <a href="https://github.com/letsur-dev/spec-mix/stargazers"><img src="https://img.shields.io/github/stars/letsur-dev/spec-mix?style=social" alt="GitHub stars"/></a>
+    <a href="https://github.com/letsur-dev/spec-mix/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/></a>
+    <a href="https://letsur-dev.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
 > **📢 Fork Notice**: This is a fork of [github/spec-kit](https://github.com/github/spec-kit) with additional **Multi-Language Support (i18n)**. Includes full Korean translation and extensible architecture for community translations. See [Fork Information](#-fork-information) for details.
@@ -72,7 +72,7 @@ Choose your preferred installation method:
 Install once and use everywhere:
 
 ```bash
-uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
+uv tool install spec-mix --from git+https://github.com/letsur-dev/spec-mix.git
 
 ```
 
@@ -87,7 +87,7 @@ spec-mix check
 To upgrade spec-mix run:
 
 ```bash
-uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.git
+uv tool install spec-mix --force --from git+https://github.com/letsur-dev/spec-mix.git
 
 ```
 
@@ -96,7 +96,7 @@ uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.
 Run directly without installing:
 
 ```bash
-uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
+uvx --from git+https://github.com/letsur-dev/spec-mix.git spec-mix init <PROJECT_NAME>
 
 ```
 
@@ -919,3 +919,6 @@ Original project maintained by:
 ## 📄 License
 
 This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) file for the full terms.
+
+---
+<!-- This README is auto-generated from README.template.md by GitHub Actions -->
