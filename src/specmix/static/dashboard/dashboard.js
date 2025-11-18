@@ -678,14 +678,70 @@ async function loadCommitDiff(commitSha, container) {
             return;
         }
 
-        // Syntax highlight diff
-        const highlightedDiff = highlightDiff(diffText);
+        // Parse diff by file
+        const fileDiffs = parseDiffByFile(diffText);
 
-        container.innerHTML = `<pre class="diff-code">${highlightedDiff}</pre>`;
+        if (fileDiffs.length === 0) {
+            container.innerHTML = '<p class="empty-state">No diff available</p>';
+            return;
+        }
+
+        // Create expandable sections for each file
+        const html = fileDiffs.map(({fileName, diffContent}) => {
+            const highlightedDiff = highlightDiff(diffContent);
+            return `
+                <details class="file-diff-section" open>
+                    <summary class="file-diff-header">
+                        <span class="file-diff-icon">📄</span>
+                        <span class="file-diff-name">${escapeHtml(fileName)}</span>
+                    </summary>
+                    <pre class="diff-code">${highlightedDiff}</pre>
+                </details>
+            `;
+        }).join('');
+
+        container.innerHTML = html;
     } catch (error) {
         console.error('Failed to load diff:', error);
         container.innerHTML = '<p class="error">Failed to load diff</p>';
     }
+}
+
+// Parse git diff into separate files
+function parseDiffByFile(diffText) {
+    const lines = diffText.split('\n');
+    const files = [];
+    let currentFile = null;
+    let currentContent = [];
+
+    for (const line of lines) {
+        if (line.startsWith('diff --git ')) {
+            // Save previous file if exists
+            if (currentFile) {
+                files.push({
+                    fileName: currentFile,
+                    diffContent: currentContent.join('\n')
+                });
+            }
+
+            // Extract file name from "diff --git a/path/to/file b/path/to/file"
+            const match = line.match(/diff --git a\/(.*?) b\//);
+            currentFile = match ? match[1] : 'unknown';
+            currentContent = [line];
+        } else if (currentFile) {
+            currentContent.push(line);
+        }
+    }
+
+    // Save last file
+    if (currentFile && currentContent.length > 0) {
+        files.push({
+            fileName: currentFile,
+            diffContent: currentContent.join('\n')
+        });
+    }
+
+    return files;
 }
 
 // Highlight git diff syntax
