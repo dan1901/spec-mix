@@ -76,6 +76,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
         elif path.startswith('/api/diff/'):
             commit_sha = path.split('/')[-1]
             self.serve_commit_diff(commit_sha)
+        elif path == '/api/untracked-commits':
+            self.serve_untracked_commits()
         elif path == '/api/constitution':
             self.serve_constitution()
         elif path == '/api/i18n/current':
@@ -283,6 +285,11 @@ Run `/spec-mix.constitution` to create one interactively, or use the template at
                     'done': 'Done'
                 }
             })
+
+    def serve_untracked_commits(self):
+        """Serve list of commits without Work Package IDs"""
+        commits = get_untracked_commits()
+        self.send_json(commits)
 
     def serve_static(self, path: str):
         """Serve static files"""
@@ -1222,3 +1229,108 @@ def stop_dashboard(port: Optional[int] = None):
                     specify_dir / 'dashboard.token']:
             if file.exists():
                 file.unlink()
+
+
+def get_untracked_commits(branch: str = 'HEAD', limit: int = 100) -> List[Dict[str, Any]]:
+    """
+    Get commits that don't have Work Package IDs.
+
+    Args:
+        branch: Git branch to analyze (default: HEAD)
+        limit: Maximum number of commits to check
+
+    Returns:
+        List of commits without WP IDs, including sha, message, date, author, files, stats
+    """
+    import subprocess
+    import re
+
+    # Check if git is available
+    try:
+        subprocess.run(['git', 'rev-parse', '--git-dir'],
+                      capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+
+    # WP ID patterns to match
+    # - WP04.3, WP04
+    # - [WP04.3], [WP04]
+    # - feat: WP04.3, fix: WP04
+    wp_pattern = re.compile(r'\b(?:\[)?WP\d+(?:\.\d+)?(?:\])?', re.IGNORECASE)
+
+    try:
+        # Get recent commits
+        result = subprocess.run(
+            ['git', 'log', branch, f'-{limit}',
+             '--format=%H|%s|%cd|%an', '--date=iso-strict'],
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if result.returncode != 0:
+            return []
+
+        untracked = []
+        for line in result.stdout.strip().split('\n'):
+            if not line:
+                continue
+
+            parts = line.split('|', 3)
+            if len(parts) < 4:
+                continue
+
+            sha, message, date, author = parts
+
+            # Skip if message contains WP ID
+            if wp_pattern.search(message):
+                continue
+
+            # Skip merge commits and automated commits
+            if message.startswith('Merge') or '[skip ci]' in message:
+                continue
+
+            # Get commit stats and files
+            stat_result = subprocess.run(
+                ['git', 'show', '--stat', '--format=', sha],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+
+            files_changed = []
+            insertions = 0
+            deletions = 0
+
+            if stat_result.returncode == 0:
+                for stat_line in stat_result.stdout.strip().split('\n'):
+                    if '|' in stat_line:
+                        # Parse file changes
+                        file_part = stat_line.split('|')[0].strip()
+                        if file_part:
+                            files_changed.append(file_part)
+                    elif 'file' in stat_line and 'changed' in stat_line:
+                        # Parse summary line: "X files changed, Y insertions(+), Z deletions(-)"
+                        matches = re.findall(r'(\d+)', stat_line)
+                        if len(matches) >= 2:
+                            insertions = int(matches[1]) if len(matches) > 1 else 0
+                            deletions = int(matches[2]) if len(matches) > 2 else 0
+
+            untracked.append({
+                'sha': sha,
+                'message': message,
+                'date': date,
+                'author': author,
+                'files': files_changed,
+                'stats': {
+                    'insertions': insertions,
+                    'deletions': deletions,
+                    'files_changed': len(files_changed)
+                }
+            })
+
+        return untracked
+
+    except Exception as e:
+        print(f"Error getting untracked commits: {e}")
+        return []
