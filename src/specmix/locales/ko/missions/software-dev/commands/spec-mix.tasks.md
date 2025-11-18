@@ -39,9 +39,9 @@ $ARGUMENTS
    - 각 사용자 스토리를 섹션으로
    - 체크포인트 검증 포함
 
-5. **Work Package 파일 생성** (선택사항이지만 권장):
-   - tasks.md 생성 후, Work Package 디렉토리 구조 생성
-   - `FEATURE_DIR/tasks/`에 하위 디렉토리 생성: `planned/`, `doing/`, `for_review/`, `done/`
+5. **필수: 레인 구조와 함께 Work Package 파일 생성**:
+   - **필수**: tasks.md 생성 후, 반드시 Work Package 디렉토리 구조 생성
+   - **강제**: `FEATURE_DIR/tasks/`에 모든 하위 디렉토리 생성: `planned/`, `doing/`, `for_review/`, `done/`
    - tasks.md의 각 작업에 대해 `planned/`에 Work Package 파일 생성:
      - 파일명: `WPxx.y.md` (xx = 페이즈 번호, y = 페이즈 내 작업 번호)
      - `.spec-mix/active-mission/templates/work-package-template.md`를 템플릿으로 사용
@@ -56,8 +56,42 @@ $ARGUMENTS
        - `estimated_time`: 사용자가 채우도록 [ESTIMATED_TIME]으로 남겨둠
        - `depends_on`: Dependencies 섹션에서 파싱
      - tasks.md의 작업 세부사항으로 콘텐츠 섹션 채우기
-   - 대시보드가 시각화할 수 있는 칸반 준비 구조 생성
-   - 두 형식(tasks.md + WP 파일) 함께 작동: tasks.md는 개요용, WP 파일은 상세 추적용
+   - **강제**: 워크플로우 적용을 위한 필수 레인 구조 생성:
+     ```
+     tasks/
+     ├─ planned/     # 모든 작업이 여기서 시작
+     │   ├─ WP01.1.md
+     │   ├─ WP01.2.md
+     │   └─ ...
+     ├─ doing/       # 작업 시작 시 여기로 이동
+     ├─ for_review/  # 구현 후 여기로 이동
+     └─ done/        # 수락 후 여기로 이동
+     ```
+   - **워크플로우 규칙**: 작업은 반드시 이 순서를 따라야 함: planned → doing → for_review → done
+   - **단축 금지**: 레인 건너뛰기나 역방향 이동 불가
+
+6. **필수 워크플로우 안내**:
+   사용자에게 다음 안내 표시:
+   ```
+   ⚠️ 레인 워크플로우가 이제 강제됩니다 ⚠️
+
+   모든 작업이 'planned' 레인에 생성되었습니다.
+
+   각 작업에 대한 필수 워크플로우:
+   1. 선택: 작업할 항목 선택
+   2. 이동: bash .spec-mix/scripts/move-task.sh WP## planned doing [FEATURE_DIR]
+   3. 구현: 코드 작성 (커밋에 반드시 [WP##] 포함)
+   4. 완료: bash .spec-mix/scripts/move-task.sh WP## doing for_review [FEATURE_DIR]
+   5. 검토: /spec-mix.review 실행
+   6. 수락: /spec-mix.accept 실행 (done으로 이동)
+
+   ❌ /spec-mix.implement 명령이 차단되는 경우:
+   - 'doing' 레인에 작업 없음
+   - 커밋에 [WP##] 참조 누락
+   - 완료된 작업이 리뷰로 이동되지 않음
+
+   작업 레인 시각화: /spec-mix.dashboard 사용
+   ```
 
 ## 작업 품질 기준
 

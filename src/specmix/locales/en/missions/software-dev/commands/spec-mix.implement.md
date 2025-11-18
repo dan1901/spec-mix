@@ -13,11 +13,61 @@ $ARGUMENTS
 ```text
 You **MUST** consider the user input before proceeding (if not empty).
 
+## MANDATORY LANE WORKFLOW ENFORCEMENT
+
+**IMPORTANT**: The following lane workflow rules are STRICTLY ENFORCED:
+
+1. **Before ANY code writing**: You MUST have a task in the `doing` lane
+2. **Every commit**: MUST reference a Work Package ID [WP##]
+3. **After completion**: Task MUST be moved to `for_review` lane
+
 ## Outline
 
 1. Run `{SCRIPT}` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
-2. **Check checklists status** (if FEATURE_DIR/checklists/ exists):
+2. **MANDATORY: Lane State Validation and Task Selection**:
+
+   a. **Check current lane state**:
+      ```bash
+      # Check if tasks directory exists
+      if [ ! -d "FEATURE_DIR/tasks" ]; then
+          echo "ERROR: No tasks directory found. Run /spec-mix.tasks first"
+          exit 1
+      fi
+
+      # Check for tasks in each lane
+      PLANNED_COUNT=$(find FEATURE_DIR/tasks/planned -name "WP*.md" 2>/dev/null | wc -l)
+      DOING_COUNT=$(find FEATURE_DIR/tasks/doing -name "WP*.md" 2>/dev/null | wc -l)
+      REVIEW_COUNT=$(find FEATURE_DIR/tasks/for_review -name "WP*.md" 2>/dev/null | wc -l)
+      DONE_COUNT=$(find FEATURE_DIR/tasks/done -name "WP*.md" 2>/dev/null | wc -l)
+      ```
+
+   b. **Display lane status**:
+      ```
+      Task Lane Status:
+      ├─ planned:     [X tasks]
+      ├─ doing:       [X tasks]
+      ├─ for_review:  [X tasks]
+      └─ done:        [X tasks]
+      ```
+
+   c. **ENFORCE: Select task to work on**:
+      - If DOING_COUNT > 0:
+        - List tasks currently in doing
+        - Ask: "Continue with existing task or select a new one?"
+      - If DOING_COUNT = 0:
+        - List all tasks in planned lane
+        - **REQUIRE** user to select a task: "Which task will you work on? (WP##)"
+        - **BLOCK** if no selection made
+
+   d. **Move selected task to doing**:
+      ```bash
+      bash .spec-mix/scripts/move-task.sh WP## planned doing FEATURE_DIR
+      ```
+      - Record task movement in activity log
+      - Display: "✓ WP## moved to 'doing' lane - work can begin"
+
+3. **Check checklists status** (if FEATURE_DIR/checklists/ exists):
    - Scan all checklist files in the checklists/ directory
    - For each checklist, count:
      - Total items: All lines matching `- [ ]` or `- [X]` or `- [x]`
@@ -106,9 +156,21 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **Task details**: ID, description, file paths, parallel markers [P]
    - **Execution flow**: Order and dependency requirements
 
-6. Execute implementation following the task plan:
+6. **MANDATORY WORKFLOW: Execute implementation with strict lane enforcement**:
+
+   **BEFORE ANY CODE WRITING**:
+   - **STOP**: Check that selected task (from step 2) is in `doing` lane
+   - **BLOCK**: If no task in `doing`, display:
+     ```
+     ❌ ERROR: No task in 'doing' lane
+     You MUST select and move a task to 'doing' before writing code.
+     Run: bash .spec-mix/scripts/move-task.sh WP## planned doing FEATURE_DIR
+     ```
+   - **PROCEED**: Only when task is confirmed in `doing` lane
+
+   **DURING IMPLEMENTATION**:
    - **Phase-by-phase execution**: Complete each phase before moving to the next
-   - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together  
+   - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together
    - **Follow TDD approach**: Execute test tasks before their corresponding implementation tasks
    - **File-based coordination**: Tasks affecting the same files must run sequentially
    - **Validation checkpoints**: Verify each phase completion before proceeding
@@ -184,19 +246,44 @@ You **MUST** consider the user input before proceeding (if not empty).
        ```
      - Then move all task headers (### WP-XXX or ### TXXX) into appropriate sections
 
-   - **Git Commit Guidelines for Task Tracking**:
+   - **MANDATORY Git Commit Rules**:
 
-     **IMPORTANT**: To enable automatic git history tracking in Work Package files and dashboard, include the task ID in commit messages.
+     **ENFORCEMENT**: ALL commits MUST follow these rules - NO EXCEPTIONS:
 
-     **Commit Message Format**:
-     ```bash
-     git commit -m "[TASK_ID] Brief description of changes
+     1. **BEFORE COMMITTING - Verify task in doing**:
+        ```bash
+        # Check task is in doing lane
+        ls FEATURE_DIR/tasks/doing/WP*.md
+        # If empty: STOP - Move task to doing first
+        ```
 
-     - Detailed change 1
-     - Detailed change 2
+     2. **COMMIT MESSAGE FORMAT - REQUIRED**:
+        ```bash
+        git commit -m "[WP##] Brief description of changes
 
-     Files: list/of/files.py, other/file.js"
-     ```
+        - Detailed change 1
+        - Detailed change 2
+
+        Task: WP## - [Task Title]
+        Lane: doing -> for_review (after this commit)"
+        ```
+
+     3. **VALIDATION BEFORE COMMIT**:
+        - **CHECK**: Task WP## exists in `doing/` lane
+        - **CHECK**: Commit message includes [WP##]
+        - **BLOCK**: If either check fails:
+          ```
+          ❌ COMMIT BLOCKED: Missing requirements
+          - Task must be in 'doing' lane
+          - Commit message must include [WP##]
+          ```
+
+     4. **AFTER COMMIT - Auto-move to review**:
+        ```bash
+        # After successful commit, IMMEDIATELY move task
+        bash .spec-mix/scripts/move-task.sh WP## doing for_review FEATURE_DIR
+        echo "✓ Task WP## moved to review - ready for /spec-mix.review"
+        ```
 
      **Examples**:
      ```bash
@@ -237,12 +324,58 @@ You **MUST** consider the user input before proceeding (if not empty).
      - Commit after completing each logical unit of work
      - Group related changes in a single commit
 
-9. Completion validation:
-   - Verify all required tasks are completed
-   - Check that implemented features match the original specification
-   - Validate that tests pass and coverage meets requirements
-   - Confirm the implementation follows the technical plan
-   - Report final status with summary of completed work
+9. **MANDATORY Task Completion Workflow**:
 
-Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/spec-mix.tasks` first to regenerate the task list.
+   **ENFORCEMENT**: Task completion MUST follow this workflow:
+
+   a. **Verify task completion**:
+      - All code changes committed with [WP##] reference
+      - Tests written and passing
+      - Documentation updated
+
+   b. **REQUIRED: Move task to review**:
+      ```bash
+      # MUST move completed task to review
+      bash .spec-mix/scripts/move-task.sh WP## doing for_review FEATURE_DIR
+      ```
+      - **BLOCK** further work if task not moved
+      - Display: "✓ WP## ready for review - use /spec-mix.review"
+
+   c. **Lane status after completion**:
+      ```
+      Final Lane Status:
+      ├─ planned:     [remaining tasks]
+      ├─ doing:       [should be 0 - all moved to review]
+      ├─ for_review:  [completed tasks awaiting review]
+      └─ done:        [reviewed and approved tasks]
+      ```
+
+   d. **Next steps reminder**:
+      ```
+      ✓ Implementation phase complete for WP##
+
+      REQUIRED NEXT STEPS:
+      1. Run /spec-mix.review to review completed work
+      2. After review, run /spec-mix.accept for acceptance
+      3. Tasks will move to 'done' after acceptance
+
+      ⚠️ DO NOT start new tasks until review is complete
+      ```
+
+10. **Workflow Summary**:
+
+    The ENFORCED workflow for EVERY task:
+    ```
+    planned → doing → for_review → done
+      ↓         ↓         ↓          ↓
+    SELECT   IMPLEMENT  REVIEW    ACCEPTED
+    ```
+
+    **NO SHORTCUTS ALLOWED**:
+    - Cannot skip lanes
+    - Cannot commit without task in doing
+    - Cannot leave completed tasks in doing
+    - Must follow the complete workflow
+
+Note: This command ENFORCES the complete lane workflow. Tasks MUST be in 'doing' before implementation and MUST be moved to 'for_review' after completion.
 

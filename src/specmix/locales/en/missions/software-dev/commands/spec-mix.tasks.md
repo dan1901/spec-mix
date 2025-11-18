@@ -48,9 +48,9 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Parallel execution examples per story
    - Implementation strategy section (MVP first, incremental delivery)
 
-5. **Generate Work Package files** (Optional but Recommended):
-   - After generating tasks.md, create Work Package directory structure
-   - Create `FEATURE_DIR/tasks/` with subdirectories: `planned/`, `doing/`, `for_review/`, `done/`
+5. **MANDATORY: Generate Work Package files with Lane Structure**:
+   - **REQUIRED**: After generating tasks.md, MUST create Work Package directory structure
+   - **ENFORCE**: Create `FEATURE_DIR/tasks/` with ALL subdirectories: `planned/`, `doing/`, `for_review/`, `done/`
    - For each task in tasks.md, create a Work Package file in `planned/`:
      - Filename: `WPxx.y.md` (where xx = phase number, y = task number in phase)
      - Use `.spec-mix/active-mission/templates/work-package-template.md` as template
@@ -65,10 +65,44 @@ You **MUST** consider the user input before proceeding (if not empty).
        - `estimated_time`: Leave as [ESTIMATED_TIME] for user to fill
        - `depends_on`: Parse from Dependencies section
      - Fill content sections from tasks.md task details
-   - This creates a kanban-ready structure that dashboard can visualize
-   - Both formats (tasks.md + WP files) work together: tasks.md for overview, WP files for detailed tracking
+   - **ENFORCEMENT**: This creates the REQUIRED lane structure for workflow enforcement:
+     ```
+     tasks/
+     ├─ planned/     # ALL tasks start here
+     │   ├─ WP01.1.md
+     │   ├─ WP01.2.md
+     │   └─ ...
+     ├─ doing/       # Tasks move here when work starts
+     ├─ for_review/  # Tasks move here after implementation
+     └─ done/        # Tasks move here after acceptance
+     ```
+   - **WORKFLOW RULE**: Tasks MUST follow this progression: planned → doing → for_review → done
+   - **NO SHORTCUTS**: Cannot skip lanes or move backwards
 
-6. **Report**: Output path to generated tasks.md and summary:
+6. **MANDATORY Workflow Instructions**:
+   Display these instructions to the user:
+   ```
+   ⚠️ LANE WORKFLOW IS NOW ENFORCED ⚠️
+
+   All tasks have been created in the 'planned' lane.
+
+   REQUIRED WORKFLOW for each task:
+   1. SELECT: Choose task to work on
+   2. MOVE: bash .spec-mix/scripts/move-task.sh WP## planned doing [FEATURE_DIR]
+   3. IMPLEMENT: Write code (commits MUST include [WP##])
+   4. COMPLETE: bash .spec-mix/scripts/move-task.sh WP## doing for_review [FEATURE_DIR]
+   5. REVIEW: Run /spec-mix.review
+   6. ACCEPT: Run /spec-mix.accept (moves to done)
+
+   ❌ The /spec-mix.implement command will BLOCK if:
+   - No task in 'doing' lane
+   - Commit missing [WP##] reference
+   - Completed task not moved to review
+
+   Use /spec-mix.dashboard to visualize task lanes
+   ```
+
+7. **Report**: Output path to generated tasks.md and summary:
    - Total task count
    - Task count per user story
    - Parallel opportunities identified
