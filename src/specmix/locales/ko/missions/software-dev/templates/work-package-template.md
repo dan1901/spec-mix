@@ -46,7 +46,10 @@ files_modified: []
 
 ## Git 히스토리
 
-**커밋**: 커밋 메시지에 작업 ID `[WP_ID]` 포함 시 자동 추적
+**커밋**: 커밋 메시지에 작업 ID가 포함되면 자동 추적 (다양한 형식 지원):
+- `[WP_ID] 설명` (대괄호 형식)
+- `feat: WP_ID 설명` (conventional commits)
+- `WP_ID: 설명` (일반 형식)
 
 **수정된 파일**: frontmatter의 `files_modified` 필드에 기록
 

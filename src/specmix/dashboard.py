@@ -886,12 +886,15 @@ def get_task_commits(feature_id: str, task_id: str) -> List[Dict[str, Any]]:
         return []
 
     try:
-        # Get commits that mention this task ID in square brackets
-        # Format: [task_id] or [TASK_ID]
+        # Get commits that mention this task ID
+        # Supports multiple formats:
+        # - [WP04.3] Description (bracketed)
+        # - feat: WP04.3 Description (conventional commits)
+        # - WP04.3: Description (plain)
         import re
         escaped_task_id = re.escape(task_id)
         result = subprocess.run(
-            ['git', 'log', '--all', f'--grep=\\[{escaped_task_id}\\]',
+            ['git', 'log', '--all', f'--grep={escaped_task_id}',
              '--format=%H|%s|%cd|%an', '--date=iso-strict'],
             capture_output=True,
             text=True,

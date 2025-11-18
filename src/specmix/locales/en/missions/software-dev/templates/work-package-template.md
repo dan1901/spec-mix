@@ -46,7 +46,10 @@ files_modified: []
 
 ## Git History
 
-**Commits**: Automatically tracked when commit messages include task ID `[WP_ID]`
+**Commits**: Automatically tracked when commit messages include task ID in any format:
+- `[WP_ID] Description` (bracketed format)
+- `feat: WP_ID Description` (conventional commits)
+- `WP_ID: Description` (plain format)
 
 **Modified Files**: Listed in frontmatter `files_modified` field
 
