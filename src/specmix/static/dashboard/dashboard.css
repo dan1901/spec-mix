@@ -1125,3 +1125,169 @@ footer {
 .diff-code::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
+
+/* ==================== Untracked Commits View ==================== */
+
+.untracked-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.untracked-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.untracked-header .subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.untracked-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.commit-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.2s;
+}
+
+.commit-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.commit-card .commit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.commit-sha {
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    font-size: 12px;
+    background: var(--bg-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.commit-card .commit-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.commit-card .commit-message {
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    color: var(--text-color);
+    border-left: 3px solid var(--primary-color);
+    padding-left: 12px;
+}
+
+.commit-author {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.commit-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-add {
+    color: var(--success-color);
+    font-weight: 500;
+}
+
+.stat-del {
+    color: var(--danger-color);
+    font-weight: 500;
+}
+
+.commit-files-list {
+    margin-bottom: 12px;
+}
+
+.commit-files-list .file-preview {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    line-height: 1.8;
+}
+
+.commit-files-list .file-preview div {
+    padding: 2px 0;
+}
+
+.commit-files-list .more-files {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.commit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.commit-actions .btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 12px;
+}
+
+/* Tab badge for untracked count */
+.tab .badge {
+    display: inline-block;
+    background: var(--danger-color);
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-weight: 600;
+    min-width: 18px;
+    text-align: center;
+}
+
+.tab.active .badge {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .untracked-list {
+        grid-template-columns: 1fr;
+    }
+
+    .commit-actions {
+        flex-direction: column;
+    }
+
+    .commit-actions .btn {
+        width: 100%;
+    }
+}

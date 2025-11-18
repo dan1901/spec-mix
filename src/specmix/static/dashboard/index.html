@@ -24,6 +24,10 @@
             <button class="tab active" data-tab="features" id="tab-features">
                 <span class="tab-label">Features</span>
             </button>
+            <button class="tab" data-tab="untracked" id="tab-untracked">
+                <span class="tab-label">Untracked Commits</span>
+                <span class="badge" id="untracked-badge" style="display: none;">0</span>
+            </button>
             <button class="tab" data-tab="constitution" id="tab-constitution">
                 <span class="tab-label">Constitution</span>
             </button>
@@ -38,6 +42,17 @@
                 </div>
                 <div id="features-list" class="features-list">
                     <p class="loading">Loading features...</p>
+                </div>
+            </div>
+
+            <!-- Untracked Commits View -->
+            <div id="untracked-view" class="tab-content">
+                <div class="untracked-header">
+                    <h2>Untracked Commits</h2>
+                    <p class="subtitle">Commits without Work Package IDs that can be migrated to spec-driven workflow</p>
+                </div>
+                <div id="untracked-list" class="untracked-list">
+                    <p class="loading">Loading untracked commits...</p>
                 </div>
             </div>
 

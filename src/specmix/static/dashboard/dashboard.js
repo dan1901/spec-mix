@@ -14,6 +14,8 @@ function getCurrentStateFromHash() {
     } else if (hash.startsWith('#artifact/')) {
         const parts = hash.substring(10).split('/');
         return { view: 'artifact', featureId: parts[0], artifactName: parts.slice(1).join('/') };
+    } else if (hash === '#untracked') {
+        return { view: 'untracked' };
     } else if (hash === '#constitution') {
         return { view: 'constitution' };
     } else {
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadI18n();
     setupEventListeners();
     await loadFeatures();
+    await updateUntrackedBadge(); // Initialize badge count
 
     // Restore state from URL hash
     const hash = window.location.hash;
@@ -39,6 +42,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const artifactName = parts.slice(1).join('/');
         switchTab('features');
         await showArtifact(featureId, artifactName, false);
+    } else if (hash === '#untracked') {
+        switchTab('untracked');
     } else if (hash === '#constitution') {
         switchTab('constitution');
     } else {
@@ -111,6 +116,9 @@ function setupEventListeners() {
         if (document.getElementById('constitution-view').classList.contains('active')) {
             await loadConstitution();
         }
+        if (document.getElementById('untracked-view').classList.contains('active')) {
+            await loadUntrackedCommits();
+        }
     });
 
     // Back buttons
@@ -158,6 +166,8 @@ function setupEventListeners() {
         } else if (state.view === 'artifact') {
             switchTab('features');
             showArtifact(state.featureId, state.artifactName, false);
+        } else if (state.view === 'untracked') {
+            switchTab('untracked');
         } else if (state.view === 'constitution') {
             switchTab('constitution');
         }
@@ -185,6 +195,11 @@ function switchTab(tabName) {
             loadFeatures();
             window.history.pushState({ view: 'features' }, '', '#features');
         }
+
+    } else if (tabName === 'untracked') {
+        showView('untracked-view');
+        loadUntrackedCommits();
+        window.history.pushState({ view: 'untracked' }, '', '#untracked');
 
     } else if (tabName === 'constitution') {
         showView('constitution-view');
@@ -405,10 +420,16 @@ async function loadConstitution() {
 // Auto-refresh
 function startAutoRefresh() {
     refreshInterval = setInterval(async () => {
-        // Only auto-refresh features view
+        // Auto-refresh features view
         if (document.getElementById('features-view').classList.contains('active')) {
             await loadFeatures();
         }
+        // Auto-refresh untracked commits view
+        if (document.getElementById('untracked-view').classList.contains('active')) {
+            await loadUntrackedCommits();
+        }
+        // Always refresh badge count even if not on the tab
+        await updateUntrackedBadge();
     }, 2000); // 2 seconds
 }
 
@@ -873,6 +894,106 @@ function escapeHtml(text) {
 function closeTaskModal() {
     const modal = document.getElementById('task-modal');
     modal.classList.remove('show');
+}
+
+// Update untracked badge count
+async function updateUntrackedBadge() {
+    try {
+        const response = await fetch('/api/untracked-commits');
+        const commits = await response.json();
+        const badge = document.getElementById('untracked-badge');
+
+        if (commits.length === 0) {
+            badge.style.display = 'none';
+        } else {
+            badge.textContent = commits.length;
+            badge.style.display = 'inline-block';
+        }
+    } catch (error) {
+        console.error('Failed to update untracked badge:', error);
+    }
+}
+
+// Load untracked commits
+async function loadUntrackedCommits() {
+    const container = document.getElementById('untracked-list');
+    const badge = document.getElementById('untracked-badge');
+    container.innerHTML = '<p class="loading">Loading untracked commits...</p>';
+
+    try {
+        const response = await fetch('/api/untracked-commits');
+        const commits = await response.json();
+
+        if (commits.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>✅ All commits are tracked with Work Package IDs!</p>
+                    <p class="hint">Commits without WP IDs will appear here for migration.</p>
+                </div>
+            `;
+            badge.style.display = 'none';
+            return;
+        }
+
+        // Update badge count
+        badge.textContent = commits.length;
+        badge.style.display = 'inline-block';
+
+        // Render commit list
+        let html = '<div class="commits-grid">';
+
+        commits.forEach(commit => {
+            const date = new Date(commit.date).toLocaleString();
+            const shortSha = commit.sha.substring(0, 7);
+            const stats = commit.stats;
+
+            html += `
+                <div class="commit-card">
+                    <div class="commit-header">
+                        <span class="commit-sha">${shortSha}</span>
+                        <span class="commit-date">${date}</span>
+                    </div>
+                    <div class="commit-message">${escapeHtml(commit.message)}</div>
+                    <div class="commit-author">👤 ${escapeHtml(commit.author)}</div>
+                    <div class="commit-stats">
+                        <span class="stat-item">📁 ${stats.files_changed} files</span>
+                        <span class="stat-item stat-add">+${stats.insertions}</span>
+                        <span class="stat-item stat-del">-${stats.deletions}</span>
+                    </div>
+                    <div class="commit-files">
+                        ${commit.files.slice(0, 3).map(f => `<span class="file-name">${escapeHtml(f)}</span>`).join('')}
+                        ${commit.files.length > 3 ? `<span class="file-more">+${commit.files.length - 3} more</span>` : ''}
+                    </div>
+                    <div class="commit-actions">
+                        <button class="btn btn-primary" onclick="generateSpecFromCommit('${commit.sha}')">
+                            🤖 Generate Spec
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewCommitDiff('${commit.sha}')">
+                            View Diff
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+
+    } catch (error) {
+        console.error('Failed to load untracked commits:', error);
+        container.innerHTML = '<p class="error">Failed to load untracked commits</p>';
+        badge.style.display = 'none';
+    }
+}
+
+// Generate spec from commit (placeholder - will be implemented with /spec-mix.migrate)
+function generateSpecFromCommit(sha) {
+    alert(`Generating spec from commit ${sha}\n\nThis will use /spec-mix.migrate command to:\n1. Analyze commit code and changes\n2. Generate retrospective spec/plan/tasks\n3. Create new feature directory\n\nComing soon!`);
+}
+
+// View commit diff
+function viewCommitDiff(sha) {
+    window.open(`https://github.com/YOUR_ORG/YOUR_REPO/commit/${sha}`, '_blank');
 }
 
 // Cleanup on unload
