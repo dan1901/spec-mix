@@ -442,7 +442,7 @@ async function openTaskModal(featureId, lane, taskId) {
     modalReviews.style.display = 'none';
 
     // Setup tab switching
-    setupModalTabs(featureId, taskId);
+    setupModalTabs(featureId, taskId, lane);
 
     try {
         const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}`);
@@ -494,7 +494,7 @@ async function openTaskModal(featureId, lane, taskId) {
 }
 
 // Setup modal tab switching
-function setupModalTabs(featureId, taskId) {
+function setupModalTabs(featureId, taskId, lane) {
     let commitsLoaded = false;
     let reviewsLoaded = false;
 
@@ -524,7 +524,7 @@ function setupModalTabs(featureId, taskId) {
 
                 // Load commits on first access
                 if (!commitsLoaded) {
-                    await loadTaskCommits(featureId, taskId);
+                    await loadTaskCommits(featureId, taskId, lane);
                     commitsLoaded = true;
                 }
             } else if (tabName === 'reviews') {
@@ -534,7 +534,7 @@ function setupModalTabs(featureId, taskId) {
 
                 // Load reviews on first access
                 if (!reviewsLoaded) {
-                    await loadTaskReviews(featureId, taskId);
+                    await loadTaskReviews(featureId, taskId, lane);
                     reviewsLoaded = true;
                 }
             }
@@ -543,12 +543,12 @@ function setupModalTabs(featureId, taskId) {
 }
 
 // Load git commits for a task
-async function loadTaskCommits(featureId, taskId) {
+async function loadTaskCommits(featureId, taskId, lane) {
     const container = document.getElementById('commits-container');
     container.innerHTML = '<p class="loading">Loading commits...</p>';
 
     try {
-        const response = await fetch(`/api/task/${featureId}/planned/${taskId}/commits`);
+        const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}/commits`);
         const commits = await response.json();
 
         if (commits.length === 0) {
@@ -575,7 +575,7 @@ async function loadTaskCommits(featureId, taskId) {
                     <div class="commit-message">${escapeHtml(commit.message)}</div>
                     <details class="commit-files">
                         <summary>View files</summary>
-                        <div class="file-list" data-commit="${commit.sha}" data-feature="${featureId}" data-task="${taskId}">
+                        <div class="file-list" data-commit="${commit.sha}" data-feature="${featureId}" data-task="${taskId}" data-lane="${lane}">
                             <p class="loading">Loading files...</p>
                         </div>
                     </details>
@@ -596,8 +596,9 @@ async function loadTaskCommits(featureId, taskId) {
 
                 const featureId = fileList.dataset.feature;
                 const taskId = fileList.dataset.task;
+                const lane = fileList.dataset.lane;
 
-                await loadTaskFiles(featureId, taskId, fileList);
+                await loadTaskFiles(featureId, taskId, lane, fileList);
                 fileList.dataset.loaded = 'true';
             });
         });
@@ -609,9 +610,9 @@ async function loadTaskCommits(featureId, taskId) {
 }
 
 // Load modified files for a task
-async function loadTaskFiles(featureId, taskId, container) {
+async function loadTaskFiles(featureId, taskId, lane, container) {
     try {
-        const response = await fetch(`/api/task/${featureId}/planned/${taskId}/files`);
+        const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}/files`);
         const files = await response.json();
 
         if (files.length === 0) {
@@ -642,12 +643,12 @@ async function loadTaskFiles(featureId, taskId, container) {
 }
 
 // Load review history for a task
-async function loadTaskReviews(featureId, taskId) {
+async function loadTaskReviews(featureId, taskId, lane) {
     const container = document.getElementById('reviews-container');
     container.innerHTML = '<p class="loading">Loading review history...</p>';
 
-    try {
-        const response = await fetch(`/api/task/${featureId}/planned/${taskId}/reviews`);
+    try:
+        const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}/reviews`);
         const reviews = await response.json();
 
         if (reviews.length === 0) {

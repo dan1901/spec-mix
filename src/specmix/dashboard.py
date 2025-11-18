@@ -61,11 +61,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 if len(parts) >= 4:
                     subpath = parts[3]
                     if subpath == 'commits':
-                        self.serve_task_commits(feature_id, task_id)
+                        self.serve_task_commits(feature_id, lane, task_id)
                     elif subpath == 'files':
-                        self.serve_task_files(feature_id, task_id)
+                        self.serve_task_files(feature_id, lane, task_id)
                     elif subpath == 'reviews':
-                        self.serve_task_reviews(feature_id, task_id)
+                        self.serve_task_reviews(feature_id, lane, task_id)
                     elif subpath == 'diff' and len(parts) >= 5:
                         commit_sha = parts[4]
                         self.serve_commit_diff(commit_sha)
@@ -163,12 +163,12 @@ class DashboardHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, f"Task not found: {task_id}")
 
-    def serve_task_commits(self, feature_id: str, task_id: str):
+    def serve_task_commits(self, feature_id: str, lane: str, task_id: str):
         """Serve git commits for a task"""
         commits = get_task_commits(feature_id, task_id)
         self.send_json(commits)
 
-    def serve_task_files(self, feature_id: str, task_id: str):
+    def serve_task_files(self, feature_id: str, lane: str, task_id: str):
         """Serve modified files for a task"""
         files = get_task_files(feature_id, task_id)
         self.send_json(files)
@@ -184,7 +184,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, f"Commit not found: {commit_sha}")
 
-    def serve_task_reviews(self, feature_id: str, task_id: str):
+    def serve_task_reviews(self, feature_id: str, lane: str, task_id: str):
         """Serve review history for a task"""
         reviews = get_task_reviews(feature_id, task_id)
         self.send_json(reviews)
@@ -888,8 +888,10 @@ def get_task_commits(feature_id: str, task_id: str) -> List[Dict[str, Any]]:
     try:
         # Get commits that mention this task ID in square brackets
         # Format: [task_id] or [TASK_ID]
+        import re
+        escaped_task_id = re.escape(task_id)
         result = subprocess.run(
-            ['git', 'log', '--all', f'--grep=\\[{task_id}\\]',
+            ['git', 'log', '--all', f'--grep=\\[{escaped_task_id}\\]',
              '--format=%H|%s|%cd|%an', '--date=iso-strict'],
             capture_output=True,
             text=True,
