@@ -96,8 +96,23 @@
                 <h2 id="modal-task-title">Task Details</h2>
                 <button id="modal-close" class="modal-close">&times;</button>
             </div>
-            <div id="modal-task-body" class="modal-body markdown-content">
+
+            <!-- Modal Tabs -->
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-tab="details">Details</button>
+                <button class="modal-tab" data-tab="commits">Git History</button>
+            </div>
+
+            <!-- Tab Content: Details -->
+            <div id="modal-details" class="modal-body modal-tab-content active markdown-content">
                 <p class="loading">Loading...</p>
+            </div>
+
+            <!-- Tab Content: Git History -->
+            <div id="modal-commits" class="modal-body modal-tab-content" style="display: none;">
+                <div id="commits-container">
+                    <p class="loading">Loading git history...</p>
+                </div>
             </div>
         </div>
     </div>

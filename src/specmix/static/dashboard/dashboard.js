@@ -423,12 +423,24 @@ function updateLastUpdate() {
 async function openTaskModal(featureId, lane, taskId) {
     const modal = document.getElementById('task-modal');
     const modalTitle = document.getElementById('modal-task-title');
-    const modalBody = document.getElementById('modal-task-body');
+    const modalDetails = document.getElementById('modal-details');
+    const modalCommits = document.getElementById('modal-commits');
 
     // Show modal
     modal.classList.add('show');
     modalTitle.textContent = taskId;
-    modalBody.innerHTML = '<p class="loading">Loading task details...</p>';
+    modalDetails.innerHTML = '<p class="loading">Loading task details...</p>';
+
+    // Reset tabs to Details
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.tab === 'details') tab.classList.add('active');
+    });
+    modalDetails.style.display = 'block';
+    modalCommits.style.display = 'none';
+
+    // Setup tab switching
+    setupModalTabs(featureId, taskId);
 
     try {
         const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}`);
@@ -460,7 +472,7 @@ async function openTaskModal(featureId, lane, taskId) {
         // Render markdown content
         html += marked.parse(taskData.content);
 
-        modalBody.innerHTML = html;
+        modalDetails.innerHTML = html;
 
         // Add click handlers to dependency links
         document.querySelectorAll('.dependency-link').forEach(link => {
@@ -475,8 +487,150 @@ async function openTaskModal(featureId, lane, taskId) {
 
     } catch (error) {
         console.error('Failed to load task detail:', error);
-        modalBody.innerHTML = '<p class="error">Failed to load task details</p>';
+        modalDetails.innerHTML = '<p class="error">Failed to load task details</p>';
     }
+}
+
+// Setup modal tab switching
+function setupModalTabs(featureId, taskId) {
+    let commitsLoaded = false;
+
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+        // Remove old listeners by cloning
+        const newTab = tab.cloneNode(true);
+        tab.parentNode.replaceChild(newTab, tab);
+    });
+
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+        tab.addEventListener('click', async () => {
+            const tabName = tab.dataset.tab;
+
+            // Update active tab
+            document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Show/hide content
+            if (tabName === 'details') {
+                document.getElementById('modal-details').style.display = 'block';
+                document.getElementById('modal-commits').style.display = 'none';
+            } else if (tabName === 'commits') {
+                document.getElementById('modal-details').style.display = 'none';
+                document.getElementById('modal-commits').style.display = 'block';
+
+                // Load commits on first access
+                if (!commitsLoaded) {
+                    await loadTaskCommits(featureId, taskId);
+                    commitsLoaded = true;
+                }
+            }
+        });
+    });
+}
+
+// Load git commits for a task
+async function loadTaskCommits(featureId, taskId) {
+    const container = document.getElementById('commits-container');
+    container.innerHTML = '<p class="loading">Loading commits...</p>';
+
+    try {
+        const response = await fetch(`/api/task/${featureId}/planned/${taskId}/commits`);
+        const commits = await response.json();
+
+        if (commits.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>No git commits found for this task</p>
+                    <p class="hint">Commits must include <code>[${taskId}]</code> in the message</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Render commits
+        let html = '<div class="commits-list">';
+
+        for (const commit of commits) {
+            html += `
+                <div class="commit-item">
+                    <div class="commit-header">
+                        <span class="commit-hash" title="${commit.sha}">${commit.short_sha}</span>
+                        <span class="commit-author">${escapeHtml(commit.author)}</span>
+                        <span class="commit-date">${new Date(commit.date).toLocaleString()}</span>
+                    </div>
+                    <div class="commit-message">${escapeHtml(commit.message)}</div>
+                    <details class="commit-files">
+                        <summary>View files</summary>
+                        <div class="file-list" data-commit="${commit.sha}" data-feature="${featureId}" data-task="${taskId}">
+                            <p class="loading">Loading files...</p>
+                        </div>
+                    </details>
+                </div>
+            `;
+        }
+
+        html += '</div>';
+        container.innerHTML = html;
+
+        // Add listeners for file details
+        document.querySelectorAll('.commit-files summary').forEach(summary => {
+            summary.addEventListener('click', async (e) => {
+                const details = summary.parentElement;
+                const fileList = details.querySelector('.file-list');
+
+                if (fileList.dataset.loaded === 'true') return;
+
+                const featureId = fileList.dataset.feature;
+                const taskId = fileList.dataset.task;
+
+                await loadTaskFiles(featureId, taskId, fileList);
+                fileList.dataset.loaded = 'true';
+            });
+        });
+
+    } catch (error) {
+        console.error('Failed to load commits:', error);
+        container.innerHTML = '<p class="error">Failed to load git commits</p>';
+    }
+}
+
+// Load modified files for a task
+async function loadTaskFiles(featureId, taskId, container) {
+    try {
+        const response = await fetch(`/api/task/${featureId}/planned/${taskId}/files`);
+        const files = await response.json();
+
+        if (files.length === 0) {
+            container.innerHTML = '<p class="empty-state">No files found</p>';
+            return;
+        }
+
+        let html = '<ul class="file-changes">';
+        files.forEach(file => {
+            const actionClass = file.action === 'A' ? 'added' : file.action === 'M' ? 'modified' : 'deleted';
+            const actionText = file.action === 'A' ? 'Added' : file.action === 'M' ? 'Modified' : 'Deleted';
+
+            html += `
+                <li class="file-item ${actionClass}">
+                    <span class="file-action">${actionText}</span>
+                    <span class="file-path">${escapeHtml(file.path)}</span>
+                    <span class="file-commit">${file.commit}</span>
+                </li>
+            `;
+        });
+        html += '</ul>';
+
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Failed to load files:', error);
+        container.innerHTML = '<p class="error">Failed to load files</p>';
+    }
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // Close task detail modal
