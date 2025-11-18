@@ -12,7 +12,7 @@
     <a href="https://github.com/letsur-dev/spec-mix/actions/workflows/release.yml"><img src="https://github.com/letsur-dev/spec-mix/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
     <a href="https://github.com/letsur-dev/spec-mix/stargazers"><img src="https://img.shields.io/github/stars/letsur-dev/spec-mix?style=social" alt="GitHub stars"/></a>
     <a href="https://github.com/letsur-dev/spec-mix/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/></a>
-    <a href="https://letsur-dev.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
+    <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
 > **📢 Fork Notice**: This is a fork of [github/spec-kit](https://github.com/github/spec-kit) with additional **Multi-Language Support (i18n)**. Includes full Korean translation and extensible architecture for community translations. See [Fork Information](#-fork-information) for details.
