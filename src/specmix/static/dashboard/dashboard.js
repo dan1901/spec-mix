@@ -425,6 +425,7 @@ async function openTaskModal(featureId, lane, taskId) {
     const modalTitle = document.getElementById('modal-task-title');
     const modalDetails = document.getElementById('modal-details');
     const modalCommits = document.getElementById('modal-commits');
+    const modalReviews = document.getElementById('modal-reviews');
 
     // Show modal
     modal.classList.add('show');
@@ -438,6 +439,7 @@ async function openTaskModal(featureId, lane, taskId) {
     });
     modalDetails.style.display = 'block';
     modalCommits.style.display = 'none';
+    modalReviews.style.display = 'none';
 
     // Setup tab switching
     setupModalTabs(featureId, taskId);
@@ -494,6 +496,7 @@ async function openTaskModal(featureId, lane, taskId) {
 // Setup modal tab switching
 function setupModalTabs(featureId, taskId) {
     let commitsLoaded = false;
+    let reviewsLoaded = false;
 
     document.querySelectorAll('.modal-tab').forEach(tab => {
         // Remove old listeners by cloning
@@ -513,14 +516,26 @@ function setupModalTabs(featureId, taskId) {
             if (tabName === 'details') {
                 document.getElementById('modal-details').style.display = 'block';
                 document.getElementById('modal-commits').style.display = 'none';
+                document.getElementById('modal-reviews').style.display = 'none';
             } else if (tabName === 'commits') {
                 document.getElementById('modal-details').style.display = 'none';
                 document.getElementById('modal-commits').style.display = 'block';
+                document.getElementById('modal-reviews').style.display = 'none';
 
                 // Load commits on first access
                 if (!commitsLoaded) {
                     await loadTaskCommits(featureId, taskId);
                     commitsLoaded = true;
+                }
+            } else if (tabName === 'reviews') {
+                document.getElementById('modal-details').style.display = 'none';
+                document.getElementById('modal-commits').style.display = 'none';
+                document.getElementById('modal-reviews').style.display = 'block';
+
+                // Load reviews on first access
+                if (!reviewsLoaded) {
+                    await loadTaskReviews(featureId, taskId);
+                    reviewsLoaded = true;
                 }
             }
         });
@@ -623,6 +638,98 @@ async function loadTaskFiles(featureId, taskId, container) {
     } catch (error) {
         console.error('Failed to load files:', error);
         container.innerHTML = '<p class="error">Failed to load files</p>';
+    }
+}
+
+// Load review history for a task
+async function loadTaskReviews(featureId, taskId) {
+    const container = document.getElementById('reviews-container');
+    container.innerHTML = '<p class="loading">Loading review history...</p>';
+
+    try {
+        const response = await fetch(`/api/task/${featureId}/planned/${taskId}/reviews`);
+        const reviews = await response.json();
+
+        if (reviews.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>No reviews found for this task</p>
+                    <p class="hint">Reviews will appear here when tasks are reviewed using <code>/spec-mix.review</code> or <code>/spec-mix.review-interactive</code></p>
+                </div>
+            `;
+            return;
+        }
+
+        // Render review timeline
+        let html = '<div class="review-timeline">';
+
+        reviews.forEach((review, index) => {
+            const isApproved = review.decision === 'APPROVED';
+            const decisionClass = isApproved ? 'approved' : 'changes-requested';
+            const decisionIcon = isApproved ? '✅' : '🔄';
+            const decisionText = isApproved ? 'APPROVED' : 'CHANGES REQUESTED';
+
+            html += `
+                <div class="review-entry ${decisionClass}">
+                    <div class="review-header">
+                        <span class="review-decision-icon">${decisionIcon}</span>
+                        <div class="review-meta">
+                            <span class="review-decision">${decisionText}</span>
+                            <span class="review-reviewer">by ${escapeHtml(review.reviewer)}</span>
+                            <span class="review-date">${new Date(review.timestamp).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="review-body">
+            `;
+
+            // Show issues if present
+            if (review.issues && review.issues.length > 0) {
+                html += '<div class="review-issues">';
+                html += '<h4>❌ Issues Found</h4>';
+                html += '<ul>';
+                review.issues.forEach(issue => {
+                    html += `<li>${escapeHtml(issue)}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+
+            // Show positives if present
+            if (review.positives && review.positives.length > 0) {
+                html += '<div class="review-positives">';
+                html += '<h4>✅ Strengths</h4>';
+                html += '<ul>';
+                review.positives.forEach(positive => {
+                    html += `<li>${escapeHtml(positive)}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+
+            // Show notes if present
+            if (review.notes && review.notes.length > 0) {
+                html += '<div class="review-notes">';
+                html += '<h4>📝 Notes</h4>';
+                html += '<ul>';
+                review.notes.forEach(note => {
+                    html += `<li>${escapeHtml(note)}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+
+    } catch (error) {
+        console.error('Failed to load reviews:', error);
+        container.innerHTML = '<p class="error">Failed to load review history</p>';
     }
 }
 

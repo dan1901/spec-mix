@@ -759,3 +759,185 @@ footer {
     border-radius: 3px;
     font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
 }
+
+/* ==================== Review Timeline ==================== */
+
+.review-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.review-entry {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s ease;
+}
+
+.review-entry:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.review-entry.approved {
+    border-left: 4px solid #28a745;
+    background: linear-gradient(to right, rgba(40, 167, 69, 0.05), var(--bg-secondary));
+}
+
+.review-entry.changes-requested {
+    border-left: 4px solid #ffc107;
+    background: linear-gradient(to right, rgba(255, 193, 7, 0.05), var(--bg-secondary));
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.review-decision-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.review-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.review-decision {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.review-entry.approved .review-decision {
+    color: #28a745;
+}
+
+.review-entry.changes-requested .review-decision {
+    color: #ffc107;
+}
+
+.review-reviewer {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.review-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.review-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.review-issues,
+.review-positives,
+.review-notes {
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.review-issues {
+    background: rgba(220, 53, 69, 0.05);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.review-positives {
+    background: rgba(40, 167, 69, 0.05);
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.review-notes {
+    background: rgba(13, 110, 253, 0.05);
+    border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+.review-issues h4,
+.review-positives h4,
+.review-notes h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.review-issues h4 {
+    color: #dc3545;
+}
+
+.review-positives h4 {
+    color: #28a745;
+}
+
+.review-notes h4 {
+    color: #0d6efd;
+}
+
+.review-issues ul,
+.review-positives ul,
+.review-notes ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.review-issues li,
+.review-positives li,
+.review-notes li {
+    margin: 6px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.review-issues li {
+    color: #721c24;
+}
+
+.review-positives li {
+    color: #155724;
+}
+
+.review-notes li {
+    color: #084298;
+}
+
+/* Timeline connector line (optional enhancement) */
+.review-timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-color);
+    opacity: 0.3;
+}
+
+/* Responsive adjustments for review timeline */
+@media (max-width: 768px) {
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .review-meta {
+        width: 100%;
+    }
+
+    .review-decision-icon {
+        font-size: 20px;
+    }
+}

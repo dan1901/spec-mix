@@ -57,13 +57,15 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 lane = parts[1]
                 task_id = parts[2]
 
-                # Check for sub-paths: commits, files, diff
+                # Check for sub-paths: commits, files, diff, reviews
                 if len(parts) >= 4:
                     subpath = parts[3]
                     if subpath == 'commits':
                         self.serve_task_commits(feature_id, task_id)
                     elif subpath == 'files':
                         self.serve_task_files(feature_id, task_id)
+                    elif subpath == 'reviews':
+                        self.serve_task_reviews(feature_id, task_id)
                     elif subpath == 'diff' and len(parts) >= 5:
                         commit_sha = parts[4]
                         self.serve_commit_diff(commit_sha)
@@ -181,6 +183,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.wfile.write(diff.encode('utf-8'))
         else:
             self.send_error(404, f"Commit not found: {commit_sha}")
+
+    def serve_task_reviews(self, feature_id: str, task_id: str):
+        """Serve review history for a task"""
+        reviews = get_task_reviews(feature_id, task_id)
+        self.send_json(reviews)
 
     def serve_constitution(self):
         """Serve project constitution with fallback paths"""
@@ -995,6 +1002,125 @@ def get_commit_diff(commit_sha: str) -> Optional[str]:
     except Exception as e:
         print(f"Error getting diff for commit {commit_sha}: {e}")
         return None
+
+
+def get_task_reviews(feature_id: str, task_id: str) -> List[Dict[str, Any]]:
+    """
+    Parse review history from a task's Activity Log.
+
+    Args:
+        feature_id: Feature ID (e.g., '001-feature-name')
+        task_id: Task ID (e.g., 'WP01')
+
+    Returns:
+        List of review entries with timestamp, decision, reviewer, issues, and notes
+    """
+    # Find the task file
+    specs_dir = Path('specs')
+    feature_path = None
+
+    # Try to find feature directory
+    for spec_dir in specs_dir.glob('*'):
+        if spec_dir.is_dir() and feature_id in spec_dir.name:
+            feature_path = spec_dir
+            break
+
+    if not feature_path:
+        return []
+
+    # Search all lanes for the task file
+    task_file = None
+    current_lane = None
+    tasks_dir = feature_path / 'tasks'
+
+    if tasks_dir.exists():
+        for lane in ['planned', 'doing', 'for_review', 'done']:
+            lane_dir = tasks_dir / lane
+            if lane_dir.exists():
+                potential_file = lane_dir / f'{task_id}.md'
+                if potential_file.exists():
+                    task_file = potential_file
+                    current_lane = lane
+                    break
+
+    if not task_file or not task_file.exists():
+        return []
+
+    # Parse the file for review entries
+    reviews = []
+    import re
+
+    try:
+        with open(task_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Look for [REVIEW] entries in Activity Log
+        # Format: - {timestamp}: [REVIEW] {DECISION} by {reviewer}
+        review_pattern = r'^- (.+?):\s*\[REVIEW\]\s+(APPROVED|CHANGES REQUESTED)\s+by\s+(.+?)$'
+
+        in_activity_log = False
+        current_review = None
+
+        for line in content.split('\n'):
+            # Detect Activity Log section
+            if line.strip().startswith('## Activity Log'):
+                in_activity_log = True
+                continue
+
+            if in_activity_log:
+                # Stop if we hit another section
+                if line.strip().startswith('##') and 'Activity Log' not in line:
+                    break
+
+                # Try to match review entry
+                match = re.match(review_pattern, line.strip())
+                if match:
+                    timestamp, decision, reviewer = match.groups()
+
+                    # Start a new review entry
+                    if current_review and current_review not in reviews:
+                        reviews.append(current_review)
+
+                    current_review = {
+                        'timestamp': timestamp.strip(),
+                        'decision': decision.strip(),
+                        'reviewer': reviewer.strip(),
+                        'issues': [],
+                        'positives': [],
+                        'notes': []
+                    }
+                    continue
+
+                # Parse sub-items (issues, positives, notes)
+                if current_review and line.strip().startswith('- '):
+                    # Remove leading "- "
+                    item = line.strip()[2:].strip()
+
+                    if item.startswith('❌'):
+                        # Issue found
+                        issue_text = item[1:].strip()
+                        current_review['issues'].append(issue_text)
+                    elif item.startswith('✅'):
+                        # Positive point
+                        positive_text = item[1:].strip()
+                        current_review['positives'].append(positive_text)
+                    elif item.startswith('Next steps:'):
+                        # Next steps note
+                        note_text = item[11:].strip()
+                        current_review['notes'].append(note_text)
+                    else:
+                        # Generic note
+                        current_review['notes'].append(item)
+
+        # Add the last review if exists
+        if current_review and current_review not in reviews:
+            reviews.append(current_review)
+
+    except Exception as e:
+        print(f"Error parsing reviews from {task_file}: {e}")
+        return []
+
+    return reviews
 
 
 def find_free_port(start_port: int = DEFAULT_PORT) -> int:

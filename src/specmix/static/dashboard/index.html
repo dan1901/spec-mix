@@ -101,6 +101,7 @@
             <div class="modal-tabs">
                 <button class="modal-tab active" data-tab="details">Details</button>
                 <button class="modal-tab" data-tab="commits">Git History</button>
+                <button class="modal-tab" data-tab="reviews">Review History</button>
             </div>
 
             <!-- Tab Content: Details -->
@@ -112,6 +113,13 @@
             <div id="modal-commits" class="modal-body modal-tab-content" style="display: none;">
                 <div id="commits-container">
                     <p class="loading">Loading git history...</p>
+                </div>
+            </div>
+
+            <!-- Tab Content: Review History -->
+            <div id="modal-reviews" class="modal-body modal-tab-content" style="display: none;">
+                <div id="reviews-container">
+                    <p class="loading">Loading review history...</p>
                 </div>
             </div>
         </div>
