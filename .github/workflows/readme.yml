@@ -22,16 +22,8 @@ jobs:
         run: |
           REPO_SLUG="${GITHUB_REPOSITORY}"
           REPO_URL="https://github.com/${REPO_SLUG}"
-          OWNER="${GITHUB_REPOSITORY_OWNER}"
-          REPO_NAME="${GITHUB_REPOSITORY##*/}"
-          PAGES_URL="https://${OWNER}.github.io/${REPO_NAME}"
-
-          # Debug: Print variables
-          echo "REPO_SLUG=${REPO_SLUG}"
-          echo "REPO_URL=${REPO_URL}"
-          echo "OWNER=${OWNER}"
-          echo "REPO_NAME=${REPO_NAME}"
-          echo "PAGES_URL=${PAGES_URL}"
+          # Always use dan1901's GitHub Pages (org repos have Pages disabled)
+          PAGES_URL="https://dan1901.github.io/spec-mix"
 
           # Generate English README
           sed \
@@ -46,10 +38,6 @@ jobs:
             -e "s|{{REPO_SLUG}}|${REPO_SLUG}|g" \
             -e "s|{{PAGES_URL}}|${PAGES_URL}|g" \
             README.ko.template.md > README.ko.md
-
-          # Debug: Show first 20 lines of generated README
-          echo "=== Generated README.md (first 20 lines) ==="
-          head -20 README.md
 
       - name: Commit README if changed
         run: |
