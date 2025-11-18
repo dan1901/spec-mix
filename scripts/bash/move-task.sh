@@ -83,5 +83,54 @@ esac
 echo "" >> "$TO_DIR/$TASK_FILE"
 echo "- $TIMESTAMP: Moved from $FROM_LANE to $TO_LANE" >> "$TO_DIR/$TASK_FILE"
 
+# Try to detect git commits for this task
+if command -v git &> /dev/null && git rev-parse --git-dir > /dev/null 2>&1; then
+    # Get commits that mention this task ID
+    # Look for [TASK_ID] or [WP_ID] in commit messages
+    COMMITS=$(git log --all --grep="\[$TASK_ID\]" --format="%h|%s|%cd" --date=iso-strict 2>/dev/null || echo "")
+
+    if [[ -n "$COMMITS" ]]; then
+        echo "" >> "$TO_DIR/$TASK_FILE"
+        echo "# Auto-detected Git commits:" >> "$TO_DIR/$TASK_FILE"
+
+        # Append each commit to activity log
+        while IFS='|' read -r hash message commit_date; do
+            if [[ -n "$hash" ]]; then
+                echo "- $commit_date: [GIT] $hash - $message" >> "$TO_DIR/$TASK_FILE"
+            fi
+        done <<< "$COMMITS"
+
+        # Collect unique modified files from these commits
+        FILES=$(git log --all --grep="\[$TASK_ID\]" --name-only --format="" 2>/dev/null | sort -u || echo "")
+
+        if [[ -n "$FILES" ]]; then
+            # Convert to YAML array format
+            FILES_YAML=""
+            while IFS= read -r file; do
+                if [[ -n "$file" ]]; then
+                    FILES_YAML="${FILES_YAML}  - ${file}\n"
+                fi
+            done <<< "$FILES"
+
+            # Update files_modified frontmatter field
+            if [[ -n "$FILES_YAML" ]]; then
+                # Replace empty array with actual files
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                    # On macOS, we need a more complex approach due to sed limitations with multiline
+                    # For now, just add a comment
+                    echo "" >> "$TO_DIR/$TASK_FILE"
+                    echo "# Modified files (from git):" >> "$TO_DIR/$TASK_FILE"
+                    echo -e "$FILES_YAML" | sed 's/^/# /' >> "$TO_DIR/$TASK_FILE"
+                else
+                    sed -i "s/^files_modified: \[\]$/files_modified:\n$FILES_YAML/" "$TO_DIR/$TASK_FILE"
+                fi
+            fi
+        fi
+
+        COMMIT_COUNT=$(echo "$COMMITS" | wc -l | tr -d ' ')
+        echo "📦 Detected $COMMIT_COUNT git commit(s) for task $TASK_ID"
+    fi
+fi
+
 echo "✅ Task $TASK_ID moved: $FROM_LANE → $TO_LANE"
 echo "📝 File: $TO_DIR/$TASK_FILE"

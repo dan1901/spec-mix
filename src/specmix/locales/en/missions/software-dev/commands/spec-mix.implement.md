@@ -184,6 +184,59 @@ You **MUST** consider the user input before proceeding (if not empty).
        ```
      - Then move all task headers (### WP-XXX or ### TXXX) into appropriate sections
 
+   - **Git Commit Guidelines for Task Tracking**:
+
+     **IMPORTANT**: To enable automatic git history tracking in Work Package files and dashboard, include the task ID in commit messages.
+
+     **Commit Message Format**:
+     ```bash
+     git commit -m "[TASK_ID] Brief description of changes
+
+     - Detailed change 1
+     - Detailed change 2
+
+     Files: list/of/files.py, other/file.js"
+     ```
+
+     **Examples**:
+     ```bash
+     # Good commit messages (task ID in brackets)
+     git commit -m "[WP01.1] Add HttpMethod enum to models
+
+     - Created src/models/enums.py with HttpMethod class
+     - Added GET, POST, PUT, DELETE, PATCH methods
+     - Included docstrings and type hints"
+
+     git commit -m "[WP02.3] Implement user authentication middleware
+
+     - Added JWT token validation
+     - Created auth middleware in src/middleware/auth.py
+     - Integrated with existing user model"
+
+     git commit -m "[T005] Fix bug in login validation
+
+     - Fixed null pointer in email validation
+     - Added error handling for malformed emails"
+     ```
+
+     **Why this matters**:
+     - The `move-task.sh` script automatically detects commits matching `[TASK_ID]` pattern
+     - Commits are appended to the Work Package Activity Log
+     - Dashboard displays git history per task
+     - Creates automatic audit trail of code changes
+
+     **What gets tracked automatically**:
+     - Commit hash, message, timestamp, and author
+     - List of files modified in each commit
+     - Timeline of changes for each task
+
+     **Best practices**:
+     - Make frequent, small commits (easier to review and revert)
+     - Always include task ID at the start: `[WP01]`, `[WP01.1]`, `[T005]`
+     - Write clear, descriptive commit messages
+     - Commit after completing each logical unit of work
+     - Group related changes in a single commit
+
 9. Completion validation:
    - Verify all required tasks are completed
    - Check that implemented features match the original specification
