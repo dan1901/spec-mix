@@ -647,7 +647,7 @@ async function loadTaskReviews(featureId, taskId, lane) {
     const container = document.getElementById('reviews-container');
     container.innerHTML = '<p class="loading">Loading review history...</p>';
 
-    try:
+    try {
         const response = await fetch(`/api/task/${featureId}/${lane}/${taskId}/reviews`);
         const reviews = await response.json();
 
