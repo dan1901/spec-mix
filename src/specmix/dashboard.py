@@ -1070,14 +1070,17 @@ def get_task_reviews(feature_id: str, task_id: str) -> List[Dict[str, Any]]:
         current_review = None
 
         for line in content.split('\n'):
-            # Detect Activity Log section
-            if line.strip().startswith('## Activity Log'):
+            # Detect Activity Log section (support multiple languages)
+            line_stripped = line.strip()
+            if (line_stripped.startswith('## Activity Log') or
+                line_stripped.startswith('## 활동 로그') or
+                line_stripped.startswith('## 작업 이력')):
                 in_activity_log = True
                 continue
 
             if in_activity_log:
                 # Stop if we hit another section
-                if line.strip().startswith('##') and 'Activity Log' not in line:
+                if line_stripped.startswith('##'):
                     break
 
                 # Try to match review entry
