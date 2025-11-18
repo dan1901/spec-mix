@@ -40,7 +40,19 @@ rewrite_paths() {
 generate_commands() {
   local agent=$1 ext=$2 arg_format=$3 output_dir=$4 script_variant=$5
   mkdir -p "$output_dir"
-  for template in templates/commands/*.md; do
+
+  # Try new mission structure first, fall back to old structure
+  local command_dir=""
+  if [[ -d "src/specmix/locales/en/missions/software-dev/commands" ]]; then
+    command_dir="src/specmix/locales/en/missions/software-dev/commands"
+  elif [[ -d "templates/commands" ]]; then
+    command_dir="templates/commands"
+  else
+    echo "Warning: No command directory found" >&2
+    return
+  fi
+
+  for template in "$command_dir"/*.md; do
     [[ -f "$template" ]] || continue
     local name description script_command agent_script_command body
     name=$(basename "$template" .md)
@@ -128,17 +140,40 @@ build_variant() {
     esac
   fi
   
-  [[ -d templates ]] && { mkdir -p "$SPEC_DIR/templates"; find templates -type f -not -path "templates/commands/*" -not -name "vscode-settings.json" -exec cp --parents {} "$SPEC_DIR"/ \; ; echo "Copied templates -> .spec-mix/templates"; }
+  # Copy templates from mission structure or old structure
+  if [[ -d "src/specmix/locales/en/missions/software-dev/templates" ]]; then
+    mkdir -p "$SPEC_DIR/active-mission/templates"
+    cp src/specmix/locales/en/missions/software-dev/templates/*.md "$SPEC_DIR/active-mission/templates/" 2>/dev/null || true
+    echo "Copied mission templates -> .spec-mix/active-mission/templates"
+
+    # Also copy mission constitution if exists
+    if [[ -d "src/specmix/locales/en/missions/software-dev/constitution" ]]; then
+      mkdir -p "$SPEC_DIR/active-mission/constitution"
+      cp -r src/specmix/locales/en/missions/software-dev/constitution/* "$SPEC_DIR/active-mission/constitution/" 2>/dev/null || true
+    fi
+
+    # Set active mission
+    echo "software-dev" > "$SPEC_DIR/active-mission.txt"
+  elif [[ -d templates ]]; then
+    mkdir -p "$SPEC_DIR/templates"
+    find templates -type f -not -path "templates/commands/*" -not -name "vscode-settings.json" -exec cp --parents {} "$SPEC_DIR"/ \;
+    echo "Copied templates -> .spec-mix/templates"
+  fi
   
   # NOTE: We substitute {ARGS} internally. Outward tokens differ intentionally:
   #   * Markdown/prompt (claude, copilot, cursor-agent, opencode): $ARGUMENTS
   #   * TOML (gemini, qwen): {{args}}
   # This keeps formats readable without extra abstraction.
 
+  # Generate commands in active-mission directory first
+  mkdir -p "$SPEC_DIR/active-mission/commands"
+  generate_commands generic md "\$ARGUMENTS" "$SPEC_DIR/active-mission/commands" "$script"
+
   case $agent in
     claude)
       mkdir -p "$base_dir/.claude/commands"
-      generate_commands claude md "\$ARGUMENTS" "$base_dir/.claude/commands" "$script" ;;
+      # Copy from active-mission instead of regenerating
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.claude/commands/" 2>/dev/null || true ;;
     gemini)
       mkdir -p "$base_dir/.gemini/commands"
       generate_commands gemini toml "{{args}}" "$base_dir/.gemini/commands" "$script"
@@ -152,38 +187,38 @@ build_variant() {
       ;;
     cursor-agent)
       mkdir -p "$base_dir/.cursor/commands"
-      generate_commands cursor-agent md "\$ARGUMENTS" "$base_dir/.cursor/commands" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.cursor/commands/" 2>/dev/null || true ;;
     qwen)
       mkdir -p "$base_dir/.qwen/commands"
       generate_commands qwen toml "{{args}}" "$base_dir/.qwen/commands" "$script"
       [[ -f agent_templates/qwen/QWEN.md ]] && cp agent_templates/qwen/QWEN.md "$base_dir/QWEN.md" ;;
     opencode)
       mkdir -p "$base_dir/.opencode/command"
-      generate_commands opencode md "\$ARGUMENTS" "$base_dir/.opencode/command" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.opencode/command/" 2>/dev/null || true ;;
     windsurf)
       mkdir -p "$base_dir/.windsurf/workflows"
-      generate_commands windsurf md "\$ARGUMENTS" "$base_dir/.windsurf/workflows" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.windsurf/workflows/" 2>/dev/null || true ;;
     codex)
       mkdir -p "$base_dir/.codex/prompts"
-      generate_commands codex md "\$ARGUMENTS" "$base_dir/.codex/prompts" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.codex/prompts/" 2>/dev/null || true ;;
     kilocode)
       mkdir -p "$base_dir/.kilocode/workflows"
-      generate_commands kilocode md "\$ARGUMENTS" "$base_dir/.kilocode/workflows" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.kilocode/workflows/" 2>/dev/null || true ;;
     auggie)
       mkdir -p "$base_dir/.augment/commands"
-      generate_commands auggie md "\$ARGUMENTS" "$base_dir/.augment/commands" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.augment/commands/" 2>/dev/null || true ;;
     roo)
       mkdir -p "$base_dir/.roo/commands"
-      generate_commands roo md "\$ARGUMENTS" "$base_dir/.roo/commands" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.roo/commands/" 2>/dev/null || true ;;
     codebuddy)
       mkdir -p "$base_dir/.codebuddy/commands"
-      generate_commands codebuddy md "\$ARGUMENTS" "$base_dir/.codebuddy/commands" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.codebuddy/commands/" 2>/dev/null || true ;;
     amp)
       mkdir -p "$base_dir/.agents/commands"
-      generate_commands amp md "\$ARGUMENTS" "$base_dir/.agents/commands" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.agents/commands/" 2>/dev/null || true ;;
     q)
       mkdir -p "$base_dir/.amazonq/prompts"
-      generate_commands q md "\$ARGUMENTS" "$base_dir/.amazonq/prompts" "$script" ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.amazonq/prompts/" 2>/dev/null || true ;;
   esac
   ( cd "$base_dir" && zip -r "../spec-mix-template-${agent}-${script}-${NEW_VERSION}.zip" . )
   echo "Created $GENRELEASES_DIR/spec-mix-template-${agent}-${script}-${NEW_VERSION}.zip"
