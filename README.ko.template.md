@@ -912,3 +912,6 @@ rm gcm-linux_amd64.2.6.1.deb
 ## 📄 라이선스
 
 이 프로젝트는 MIT 오픈소스 라이선스 조건에 따라 라이선스가 부여됩니다. 전체 조건은 [LICENSE](./LICENSE) 파일을 참조하세요.
+
+---
+<!-- 이 README는 GitHub Actions에 의해 README.ko.template.md에서 자동 생성됩니다 -->
