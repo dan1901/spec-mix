@@ -941,3 +941,133 @@ footer {
         font-size: 20px;
     }
 }
+
+/* ==================== Git Diff Viewer ==================== */
+
+.commit-diff {
+    margin-top: 8px;
+}
+
+.commit-diff summary {
+    cursor: pointer;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.commit-diff summary:hover {
+    background: var(--border-color);
+}
+
+.commit-diff summary::marker {
+    color: var(--primary-color);
+}
+
+.diff-content {
+    margin-top: 8px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.diff-code {
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 16px;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+    background: #1e1e1e;
+}
+
+/* Diff syntax highlighting */
+.diff-add {
+    color: #4ec9b0;
+    background: rgba(78, 201, 176, 0.15);
+    display: block;
+    padding-left: 4px;
+    margin-left: -4px;
+}
+
+.diff-del {
+    color: #f48771;
+    background: rgba(244, 135, 113, 0.15);
+    display: block;
+    padding-left: 4px;
+    margin-left: -4px;
+}
+
+.diff-hunk {
+    color: #569cd6;
+    font-weight: bold;
+    display: block;
+    background: rgba(86, 156, 214, 0.1);
+    padding: 2px 4px;
+    margin: 4px -4px;
+}
+
+.diff-file {
+    color: #dcdcaa;
+    font-weight: bold;
+    display: block;
+    opacity: 0.8;
+}
+
+.diff-file-path {
+    color: #ce9178;
+    display: block;
+    font-weight: 600;
+}
+
+.diff-normal {
+    color: #d4d4d4;
+    display: block;
+}
+
+/* Empty state for diff */
+.diff-content .empty-state {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    background: var(--bg-color);
+}
+
+/* Loading state for diff */
+.diff-content .loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Error state for diff */
+.diff-content .error {
+    padding: 20px;
+    text-align: center;
+    color: #f48771;
+}
+
+/* Scrollbar styling for diff */
+.diff-code::-webkit-scrollbar {
+    height: 8px;
+}
+
+.diff-code::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.diff-code::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.diff-code::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}

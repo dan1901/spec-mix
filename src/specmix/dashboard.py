@@ -73,6 +73,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
                         self.send_error(404, "Not found")
                 else:
                     self.serve_task_detail(feature_id, lane, task_id)
+        elif path.startswith('/api/diff/'):
+            commit_sha = path.split('/')[-1]
+            self.serve_commit_diff(commit_sha)
         elif path == '/api/constitution':
             self.serve_constitution()
         elif path == '/api/i18n/current':

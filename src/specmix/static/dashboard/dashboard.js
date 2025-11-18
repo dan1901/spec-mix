@@ -579,6 +579,12 @@ async function loadTaskCommits(featureId, taskId, lane) {
                             <p class="loading">Loading files...</p>
                         </div>
                     </details>
+                    <details class="commit-diff">
+                        <summary>View diff</summary>
+                        <div class="diff-content" data-commit="${commit.sha}" data-loaded="false">
+                            <p class="loading">Loading diff...</p>
+                        </div>
+                    </details>
                 </div>
             `;
         }
@@ -600,6 +606,20 @@ async function loadTaskCommits(featureId, taskId, lane) {
 
                 await loadTaskFiles(featureId, taskId, lane, fileList);
                 fileList.dataset.loaded = 'true';
+            });
+        });
+
+        // Add listeners for diff details
+        document.querySelectorAll('.commit-diff summary').forEach(summary => {
+            summary.addEventListener('click', async (e) => {
+                const details = summary.parentElement;
+                const diffContainer = details.querySelector('.diff-content');
+
+                if (diffContainer.dataset.loaded === 'true') return;
+
+                const commitSha = diffContainer.dataset.commit;
+                await loadCommitDiff(commitSha, diffContainer);
+                diffContainer.dataset.loaded = 'true';
             });
         });
 
@@ -640,6 +660,58 @@ async function loadTaskFiles(featureId, taskId, lane, container) {
         console.error('Failed to load files:', error);
         container.innerHTML = '<p class="error">Failed to load files</p>';
     }
+}
+
+// Load commit diff
+async function loadCommitDiff(commitSha, container) {
+    try {
+        const response = await fetch(`/api/diff/${commitSha}`);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch diff');
+        }
+
+        const diffText = await response.text();
+
+        if (!diffText || diffText.trim() === '') {
+            container.innerHTML = '<p class="empty-state">No diff available</p>';
+            return;
+        }
+
+        // Syntax highlight diff
+        const highlightedDiff = highlightDiff(diffText);
+
+        container.innerHTML = `<pre class="diff-code">${highlightedDiff}</pre>`;
+    } catch (error) {
+        console.error('Failed to load diff:', error);
+        container.innerHTML = '<p class="error">Failed to load diff</p>';
+    }
+}
+
+// Highlight git diff syntax
+function highlightDiff(diffText) {
+    return diffText
+        .split('\n')
+        .map(line => {
+            // Escape HTML first
+            const escaped = escapeHtml(line);
+
+            // Apply syntax highlighting
+            if (line.startsWith('+') && !line.startsWith('+++')) {
+                return `<span class="diff-add">${escaped}</span>`;
+            } else if (line.startsWith('-') && !line.startsWith('---')) {
+                return `<span class="diff-del">${escaped}</span>`;
+            } else if (line.startsWith('@@')) {
+                return `<span class="diff-hunk">${escaped}</span>`;
+            } else if (line.startsWith('diff --git') || line.startsWith('index ')) {
+                return `<span class="diff-file">${escaped}</span>`;
+            } else if (line.startsWith('+++') || line.startsWith('---')) {
+                return `<span class="diff-file-path">${escaped}</span>`;
+            } else {
+                return `<span class="diff-normal">${escaped}</span>`;
+            }
+        })
+        .join('\n');
 }
 
 // Load review history for a task
