@@ -48,14 +48,23 @@ jobs:
 
       - name: Commit README if changed
         run: |
-          if git diff --quiet; then
-            echo "No changes in README files"
-            exit 0
+          # Check if README files exist and have changes (git diff doesn't work with gitignored files)
+          if [ ! -f README.md ] && [ ! -f README.ko.md ]; then
+            echo "README files were not generated"
+            exit 1
           fi
-
+          
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # Force add the gitignored files
           git add -f README.md README.ko.md
+          
+          # Check if there are staged changes
+          if git diff --cached --quiet; then
+            echo "No changes in README files"
+            exit 0
+          fi
+          
           git commit -m "chore: update README from template [skip ci]"
           git push
