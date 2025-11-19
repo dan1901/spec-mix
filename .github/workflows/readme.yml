@@ -1,13 +1,17 @@
 name: Generate README
 
+# Workflow disabled - README files are now manually managed
+# on:
+#   push:
+#     branches: [ main ]
+#     paths:
+#       - 'README.template.md'
+#       - 'README.ko.template.md'
+#   workflow_dispatch:
+# Can only be triggered manually via workflow_dispatch if needed
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'README.template.md'
-      - 'README.ko.template.md'
   workflow_dispatch:
-
+    
 jobs:
   generate-readme:
     runs-on: ubuntu-latest
