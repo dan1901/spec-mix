@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - **Linux/macOS** (or Windows; PowerShell scripts now supported without WSL)
-- AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Codebuddy CLI](https://www.codebuddy.ai/cli) or [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+- AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Google Antigravity](https://antigravity.google.com), [Codebuddy CLI](https://www.codebuddy.ai/cli), [Gemini CLI](https://github.com/google-gemini/gemini-cli), or other supported agents
 - [uv](https://docs.astral.sh/uv/) for package management
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
@@ -35,6 +35,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.gitspec-mix init <project_nam
 uvx --from git+https://github.com/dan1901/spec-mix.gitspec-mix init <project_name> --ai gemini
 uvx --from git+https://github.com/dan1901/spec-mix.gitspec-mix init <project_name> --ai copilot
 uvx --from git+https://github.com/dan1901/spec-mix.gitspec-mix init <project_name> --ai codebuddy
+uvx --from git+https://github.com/dan1901/spec-mix.gitspec-mix init <project_name> --ai antigravity
 ```
 
 ### Specify Script Type (Shell vs PowerShell)

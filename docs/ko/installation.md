@@ -3,7 +3,7 @@
 ## 필수 요구사항
 
 - **Linux/macOS** (또는 Windows; WSL 없이 PowerShell 스크립트 지원)
-- AI 코딩 에이전트: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Codebuddy CLI](https://www.codebuddy.ai/cli) 또는 [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+- AI 코딩 에이전트: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Google Antigravity](https://antigravity.google.com), [Codebuddy CLI](https://www.codebuddy.ai/cli), [Gemini CLI](https://github.com/google-gemini/gemini-cli), 또는 기타 지원 에이전트
 - 패키지 관리를 위한 [uv](https://docs.astral.sh/uv/)
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
@@ -35,6 +35,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <project_na
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <project_name> --ai gemini
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <project_name> --ai copilot
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <project_name> --ai codebuddy
+uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <project_name> --ai antigravity
 ```
 
 ### 스크립트 유형 지정 (Shell vs PowerShell)
@@ -166,6 +167,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git@main spec-mix init --help
    - Claude: `.claude/commands/`
    - Copilot: `.github/prompts/`
    - Gemini: `.gemini/commands/`
+   - Antigravity: `.agent/workflows/`
 
 ### 언어 팩을 찾을 수 없음
 

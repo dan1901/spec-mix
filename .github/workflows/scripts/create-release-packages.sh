@@ -226,13 +226,16 @@ build_variant() {
     q)
       mkdir -p "$base_dir/.amazonq/prompts"
       cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.amazonq/prompts/" 2>/dev/null || true ;;
+    antigravity)
+      mkdir -p "$base_dir/.agent/workflows"
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.agent/workflows/" 2>/dev/null || true ;;
   esac
   ( cd "$base_dir" && zip -r "../spec-mix-template-${agent}-${script}-${NEW_VERSION}.zip" . )
   echo "Created $GENRELEASES_DIR/spec-mix-template-${agent}-${script}-${NEW_VERSION}.zip"
 }
 
 # Determine agent list
-ALL_AGENTS=(claude gemini copilot cursor-agent qwen opencode windsurf codex kilocode auggie roo codebuddy amp q)
+ALL_AGENTS=(claude gemini copilot cursor-agent qwen opencode windsurf codex kilocode auggie roo codebuddy amp q antigravity)
 ALL_SCRIPTS=(sh ps)
 
 norm_list() {

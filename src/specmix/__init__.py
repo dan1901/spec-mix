@@ -178,6 +178,12 @@ AGENT_CONFIG = {
         "install_url": "https://ampcode.com/manual#install",
         "requires_cli": True,
     },
+    "antigravity": {
+        "name": "Google Antigravity",
+        "folder": ".agent/",
+        "install_url": "https://antigravity.google.com",
+        "requires_cli": True,
+    },
 }
 
 SCRIPT_TYPE_CHOICES = {"sh": "POSIX Shell (bash/zsh)", "ps": "PowerShell"}
@@ -852,7 +858,13 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
             agent_config = AGENT_CONFIG.get(selected_ai)
             if agent_config:
                 agent_folder = agent_config["folder"]
-                agent_commands_dir = project_path / agent_folder / "commands"
+
+                # Special case for antigravity which uses workflows instead of commands
+                if selected_ai == "antigravity":
+                    agent_commands_dir = project_path / agent_folder / "workflows"
+                else:
+                    agent_commands_dir = project_path / agent_folder / "commands"
+
                 mission_commands_dir = project_path / ".spec-mix" / "active-mission" / "commands"
 
                 if tracker:
