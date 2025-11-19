@@ -177,6 +177,7 @@ For detailed step-by-step instructions, see our [comprehensive guide](./spec-dri
 | [Codex CLI](https://github.com/openai/codex)              | ✅ |                                                   |
 | [Amazon Q Developer CLI](https://aws.amazon.com/developer/learning/q-developer-cli/) | ⚠️ | Amazon Q Developer CLI [does not support](https://github.com/aws/amazon-q-developer-cli/issues/3064) custom arguments for slash commands. |
 | [Amp](https://ampcode.com/) | ✅ | |
+| [Google Antigravity](https://antigravity.google.com/) | ✅ | |
 
 ## 🌍 Multi-Language Support
 
