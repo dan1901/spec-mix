@@ -101,14 +101,21 @@ generate_commands() {
     # Apply other substitutions
     body=$(printf '%s\n' "$body" | sed "s/{ARGS}/$arg_format/g" | sed "s/__AGENT__/$agent/g" | rewrite_paths)
     
+    # Check if name already starts with spec-mix.
+    if [[ "$name" == spec-mix.* ]]; then
+      output_filename="$name.$ext"
+    else
+      output_filename="spec-mix.$name.$ext"
+    fi
+
     case $ext in
       toml)
         body=$(printf '%s\n' "$body" | sed 's/\\/\\\\/g')
-        { echo "description = \"$description\""; echo; echo "prompt = \"\"\""; echo "$body"; echo "\"\"\""; } > "$output_dir/spec-mix.$name.$ext" ;;
+        { echo "description = \"$description\""; echo; echo "prompt = \"\"\""; echo "$body"; echo "\"\"\""; } > "$output_dir/$output_filename" ;;
       md)
-        echo "$body" > "$output_dir/spec-mix.$name.$ext" ;;
+        echo "$body" > "$output_dir/$output_filename" ;;
       prompt.md)
-        echo "$body" > "$output_dir/spec-mix.$name.$ext" ;;
+        echo "$body" > "$output_dir/$output_filename" ;;
     esac
   done
 }
