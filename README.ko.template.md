@@ -177,6 +177,7 @@ uvx --from git+{{REPO_URL}}.git spec-mix init <PROJECT_NAME>
 | [Codex CLI](https://github.com/openai/codex)              | ✅ |                                                   |
 | [Amazon Q Developer CLI](https://aws.amazon.com/developer/learning/q-developer-cli/) | ⚠️ | Amazon Q Developer CLI는 슬래시 명령에 대한 사용자 정의 인수를 [지원하지 않습니다](https://github.com/aws/amazon-q-developer-cli/issues/3064). |
 | [Amp](https://ampcode.com/) | ✅ | |
+| [Google Antigravity](https://antigravity.google.com/) | ✅ | |
 
 ## 🌍 다국어 지원
 
