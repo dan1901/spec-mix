@@ -44,5 +44,7 @@ gh release create "$VERSION" \
   .genreleases/spec-mix-template-amp-ps-"$VERSION".zip \
   .genreleases/spec-mix-template-q-sh-"$VERSION".zip \
   .genreleases/spec-mix-template-q-ps-"$VERSION".zip \
+  .genreleases/spec-mix-template-antigravity-sh-"$VERSION".zip \
+  .genreleases/spec-mix-template-antigravity-ps-"$VERSION".zip \
   --title "Spec Mix Templates - $VERSION_NO_V" \
   --notes-file release_notes.md
