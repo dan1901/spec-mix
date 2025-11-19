@@ -19,25 +19,32 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Render README from template
+        shell: python
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          REPO_SLUG="${GITHUB_REPOSITORY}"
-          REPO_URL="https://github.com/${REPO_SLUG}"
+          import os
+          
+          repo_slug = os.environ['GITHUB_REPOSITORY']
+          repo_url = f"https://github.com/{repo_slug}"
           # Always use dan1901's GitHub Pages (org repos have Pages disabled)
-          PAGES_URL="https://dan1901.github.io/spec-mix"
-
-          # Generate English README
-          sed \
-            -e "s|{{REPO_URL}}|${REPO_URL}|g" \
-            -e "s|{{REPO_SLUG}}|${REPO_SLUG}|g" \
-            -e "s|{{PAGES_URL}}|${PAGES_URL}|g" \
-            README.template.md > README.md
-
-          # Generate Korean README
-          sed \
-            -e "s|{{REPO_URL}}|${REPO_URL}|g" \
-            -e "s|{{REPO_SLUG}}|${REPO_SLUG}|g" \
-            -e "s|{{PAGES_URL}}|${PAGES_URL}|g" \
-            README.ko.template.md > README.ko.md
+          pages_url = "https://dan1901.github.io/spec-mix"
+          
+          replacements = {
+              "{{REPO_URL}}": repo_url,
+              "{{REPO_SLUG}}": repo_slug,
+              "{{PAGES_URL}}": pages_url
+          }
+          
+          for template, output in [('README.template.md', 'README.md'), ('README.ko.template.md', 'README.ko.md')]:
+              with open(template, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              
+              for key, value in replacements.items():
+                  content = content.replace(key, value)
+              
+              with open(output, 'w', encoding='utf-8') as f:
+                  f.write(content)
 
       - name: Commit README if changed
         run: |
