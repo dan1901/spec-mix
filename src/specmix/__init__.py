@@ -974,7 +974,7 @@ def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = 
 @app.command()
 def init(
     project_name: str = typer.Argument(None, help="Name for your new project directory (optional if using --here, or use '.' for current directory)"),
-    ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, gemini, copilot, cursor-agent, qwen, opencode, codex, windsurf, kilocode, auggie, codebuddy, amp, or q"),
+    ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, gemini, copilot, cursor-agent, qwen, opencode, codex, windsurf, kilocode, auggie, codebuddy, amp, antigravity, roo, or q"),
     script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps"),
     language: str = typer.Option(None, "--lang", help="Language to use: en, ko (default: en)"),
     mission: str = typer.Option(None, "--mission", help="Mission to use: software-dev, research (default: software-dev)"),
