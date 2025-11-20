@@ -1312,16 +1312,51 @@ def init(
             if rule_content:
                 target_rule_file = project_path / rule_filename
 
-                # Customize content based on AI assistant
-                if selected_ai != 'claude':
-                    # Replace Claude-specific references
-                    rule_content = rule_content.replace('Claude Code (claude.ai/code)', f'{AGENT_CONFIG[selected_ai]["name"]}')
-                    rule_content = rule_content.replace('.claude/', f'{AGENT_CONFIG[selected_ai]["folder"]}')
+                # Check if rule file already exists
+                if target_rule_file.exists():
+                    # Read existing file and check for walkthrough section
+                    with open(target_rule_file, 'r', encoding='utf-8') as f:
+                        existing_content = f.read()
 
-                with open(target_rule_file, 'w', encoding='utf-8') as f:
-                    f.write(rule_content)
+                    # Check if walkthrough section already exists
+                    if 'Walkthrough Memory Loading' not in existing_content and 'walkthrough' not in existing_content.lower():
+                        # Extract just the walkthrough section from template
+                        walkthrough_section = ""
+                        if '## Walkthrough Memory Loading' in rule_content:
+                            # Find the walkthrough section
+                            start_idx = rule_content.find('## Walkthrough Memory Loading')
+                            # Find next section (starts with ##) or end of file
+                            next_section_idx = rule_content.find('\n## ', start_idx + 1)
+                            if next_section_idx == -1:
+                                next_section_idx = rule_content.find('\n# ', start_idx + 1)
 
-                console.print(f"[green]✓[/green] Created {rule_filename} for {AGENT_CONFIG[selected_ai]['name']}")
+                            if next_section_idx != -1:
+                                walkthrough_section = rule_content[start_idx:next_section_idx]
+                            else:
+                                # If no next section found, take everything after walkthrough heading
+                                walkthrough_section = rule_content[start_idx:]
+
+                        if walkthrough_section:
+                            # Append walkthrough section to existing file
+                            updated_content = existing_content.rstrip() + '\n\n' + walkthrough_section.strip() + '\n'
+                            with open(target_rule_file, 'w', encoding='utf-8') as f:
+                                f.write(updated_content)
+                            console.print(f"[green]✓[/green] Updated {rule_filename} with walkthrough memory loading instructions")
+                        else:
+                            console.print(f"[yellow]→[/yellow] {rule_filename} exists, walkthrough section not found in template")
+                    else:
+                        console.print(f"[yellow]→[/yellow] {rule_filename} already contains walkthrough instructions")
+                else:
+                    # Customize content based on AI assistant
+                    if selected_ai != 'claude':
+                        # Replace Claude-specific references
+                        rule_content = rule_content.replace('Claude Code (claude.ai/code)', f'{AGENT_CONFIG[selected_ai]["name"]}')
+                        rule_content = rule_content.replace('.claude/', f'{AGENT_CONFIG[selected_ai]["folder"]}')
+
+                    with open(target_rule_file, 'w', encoding='utf-8') as f:
+                        f.write(rule_content)
+
+                    console.print(f"[green]✓[/green] Created {rule_filename} for {AGENT_CONFIG[selected_ai]['name']}")
         except Exception as e:
             # Non-critical error, just warn
             if debug:
