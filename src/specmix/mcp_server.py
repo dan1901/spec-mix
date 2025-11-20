@@ -322,4 +322,6 @@ async def run():
         )
 
 if __name__ == "__main__":
+    import sys
+    print("Spec Mix MCP server running on stdio...", file=sys.stderr)
     asyncio.run(run())
