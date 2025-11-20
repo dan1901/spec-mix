@@ -15,7 +15,7 @@
     <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
-> **📢 Fork 공지**: 이 프로젝트는 [github/spec-kit](https://github.com/github/spec-kit)의 포크로, **다국어 지원(i18n)**이 추가되었습니다. 완전한 한국어 번역과 커뮤니티 번역을 위한 확장 가능한 아키텍처가 포함되어 있습니다. 자세한 내용은 [Fork 정보](#-fork-정보)를 참조하세요.
+> **📢 Fork 공지**: 이 프로젝트는 [github/spec-kit](https://github.com/github/spec-kit)의 포크로, **다국어 지원(i18n)**이 추가되었습니다. 완전한 한국어 번역과 커뮤니티 번역을 위한 확장 가능한 아키텍처가 포함되어 있습니다. 자세한 내용은 [Fork 정보](#fork-정보)를 참조하세요.
 
 **Language / 언어**: [English](README.md) | **한국어**
 
@@ -23,39 +23,39 @@
 
 ## 목차
 
-- [🤔 Spec-Driven Development란?](#-spec-driven-development란)
+- [🤔 Spec-Driven Development란?](#spec-driven-development란)
 
-- [⚡ 시작하기](#-시작하기)
+- [⚡ 시작하기](#시작하기)
 
-- [🤖 지원되는 AI 에이전트](#-지원되는-ai-에이전트)
+- [🤖 지원되는 AI 에이전트](#지원되는-ai-에이전트)
 
-- [🌍 다국어 지원](#-다국어-지원)
+- [🌍 다국어 지원](#다국어-지원)
 
-- [🔧 Spec Mix CLI 참조](#-spec-mix-cli-참조)
+- [🔧 Spec Mix CLI 참조](#spec-mix-cli-참조)
 
-- [📚 핵심 철학](#-핵심-철학)
+- [📚 핵심 철학](#핵심-철학)
 
-- [🌟 개발 단계](#-개발-단계)
+- [🌟 개발 단계](#개발-단계)
 
-- [🎯 실험적 목표](#-실험적-목표)
+- [🎯 실험적 목표](#실험적-목표)
 
-- [🔧 전제 조건](#-전제-조건)
+- [🔧 전제 조건](#전제-조건)
 
-- [📖 더 알아보기](#-더-알아보기)
+- [📖 더 알아보기](#더-알아보기)
 
-- [📋 상세 프로세스](#-상세-프로세스)
+- [📋 상세 프로세스](#상세-프로세스)
 
-- [🔍 문제 해결](#-문제-해결)
+- [🔍 문제 해결](#문제-해결)
 
-- [👥 메인테이너](#-메인테이너)
+- [👥 메인테이너](#메인테이너)
 
-- [💬 지원](#-지원)
+- [💬 지원](#지원)
 
-- [🙏 감사의 말](#-감사의-말)
+- [🙏 감사의 말](#감사의-말)
 
-- [🔀 Fork 정보](#-fork-정보)
+- [🔀 Fork 정보](#fork-정보)
 
-- [📄 라이선스](#-라이선스)
+- [📄 라이선스](#라이선스)
 
 ## 🤔 Spec-Driven Development란?
 
@@ -74,23 +74,20 @@ Spec-Driven Development는 전통적인 소프트웨어 개발의 **판도를 �
 ```bash
 uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
 
-```
-
+```text
 그런 다음 도구를 직접 사용:
 
 ```bash
 spec-mix init <PROJECT_NAME>
 spec-mix check
 
-```
-
+```text
 spec-mix를 업그레이드하려면:
 
 ```bash
 uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.git
 
-```
-
+```text
 #### 옵션 2: 일회성 사용
 
 설치 없이 직접 실행:
@@ -98,8 +95,7 @@ uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.
 ```bash
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
 
-```
-
+```text
 **영구 설치의 장점:**
 
 - 도구가 설치되어 PATH에서 사용 가능
@@ -119,8 +115,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 ```bash
 /spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성, 성능 요구사항에 중점을 둔 원칙 생성
 
-```
-
+```text
 ### 3. 명세 생성
 
 **`/spec-mix.specify`** 명령을 사용하여 구축하려는 것을 설명하세요. 기술 스택이 아닌 **무엇을**과 **왜**에 집중하세요.
@@ -128,8 +123,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 ```bash
 /spec-mix.specify 사진을 별도의 포토 앨범으로 정리할 수 있는 애플리케이션을 만들어주세요. 앨범은 날짜별로 그룹화되며 메인 페이지에서 드래그 앤 드롭으로 재정렬할 수 있습니다. 앨범은 다른 중첩 앨범 안에 있지 않습니다. 각 앨범 내에서 사진은 타일 형태의 인터페이스로 미리보기됩니다.
 
-```
-
+```text
 ### 4. 기술 구현 계획 생성
 
 **`/spec-mix.plan`** 명령을 사용하여 기술 스택과 아키텍처 선택을 제공하세요.
@@ -137,8 +131,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 ```bash
 /spec-mix.plan 애플리케이션은 최소한의 라이브러리로 Vite를 사용합니다. 가능한 한 바닐라 HTML, CSS, JavaScript를 사용하세요. 이미지는 어디에도 업로드되지 않으며 메타데이터는 로컬 SQLite 데이터베이스에 저장됩니다.
 
-```
-
+```text
 ### 5. 작업으로 분해
 
 **`/spec-mix.tasks`**를 사용하여 구현 계획에서 실행 가능한 작업 목록을 생성하세요.
@@ -146,8 +139,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 ```bash
 /spec-mix.tasks
 
-```
-
+```text
 ### 6. 구현 실행
 
 **`/spec-mix.implement`**를 사용하여 모든 작업을 실행하고 계획에 따라 기능을 구축하세요.
@@ -155,8 +147,7 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 ```bash
 /spec-mix.implement
 
-```
-
+```text
 자세한 단계별 지침은 [종합 가이드](./spec-driven.md)를 참조하세요.
 
 ## 🤖 지원되는 AI 에이전트
@@ -196,10 +187,8 @@ MCP 클라이언트(AI 에이전트)의 설정 파일에 다음 내용을 추가
     }
   }
 }
-```
-
+```text
 설정이 완료되면 AI 에이전트가 `read_plan`, `update_plan`, `create_task`, `list_tasks` 등의 도구를 사용할 수 있게 됩니다.
-
 
 ## 🌍 다국어 지원
 
@@ -225,8 +214,7 @@ export SPECIFY_LANG=ko
 # 또는 세션별로 사용
 SPECIFY_LANG=ko spec-mix init my-project
 
-```
-
+```text
 #### 언어 관리 명령
 
 ```bash
@@ -239,8 +227,7 @@ spec-mix lang current
 # 기본 언어 설정
 spec-mix lang set ko
 
-```
-
+```text
 #### 미션 관리 명령
 
 ```bash
@@ -256,8 +243,7 @@ spec-mix mission switch research
 # 미션 세부정보 보기
 spec-mix mission info software-dev
 
-```
-
+```text
 #### 대시보드 명령
 
 ```bash
@@ -273,8 +259,7 @@ spec-mix dashboard status
 # 대시보드 중지
 spec-mix dashboard stop
 
-```
-
+```text
 ### 번역되는 내용
 
 선호하는 언어로 Spec Kit을 사용할 때 다음이 번역됩니다:
@@ -305,8 +290,7 @@ spec-mix init my-project --ai claude
 /spec-mix.tasks         # 작업 분석 생성
 /spec-mix.implement     # 구현 실행
 
-```
-
+```text
 ### 번역 기여
 
 귀하의 언어에 대한 지원을 추가하고 싶으신가요? 커뮤니티 번역을 환영합니다! 다음에 대한 [국제화 가이드](docs/i18n.md)를 참조하세요:
@@ -407,8 +391,7 @@ spec-mix init my-project --ai claude --github-token ghp_your_token_here
 # 시스템 요구사항 확인
 spec-mix check
 
-```
-
+```text
 ### 사용 가능한 슬래시 명령
 
 `spec-mix init`을 실행한 후 AI 코딩 에이전트는 구조화된 개발을 위해 다음 슬래시 명령에 액세스할 수 있습니다:
@@ -508,7 +491,7 @@ Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입�
 
 - **Linux/macOS/Windows**
 
-- [지원되는](#-지원되는-ai-에이전트) AI 코딩 에이전트
+- [지원되는](#지원되는-ai-에이전트) AI 코딩 에이전트
 
 - 패키지 관리를 위한 [uv](https://docs.astral.sh/uv/)
 
@@ -522,7 +505,7 @@ Spec-Driven Development는 다음을 강조하는 구조화된 프로세스입�
 
 - **[완전한 Spec-Driven Development 방법론](./spec-driven.md)** - 전체 프로세스에 대한 심층 분석
 
-- **[상세 워크스루](#-상세-프로세스)** - 단계별 구현 가이드
+- **[상세 워크스루](#상세-프로세스)** - 단계별 구현 가이드
 
 ---
 
@@ -536,8 +519,7 @@ Spec Mix CLI를 사용하여 프로젝트를 부트스트랩할 수 있으며, �
 ```bash
 spec-mix init <project_name>
 
-```
-
+```text
 또는 현재 디렉토리에서 초기화:
 
 ```bash
@@ -549,8 +531,7 @@ spec-mix init . --force
 # 또는
 spec-mix init --here --force
 
-```
-
+```text
 사용 중인 AI 에이전트를 선택하라는 메시지가 표시됩니다. 터미널에서 직접 미리 지정할 수도 있습니다:
 
 ```bash
@@ -572,15 +553,13 @@ spec-mix init . --force --ai claude
 # 또는
 spec-mix init --here --force --ai claude
 
-```
-
+```text
 CLI는 Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI 또는 Amazon Q Developer CLI가 설치되어 있는지 확인합니다. 설치되어 있지 않거나 올바른 도구를 확인하지 않고 템플릿을 가져오려는 경우 명령에 `--ignore-agent-tools`를 사용하세요:
 
 ```bash
 spec-mix init <project_name> --ai claude --ignore-agent-tools
 
-```
-
+```text
 ### **1단계:** 프로젝트 원칙 수립
 
 프로젝트 폴더로 이동하여 AI 에이전트를 실행하세요. 예제에서는 `claude`를 사용합니다.
@@ -591,8 +570,7 @@ spec-mix init <project_name> --ai claude --ignore-agent-tools
 ```text
 /spec-mix.constitution 코드 품질, 테스팅 표준, 사용자 경험 일관성 및 성능 요구사항에 중점을 둔 원칙을 만드세요. 이러한 원칙이 기술 결정 및 구현 선택을 어떻게 안내해야 하는지에 대한 거버넌스를 포함하세요.
 
-```
-
+```text
 이 단계는 AI 에이전트가 명세, 계획 및 구현 단계에서 참조할 프로젝트의 기본 가이드라인으로 `.spec-mix/memory/constitution.md` 파일을 생성하거나 업데이트합니다.
 
 ### **2단계:** 프로젝트 명세 생성
@@ -619,8 +597,7 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
 표시되므로 자신의 카드를 빠르게 볼 수 있습니다. 자신이 작성한 댓글은 편집할 수 있지만 다른 사람이 작성한 댓글은
 편집할 수 없습니다. 자신이 작성한 댓글은 삭제할 수 있지만 다른 사람이 작성한 댓글은 삭제할 수 없습니다.
 
-```
-
+```text
 이 프롬프트를 입력한 후 Claude Code가 계획 및 명세 초안 프로세스를 시작하는 것을 볼 수 있습니다. Claude Code는 또한 저장소를 설정하기 위해 일부 내장 스크립트를 트리거합니다.
 
 이 단계가 완료되면 새 브랜치(예: `001-create-taskify`)와 `specs/001-create-taskify` 디렉토리에 새 명세가 생성됩니다.
@@ -647,8 +624,7 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
         ├── spec-template.md
         └── tasks-template.md
 
-```
-
+```text
 ### **3단계:** 기능 명세 명확화 (계획 전 필수)
 
 기준 명세가 생성되면 첫 번째 시도에서 제대로 캡처되지 않은 요구사항을 명확하게 할 수 있습니다.
@@ -668,15 +644,13 @@ Taskify, 팀 생산성 플랫폼을 개발하세요. 사용자가 프로젝트�
 생성하는 각 샘플 프로젝트 또는 프로젝트에 대해 각각에 대해 5개에서 15개 사이의 가변 작업 수가 있어야 하며
 완료의 다양한 상태로 무작위로 분산되어야 합니다. 각 완료 단계에 최소한 하나의 작업이 있는지 확인하세요.
 
-```
-
+```text
 또한 Claude Code에게 **검토 및 수락 체크리스트**를 검증하고 요구사항을 충족하는 검증된/통과된 항목을 체크하고 그렇지 않은 항목은 체크하지 않은 상태로 두도록 요청해야 합니다. 다음 프롬프트를 사용할 수 있습니다:
 
 ```text
 검토 및 수락 체크리스트를 읽고 기능 명세가 기준을 충족하면 체크리스트의 각 항목을 체크하세요. 그렇지 않으면 비워 두세요.
 
-```
-
+```text
 Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하고 묻는 기회로 사용하는 것이 중요합니다 - **첫 번째 시도를 최종으로 취급하지 마세요**.
 
 ### **4단계:** 계획 생성
@@ -688,8 +662,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 실시간 업데이트가 있는 Blazor 서버를 사용해야 합니다. 프로젝트 API, 작업 API 및 알림 API로 생성된 REST API가
 있어야 합니다.
 
-```
-
+```text
 이 단계의 출력에는 여러 구현 세부정보 문서가 포함되며 디렉토리 트리는 다음과 유사합니다:
 
 ```text
@@ -719,8 +692,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
     ├── spec-template.md
     └── tasks-template.md
 
-```
-
+```text
 `research.md` 문서를 확인하여 지침에 따라 올바른 기술 스택이 사용되는지 확인하세요. 구성 요소가 눈에 띄는 경우 Claude Code에 이를 개선하도록 요청하거나 사용하려는 플랫폼/프레임워크의 로컬 설치 버전(예: .NET)을 확인하도록 할 수도 있습니다.
 
 또한 빠르게 변화하는 것(예: .NET Aspire, JS 프레임워크)인 경우 선택한 기술 스택에 대한 세부정보를 조사하도록 Claude Code에 요청할 수 있습니다:
@@ -731,8 +703,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 대한 추가 세부정보로 연구 문서를 업데이트하고 웹에서 연구를 사용하여 세부정보를 명확하게 하기 위해 병렬 연구 작업을
 생성하기를 원합니다.
 
-```
-
+```text
 이 프로세스 중에 Claude Code가 잘못된 것을 조사하는 데 막히는 것을 발견할 수 있습니다 - 다음과 같은 프롬프트로 올바른 방향으로 유도할 수 있습니다:
 
 ```text
@@ -742,8 +713,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 보였고 이 경우에 많은 도움이 되지 않을 것 같습니다. 그것은 너무 타겟이 없는 연구입니다. 연구는 특정 타겟 질문을 해결하는
 데 도움이 되어야 합니다.
 
-```
-
+```text
 >[!NOTE]
 >Claude Code는 지나치게 열심히 요청하지 않은 구성 요소를 추가할 수 있습니다. 변경의 근거와 출처를 명확히 하도록 요청하세요.
 
@@ -756,8 +726,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 데 중점을 두고 읽어보세요. 여기에 충분한 것이 있는지 모르기 때문입니다. 예를 들어 핵심 구현을 볼 때 각 단계를
 안내할 때 정보를 찾을 수 있는 구현 세부정보의 적절한 위치를 핵심 구현 또는 개선에서 참조하는 것이 유용할 것입니다.
 
-```
-
+```text
 이는 구현 계획을 개선하는 데 도움이 되며 Claude Code가 계획 주기에서 놓친 잠재적인 맹점을 피하는 데 도움이 됩니다. 초기 개선 패스가 완료되면 구현을 시작하기 전에 Claude Code에 체크리스트를 다시 한 번 확인하도록 요청하세요.
 
 또한 [GitHub CLI](https://docs.github.com/en/github-cli/github-cli)가 설치되어 있는 경우 Claude Code에 현재 브랜치에서 `main`으로 자세한 설명과 함께 풀 리퀘스트를 만들어 노력이 제대로 추적되도록 요청할 수도 있습니다.
@@ -772,8 +741,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 ```text
 /spec-mix.tasks
 
-```
-
+```text
 이 단계는 기능 명세 디렉토리에 다음을 포함하는 `tasks.md` 파일을 생성합니다:
 
 - **사용자 스토리별로 구성된 작업 분해** - 각 사용자 스토리는 자체 작업 세트가 있는 별도의 구현 단계가 됩니다
@@ -797,8 +765,7 @@ Claude Code와의 상호 작용을 명세에 대한 질문을 명확하게 하�
 ```text
 /spec-mix.implement
 
-```
-
+```text
 `/spec-mix.implement` 명령은:
 
 - 모든 전제 조건이 준비되어 있는지 검증합니다(constitution, spec, plan 및 tasks)
@@ -838,8 +805,7 @@ git config --global credential.helper manager
 echo "정리 중..."
 rm gcm-linux_amd64.2.6.1.deb
 
-```
-
+```text
 ## 👥 메인테이너
 
 - Den Delimarsky ([@localden](https://github.com/localden))

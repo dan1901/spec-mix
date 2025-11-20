@@ -13,6 +13,7 @@ Automatically validates Spec-Driven Development (SDD) artifacts to ensure they a
 ## When to Activate
 
 This skill activates when users ask questions like:
+
 - "validate my spec" / "스펙 검증해줘"
 - "check if my spec is complete" / "스펙 완전한지 확인해줘"
 - "is my feature ready to implement" / "구현 준비됐어?"
@@ -31,8 +32,8 @@ BRANCH=$(git branch --show-current 2>/dev/null)
 
 # Or scan specs/ directory for features
 ls -d specs/*/
-```
 
+```text
 If multiple features or unclear context, ask the user which feature to validate.
 
 ### 2. Check File Existence
@@ -40,26 +41,30 @@ If multiple features or unclear context, ask the user which feature to validate.
 Verify that all required SDD artifacts exist:
 
 **Required Files:**
+
 - `specs/{feature}/spec.md` - Feature specification
 - `specs/{feature}/plan.md` - Implementation plan
 - `specs/{feature}/tasks.md` OR `specs/{feature}/tasks/` - Task breakdown
 
 **Optional But Recommended:**
+
 - `specs/constitution.md` - Project constitution
 - `specs/{feature}/acceptance.md` - Acceptance criteria (for completed features)
 
 **Report Missing Files:**
-```
+
+```text
 ❌ Missing: specs/001-user-auth/plan.md
 ✅ Found: specs/001-user-auth/spec.md
 ✅ Found: specs/001-user-auth/tasks.md
-```
 
+```text
 ### 3. Validate spec.md
 
 Check that spec.md contains all essential sections:
 
 **Required Sections:**
+
 - Feature name/title
 - Feature description or overview
 - User stories or requirements
@@ -67,6 +72,7 @@ Check that spec.md contains all essential sections:
 - Out of scope (optional but recommended)
 
 **Validation Checks:**
+
 - [ ] Has a clear feature name (H1 heading)
 - [ ] Describes WHAT the feature does (not HOW)
 - [ ] Includes at least one user story
@@ -74,6 +80,7 @@ Check that spec.md contains all essential sections:
 - [ ] User stories follow "As a... I want... So that..." format (if applicable)
 
 **Quality Checks:**
+
 - Is the spec focused on user value?
 - Are success criteria specific and measurable?
 - Is scope clearly defined?
@@ -83,6 +90,7 @@ Check that spec.md contains all essential sections:
 Check that plan.md contains technical planning:
 
 **Required Sections:**
+
 - References to spec.md
 - Technical approach or architecture
 - Implementation phases or breakdown
@@ -90,6 +98,7 @@ Check that plan.md contains technical planning:
 - Files to be modified/created
 
 **Validation Checks:**
+
 - [ ] References the feature spec
 - [ ] Describes HOW to implement (not WHAT)
 - [ ] Lists all dependencies
@@ -97,6 +106,7 @@ Check that plan.md contains technical planning:
 - [ ] Identifies specific files/modules to change
 
 **Quality Checks:**
+
 - Does the plan align with the spec's goals?
 - Are technical decisions justified?
 - Are risks or challenges identified?
@@ -106,6 +116,7 @@ Check that plan.md contains technical planning:
 Check task breakdown completeness:
 
 **For tasks.md:**
+
 - [ ] Organized by user story or phase
 - [ ] Each task has a unique ID (WP01, WP02, T001, etc.)
 - [ ] Tasks list specific files to modify
@@ -113,12 +124,14 @@ Check task breakdown completeness:
 - [ ] Estimated effort included (optional)
 
 **For tasks/ directory (kanban structure):**
+
 - [ ] Has lane directories: `planned/`, `doing/`, `for_review/`, `done/`
 - [ ] Work Package files use proper frontmatter
 - [ ] Each WP has title, phase, dependencies
 - [ ] Activity log present
 
 **Quality Checks:**
+
 - Are tasks granular enough (1-4 hours each)?
 - Do tasks cover all aspects of the spec?
 - Are dependencies realistic?
@@ -128,6 +141,7 @@ Check task breakdown completeness:
 If `specs/constitution.md` exists, check compliance:
 
 **Validation:**
+
 - Read constitution principles
 - Check if spec/plan align with stated values
 - Verify technical choices match governance rules
@@ -138,16 +152,19 @@ If `specs/constitution.md` exists, check compliance:
 Check consistency across artifacts:
 
 **Spec ↔ Plan:**
+
 - All user stories from spec addressed in plan
 - Plan's technical approach supports spec's goals
 - Success criteria achievable with planned implementation
 
 **Plan ↔ Tasks:**
+
 - All planned phases have corresponding tasks
 - All dependencies from plan reflected in tasks
 - File paths in tasks match plan's architecture
 
 **Tasks ↔ Spec:**
+
 - Tasks collectively fulfill all user stories
 - No tasks out of scope from spec
 
@@ -193,6 +210,7 @@ Provide a comprehensive validation report:
 ⚠️  Plan mentions "password hashing" but no task for bcrypt integration
 
 ## Recommendations
+
 1. Add specific metrics to success criteria (e.g., "Login time < 2s")
 2. Add Redis to plan dependencies section
 3. Create task for bcrypt library integration
@@ -202,8 +220,8 @@ Provide a comprehensive validation report:
 **Status: READY WITH MINOR IMPROVEMENTS**
 
 The feature spec is well-structured and implementation-ready. Address the 2 warnings to ensure smoother implementation.
-```
 
+```text
 ## Output Language
 
 - Detect user's language from their question
@@ -214,6 +232,7 @@ The feature spec is well-structured and implementation-ready. Address the 2 warn
 ## Error Handling
 
 If validation cannot be performed:
+
 1. Explain what's missing or blocking validation
 2. Suggest next steps (e.g., "Run `/spec-mix.specify` to create spec.md")
 3. Offer to validate partial artifacts if some exist
@@ -223,6 +242,7 @@ If validation cannot be performed:
 **User:** "validate my spec"
 
 **Claude (using this skill):**
+
 1. Detects current feature from git branch or asks user
 2. Checks file existence
 3. Validates each artifact's content
@@ -232,6 +252,7 @@ If validation cannot be performed:
 ## Integration with SDD Workflow
 
 This skill complements slash commands:
+
 - After `/spec-mix.specify`: Validate spec.md quality
 - After `/spec-mix.plan`: Validate plan-spec alignment
 - After `/spec-mix.tasks`: Validate task completeness

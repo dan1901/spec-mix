@@ -49,6 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Upstream Spec Kit History
 
 This fork is based on Spec Kit v0.0.20. For the complete history of the upstream project, see:
+
 - [Spec Kit Releases](https://github.com/github/spec-kit/releases)
 - [Spec Kit Changelog](https://github.com/github/spec-kit/blob/main/CHANGELOG.md)
-
