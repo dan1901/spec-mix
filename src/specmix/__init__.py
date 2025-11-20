@@ -854,18 +854,76 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
 
         # Link agent commands to active mission commands
         try:
+            # First, copy locale-specific mission commands to active-mission directory
+            mission_commands_dir = project_path / ".spec-mix" / "active-mission" / "commands"
+            mission_commands_dir.mkdir(parents=True, exist_ok=True)
+
+            # Try to find and copy locale-specific commands from package resources
+            try:
+                import pkg_resources
+                locale_commands_path = f'locales/{language}/missions/{mission}/commands'
+
+                # List all command files in the locale-specific mission commands directory
+                command_files = []
+                try:
+                    # Try to get resource listing (this works with installed packages)
+                    resource_dir = pkg_resources.resource_filename('specmix', locale_commands_path)
+                    if os.path.exists(resource_dir):
+                        command_files = [f for f in os.listdir(resource_dir) if f.endswith('.md')]
+                except:
+                    pass
+
+                # If we found command files, copy them
+                if command_files:
+                    for cmd_file in command_files:
+                        try:
+                            cmd_content = pkg_resources.resource_string('specmix', f'{locale_commands_path}/{cmd_file}').decode('utf-8')
+                            dest_file = mission_commands_dir / cmd_file
+                            with open(dest_file, 'w', encoding='utf-8') as f:
+                                f.write(cmd_content)
+                        except Exception as e:
+                            if debug:
+                                console.print(f"[yellow]Could not copy {cmd_file}: {e}[/yellow]")
+
+                    if tracker:
+                        tracker.add("copy-commands", f"Copy {language} mission commands")
+                        tracker.complete("copy-commands", f"{len(command_files)} files")
+                    elif verbose:
+                        console.print(f"[cyan]Copied {len(command_files)} {language} command files[/cyan]")
+                else:
+                    # Fallback: try to copy from local file system
+                    module_dir = Path(__file__).parent
+                    local_commands_dir = module_dir / 'locales' / language / 'missions' / mission / 'commands'
+
+                    if local_commands_dir.exists():
+                        for cmd_file in local_commands_dir.glob('*.md'):
+                            dest_file = mission_commands_dir / cmd_file.name
+                            shutil.copy2(cmd_file, dest_file)
+
+                        cmd_count = len(list(local_commands_dir.glob('*.md')))
+                        if tracker:
+                            tracker.add("copy-commands", f"Copy {language} mission commands")
+                            tracker.complete("copy-commands", f"{cmd_count} files")
+                        elif verbose:
+                            console.print(f"[cyan]Copied {cmd_count} {language} command files from local[/cyan]")
+                    else:
+                        if debug:
+                            console.print(f"[yellow]Warning: Could not find locale-specific commands at {local_commands_dir}[/yellow]")
+            except Exception as e:
+                if debug:
+                    console.print(f"[yellow]Warning: Could not copy locale-specific commands: {e}[/yellow]")
+
+            # Now link agent commands to the mission commands directory
             # Get agent folder from config
-            agent_config = AGENT_CONFIG.get(selected_ai)
+            agent_config = AGENT_CONFIG.get(ai_assistant)
             if agent_config:
                 agent_folder = agent_config["folder"]
 
                 # Special case for antigravity which uses workflows instead of commands
-                if selected_ai == "antigravity":
+                if ai_assistant == "antigravity":
                     agent_commands_dir = project_path / agent_folder / "workflows"
                 else:
                     agent_commands_dir = project_path / agent_folder / "commands"
-
-                mission_commands_dir = project_path / ".spec-mix" / "active-mission" / "commands"
 
                 if tracker:
                     tracker.add("link-commands", f"Link {agent_config['name']} commands")
