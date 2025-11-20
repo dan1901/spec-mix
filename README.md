@@ -23,37 +23,37 @@
 
 ## Table of Contents
 
-- [🤔 What is Spec-Driven Development?](#what-is-spec-driven-development)
+- [🤔 What is Spec-Driven Development?](#-what-is-spec-driven-development)
 
-- [⚡ Get Started](#get-started)
+- [⚡ Get Started](#-get-started)
 
-- [🤖 Supported AI Agents](#supported-ai-agents)
+- [🤖 Supported AI Agents](#-supported-ai-agents)
 
-- [🌍 Multi-Language Support](#multi-language-support)
+- [🌍 Multi-Language Support](#-multi-language-support)
 
-- [🔧 Spec Mix CLI Reference](#spec-mix-cli-reference)
+- [🔧 Spec Mix CLI Reference](#-spec-mix-cli-reference)
 
-- [📚 Core Philosophy](#core-philosophy)
+- [📚 Core Philosophy](#-core-philosophy)
 
-- [🌟 Development Phases](#development-phases)
+- [🌟 Development Phases](#-development-phases)
 
-- [🎯 Experimental Goals](#experimental-goals)
+- [🎯 Experimental Goals](#-experimental-goals)
 
-- [🔧 Prerequisites](#prerequisites)
+- [🔧 Prerequisites](#-prerequisites)
 
-- [📖 Learn More](#learn-more)
+- [📖 Learn More](#-learn-more)
 
-- [📋 Detailed Process](#detailed-process)
+- [📋 Detailed Process](#-detailed-process)
 
-- [🔍 Troubleshooting](#troubleshooting)
+- [🔍 Troubleshooting](#-troubleshooting)
 
-- [👥 Maintainers](#maintainers)
+- [👥 Maintainers](#-maintainers)
 
-- [💬 Support](#support)
+- [💬 Support](#-support)
 
-- [🙏 Acknowledgements](#acknowledgements)
+- [🙏 Acknowledgements](#-acknowledgements)
 
-- [📄 License](#license)
+- [📄 License](#-license)
 
 ## 🤔 What is Spec-Driven Development?
 
@@ -812,17 +812,15 @@ rm gcm-linux_amd64.2.6.1.deb
 ```
 ## 👥 Maintainers
 
-- Den Delimarsky ([@localden](https://github.com/localden))
-
-- John Lam ([@jflam](https://github.com/jflam))
+- Gabriel Ki ([@dan1901](https://github.com/dan1901))
 
 ## 💬 Support
 
-For support:
+For support, please open an issue in this repository:
 
-- **Core Spec Kit issues**: Open a [GitHub issue](https://github.com/github/spec-kit/issues/new) in the upstream repository
-
-- **Multi-language or fork-specific issues**: Open an issue in this repository
+- [Report a Bug](https://github.com/dan1901/spec-mix/issues/new?labels=bug)
+- [Request a Feature](https://github.com/dan1901/spec-mix/issues/new?labels=enhancement)
+- [Ask a Question](https://github.com/dan1901/spec-mix/issues/new?labels=question)
 
 We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
 

@@ -23,37 +23,37 @@
 
 ## 목차
 
-- [🤔 Spec-Driven Development란?](#spec-driven-development란)
+- [🤔 Spec-Driven Development란?](#-spec-driven-development란)
 
-- [⚡ 시작하기](#시작하기)
+- [⚡ 시작하기](#-시작하기)
 
-- [🤖 지원되는 AI 에이전트](#지원되는-ai-에이전트)
+- [🤖 지원되는 AI 에이전트](#-지원되는-ai-에이전트)
 
-- [🌍 다국어 지원](#다국어-지원)
+- [🌍 다국어 지원](#-다국어-지원)
 
-- [🔧 Spec Mix CLI 참조](#spec-mix-cli-참조)
+- [🔧 Spec Mix CLI 참조](#-spec-mix-cli-참조)
 
-- [📚 핵심 철학](#핵심-철학)
+- [📚 핵심 철학](#-핵심-철학)
 
-- [🌟 개발 단계](#개발-단계)
+- [🌟 개발 단계](#-개발-단계)
 
-- [🎯 실험적 목표](#실험적-목표)
+- [🎯 실험적 목표](#-실험적-목표)
 
-- [🔧 전제 조건](#전제-조건)
+- [🔧 전제 조건](#-전제-조건)
 
-- [📖 더 알아보기](#더-알아보기)
+- [📖 더 알아보기](#-더-알아보기)
 
-- [📋 상세 프로세스](#상세-프로세스)
+- [📋 상세 프로세스](#-상세-프로세스)
 
-- [🔍 문제 해결](#문제-해결)
+- [🔍 문제 해결](#-문제-해결)
 
-- [👥 메인테이너](#메인테이너)
+- [👥 메인테이너](#-메인테이너)
 
-- [💬 지원](#지원)
+- [💬 지원](#-지원)
 
-- [🙏 감사의 말](#감사의-말)
+- [🙏 감사의 말](#-감사의-말)
 
-- [📄 라이선스](#라이선스)
+- [📄 라이선스](#-라이선스)
 
 ## 🤔 Spec-Driven Development란?
 
@@ -806,17 +806,15 @@ rm gcm-linux_amd64.2.6.1.deb
 ```
 ## 👥 메인테이너
 
-- Den Delimarsky ([@localden](https://github.com/localden))
-
-- John Lam ([@jflam](https://github.com/jflam))
+- Gabriel Ki ([@dan1901](https://github.com/dan1901))
 
 ## 💬 지원
 
-지원이 필요하면:
+지원이 필요하시면 이 저장소에서 이슈를 열어주세요:
 
-- **핵심 Spec Kit 이슈**: 업스트림 저장소에서 [GitHub 이슈](https://github.com/github/spec-kit/issues/new)를 여세요
-
-- **다국어 또는 포크 관련 이슈**: 이 저장소에서 이슈를 여세요
+- [버그 신고](https://github.com/dan1901/spec-mix/issues/new?labels=bug)
+- [기능 요청](https://github.com/dan1901/spec-mix/issues/new?labels=enhancement)
+- [질문하기](https://github.com/dan1901/spec-mix/issues/new?labels=question)
 
 버그 보고서, 기능 요청 및 Spec-Driven Development 사용에 대한 질문을 환영합니다.
 
