@@ -1,11 +1,11 @@
 <div align="center">
     <img src="./media/logo.png" alt="Spec Mix Logo" width="120"/>
     <h1>Spec Mix</h1>
-    <h3><em>고품질 소프트웨어를 더 빠르게 구축하세요.</em></h3>
+    <h3><em>사양 주도 개발로 고품질 소프트웨어를 더 빠르게 구축하세요.</em></h3>
 </div>
 
 <p align="center">
-    <strong>제품 시나리오와 예측 가능한 결과에 집중할 수 있도록 하는 오픈소스 툴킷입니다.</strong>
+    <strong>다국어 지원, 미션 시스템, 웹 대시보드를 갖춘 AI 기반 개발을 위한 향상된 도구 키트</strong>
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
     <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
-> **📢 Fork 공지**: 이 프로젝트는 [github/spec-kit](https://github.com/github/spec-kit)의 포크로, **다국어 지원(i18n)**이 추가되었습니다. 완전한 한국어 번역과 커뮤니티 번역을 위한 확장 가능한 아키텍처가 포함되어 있습니다. 자세한 내용은 [Fork 정보](#fork-정보)를 참조하세요.
+> *원래 [github/spec-kit](https://github.com/github/spec-kit)에서 포크됨*
 
 **Language / 언어**: [English](README.md) | **한국어**
 
@@ -52,8 +52,6 @@
 - [💬 지원](#지원)
 
 - [🙏 감사의 말](#감사의-말)
-
-- [🔀 Fork 정보](#fork-정보)
 
 - [📄 라이선스](#라이선스)
 
@@ -824,79 +822,9 @@ rm gcm-linux_amd64.2.6.1.deb
 
 ## 🙏 감사의 말
 
-이 프로젝트는 [John Lam](https://github.com/jflam)의 작업과 연구에 크게 영향을 받았으며 기반을 두고 있습니다.
-
-## 🔀 Fork 정보
-
-이것은 개인 및 팀 사용을 위해 유지 관리되는 원본 [github/spec-kit](https://github.com/github/spec-kit) 프로젝트의 포크로, 추가 기능이 있습니다:
-
-### 이 포크에 추가된 기능
-
-- **🌍 다국어 지원 (i18n)**: 완전한 국제화 인프라
-
-  - 완전한 한국어 번역
-
-  - 언어 관리 명령 (`spec-mix lang`)
-
-  - 시스템 로케일 기반 자동 언어 감지
-
-  - 더 많은 언어 추가를 위한 확장 가능한 아키텍처
-
-- **🎯 미션 시스템**: 도메인별 워크플로우 및 템플릿
-
-  - 소프트웨어 개발 미션 (코드 품질, 테스팅, UX 중점)
-
-  - 심층 연구 미션 (증거 기반 분석, 리서치 방법론)
-
-  - 미션별 템플릿, 명령 및 검증 규칙
-
-  - 다국어 미션 지원
-
-  - 미션 관리 명령 (`spec-mix mission`)
-
-- **📊 웹 대시보드**: 시각적 모니터링 및 탐색
-
-  - 작업 통계가 있는 실시간 기능 개요
-
-  - 대화형 칸반 보드 (planned/doing/for_review/done)
-
-  - 마크다운 렌더링이 있는 산출물 뷰어
-
-  - 다중 워크트리 지원
-
-  - 자동 새로고침 (2초 간격)
-
-  - 다국어 UI (시스템 로케일에 적응)
-
-- **🔄 향상된 워크플로우**: 고급 작업 관리
-
-  - 기능 격리를 위한 Git 워크트리 통합
-
-  - 작업 레인 시스템 (칸반 스타일)
-
-  - 검토, 수락 및 병합 명령
-
-  - 프론트매터 메타데이터를 사용한 작업 패키지 (WPxx) 추적
-
-### 업스트림 동기화
-
-이 포크는 추가 기능을 유지하면서 업스트림 저장소와 동기화된 상태를 유지하는 것을 목표로 합니다. 이러한 수정 없이 원본 버전을 원하시면 [업스트림 저장소](https://github.com/github/spec-kit)를 방문하세요.
-
-### 기여
-
-다음과 관련된 기여:
-
-- **핵심 Spec Kit 기능**: [업스트림 저장소](https://github.com/github/spec-kit)에 제출하세요
-
-- **다국어 지원 또는 포크별 기능**: 이 저장소에 제출하세요
-
-### 업스트림 크레딧
-
-원본 프로젝트는 다음에 의해 유지 관리됩니다:
-
-- Den Delimarsky ([@localden](https://github.com/localden))
-
-- John Lam ([@jflam](https://github.com/jflam))
+- Spec-Driven Development의 기반을 만들어 준 원본 [github/spec-kit](https://github.com/github/spec-kit) 팀에게 특별히 감사드립니다
+- 지속적인 피드백과 기여를 해주신 오픈 소스 커뮤니티
+- 번역과 기능 개선을 도와주신 모든 기여자
 
 ## 📄 라이선스
 

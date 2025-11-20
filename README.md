@@ -1,11 +1,11 @@
 <div align="center">
     <img src="./media/logo.png" alt="Spec Mix Logo" width="120"/>
     <h1>Spec Mix</h1>
-    <h3><em>Build high-quality software faster.</em></h3>
+    <h3><em>Build high-quality software faster with Spec-Driven Development.</em></h3>
 </div>
 
 <p align="center">
-    <strong>An open source toolkit that allows you to focus on product scenarios and predictable outcomes instead of vibe coding every piece from scratch.</strong>
+    <strong>Enhanced toolkit for AI-driven development with multi-language support, mission system, and web dashboard</strong>
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
     <a href="https://dan1901.github.io/spec-mix/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
-> **📢 Fork Notice**: This is a fork of [github/spec-kit](https://github.com/github/spec-kit) with additional **Multi-Language Support (i18n)**. Includes full Korean translation and extensible architecture for community translations. See [Fork Information](#fork-information) for details.
+> *Originally forked from [github/spec-kit](https://github.com/github/spec-kit)*
 
 **Language / 언어**: **English** | [한국어](README.ko.md)
 
@@ -52,8 +52,6 @@
 - [💬 Support](#support)
 
 - [🙏 Acknowledgements](#acknowledgements)
-
-- [🔀 Fork Information](#fork-information)
 
 - [📄 License](#license)
 
@@ -830,79 +828,9 @@ We welcome bug reports, feature requests, and questions about using Spec-Driven 
 
 ## 🙏 Acknowledgements
 
-This project is heavily influenced by and based on the work and research of [John Lam](https://github.com/jflam).
-
-## 🔀 Fork Information
-
-This is a fork of the original [github/spec-kit](https://github.com/github/spec-kit) project, maintained for personal and team use with additional features:
-
-### Added Features in This Fork
-
-- **🌍 Multi-Language Support (i18n)**: Complete internationalization infrastructure
-
-  - Full Korean (한국어) translation
-
-  - Language management commands (`spec-mix lang`)
-
-  - Automatic language detection based on system locale
-
-  - Extensible architecture for adding more languages
-
-- **🎯 Mission System**: Domain-specific workflows and templates
-
-  - Software Development mission (코드 품질, 테스팅, UX 중점)
-
-  - Deep Research mission (증거 기반 분석, 리서치 방법론)
-
-  - Mission-specific templates, commands, and validation rules
-
-  - Multilingual mission support
-
-  - Mission management commands (`spec-mix mission`)
-
-- **📊 Web Dashboard**: Visual monitoring and navigation
-
-  - Real-time feature overview with task statistics
-
-  - Interactive kanban boards (planned/doing/for_review/done)
-
-  - Artifact viewer with markdown rendering
-
-  - Multi-worktree support
-
-  - Auto-refresh (2s intervals)
-
-  - Multilingual UI (adapts to system locale)
-
-- **🔄 Enhanced Workflow**: Advanced task management
-
-  - Git worktree integration for feature isolation
-
-  - Task lane system (Kanban-style)
-
-  - Review, acceptance, and merge commands
-
-  - Work package (WPxx) tracking with frontmatter metadata
-
-### Upstream Synchronization
-
-This fork aims to stay synchronized with the upstream repository while maintaining additional features. If you want the original version without these modifications, please visit the [upstream repository](https://github.com/github/spec-kit).
-
-### Contributing
-
-For contributions related to:
-
-- **Core Spec Kit features**: Please submit to the [upstream repository](https://github.com/github/spec-kit)
-
-- **Multi-language support or fork-specific features**: Submit to this repository
-
-### Upstream Credits
-
-Original project maintained by:
-
-- Den Delimarsky ([@localden](https://github.com/localden))
-
-- John Lam ([@jflam](https://github.com/jflam))
+- Special thanks to the original [github/spec-kit](https://github.com/github/spec-kit) team for creating the foundation of Spec-Driven Development
+- The open source community for continuous feedback and contributions
+- All contributors who helped with translations and feature improvements
 
 ## 📄 License
 
