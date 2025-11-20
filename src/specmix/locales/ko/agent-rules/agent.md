@@ -24,6 +24,7 @@ find specs -name "walkthrough.md" -type f
 ### Walkthrough 정보
 
 각 walkthrough는 중요한 세션 메모리를 포함:
+
 - 구현 요약
 - 수정된 파일과 설명
 - 기술 결정사항과 근거
@@ -78,7 +79,7 @@ find specs -name "walkthrough.md" -type f
 
 ## 프로젝트 구조
 
-```
+```text
 project/
 ├── specs/                      # 기능 명세
 │   └── {feature}/

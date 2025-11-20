@@ -26,6 +26,7 @@ fi
 ### Walkthrough 구조
 
 Walkthrough에 포함된 내용:
+
 - 완료된 작업 요약
 - 수정된 파일과 근거
 - 아키텍처 결정사항

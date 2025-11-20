@@ -24,6 +24,7 @@ find specs -name "walkthrough.md" -type f
 ### Information in Walkthroughs
 
 Each walkthrough contains critical session memory:
+
 - Implementation summary
 - Modified files with explanations
 - Technical decisions and rationale
@@ -78,7 +79,7 @@ Follow this structured approach for all features:
 
 ## Project Structure
 
-```
+```text
 project/
 ├── specs/                      # Feature specifications
 │   └── {feature}/

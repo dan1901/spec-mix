@@ -26,6 +26,7 @@ fi
 ### Walkthrough Structure
 
 Walkthroughs contain:
+
 - Summary of completed work
 - Files modified and rationale
 - Architecture decisions made
