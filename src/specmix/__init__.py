@@ -1203,6 +1203,11 @@ def init(
         else:
             selected_mission = "software-dev"
 
+    # Set locale for i18n based on selected language
+    from .i18n import get_locale_manager, t
+    locale_manager = get_locale_manager()
+    locale_manager.set_locale(selected_lang)
+
     console.print(f"[cyan]Selected AI assistant:[/cyan] {selected_ai}")
     console.print(f"[cyan]Selected script type:[/cyan] {selected_script}")
     console.print(f"[cyan]Selected language:[/cyan] {AVAILABLE_LANGUAGES[selected_lang]}")
@@ -1460,9 +1465,8 @@ def init(
     if agent_config:
         agent_folder = agent_config["folder"]
         security_notice = Panel(
-            f"Some agents may store credentials, auth tokens, or other identifying and private artifacts in the agent folder within your project.\n"
-            f"Consider adding [cyan]{agent_folder}[/cyan] (or parts of it) to [cyan].gitignore[/cyan] to prevent accidental credential leakage.",
-            title="[yellow]Agent Folder Security[/yellow]",
+            t('cli.security.message', folder=f"[cyan]{agent_folder}[/cyan]", gitignore="[cyan].gitignore[/cyan]"),
+            title=f"[yellow]{t('cli.security.title')}[/yellow]",
             border_style="yellow",
             padding=(1, 2)
         )
@@ -1471,10 +1475,10 @@ def init(
 
     steps_lines = []
     if not here:
-        steps_lines.append(f"1. Go to the project folder: [cyan]cd {project_name}[/cyan]")
+        steps_lines.append(f"1. {t('cli.steps.go_to_folder', cmd=f'cd {project_name}')}")
         step_num = 2
     else:
-        steps_lines.append("1. You're already in the project directory!")
+        steps_lines.append(f"1. {t('cli.steps.already_in_folder')}")
         step_num = 2
 
     # Add Codex-specific setup step if needed
@@ -1485,7 +1489,7 @@ def init(
             cmd = f"setx CODEX_HOME {quoted_path}"
         else:  # Unix-like systems
             cmd = f"export CODEX_HOME={quoted_path}"
-        
+
         steps_lines.append(f"{step_num}. Set [cyan]CODEX_HOME[/cyan] environment variable before running Codex: [cyan]{cmd}[/cyan]")
         step_num += 1
 
@@ -1495,7 +1499,7 @@ def init(
         mcp_config_dir = project_path / ".amazonq"
         mcp_config_dir.mkdir(exist_ok=True)
         mcp_config_file = mcp_config_dir / "mcp.json"
-        
+
         mcp_config_content = {
             "mcpServers": {
                 "spec-mix": {
@@ -1504,10 +1508,10 @@ def init(
                 }
             }
         }
-        
+
         with open(mcp_config_file, "w") as f:
             json.dump(mcp_config_content, f, indent=2)
-            
+
         steps_lines.append(f"{step_num}. MCP configuration created at [cyan].amazonq/mcp.json[/cyan]")
         step_num += 1
 
@@ -1520,31 +1524,30 @@ args = ["mcp"]
 """
         with open(codex_snippet_file, "w") as f:
             f.write(codex_snippet_content.strip())
-            
+
         steps_lines.append(f"{step_num}. Configure MCP for Codex:")
         steps_lines.append(f"   Copy content from [cyan]codex_mcp_snippet.toml[/cyan] to your [cyan]~/.codex/config.toml[/cyan]")
         step_num += 1
 
-    steps_lines.append(f"{step_num}. Start using slash commands with your AI agent:")
+    steps_lines.append(f"{step_num}. {t('cli.steps.start_commands')}")
+    steps_lines.append(f"   {step_num}.1 [cyan]{t('cli.steps.constitution')}[/]")
+    steps_lines.append(f"   {step_num}.2 [cyan]{t('cli.steps.specify')}[/]")
+    steps_lines.append(f"   {step_num}.3 [cyan]{t('cli.steps.plan')}[/]")
+    steps_lines.append(f"   {step_num}.4 [cyan]{t('cli.steps.tasks')}[/]")
+    steps_lines.append(f"   {step_num}.5 [cyan]{t('cli.steps.implement')}[/]")
 
-    steps_lines.append("   2.1 [cyan]/spec-mix.constitution[/] - Establish project principles")
-    steps_lines.append("   2.2 [cyan]/spec-mix.spec-mix[/] - Create baseline specification")
-    steps_lines.append("   2.3 [cyan]/spec-mix.plan[/] - Create implementation plan")
-    steps_lines.append("   2.4 [cyan]/spec-mix.tasks[/] - Generate actionable tasks")
-    steps_lines.append("   2.5 [cyan]/spec-mix.implement[/] - Execute implementation")
-
-    steps_panel = Panel("\n".join(steps_lines), title="Next Steps", border_style="cyan", padding=(1,2))
+    steps_panel = Panel("\n".join(steps_lines), title=t('cli.steps.next_steps'), border_style="cyan", padding=(1,2))
     console.print()
     console.print(steps_panel)
 
     enhancement_lines = [
-        "Optional commands that you can use for your specs [bright_black](improve quality & confidence)[/bright_black]",
+        f"{t('cli.steps.enhancement_description')}",
         "",
-        f"○ [cyan]/spec-mix.clarify[/] [bright_black](optional)[/bright_black] - Ask structured questions to de-risk ambiguous areas before planning (run before [cyan]/spec-mix.plan[/] if used)",
-        f"○ [cyan]/spec-mix.analyze[/] [bright_black](optional)[/bright_black] - Cross-artifact consistency & alignment report (after [cyan]/spec-mix.tasks[/], before [cyan]/spec-mix.implement[/])",
-        f"○ [cyan]/spec-mix.checklist[/] [bright_black](optional)[/bright_black] - Generate quality checklists to validate requirements completeness, clarity, and consistency (after [cyan]/spec-mix.plan[/])"
+        f"○ [cyan]{t('cli.steps.clarify')}[/]",
+        f"○ [cyan]{t('cli.steps.analyze')}[/]",
+        f"○ [cyan]{t('cli.steps.checklist')}[/]"
     ]
-    enhancements_panel = Panel("\n".join(enhancement_lines), title="Enhancement Commands", border_style="cyan", padding=(1,2))
+    enhancements_panel = Panel("\n".join(enhancement_lines), title=t('cli.steps.enhancement_commands'), border_style="cyan", padding=(1,2))
     console.print()
     console.print(enhancements_panel)
 

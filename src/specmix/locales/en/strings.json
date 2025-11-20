@@ -49,6 +49,7 @@
     "steps": {
       "next_steps": "Next Steps",
       "enhancement_commands": "Enhancement Commands",
+      "enhancement_description": "Optional commands that you can use for your specs (improve quality & confidence)",
       "go_to_folder": "Go to the project folder: {cmd}",
       "already_in_folder": "You're already in the project directory!",
       "start_commands": "Start using slash commands with your AI agent:",

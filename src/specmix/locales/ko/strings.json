@@ -49,6 +49,7 @@
     "steps": {
       "next_steps": "다음 단계",
       "enhancement_commands": "향상 명령어",
+      "enhancement_description": "사양 개선을 위해 사용할 수 있는 선택적 명령어 (품질 및 신뢰도 향상)",
       "go_to_folder": "프로젝트 폴더로 이동: {cmd}",
       "already_in_folder": "이미 프로젝트 디렉토리에 있습니다!",
       "start_commands": "AI 에이전트와 함께 슬래시 명령어 사용 시작:",
