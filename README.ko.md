@@ -179,6 +179,28 @@ uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NA
 | [Amp](https://ampcode.com/) | ✅ | |
 | [Google Antigravity](https://antigravity.google.com/) | ✅ | |
 
+## MCP 서버 지원 (실험적 기능)
+
+Spec Mix는 **Model Context Protocol (MCP)**을 지원합니다. 이를 통해 Claude Desktop, Codex, Amazon Q와 같은 AI 에이전트가 프로젝트와 프로그래밍 방식으로 상호작용할 수 있습니다.
+
+### 설정 방법
+
+MCP 클라이언트(AI 에이전트)의 설정 파일에 다음 내용을 추가하세요:
+
+```json
+{
+  "mcpServers": {
+    "spec-mix": {
+      "command": "spec-mix",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+설정이 완료되면 AI 에이전트가 `read_plan`, `update_plan`, `create_task`, `list_tasks` 등의 도구를 사용할 수 있게 됩니다.
+
+
 ## 🌍 다국어 지원
 
 Spec Kit은 명령어, 템플릿 및 CLI 인터페이스에 대한 다국어를 지원하여 전 세계 개발자가 접근할 수 있습니다.

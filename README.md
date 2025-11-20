@@ -179,6 +179,28 @@ For detailed step-by-step instructions, see our [comprehensive guide](./spec-dri
 | [Amp](https://ampcode.com/) | ✅ | |
 | [Google Antigravity](https://antigravity.google.com/) | ✅ | |
 
+## MCP Server Support (Experimental)
+
+Spec Mix supports the **Model Context Protocol (MCP)**, allowing AI agents (like Claude Desktop, Codex, Amazon Q) to interact with your project programmatically.
+
+### Configuration
+
+Add the following to your MCP client's configuration file:
+
+```json
+{
+  "mcpServers": {
+    "spec-mix": {
+      "command": "spec-mix",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+This exposes tools like `read_plan`, `update_plan`, `create_task`, and `list_tasks` to your AI agent.
+
+
 ## 🌍 Multi-Language Support
 
 Spec Kit supports multiple languages for commands, templates, and CLI interfaces, making it accessible to developers worldwide.

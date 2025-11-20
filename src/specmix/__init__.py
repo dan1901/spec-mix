@@ -1323,17 +1323,39 @@ def init(
         step_num += 1
 
     # Add MCP setup step for Codex and Amazon Q
-    if selected_ai in ["codex", "q"]:
-        steps_lines.append(f"{step_num}. Configure MCP for {AGENT_CONFIG[selected_ai]['name']}:")
-        steps_lines.append("   Add the following to your MCP configuration file:")
-        steps_lines.append("   {")
-        steps_lines.append("     \"mcpServers\": {")
-        steps_lines.append("       \"spec-mix\": {")
-        steps_lines.append("         \"command\": \"spec-mix\",")
-        steps_lines.append("         \"args\": [\"mcp\"]")
-        steps_lines.append("       }")
-        steps_lines.append("     }")
-        steps_lines.append("   }")
+    # Add MCP setup step for Codex and Amazon Q
+    if selected_ai == "q":
+        mcp_config_dir = project_path / ".amazonq"
+        mcp_config_dir.mkdir(exist_ok=True)
+        mcp_config_file = mcp_config_dir / "mcp.json"
+        
+        mcp_config_content = {
+            "mcpServers": {
+                "spec-mix": {
+                    "command": "spec-mix",
+                    "args": ["mcp"]
+                }
+            }
+        }
+        
+        with open(mcp_config_file, "w") as f:
+            json.dump(mcp_config_content, f, indent=2)
+            
+        steps_lines.append(f"{step_num}. MCP configuration created at [cyan].amazonq/mcp.json[/cyan]")
+        step_num += 1
+
+    elif selected_ai == "codex":
+        codex_snippet_file = project_path / "codex_mcp_snippet.toml"
+        codex_snippet_content = """
+[mcpServers.spec-mix]
+command = "spec-mix"
+args = ["mcp"]
+"""
+        with open(codex_snippet_file, "w") as f:
+            f.write(codex_snippet_content.strip())
+            
+        steps_lines.append(f"{step_num}. Configure MCP for Codex:")
+        steps_lines.append(f"   Copy content from [cyan]codex_mcp_snippet.toml[/cyan] to your [cyan]~/.codex/config.toml[/cyan]")
         step_num += 1
 
     steps_lines.append(f"{step_num}. Start using slash commands with your AI agent:")
