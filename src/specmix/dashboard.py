@@ -403,7 +403,7 @@ def get_feature_info(feature_path: Path, worktree: Optional[str] = None) -> Opti
 
         # Check for common artifacts
         artifacts = ['spec.md', 'plan.md', 'tasks.md', 'research.md',
-                    'data-model.md', 'acceptance.md', 'checklist.md']
+                    'data-model.md', 'acceptance.md', 'checklist.md', 'walkthrough.md']
 
         for artifact in artifacts:
             info['artifacts'][artifact.replace('.md', '')] = (feature_path / artifact).exists()

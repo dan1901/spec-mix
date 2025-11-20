@@ -1253,6 +1253,80 @@ def init(
         with open(version_file, 'w', encoding='utf-8') as f:
             f.write(spec_mix_version)
 
+        # Copy AI agent-specific main rule file
+        try:
+            agent_rule_files = {
+                'claude': 'CLAUDE.md',
+                'copilot': 'agent.md',
+                'codex': 'agent.md',
+                'gemini': 'GEMINI.md',
+                'cursor-agent': 'CURSOR.md',
+                'qwen': 'QWEN.md',
+                'opencode': 'OPENCODE.md',
+                'windsurf': 'WINDSURF.md',
+                'kilocode': 'KILOCODE.md',
+                'auggie': 'AUGGIE.md',
+                'codebuddy': 'CODEBUDDY.md',
+                'amp': 'AMP.md',
+                'antigravity': 'ANTIGRAVITY.md',
+                'roo': 'ROO.md',
+                'q': 'Q.md'
+            }
+
+            # Determine which rule file to use
+            rule_filename = agent_rule_files.get(selected_ai, 'agent.md')
+
+            # Try to find the template file
+            import pkg_resources
+            rule_template_path = None
+
+            # Determine the locale directory
+            locale_dir = 'ko' if selected_lang == 'ko' else 'en'
+
+            # First try agent-specific file
+            try:
+                if selected_ai == 'claude':
+                    # For Claude, use CLAUDE.md
+                    rule_content = pkg_resources.resource_string('specmix', f'locales/{locale_dir}/agent-rules/CLAUDE.md').decode('utf-8')
+                else:
+                    # For others, try to use generic agent.md
+                    rule_content = pkg_resources.resource_string('specmix', f'locales/{locale_dir}/agent-rules/agent.md').decode('utf-8')
+            except:
+                # Fallback: try to read from local file system
+                try:
+                    module_dir = Path(__file__).parent
+                    if selected_ai == 'claude':
+                        rule_template = module_dir / 'locales' / locale_dir / 'agent-rules' / 'CLAUDE.md'
+                    else:
+                        rule_template = module_dir / 'locales' / locale_dir / 'agent-rules' / 'agent.md'
+
+                    if rule_template.exists():
+                        with open(rule_template, 'r', encoding='utf-8') as f:
+                            rule_content = f.read()
+                    else:
+                        rule_content = None
+                except:
+                    rule_content = None
+
+            # Write the rule file to project root
+            if rule_content:
+                target_rule_file = project_path / rule_filename
+
+                # Customize content based on AI assistant
+                if selected_ai != 'claude':
+                    # Replace Claude-specific references
+                    rule_content = rule_content.replace('Claude Code (claude.ai/code)', f'{AGENT_CONFIG[selected_ai]["name"]}')
+                    rule_content = rule_content.replace('.claude/', f'{AGENT_CONFIG[selected_ai]["folder"]}')
+
+                with open(target_rule_file, 'w', encoding='utf-8') as f:
+                    f.write(rule_content)
+
+                console.print(f"[green]✓[/green] Created {rule_filename} for {AGENT_CONFIG[selected_ai]['name']}")
+        except Exception as e:
+            # Non-critical error, just warn
+            if debug:
+                console.print(f"[yellow]Could not create agent rule file: {e}[/yellow]")
+
         # Set active mission
         if HAS_MISSION:
             from .mission import MissionManager
@@ -1487,6 +1561,7 @@ def mcp():
     import asyncio
     from .mcp_server import run
     asyncio.run(run())
+
 
 
 def main():

@@ -43,4 +43,4 @@ env/
 .genreleases/
 *.zip
 sdd-*/
-CLAUDE.md
+/CLAUDE.md

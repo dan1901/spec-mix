@@ -379,3 +379,92 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 Note: This command ENFORCES the complete lane workflow. Tasks MUST be in 'doing' before implementation and MUST be moved to 'for_review' after completion.
 
+## Walkthrough Generation (Automatic)
+
+After completing implementation tasks, automatically generate a walkthrough document that serves as both a work proof and session memory:
+
+### Create Walkthrough Document
+
+**Location**: `specs/{feature}/walkthrough.md`
+
+Generate a comprehensive walkthrough using the following structure:
+
+```markdown
+# Implementation Walkthrough: {feature}
+
+**Generated**: {timestamp}
+**Session ID**: {unique-session-id}
+
+## Summary
+
+Brief overview of what was implemented in this session.
+
+## Work Completed
+
+### Tasks Implemented
+- WP## - {task description}: {status}
+- List all tasks worked on during this session
+
+### Files Modified
+```
+{output of git diff --name-status}
+```
+
+### Key Changes
+
+#### {Component/Module Name}
+- **File**: {file path}
+- **Changes**: {description of changes}
+- **Rationale**: {why this approach was chosen}
+
+{Repeat for each major component modified}
+
+## Testing & Verification
+
+### Tests Run
+```bash
+{test command and output}
+```
+
+### Manual Verification
+- [ ] Feature tested in development environment
+- [ ] Edge cases handled
+- [ ] Error scenarios tested
+
+## Architecture Decisions
+
+Document any important technical decisions made:
+- Why certain patterns were chosen
+- Trade-offs considered
+- Alternative approaches rejected and why
+
+## Known Issues & TODOs
+
+- [ ] Any remaining issues discovered during implementation
+- [ ] Future improvements identified
+- [ ] Technical debt incurred
+
+## Commit History
+
+```bash
+git log --oneline --graph --decorate --since="{session-start}"
+```
+
+## Next Steps
+
+What should be done next:
+1. Review tasks in for_review lane
+2. Any follow-up work identified
+3. Documentation updates needed
+
+---
+*This walkthrough serves as a record of work completed and decisions made during this implementation session.*
+```
+
+### Auto-save and Reference
+
+After generating the walkthrough:
+1. Save to `specs/{feature}/walkthrough.md`
+2. Display message: "✓ Walkthrough generated: specs/{feature}/walkthrough.md"
+3. This file will be automatically loaded by AI agents on next session (via agent configuration)
+
