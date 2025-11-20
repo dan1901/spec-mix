@@ -1,0 +1,30 @@
+{
+  "name": "spec-mix",
+  "version": "1.0.0",
+  "description": "Spec-Driven Development toolkit with integrated AI workflows",
+  "scripts": {
+    "lint": "markdownlint-cli2 '**/*.md'",
+    "lint:fix": "markdownlint-cli2 --fix '**/*.md'",
+    "precommit": "npm run lint"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dan1901/spec-mix.git"
+  },
+  "keywords": [
+    "sdd",
+    "spec-driven-development",
+    "ai",
+    "claude",
+    "copilot"
+  ],
+  "author": "Gabriel Ki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dan1901/spec-mix/issues"
+  },
+  "homepage": "https://github.com/dan1901/spec-mix#readme"
+}

@@ -73,6 +73,7 @@ Install once and use everywhere:
 uv tool install spec-mix --from git+https://github.com/dan1901/spec-mix.git
 
 ```
+
 Then use the tool directly:
 
 ```bash
@@ -80,12 +81,14 @@ spec-mix init <PROJECT_NAME>
 spec-mix check
 
 ```
+
 To upgrade spec-mix run:
 
 ```bash
 uv tool install spec-mix --force --from git+https://github.com/dan1901/spec-mix.git
 
 ```
+
 #### Option 2: One-time Usage
 
 Run directly without installing:
@@ -94,6 +97,7 @@ Run directly without installing:
 uvx --from git+https://github.com/dan1901/spec-mix.git spec-mix init <PROJECT_NAME>
 
 ```
+
 **Benefits of persistent installation:**
 
 - Tool stays installed and available in PATH
@@ -114,6 +118,7 @@ Use the **`/spec-mix.constitution`** command to create your project's governing 
 /spec-mix.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
 
 ```
+
 ### 3. Create the spec
 
 Use the **`/spec-mix.specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
@@ -122,6 +127,7 @@ Use the **`/spec-mix.specify`** command to describe what you want to build. Focu
 /spec-mix.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
 
 ```
+
 ### 4. Create a technical implementation plan
 
 Use the **`/spec-mix.plan`** command to provide your tech stack and architecture choices.
@@ -130,6 +136,7 @@ Use the **`/spec-mix.plan`** command to provide your tech stack and architecture
 /spec-mix.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
 
 ```
+
 ### 5. Break down into tasks
 
 Use **`/spec-mix.tasks`** to create an actionable task list from your implementation plan.
@@ -138,6 +145,7 @@ Use **`/spec-mix.tasks`** to create an actionable task list from your implementa
 /spec-mix.tasks
 
 ```
+
 ### 6. Execute implementation
 
 Use **`/spec-mix.implement`** to execute all tasks and build your feature according to the plan.
@@ -146,6 +154,7 @@ Use **`/spec-mix.implement`** to execute all tasks and build your feature accord
 /spec-mix.implement
 
 ```
+
 For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
 
 ## 🤖 Supported AI Agents
@@ -186,6 +195,7 @@ Add the following to your MCP client's configuration file:
   }
 }
 ```
+
 This exposes tools like `read_plan`, `update_plan`, `create_task`, and `list_tasks` to your AI agent.
 
 ## 🌍 Multi-Language Support
@@ -212,6 +222,7 @@ export SPECIFY_LANG=ko
 # Or use per-session
 SPECIFY_LANG=ko spec-mix init my-project
 ```
+
 #### Language Management Commands
 
 ```bash
@@ -225,6 +236,7 @@ spec-mix lang current
 spec-mix lang set ko
 
 ```
+
 #### Mission Management Commands
 
 ```bash
@@ -241,6 +253,7 @@ spec-mix mission switch research
 spec-mix mission info software-dev
 
 ```
+
 #### Dashboard Commands
 
 ```bash
@@ -257,6 +270,7 @@ spec-mix dashboard status
 spec-mix dashboard stop
 
 ```
+
 ### What Gets Translated
 
 When you use Spec Kit in your preferred language, the following are translated:
@@ -288,6 +302,7 @@ spec-mix init my-project --ai claude
 /spec-mix.implement     # 구현 실행
 
 ```
+
 ### Contributing Translations
 
 Want to add support for your language? We welcome community translations! See our [Internationalization Guide](docs/i18n.md) for:
@@ -387,6 +402,7 @@ spec-mix init my-project --ai claude --github-token ghp_your_token_here
 spec-mix check
 
 ```
+
 ### Available Slash Commands
 
 After running `spec-mix init`, your AI coding agent will have access to these slash commands for structured development:
@@ -515,6 +531,7 @@ You can use the Spec Mix CLI to bootstrap your project, which will bring in the 
 spec-mix init <project_name>
 
 ```
+
 Or initialize in the current directory:
 
 ```bash
@@ -527,6 +544,7 @@ spec-mix init . --force
 spec-mix init --here --force
 
 ```
+
 You will be prompted to select the AI agent you are using. You can also proactively specify it directly in the terminal:
 
 ```bash
@@ -549,12 +567,14 @@ spec-mix init . --force --ai claude
 spec-mix init --here --force --ai claude
 
 ```
+
 The CLI will check if you have Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI, or Amazon Q Developer CLI installed. If you do not, or you prefer to get the templates without checking for the right tools, use `--ignore-agent-tools` with your command:
 
 ```bash
 spec-mix init <project_name> --ai claude --ignore-agent-tools
 
 ```
+
 ### **STEP 1:** Establish project principles
 
 Go to the project folder and run your AI agent. In our example, we're using `claude`.
@@ -566,6 +586,7 @@ The first step should be establishing your project's governing principles using 
 /spec-mix.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements. Include governance for how these principles should guide technical decisions and implementation choices.
 
 ```
+
 This step creates or updates the `.spec-mix/memory/constitution.md` file with your project's foundational guidelines that the AI agent will reference during specification, planning, and implementation phases.
 
 ### **STEP 2:** Create project specifications
@@ -596,6 +617,7 @@ see yours. You can edit any comments that you make, but you can't edit comments 
 delete any comments that you made, but you can't delete comments anybody else made.
 
 ```
+
 After this prompt is entered, you should see Claude Code kick off the planning and spec drafting process. Claude Code will also trigger some of the built-in scripts to set up the repository.
 
 Once this step is completed, you should have a new branch created (e.g., `001-create-taskify`), as well as a new specification in the `specs/001-create-taskify` directory.
@@ -623,6 +645,7 @@ At this stage, your project folder contents should resemble the following:
         └── tasks-template.md
 
 ```
+
 ### **STEP 3:** Functional specification clarification (required before planning)
 
 With the baseline specification created, you can go ahead and clarify any of the requirements that were not captured properly within the first shot attempt.
@@ -644,12 +667,14 @@ tasks for each one randomly distributed into different states of completion. Mak
 one task in each stage of completion.
 
 ```
+
 You should also ask Claude Code to validate the **Review & Acceptance Checklist**, checking off the things that are validated/pass the requirements, and leave the ones that are not unchecked. The following prompt can be used:
 
 ```text
 Read the review and acceptance checklist, and check off each item in the checklist if the feature spec meets the criteria. Leave it empty if it does not.
 
 ```
+
 It's important to use the interaction with Claude Code as an opportunity to clarify and ask questions around the specification - **do not treat its first attempt as final**.
 
 ### **STEP 4:** Generate a plan
@@ -662,6 +687,7 @@ Blazor server with drag-and-drop task boards, real-time updates. There should be
 tasks API, and a notifications API.
 
 ```
+
 The output of this step will include a number of implementation detail documents, with your directory tree resembling this:
 
 ```text
@@ -692,6 +718,7 @@ The output of this step will include a number of implementation detail documents
     └── tasks-template.md
 
 ```
+
 Check the `research.md` document to ensure that the right tech stack is used, based on your instructions. You can ask Claude Code to refine it if any of the components stand out, or even have it check the locally-installed version of the platform/framework you want to use (e.g., .NET).
 
 Additionally, you might want to ask Claude Code to research details about the chosen tech stack if it's something that is rapidly changing (e.g., .NET Aspire, JS frameworks), with a prompt like this:
@@ -704,6 +731,7 @@ versions that we are going to be using in this Taskify application and spawn par
 any details using research from the web.
 
 ```
+
 During this process, you might find that Claude Code gets stuck researching the wrong thing - you can help nudge it in the right direction with a prompt like this:
 
 ```text
@@ -716,6 +744,7 @@ researching .NET Aspire in general and I don't think that's gonna do much for us
 That's way too untargeted research. The research needs to help you solve a specific targeted question.
 
 ```
+
 >[!NOTE]
 >Claude Code might be over-eager and add components that you did not ask for. Ask it to clarify the rationale and the source of the change.
 
@@ -731,6 +760,7 @@ when I look at the core implementation, it would be useful to reference the appr
 details where it can find the information as it walks through each step in the core implementation or in the refinement.
 
 ```
+
 This helps refine the implementation plan and helps you avoid potential blind spots that Claude Code missed in its planning cycle. Once the initial refinement pass is complete, ask Claude Code to go through the checklist once more before you can get to the implementation.
 
 You can also ask Claude Code (if you have the [GitHub CLI](https://docs.github.com/en/github-cli/github-cli) installed) to go ahead and create a pull request from your current branch to `main` with a detailed description, to make sure that the effort is properly tracked.
@@ -746,6 +776,7 @@ With the implementation plan validated, you can now break down the plan into spe
 /spec-mix.tasks
 
 ```
+
 This step creates a `tasks.md` file in your feature specification directory that contains:
 
 - **Task breakdown organized by user story** - Each user story becomes a separate implementation phase with its own set of tasks
@@ -770,6 +801,7 @@ Once ready, use the `/spec-mix.implement` command to execute your implementation
 /spec-mix.implement
 
 ```
+
 The `/spec-mix.implement` command will:
 
 - Validate that all prerequisites are in place (constitution, spec, plan, and tasks)
@@ -793,6 +825,45 @@ Once the implementation is complete, test the application and resolve any runtim
 
 ## 🔍 Troubleshooting
 
+### Markdown Linting
+
+This project uses markdown linting to ensure consistent documentation formatting. To check markdown files before committing:
+
+**Setup (one-time):**
+
+```bash
+# Install dependencies
+npm install
+
+# Enable pre-commit hooks
+./setup-hooks.sh
+```
+
+**Manual lint check:**
+
+```bash
+# Check all markdown files
+./lint.sh
+
+# Auto-fix lint issues
+./lint.sh --fix
+
+# Or use npm scripts
+npm run lint
+npm run lint:fix
+```
+
+**Pre-commit hook:**
+Once set up with `./setup-hooks.sh`, markdown files will be automatically checked before each commit. To temporarily disable:
+
+```bash
+# Disable hooks
+git config --unset core.hooksPath
+
+# Re-enable hooks
+./setup-hooks.sh
+```
+
 ### Git Credential Manager on Linux
 
 If you're having issues with Git authentication on Linux, you can install Git Credential Manager:
@@ -810,6 +881,7 @@ echo "Cleaning up..."
 rm gcm-linux_amd64.2.6.1.deb
 
 ```
+
 ## 👥 Maintainers
 
 - Gabriel Ki ([@dan1901](https://github.com/dan1901))

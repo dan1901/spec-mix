@@ -1,0 +1,35 @@
+#!/bin/sh
+# Pre-commit hook for markdown linting
+
+echo "🔍 Running markdown lint check..."
+
+# Check if markdownlint-cli2 is installed
+if ! command -v markdownlint-cli2 &> /dev/null; then
+    echo "⚠️  markdownlint-cli2 is not installed. Trying npx..."
+
+    # Try using npx
+    if command -v npx &> /dev/null; then
+        npx markdownlint-cli2 '**/*.md'
+        LINT_EXIT=$?
+    else
+        echo "❌ Please install markdownlint-cli2:"
+        echo "   npm install -g markdownlint-cli2"
+        echo "   or"
+        echo "   npm install (if package.json exists)"
+        exit 1
+    fi
+else
+    # Run markdownlint
+    markdownlint-cli2 '**/*.md'
+    LINT_EXIT=$?
+fi
+
+if [ $LINT_EXIT -ne 0 ]; then
+    echo "❌ Markdown lint check failed!"
+    echo "📝 To fix automatically, run: npm run lint:fix"
+    echo "📝 Or manually fix the issues above"
+    exit 1
+fi
+
+echo "✅ Markdown lint check passed!"
+exit 0
