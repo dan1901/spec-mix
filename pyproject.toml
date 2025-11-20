@@ -1,17 +1,18 @@
 [project]
 name = "spec-mix"
-version = "0.0.1-alpha.8"
+version = "0.0.1-alpha.9"
 description = "Spec Mix - Enhanced Spec Kit with multi-language support, mission system, and web dashboard for Spec-Driven Development (SDD)."
 requires-python = ">=3.11"
 dependencies = [
     "typer",
-    "rich",
-    "httpx[socks]",
+    "rich>=13.0.0",
+    "httpx>=0.24.0",
     "platformdirs",
     "readchar",
     "truststore>=0.10.4",
-    "pyyaml",
+    "pyyaml>=6.0",
     "packaging",
+    "mcp>=0.1.0",
 ]
 
 [project.urls]

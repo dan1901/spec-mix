@@ -1322,6 +1322,20 @@ def init(
         steps_lines.append(f"{step_num}. Set [cyan]CODEX_HOME[/cyan] environment variable before running Codex: [cyan]{cmd}[/cyan]")
         step_num += 1
 
+    # Add MCP setup step for Codex and Amazon Q
+    if selected_ai in ["codex", "q"]:
+        steps_lines.append(f"{step_num}. Configure MCP for {AGENT_CONFIG[selected_ai]['name']}:")
+        steps_lines.append("   Add the following to your MCP configuration file:")
+        steps_lines.append("   {")
+        steps_lines.append("     \"mcpServers\": {")
+        steps_lines.append("       \"spec-mix\": {")
+        steps_lines.append("         \"command\": \"spec-mix\",")
+        steps_lines.append("         \"args\": [\"mcp\"]")
+        steps_lines.append("       }")
+        steps_lines.append("     }")
+        steps_lines.append("   }")
+        step_num += 1
+
     steps_lines.append(f"{step_num}. Start using slash commands with your AI agent:")
 
     steps_lines.append("   2.1 [cyan]/spec-mix.constitution[/] - Establish project principles")
@@ -1443,6 +1457,14 @@ def migrate(
     else:
         console.print("\n[bold red]✗ Migration failed[/bold red]")
         raise typer.Exit(1)
+
+
+@app.command()
+def mcp():
+    """Run the Spec Mix MCP server."""
+    import asyncio
+    from .mcp_server import run
+    asyncio.run(run())
 
 
 def main():
