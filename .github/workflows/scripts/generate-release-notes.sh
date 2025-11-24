@@ -14,16 +14,16 @@ NEW_VERSION="$1"
 LAST_TAG="$2"
 
 # Get commits since last tag
-if [ "$LAST_TAG" = "v0.0.0" ]; then
-  # Check how many commits we have and use that as the limit
-  COMMIT_COUNT=$(git rev-list --count HEAD)
+if [ "$LAST_TAG" = "v0.0.0" ] || [ "$LAST_TAG" = "$NEW_VERSION" ]; then
+  # No previous tag or re-creating same version - show recent commits
+  COMMIT_COUNT=$(git rev-list --count HEAD 2>/dev/null || echo "10")
   if [ "$COMMIT_COUNT" -gt 10 ]; then
-    COMMITS=$(git log --oneline --pretty=format:"- %s" HEAD~10..HEAD)
+    COMMITS=$(git log --oneline --pretty=format:"- %s" -n 10)
   else
-    COMMITS=$(git log --oneline --pretty=format:"- %s" HEAD~$COMMIT_COUNT..HEAD 2>/dev/null || git log --oneline --pretty=format:"- %s")
+    COMMITS=$(git log --oneline --pretty=format:"- %s" -n "$COMMIT_COUNT")
   fi
 else
-  COMMITS=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD)
+  COMMITS=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD 2>/dev/null || git log --oneline --pretty=format:"- %s" -n 10)
 fi
 
 # Create release notes
