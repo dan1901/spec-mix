@@ -6,8 +6,8 @@ description: Review completed work and move approved tasks to done lane
 
 ```text
 $ARGUMENTS
+```
 
-```text
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline

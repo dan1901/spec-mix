@@ -6,8 +6,8 @@ description: Create or update the project constitution from interactive or provi
 
 ```text
 $ARGUMENTS
+```
 
-```text
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
