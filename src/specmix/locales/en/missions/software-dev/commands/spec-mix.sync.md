@@ -116,7 +116,7 @@ Notes may contain:
 ### 6. Check Constitution
 
 ```bash
-cat .spec-mix/memory/constitution.md 2>/dev/null
+cat specs/constitution.md 2>/dev/null
 ```
 
 Understand project principles and guidelines.

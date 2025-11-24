@@ -116,7 +116,7 @@ cat .spec-mix/notes.md 2>/dev/null || echo "노트 없음"
 ### 6. 헌장 확인
 
 ```bash
-cat .spec-mix/memory/constitution.md 2>/dev/null
+cat specs/constitution.md 2>/dev/null
 ```
 
 프로젝트 원칙과 지침을 이해합니다.
