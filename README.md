@@ -29,6 +29,8 @@
 
 - [🤖 Supported AI Agents](#-supported-ai-agents)
 
+- [🎛️ Mode System](#️-mode-system)
+
 - [🌍 Multi-Language Support](#-multi-language-support)
 
 - [🔧 Spec Mix CLI Reference](#-spec-mix-cli-reference)
@@ -159,23 +161,91 @@ For detailed step-by-step instructions, see our [comprehensive guide](./spec-dri
 
 ## 🤖 Supported AI Agents
 
-| Agent                                                     | Support | Notes                                             |
-|-----------------------------------------------------------|---------|---------------------------------------------------|
-| [Claude Code](https://www.anthropic.com/claude-code)      | ✅ |                                                   |
-| [GitHub Copilot](https://code.visualstudio.com/)          | ✅ |                                                   |
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | ✅ |                                                   |
-| [Cursor](https://cursor.sh/)                              | ✅ |                                                   |
-| [Qwen Code](https://github.com/QwenLM/qwen-code)          | ✅ |                                                   |
-| [opencode](https://opencode.ai/)                          | ✅ |                                                   |
-| [Windsurf](https://windsurf.com/)                         | ✅ |                                                   |
-| [Kilo Code](https://github.com/Kilo-Org/kilocode)         | ✅ |                                                   |
-| [Auggie CLI](https://docs.augmentcode.com/cli/overview)   | ✅ |                                                   |
-| [CodeBuddy CLI](https://www.codebuddy.ai/cli)             | ✅ |                                                   |
-| [Roo Code](https://roocode.com/)                          | ✅ |                                                   |
-| [Codex CLI](https://github.com/openai/codex)              | ✅ |                                                   |
-| [Amazon Q Developer CLI](https://aws.amazon.com/developer/learning/q-developer-cli/) | ⚠️ | Amazon Q Developer CLI [does not support](https://github.com/aws/amazon-q-developer-cli/issues/3064) custom arguments for slash commands. |
-| [Amp](https://ampcode.com/) | ✅ | |
-| [Google Antigravity](https://antigravity.google.com/) | ✅ | |
+| Agent                                                     | Key | Type | Notes |
+|-----------------------------------------------------------|-----|------|-------|
+| [Claude Code](https://www.anthropic.com/claude-code)      | `claude` | CLI | Recommended |
+| [GitHub Copilot](https://code.visualstudio.com/)          | `copilot` | IDE | VS Code integration |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `gemini` | CLI | |
+| [Cursor](https://cursor.sh/)                              | `cursor-agent` | IDE | |
+| [Kiro](https://kiro.dev/)                                 | `kiro` | IDE | AWS Kiro |
+| [Windsurf](https://windsurf.com/)                         | `windsurf` | IDE | |
+| [Google Antigravity](https://antigravity.google.com/)     | `antigravity` | CLI | |
+| [Codex CLI](https://github.com/openai/codex)              | `codex` | CLI | OpenAI |
+
+## 🎛️ Mode System
+
+Spec Mix offers two operational modes to match different user needs and experience levels.
+
+### Normal Mode (Default)
+
+Guided workflow with streamlined commands:
+
+- **Auto-clarify**: `/spec-mix.specify` creates spec then automatically presents clarification questions
+- **User choice**: Answer questions to refine spec OR skip to next step
+- **Phase-based tasks**: `/spec-mix.plan` generates checklist + plan + phase-level tasks (not detailed sub-tasks)
+- **Guided implementation**: `/spec-mix.implement` executes phase by phase with walkthrough and review
+- **Accept workflow**: After each phase, user gets Accept/Reject choice (not a command)
+
+**Normal Mode Workflow:**
+
+```text
+/spec-mix.specify "Feature description"
+    ↓
+Spec created → Auto-clarify questions
+    ↓
+[Answer questions] or [SKIP → Next Step]
+    ↓
+/spec-mix.plan
+    ↓
+Checklist + Plan + Phase-based Tasks
+    ↓
+/spec-mix.implement
+    ↓
+Phase 1 → Walkthrough → Review → [ACCEPT/REJECT]
+    ↓
+Phase 2 → Walkthrough → Review → [ACCEPT/REJECT]
+    ↓
+... all phases complete ...
+    ↓
+"Run /spec-mix.merge to finalize"
+```
+
+### Pro Mode
+
+Full control with all individual commands:
+
+- All commands available: constitution, specify, clarify, plan, tasks, implement, analyze, checklist, review, accept, merge, dashboard
+- Fine-grained control over each workflow step
+- Work Package based task management (kanban lanes)
+- Recommended for experienced users
+
+### Mode Commands
+
+```bash
+# List available modes
+spec-mix mode list
+
+# Check current mode
+spec-mix mode current
+
+# Switch mode
+spec-mix mode set normal
+spec-mix mode set pro
+
+# View mode details
+spec-mix mode info normal
+
+# Initialize project with specific mode
+spec-mix init my-project --mode pro
+```
+
+### Dashboard Mode Support
+
+The dashboard adapts to the current mode:
+
+- **Normal Mode**: Shows phase-based kanban board with phase progress
+- **Pro Mode**: Shows traditional Work Package kanban with lane management
+- Mode badges displayed on feature cards
 
 ## MCP Server Support (Experimental)
 
@@ -326,18 +396,22 @@ The `specify` command supports the following options:
 | Command     | Description                                                    |
 |-------------|----------------------------------------------------------------|
 | `init`      | Initialize a new Spec Mix project from the latest template    |
-| `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `windsurf`, `qwen`, `opencode`, `codex`) |
+| `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `kiro`, `windsurf`, `antigravity`, `codex`) |
 | `lang`      | Manage language packs (`list`, `current`, `set`, `install`)    |
+| `mode`      | Manage workflow modes (`list`, `current`, `set`, `info`)       |
+| `mission`   | Manage mission templates (`list`, `current`, `switch`, `info`) |
+| `dashboard` | Start/stop web dashboard (`start`, `stop`, `status`)           |
 
 ### `spec-mix init` Arguments & Options
 
 | Argument/Option        | Type     | Description                                                                  |
 |------------------------|----------|------------------------------------------------------------------------------|
 | `<project-name>`       | Argument | Name for your new project directory (optional if using `--here`, or use `.` for current directory) |
-| `--ai`                 | Option   | AI assistant to use: `claude`, `gemini`, `copilot`, `cursor-agent`, `qwen`, `opencode`, `codex`, `windsurf`, `kilocode`, `auggie`, `roo`, `codebuddy`, `amp`, or `q` |
+| `--ai`                 | Option   | AI assistant to use: `claude`, `copilot`, `gemini`, `cursor-agent`, `kiro`, `windsurf`, `antigravity`, or `codex` |
 | `--script`             | Option   | Script variant to use: `sh` (bash/zsh) or `ps` (PowerShell)                 |
 | `--lang`               | Option   | Language to use: `en`, `ko` (default: `en`)                                 |
 | `--mission`            | Option   | Mission to use: `software-dev`, `research` (default: `software-dev`)        |
+| `--mode`               | Option   | Mode to use: `normal`, `pro` (default: `normal`)                            |
 | `--ignore-agent-tools` | Flag     | Skip checks for AI agent tools like Claude Code                             |
 | `--no-git`             | Flag     | Skip git repository initialization                                          |
 | `--here`               | Flag     | Initialize project in the current directory instead of creating a new one   |
@@ -361,8 +435,11 @@ spec-mix init my-project --ai cursor-agent
 # Initialize with Windsurf support
 spec-mix init my-project --ai windsurf
 
-# Initialize with Amp support
-spec-mix init my-project --ai amp
+# Initialize with Kiro support
+spec-mix init my-project --ai kiro
+
+# Initialize with Pro mode
+spec-mix init my-project --ai claude --mode pro
 
 # Initialize with Korean language
 spec-mix init my-project --ai claude --lang ko
@@ -568,7 +645,7 @@ spec-mix init --here --force --ai claude
 
 ```
 
-The CLI will check if you have Claude Code, Gemini CLI, Cursor CLI, Qwen CLI, opencode, Codex CLI, or Amazon Q Developer CLI installed. If you do not, or you prefer to get the templates without checking for the right tools, use `--ignore-agent-tools` with your command:
+The CLI will check if you have Claude Code, GitHub Copilot, Gemini CLI, Cursor, Kiro, Windsurf, Antigravity, or Codex CLI installed. If you do not, or you prefer to get the templates without checking for the right tools, use `--ignore-agent-tools` with your command:
 
 ```bash
 spec-mix init <project_name> --ai claude --ignore-agent-tools
