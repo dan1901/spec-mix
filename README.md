@@ -402,6 +402,7 @@ The `specify` command supports the following options:
 | `mode`      | Manage workflow modes (`list`, `current`, `set`, `info`)       |
 | `mission`   | Manage mission templates (`list`, `current`, `switch`, `info`) |
 | `dashboard` | Start/stop web dashboard (`start`, `stop`, `status`)           |
+| `note`      | Add/view project notes for agent handoff (`--list`, `--clear`) |
 
 ### `spec-mix init` Arguments & Options
 
@@ -431,6 +432,15 @@ The `specify` command supports the following options:
 | `--script`             | Option   | Script type to use: `sh` or `ps` (default: auto-detect from project config) |
 | `--debug`              | Flag     | Enable detailed debug output for troubleshooting                            |
 | `--github-token`       | Option   | GitHub token for API requests                                                |
+
+### `spec-mix note` Arguments & Options
+
+| Argument/Option        | Type     | Description                                                                  |
+|------------------------|----------|------------------------------------------------------------------------------|
+| `<message>`            | Argument | Note message to add (optional)                                               |
+| `--list`, `-l`         | Flag     | List all notes                                                               |
+| `--last`, `-n`         | Option   | Show last N notes                                                            |
+| `--clear`, `-c`        | Flag     | Clear all notes                                                              |
 
 ### Examples
 
@@ -502,6 +512,20 @@ spec-mix add claude --force
 
 # Add agent with specific script type
 spec-mix add gemini --script sh
+
+# Add project notes for agent handoff
+spec-mix note "Login API uses JWT tokens - see auth.py"
+spec-mix note "Run migrations before testing"
+
+# View all notes
+spec-mix note --list
+spec-mix note -l
+
+# View last 3 notes
+spec-mix note --last 3
+
+# Clear all notes
+spec-mix note --clear
 ```
 
 ### Available Slash Commands
@@ -540,6 +564,7 @@ Additional commands for enhanced quality and validation:
 | `/spec-mix.clarify`   | Clarify underspecified areas (recommended before `/spec-mix.plan`; formerly `/quizme`) |
 | `/spec-mix.analyze`   | Cross-artifact consistency & coverage analysis (run after `/spec-mix.tasks`, before `/spec-mix.implement`) |
 | `/spec-mix.checklist` | Generate custom quality checklists that validate requirements completeness, clarity, and consistency (like "unit tests for English") |
+| `/spec-mix.sync`      | Sync context by reading all project artifacts for agent handoff (use when switching agents) |
 
 ### Environment Variables
 

@@ -124,6 +124,18 @@
       "cli_install_hint": "Make sure {agent} CLI is installed:",
       "ide_hint": "{agent} is IDE-based. Open your project in the IDE to use the commands."
     },
+    "note": {
+      "no_notes": "No notes found",
+      "add_hint": "Add a note: spec-mix note \"your message here\"",
+      "cleared": "All notes cleared",
+      "cancelled": "Cancelled",
+      "no_notes_to_clear": "No notes to clear",
+      "note_added": "Note added at {timestamp}",
+      "total_notes": "Total: {count} note(s)",
+      "project_notes": "Project Notes",
+      "recent_notes": "Recent Notes",
+      "confirm_clear": "Are you sure you want to clear all notes?"
+    },
     "mode": {
       "list_header": "Available Modes",
       "current_mode": "Current mode: {mode}",

@@ -1942,6 +1942,160 @@ def mcp():
     asyncio.run(run())
 
 
+@app.command()
+def note(
+    message: str = typer.Argument(None, help="Note message to add"),
+    list_notes: bool = typer.Option(False, "--list", "-l", help="List all notes"),
+    clear: bool = typer.Option(False, "--clear", "-c", help="Clear all notes"),
+    last: int = typer.Option(None, "--last", "-n", help="Show last N notes"),
+):
+    """
+    Add or view project notes for agent handoff.
+
+    Notes are stored in .spec-mix/notes.md and can be read by other agents
+    using /spec-mix.sync to understand context from previous sessions.
+
+    Examples:
+        spec-mix note "Login API uses JWT tokens, check auth.py"
+        spec-mix note "Test DB connection before running tests"
+        spec-mix note --list
+        spec-mix note -l
+        spec-mix note --last 5
+        spec-mix note --clear
+    """
+    from datetime import datetime
+
+    project_path = Path.cwd()
+    spec_mix_dir = project_path / ".spec-mix"
+    notes_file = spec_mix_dir / "notes.md"
+
+    # Check if in a spec-mix project
+    if not spec_mix_dir.exists():
+        console.print("[red]Error:[/red] Not a Spec Mix project (no .spec-mix/ directory found)")
+        console.print("\n[dim]Run 'spec-mix init' first to create a project.[/dim]")
+        raise typer.Exit(1)
+
+    # Clear notes
+    if clear:
+        if notes_file.exists():
+            # Confirm before clearing
+            response = typer.confirm("Are you sure you want to clear all notes?")
+            if response:
+                notes_file.unlink()
+                console.print("[green]✓[/green] All notes cleared")
+            else:
+                console.print("[yellow]Cancelled[/yellow]")
+        else:
+            console.print("[dim]No notes to clear[/dim]")
+        return
+
+    # List notes
+    if list_notes or (message is None and last is None):
+        if not notes_file.exists():
+            console.print("[dim]No notes found[/dim]")
+            console.print("\n[dim]Add a note: spec-mix note \"your message here\"[/dim]")
+            return
+
+        with open(notes_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        if not content.strip():
+            console.print("[dim]No notes found[/dim]")
+            return
+
+        # Parse notes
+        lines = content.strip().split('\n')
+        notes = []
+        current_note = []
+
+        for line in lines:
+            if line.startswith('## '):
+                if current_note:
+                    notes.append('\n'.join(current_note))
+                current_note = [line]
+            elif current_note:
+                current_note.append(line)
+
+        if current_note:
+            notes.append('\n'.join(current_note))
+
+        # Apply --last filter
+        if last and last > 0:
+            notes = notes[-last:]
+
+        console.print(Panel(
+            "[bold cyan]Project Notes[/bold cyan]\n\n" +
+            "\n\n".join(notes) if notes else "[dim]No notes[/dim]",
+            border_style="cyan"
+        ))
+        console.print(f"\n[dim]Total: {len(notes)} note(s)[/dim]")
+        return
+
+    # Show last N notes
+    if last is not None and message is None:
+        if not notes_file.exists():
+            console.print("[dim]No notes found[/dim]")
+            return
+
+        with open(notes_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        lines = content.strip().split('\n')
+        notes = []
+        current_note = []
+
+        for line in lines:
+            if line.startswith('## '):
+                if current_note:
+                    notes.append('\n'.join(current_note))
+                current_note = [line]
+            elif current_note:
+                current_note.append(line)
+
+        if current_note:
+            notes.append('\n'.join(current_note))
+
+        if last > 0:
+            notes = notes[-last:]
+
+        console.print(Panel(
+            "[bold cyan]Recent Notes[/bold cyan]\n\n" +
+            "\n\n".join(notes) if notes else "[dim]No notes[/dim]",
+            border_style="cyan"
+        ))
+        return
+
+    # Add a new note
+    if message:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Get agent info if available
+        config_file = spec_mix_dir / "config.json"
+        agent = "unknown"
+        if config_file.exists():
+            try:
+                with open(config_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                agent = config.get('ai_assistant', 'unknown')
+            except Exception:
+                pass
+
+        # Create or append to notes file
+        note_entry = f"## {timestamp}\n**Agent**: {agent}\n\n{message}\n\n---\n\n"
+
+        if notes_file.exists():
+            with open(notes_file, 'r', encoding='utf-8') as f:
+                existing = f.read()
+            with open(notes_file, 'w', encoding='utf-8') as f:
+                f.write(existing + note_entry)
+        else:
+            with open(notes_file, 'w', encoding='utf-8') as f:
+                f.write("# Project Notes\n\nNotes for agent handoff and context sharing.\n\n---\n\n" + note_entry)
+
+        console.print(f"[green]✓[/green] Note added at {timestamp}")
+        console.print(f"[dim]{message}[/dim]")
+
+
 def main():
     app()
 

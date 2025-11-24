@@ -124,6 +124,18 @@
       "cli_install_hint": "{agent} CLI가 설치되어 있는지 확인하세요:",
       "ide_hint": "{agent}은(는) IDE 기반입니다. IDE에서 프로젝트를 열어 명령어를 사용하세요."
     },
+    "note": {
+      "no_notes": "노트가 없습니다",
+      "add_hint": "노트 추가: spec-mix note \"메시지\"",
+      "cleared": "모든 노트가 삭제되었습니다",
+      "cancelled": "취소됨",
+      "no_notes_to_clear": "삭제할 노트가 없습니다",
+      "note_added": "{timestamp}에 노트 추가됨",
+      "total_notes": "총: {count}개 노트",
+      "project_notes": "프로젝트 노트",
+      "recent_notes": "최근 노트",
+      "confirm_clear": "모든 노트를 삭제하시겠습니까?"
+    },
     "mode": {
       "list_header": "사용 가능한 모드",
       "current_mode": "현재 모드: {mode}",
