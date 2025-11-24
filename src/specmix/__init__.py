@@ -1125,9 +1125,9 @@ def init(
         # Create options dict for selection (agent_key: display_name)
         ai_choices = {key: config["name"] for key, config in AGENT_CONFIG.items()}
         selected_ai = select_with_arrows(
-            ai_choices, 
-            "Choose your AI assistant:", 
-            "copilot"
+            ai_choices,
+            "Choose your AI assistant:",
+            "claude"
         )
 
     if not ignore_agent_tools:
