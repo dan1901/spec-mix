@@ -1260,9 +1260,11 @@ def init(
                 tracker.skip("git", "--no-git flag")
 
             tracker.complete("final", "project ready")
-        except typer.Exit:
-            # Re-raise typer.Exit as-is (intentional exit, not an error)
-            raise
+        except typer.Exit as exit_exc:
+            # Show tracker state before re-raising typer.Exit
+            # (Live transient=True would hide everything otherwise)
+            console.print(tracker.render())
+            raise exit_exc
         except Exception as e:
             tracker.error("final", str(e))
             console.print(Panel(f"Initialization failed: {e}", title="Failure", border_style="red"))
