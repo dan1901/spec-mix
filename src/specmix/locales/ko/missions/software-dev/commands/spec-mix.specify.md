@@ -1,170 +1,91 @@
 ---
-description: 자연어 기능 설명에서 기능 사양을 생성하거나 업데이트합니다.
+description: Create feature specification from natural language description
 scripts:
   sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 ---
 
-## 사용자 입력
+## User Input
 
 ```text
 $ARGUMENTS
+```
 
-```text
-진행하기 전에 사용자 입력을 **반드시** 고려해야 합니다(비어있지 않은 경우).
+## Execution Flow
 
-## 개요
+### 1. Generate Branch Name
 
-사용자가 트리거 메시지에서 `/spec-mix.specify` 뒤에 입력한 텍스트가 **바로** 기능 설명입니다. 아래에 `{ARGS}`가 문자 그대로 나타나더라도 이 대화에서 항상 사용 가능하다고 가정하세요. 사용자가 빈 명령을 제공한 경우가 아니라면 반복을 요청하지 마세요.
+From feature description, create 2-4 word short name:
+- "Add user authentication" → `user-auth`
+- "Fix payment timeout" → `fix-payment-timeout`
 
-해당 기능 설명이 주어지면 다음을 수행하세요:
+### 2. Create Feature Branch
 
-1. **간결한 짧은 이름 생성** (2-4단어):
-   - 기능 설명을 분석하고 가장 의미있는 키워드 추출
-   - 기능의 핵심을 포착하는 2-4단어 짧은 이름 생성
-   - 가능하면 동작-명사 형식 사용 (예: "add-user-auth", "fix-payment-bug")
-   - 기술 용어와 약어 보존 (OAuth2, API, JWT 등)
-   - 간결하지만 한눈에 기능을 이해할 수 있을 만큼 설명적으로 유지
-   - 예시:
-     - "사용자 인증을 추가하고 싶어요" → "user-auth"
-     - "API를 위한 OAuth2 통합 구현" → "oauth2-api-integration"
-     - "분석용 대시보드 생성" → "analytics-dashboard"
-     - "결제 처리 타임아웃 버그 수정" → "fix-payment-timeout"
+```bash
+git fetch --all --prune
 
-2. **새 브랜치 생성 전 기존 브랜치 확인**:
+# Find highest existing number for this short-name
+# Check: remote branches, local branches, specs/ directories
 
-   a. 먼저 모든 원격 브랜치를 가져와 최신 정보 확인:
-      ```bash
-      git fetch --all --prune
-      ```
+# Run script with next available number
+{SCRIPT} --number N --short-name "short-name" "Feature description"
+```
 
-   b. short-name에 대한 모든 소스에서 가장 높은 기능 번호 찾기:
-      - 원격 브랜치: `git ls-remote --heads origin | grep -E 'refs/heads/[0-9]+-<short-name>$'`
-      - 로컬 브랜치: `git branch | grep -E '^[* ]*[0-9]+-<short-name>$'`
-      - Specs 디렉토리: `specs/[0-9]+-<short-name>` 패턴과 일치하는 디렉토리 확인
+Parse BRANCH_NAME and SPEC_FILE from JSON output.
 
-   c. 다음 사용 가능한 번호 결정:
-      - 세 소스 모두에서 모든 번호 추출
-      - 가장 높은 번호 N 찾기
-      - 새 브랜치 번호로 N+1 사용
+### 3. Load Context
 
-   d. 계산된 번호와 short-name으로 스크립트 `{SCRIPT}` 실행:
-      - 기능 설명과 함께 `--number N+1` 및 `--short-name "your-short-name"` 전달
-      - Bash 예시: `{SCRIPT} --json --number 5 --short-name "user-auth" "사용자 인증 추가"`
-      - PowerShell 예시: `{SCRIPT} -Json -Number 5 -ShortName "user-auth" "사용자 인증 추가"`
+- Read `spec-template.md` for structure
+- Read `constitution.md` if exists (for project principles)
 
-   **중요**:
-   - 가장 높은 번호를 찾기 위해 세 소스(원격 브랜치, 로컬 브랜치, specs 디렉토리) 모두 확인
-   - 정확한 short-name 패턴과 일치하는 브랜치/디렉토리만 매칭
-   - 이 short-name으로 기존 브랜치/디렉토리를 찾을 수 없으면 번호 1부터 시작
-   - 기능당 이 스크립트를 한 번만 실행해야 함
-   - JSON은 터미널에 출력으로 제공됨 - 찾고 있는 실제 내용을 얻기 위해 항상 참조하세요
-   - JSON 출력에는 BRANCH_NAME 및 SPEC_FILE 경로가 포함됨
-   - "I'm Groot"와 같은 인수의 작은따옴표의 경우 이스케이프 구문 사용: 예 'I'\''m Groot' (또는 가능하면 큰따옴표 사용: "I'm Groot")
+### 4. Write Specification
 
-3. 필수 섹션을 이해하기 위해 `.spec-mix/active-mission/templates/spec-template.md` 로드.
+Fill template sections:
+- **Feature Overview**: What and why
+- **User Stories**: As a [user], I want...
+- **Functional Requirements**: Testable requirements
+- **Success Criteria**: Measurable outcomes (no tech details)
+- **Assumptions**: Documented defaults
 
-4. **프로젝트 헌장 로드** (존재하는 경우):
-   - `specs/constitution.md`를 읽어 프로젝트 원칙 이해
-   - 요구사항 및 성공 기준 작성 시 이러한 원칙 염두
-   - 기능이 프로젝트 거버넌스 및 제약조건과 일치하는지 확인
+**Rules**:
+- Focus on WHAT, not HOW
+- No implementation details (languages, APIs, frameworks)
+- Max 3 `[NEEDS CLARIFICATION]` markers for critical unknowns
 
-5. 다음 실행 흐름을 따르세요:
+### 5. Mode-Specific Flow
 
-    1. 입력에서 사용자 설명 파싱
-       비어있는 경우: ERROR "기능 설명이 제공되지 않음"
-    2. 설명에서 주요 개념 추출
-       식별: 행위자, 행동, 데이터, 제약조건
-    3. 불명확한 측면의 경우:
-       - 컨텍스트 및 업계 표준을 기반으로 정보에 입각한 추측
-       - 다음 경우에만 [명확화 필요: 구체적인 질문]으로 표시:
-         - 선택이 기능 범위 또는 사용자 경험에 크게 영향을 미치는 경우
-         - 다른 의미를 가진 여러 합리적인 해석이 존재하는 경우
-         - 합리적인 기본값이 없는 경우
-       - **제한: 최대 3개의 [명확화 필요] 마커**
-       - 영향별로 우선순위 지정: 범위 > 보안/개인정보 > 사용자 경험 > 기술 세부사항
-    4. 사용자 시나리오 및 테스팅 섹션 작성
-       명확한 사용자 흐름이 없는 경우: ERROR "사용자 시나리오를 결정할 수 없음"
-    5. 기능 요구사항 생성
-       각 요구사항은 테스트 가능해야 함
-       지정되지 않은 세부사항에 대해 합리적인 기본값 사용 (가정 섹션에 가정 문서화)
-    6. 성공 기준 정의
-       측정 가능하고 기술 중립적인 결과 생성
-       정량적 메트릭(시간, 성능, 볼륨)과 정성적 측정(사용자 만족도, 작업 완료) 모두 포함
-       각 기준은 구현 세부사항 없이 검증 가능해야 함
-    7. 주요 엔터티 식별 (데이터 관련된 경우)
-    8. 반환: SUCCESS (사양이 계획 준비 완료)
+Check mode: `cat .spec-mix/config.json | grep '"mode"'`
 
-5. 템플릿 구조를 사용하여 SPEC_FILE에 사양 작성, 섹션 순서와 제목을 유지하면서 기능 설명(인수)에서 파생된 구체적인 세부사항으로 플레이스홀더 교체.
+**Normal Mode**: Auto-present clarification questions
+```
+## Improve Your Spec (Optional)
 
-6. **사양 품질 검증**: 초기 사양 작성 후 품질 기준에 대해 검증:
+Q1: {Question about scope}
+Q2: {Question about behavior}
+Q3: {Question about constraints}
 
-   a. **사양 품질 체크리스트 생성**: 다음 검증 항목으로 체크리스트 템플릿 구조를 사용하여 `FEATURE_DIR/checklists/requirements.md`에 체크리스트 파일 생성:
+| Choice | Action |
+|--------|--------|
+| Answer | Reply with answers |
+| SKIP | Proceed to /spec-mix.plan |
+```
 
-      ```markdown
-      # 사양 품질 체크리스트: [기능 이름]
+**Pro Mode**: Report completion, suggest `/spec-mix.clarify` or `/spec-mix.plan`
 
-      **목적**: 계획 진행 전 사양 완전성 및 품질 검증
-      **생성일**: [날짜]
-      **기능**: [spec.md 링크]
+### 6. Completion
 
-      ## 콘텐츠 품질
+```
+✓ Specification created: {SPEC_FILE}
 
-      - [ ] 구현 세부사항 없음 (언어, 프레임워크, API)
-      - [ ] 사용자 가치 및 비즈니스 요구사항에 집중
-      - [ ] 비기술 이해관계자를 위해 작성
-      - [ ] 모든 필수 섹션 완료
+Next: /spec-mix.plan
+```
 
-      ## 요구사항 완전성
+## Quick Reference
 
-      - [ ] [명확화 필요] 마커가 남아있지 않음
-      - [ ] 요구사항이 테스트 가능하고 명확함
-      - [ ] 성공 기준이 측정 가능함
-      - [ ] 성공 기준이 기술 중립적 (구현 세부사항 없음)
-      - [ ] 모든 수락 시나리오가 정의됨
-      - [ ] 엣지 케이스가 식별됨
-      - [ ] 범위가 명확하게 제한됨
-      - [ ] 종속성 및 가정이 식별됨
-
-      ## 기능 준비도
-
-      - [ ] 모든 기능 요구사항에 명확한 수락 기준이 있음
-      - [ ] 사용자 시나리오가 주요 흐름을 다룸
-      - [ ] 기능이 성공 기준에 정의된 측정 가능한 결과를 충족함
-      - [ ] 사양에 구현 세부사항이 누출되지 않음
-
-      ## 헌장 준수
-
-      - [ ] 기능이 프로젝트 원칙과 일치함 (`specs/constitution.md`가 존재하는 경우)
-      - [ ] 거버넌스 제약조건 또는 표준과 충돌하지 않음
-      - [ ] 요구사항이 헌장에 정의된 아키텍처/기술 원칙을 준수함
-
-      ## 참고사항
-
-      - 불완전으로 표시된 항목은 `/spec-mix.clarify` 또는 `/spec-mix.plan` 전에 사양 업데이트 필요
-      ```
-
-   b. **검증 확인 실행**: 각 체크리스트 항목에 대해 사양 검토:
-      - 각 항목에 대해 통과 또는 실패 여부 결정
-      - 발견된 구체적인 문제 문서화 (관련 사양 섹션 인용)
-
-   c. **검증 결과 처리**:
-
-      - **모든 항목 통과**: 체크리스트를 완료로 표시하고 6단계 진행
-
-      - **항목 실패 ([명확화 필요] 제외)**:
-        1. 실패한 항목 및 구체적인 문제 나열
-        2. 각 문제를 해결하기 위해 사양 업데이트
-        3. 모든 항목이 통과할 때까지 검증 재실행 (최대 3회 반복)
-        4. 3회 반복 후에도 여전히 실패하면 체크리스트 메모에 남은 문제 문서화 및 사용자에게 경고
-
-      - **[명확화 필요] 마커가 남아있는 경우**:
-        1. 명확화가 필요한 항목 나열
-        2. 사용자에게 `/spec-mix.clarify`를 실행하거나 수동으로 사양을 업데이트하도록 권장
-        3. 체크리스트에 남은 명확화 표시
-
-7. **최종 출력**: 사용자에게 다음을 포함한 요약 제공:
-   - 생성된 브랜치 이름 및 번호
-   - 사양 파일 경로
-   - 체크리스트 결과 요약
-   - 다음 단계 (/spec-mix.clarify 또는 /spec-mix.plan)
+| Section | Required | Notes |
+|---------|----------|-------|
+| Overview | Yes | What + Why |
+| User Stories | Yes | User perspective |
+| Requirements | Yes | Testable |
+| Success Criteria | Yes | Measurable, no tech |
+| Assumptions | If any | Document defaults |

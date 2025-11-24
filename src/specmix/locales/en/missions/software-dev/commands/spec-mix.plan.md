@@ -1,5 +1,5 @@
 ---
-description: Execute the implementation planning workflow using the plan template to generate design artifacts.
+description: Generate implementation plan with technical design artifacts
 scripts:
   sh: scripts/bash/setup-plan.sh --json
   ps: scripts/powershell/setup-plan.ps1 -Json
@@ -8,201 +8,94 @@ agent_scripts:
   ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
-## Mode Detection
-
-**IMPORTANT**: First, check the project mode from `.spec-mix/config.json`:
-
-```bash
-cat .spec-mix/config.json 2>/dev/null | grep '"mode"' || echo "mode: pro"
-```
-
-- If `mode: "normal"` → Follow the **Normal Mode Workflow** section below
-- If `mode: "pro"` or no config found → Follow the **Pro Mode Workflow** section below
-
----
-
-# NORMAL MODE WORKFLOW
-
-If the mode is `normal`, follow this integrated planning workflow that combines checklist, plan, and phase-based tasks:
-
-## Step 1: Setup (Same as Pro Mode)
-
-Run `{SCRIPT}` from repo root and parse JSON for FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH.
-
-## Step 2: Generate Quality Checklist
-
-Before planning, create a quality checklist at `FEATURE_DIR/checklists/requirements.md`:
-
-1. Analyze the specification for quality validation
-2. Generate checklist items covering:
-   - Content Quality (no implementation details, user-focused)
-   - Requirement Completeness (testable, measurable)
-   - Feature Readiness (acceptance criteria defined)
-   - Constitution Compliance (if exists)
-
-3. Save the checklist file
-
-## Step 3: Create Implementation Plan
-
-Execute the standard planning workflow:
-1. Fill Technical Context
-2. Generate research.md (Phase 0)
-3. Generate data-model.md, contracts/ (Phase 1)
-4. Update agent context
-
-## Step 4: Generate Phase-Based Tasks (Normal Mode)
-
-**IMPORTANT**: In Normal Mode, tasks are generated at PHASE LEVEL only, not detailed sub-tasks.
-
-Create `FEATURE_DIR/tasks.md` with this structure:
-
-```markdown
-# Tasks: {Feature Name}
-
-## Overview
-- **Total Phases**: {count}
-- **Mode**: Normal (Phase-based execution)
-
-## Phase 1: {Phase Name}
-### Description
-{What this phase accomplishes}
-
-### Deliverables
-- {List of files/components to be created}
-
-### Acceptance Criteria
-- [ ] {Criteria 1}
-- [ ] {Criteria 2}
-
----
-
-## Phase 2: {Phase Name}
-### Description
-{What this phase accomplishes}
-
-### Deliverables
-- {List of files/components to be created}
-
-### Acceptance Criteria
-- [ ] {Criteria 1}
-- [ ] {Criteria 2}
-
----
-
-{Continue for all phases}
-```
-
-**Phase Generation Rules:**
-- Maximum 5 phases per feature
-- Each phase should be completable in one session
-- Phases are sequential (Phase N depends on Phase N-1)
-- Focus on deliverables, not implementation details
-
-## Step 5: Completion Message (Normal Mode)
-
-```markdown
----
-## Planning Complete (Normal Mode)
-
-**Generated Artifacts:**
-- Checklist: `{FEATURE_DIR}/checklists/requirements.md`
-- Plan: `{IMPL_PLAN}`
-- Tasks: `{FEATURE_DIR}/tasks.md` ({N} phases)
-
-### Next Step:
-
-Run `/spec-mix.implement` to:
-1. Execute each phase sequentially
-2. Generate walkthrough after each phase
-3. Review and accept completed work
-4. Proceed to next phase or finish
-
----
-```
-
-**END OF NORMAL MODE WORKFLOW**
-
----
-
-# PRO MODE WORKFLOW
-
-If the mode is `pro` or not specified, follow this workflow:
-
 ## User Input
 
 ```text
 $ARGUMENTS
+```
 
-```text
-You **MUST** consider the user input before proceeding (if not empty).
+## Setup
 
-## Outline
+```bash
+{SCRIPT}
+```
 
-1. **Setup**: Run `{SCRIPT}` from repo root and parse JSON for FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+Parse: FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH
 
-2. **Load context**: Read FEATURE_SPEC and `specs/constitution.md`. Load IMPL_PLAN template (already copied).
+## Execution Flow
 
-3. **Execute plan workflow**: Follow the structure in IMPL_PLAN template to:
-   - Fill Technical Context (mark unknowns as "NEEDS CLARIFICATION")
-   - Fill Constitution Check section from constitution
-   - Evaluate gates (ERROR if violations unjustified)
-   - Phase 0: Generate research.md (resolve all NEEDS CLARIFICATION)
-   - Phase 1: Generate data-model.md, contracts/, quickstart.md
-   - Phase 1: Update agent context by running the agent script
-   - Re-evaluate Constitution Check post-design
+### 1. Load Context
 
-4. **Stop and report**: Command ends after Phase 2 planning. Report branch, IMPL_PLAN path, and generated artifacts.
+- Read FEATURE_SPEC (spec.md)
+- Read `constitution.md` if exists
+- Load plan template
 
-## Phases
+### 2. Fill Technical Context
 
-### Phase 0: Outline & Research
+In IMPL_PLAN, complete:
+- Tech stack decisions
+- Architecture approach
+- External dependencies
+- Mark unknowns as `[NEEDS CLARIFICATION]`
 
-1. **Extract unknowns from Technical Context** above:
-   - For each NEEDS CLARIFICATION → research task
-   - For each dependency → best practices task
-   - For each integration → patterns task
+### 3. Phase 0: Research
 
-2. **Generate and dispatch research agents**:
+Generate `research.md`:
+- Resolve all `[NEEDS CLARIFICATION]`
+- Document decisions with rationale
 
-   ```text
-   For each unknown in Technical Context:
-     Task: "Research {unknown} for {feature context}"
-   For each technology choice:
-     Task: "Find best practices for {tech} in {domain}"
-   ```
+### 4. Phase 1: Design
 
-3. **Consolidate findings** in `research.md` using format:
-   - Decision: [what was chosen]
-   - Rationale: [why chosen]
-   - Alternatives considered: [what else evaluated]
+Generate artifacts:
+- `data-model.md` - entities, relationships
+- `contracts/` - API specifications
+- `quickstart.md` - integration guide
 
-**Output**: research.md with all NEEDS CLARIFICATION resolved
+Update agent context: `{AGENT_SCRIPT}`
 
-### Phase 1: Design & Contracts
+### 5. Mode-Specific Tasks
 
-**Prerequisites:** `research.md` complete
+Check mode: `cat .spec-mix/config.json | grep '"mode"'`
 
-1. **Extract entities from feature spec** → `data-model.md`:
-   - Entity name, fields, relationships
-   - Validation rules from requirements
-   - State transitions if applicable
+**Normal Mode**: Generate phase-based tasks
+```markdown
+## Phase 1: {Name}
+- Description: {what}
+- Deliverables: {files}
+- Acceptance: {criteria}
 
-2. **Generate API contracts** from functional requirements:
-   - For each user action → endpoint
-   - Use standard REST/GraphQL patterns
-   - Output OpenAPI/GraphQL schema to `/contracts/`
+## Phase 2: {Name}
+...
+```
+- Max 5 phases
+- Each phase = one session
 
-3. **Agent context update**:
-   - Run `{AGENT_SCRIPT}`
-   - These scripts detect which AI agent is in use
-   - Update the appropriate agent-specific context file
-   - Add only new technology from current plan
-   - Preserve manual additions between markers
+**Pro Mode**: Stop after design, report artifacts
+- User runs `/spec-mix.tasks` separately
 
-**Output**: data-model.md, /contracts/*, quickstart.md, agent-specific file
+### 6. Completion
 
-## Key rules
+**Normal Mode**:
+```
+✓ Planning complete
 
-- Use absolute paths
+Generated:
+- Checklist: checklists/requirements.md
+- Plan: plan.md
+- Tasks: tasks.md ({N} phases)
 
-- ERROR on gate failures or unresolved clarifications
+Next: /spec-mix.implement
+```
+
+**Pro Mode**:
+```
+✓ Planning complete
+
+Generated:
+- Plan: plan.md
+- Research: research.md
+- Data Model: data-model.md
+- Contracts: contracts/
+
+Next: /spec-mix.tasks
+```
