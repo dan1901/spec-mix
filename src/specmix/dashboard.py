@@ -393,11 +393,23 @@ def scan_all_features() -> List[Dict[str, Any]]:
 def get_feature_info(feature_path: Path, worktree: Optional[str] = None) -> Optional[Dict[str, Any]]:
     """Get information about a feature"""
     try:
+        # Read project mode from config
+        project_mode = 'pro'  # Default
+        config_file = Path('.spec-mix') / 'config.json'
+        if config_file.exists():
+            try:
+                with open(config_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                    project_mode = config.get('mode', 'pro')
+            except:
+                pass
+
         info = {
             'id': feature_path.name,
             'name': feature_path.name,
             'path': str(feature_path),
             'worktree': worktree,
+            'mode': project_mode,
             'artifacts': {}
         }
 
@@ -407,6 +419,11 @@ def get_feature_info(feature_path: Path, worktree: Optional[str] = None) -> Opti
 
         for artifact in artifacts:
             info['artifacts'][artifact.replace('.md', '')] = (feature_path / artifact).exists()
+
+        # Check for phase-based walkthroughs (Normal mode)
+        phase_walkthroughs = list(feature_path.glob('walkthrough-phase-*.md'))
+        info['artifacts']['phase_walkthroughs'] = len(phase_walkthroughs)
+        info['walkthrough_files'] = [f.name for f in phase_walkthroughs]
 
         # Check for kanban (either directory or tasks.md file)
         tasks_dir = feature_path / 'tasks'
@@ -436,6 +453,15 @@ def get_feature_info(feature_path: Path, worktree: Optional[str] = None) -> Opti
                 'done': len(kanban_data['lanes']['done'])
             }
 
+            # Check if it's phase-based mode
+            if kanban_data.get('is_phase_mode'):
+                info['is_phase_mode'] = True
+                info['phases'] = kanban_data.get('phases', {})
+                info['task_mode'] = 'phase'
+            else:
+                info['is_phase_mode'] = False
+                info['task_mode'] = 'kanban'
+
         info['kanban_stats'] = kanban_stats
         info['total_tasks'] = sum(kanban_stats.values())
 
@@ -453,12 +479,14 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
     1. Checkbox format: - [ ] T001 Description or - [x] T001 Description
     2. Header format: ### WP-001: Task Title or ### T001: Task Title
     3. Section-based: ## Planned / ## Doing / ## For Review / ## Done sections
+    4. Phase-based (Normal mode): ## Phase 1: Name / ## Phase 2: Name sections
 
     Categorization priority:
     1. If task is under a lane section (## Planned, ## Doing, etc.) -> use that lane
-    2. If checkbox is completed (- [x]) -> 'done'
-    3. If checkbox is uncompleted (- [ ]) -> 'planned'
-    4. Header tasks (###) -> 'planned' by default
+    2. If task is under a phase section -> treat phases as lanes
+    3. If checkbox is completed (- [x]) -> 'done'
+    4. If checkbox is uncompleted (- [ ]) -> 'planned'
+    5. Header tasks (###) -> 'planned' by default
     """
     import re
 
@@ -469,9 +497,61 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
         'done': []
     }
 
+    # Additional structure for phase-based tasks (Normal mode)
+    phases = {}
+    is_phase_mode = False
+
     try:
         with open(tasks_file, 'r', encoding='utf-8') as f:
             content = f.read()
+
+        # First, detect if this is a phase-based (Normal mode) file
+        phase_pattern = re.compile(r'^## Phase (\d+):\s*(.+?)$', re.MULTILINE | re.IGNORECASE)
+        phase_matches = list(phase_pattern.finditer(content))
+
+        if phase_matches:
+            # This is a Normal mode phase-based file
+            is_phase_mode = True
+
+            for i, phase_match in enumerate(phase_matches):
+                phase_num = phase_match.group(1)
+                phase_name = phase_match.group(2).strip()
+                phase_start = phase_match.end()
+                phase_end = phase_matches[i + 1].start() if i + 1 < len(phase_matches) else len(content)
+                phase_content = content[phase_start:phase_end]
+
+                # Determine phase status based on acceptance criteria checkboxes
+                completed_criteria = len(re.findall(r'- \[[xX]\]', phase_content))
+                total_criteria = len(re.findall(r'- \[[ xX]\]', phase_content))
+
+                if completed_criteria == total_criteria and total_criteria > 0:
+                    status = 'done'
+                elif completed_criteria > 0:
+                    status = 'doing'
+                else:
+                    # Check if previous phases are done
+                    status = 'planned'
+
+                phase_info = {
+                    'id': f'Phase{phase_num}',
+                    'title': f'Phase {phase_num}: {phase_name}',
+                    'path': str(tasks_file),
+                    'phase_num': int(phase_num),
+                    'status': status,
+                    'progress': f'{completed_criteria}/{total_criteria}' if total_criteria > 0 else '0/0'
+                }
+
+                phases[f'phase_{phase_num}'] = phase_info
+
+                # Also add to appropriate lane for kanban compatibility
+                lanes[status].append(phase_info)
+
+            return {
+                'lanes': lanes,
+                'phases': phases,
+                'mode': 'normal',
+                'is_phase_mode': True
+            }
 
         # Detect if file uses section-based organization
         # Look for ## headings that indicate lanes
@@ -567,7 +647,7 @@ def parse_tasks_markdown(tasks_file: Path) -> Dict[str, Any]:
     except Exception as e:
         print(f"Error parsing tasks file {tasks_file}: {e}")
 
-    return {'lanes': lanes}
+    return {'lanes': lanes, 'mode': 'pro', 'is_phase_mode': False}
 
 
 def scan_feature_kanban(feature_id: str) -> Dict[str, Any]:

@@ -80,6 +80,14 @@ except ImportError:
     HAS_DASHBOARD = False
     dashboard_app = None
 
+# Import mode support
+try:
+    from .mode_command import mode_app
+    HAS_MODE = True
+except ImportError:
+    HAS_MODE = False
+    mode_app = None
+
 ssl_context = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 client = httpx.Client(verify=ssl_context)
 
@@ -410,6 +418,10 @@ if HAS_MISSION and mission_app is not None:
 # Add dashboard subcommand if available
 if HAS_DASHBOARD and dashboard_app is not None:
     app.add_typer(dashboard_app, name="dashboard")
+
+# Add mode subcommand if available
+if HAS_MODE and mode_app is not None:
+    app.add_typer(mode_app, name="mode")
 
 def show_banner():
     """Display the ASCII art banner."""
@@ -1044,6 +1056,7 @@ def init(
     script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps"),
     language: str = typer.Option(None, "--lang", help="Language to use: en, ko (default: en)"),
     mission: str = typer.Option(None, "--mission", help="Mission to use: software-dev, research (default: software-dev)"),
+    mode: str = typer.Option(None, "--mode", help="Mode to use: normal, pro (default: pro)"),
     ignore_agent_tools: bool = typer.Option(False, "--ignore-agent-tools", help="Skip checks for AI agent tools like Claude Code"),
     no_git: bool = typer.Option(False, "--no-git", help="Skip git repository initialization"),
     here: bool = typer.Option(False, "--here", help="Initialize project in the current directory instead of creating a new one"),
@@ -1211,6 +1224,19 @@ def init(
         else:
             selected_mission = "software-dev"
 
+    # Mode selection
+    AVAILABLE_MODES = {"normal": "Normal Mode (Guided workflow)", "pro": "Pro Mode (Full control)"}
+    if mode:
+        if mode not in AVAILABLE_MODES:
+            console.print(f"[red]Error:[/red] Invalid mode '{mode}'. Choose from: {', '.join(AVAILABLE_MODES.keys())}")
+            raise typer.Exit(1)
+        selected_mode = mode
+    else:
+        if sys.stdin.isatty():
+            selected_mode = select_with_arrows(AVAILABLE_MODES, "Choose mode:", "normal")
+        else:
+            selected_mode = "normal"
+
     # Set locale for i18n based on selected language
     from .i18n import get_locale_manager, t
     locale_manager = get_locale_manager()
@@ -1220,6 +1246,7 @@ def init(
     console.print(f"[cyan]Selected script type:[/cyan] {selected_script}")
     console.print(f"[cyan]Selected language:[/cyan] {AVAILABLE_LANGUAGES[selected_lang]}")
     console.print(f"[cyan]Selected mission:[/cyan] {AVAILABLE_MISSIONS[selected_mission]}")
+    console.print(f"[cyan]Selected mode:[/cyan] {AVAILABLE_MODES[selected_mode]}")
 
     tracker = StepTracker("Initialize Spec Mix Project")
 
@@ -1310,6 +1337,7 @@ def init(
         config_data = {
             'language': selected_lang,
             'mission': selected_mission,
+            'mode': selected_mode,
             'ai_assistant': selected_ai,
             'script_type': selected_script,
             'spec_mix_version': spec_mix_version

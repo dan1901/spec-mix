@@ -110,6 +110,33 @@
         "for_review": "For Review",
         "done": "Done"
       }
+    },
+    "mode": {
+      "list_header": "Available Modes",
+      "current_mode": "Current mode: {mode}",
+      "switched_to": "Mode switched to: {mode}",
+      "invalid_mode": "Invalid mode: {mode}",
+      "mode_info": "Mode Information",
+      "normal": {
+        "name": "Normal Mode",
+        "description": "Guided workflow with auto-clarify and phase-based implementation"
+      },
+      "pro": {
+        "name": "Pro Mode",
+        "description": "Full control with individual commands for each workflow step"
+      },
+      "workflow": {
+        "specify_complete": "Specification complete",
+        "clarify_questions": "Improve Your Spec (Optional)",
+        "skip_next": "SKIP to next step",
+        "answer_questions": "Answer questions",
+        "phase_progress": "Phase Progress",
+        "phase_complete": "Phase complete - Review",
+        "accept": "Approve and proceed",
+        "reject": "Request changes",
+        "all_phases_complete": "All Phases Accepted",
+        "final_step": "Run /spec-mix.merge to merge your feature"
+      }
     }
   }
 }

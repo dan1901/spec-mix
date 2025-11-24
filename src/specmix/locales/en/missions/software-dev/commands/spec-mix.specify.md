@@ -5,6 +5,129 @@ scripts:
   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 ---
 
+## Mode Detection
+
+**IMPORTANT**: First, check the project mode from `.spec-mix/config.json`:
+
+```bash
+cat .spec-mix/config.json 2>/dev/null | grep '"mode"' || echo "mode: pro"
+```
+
+- If `mode: "normal"` → Follow the **Normal Mode Workflow** section below
+- If `mode: "pro"` or no config found → Follow the **Pro Mode Workflow** section below
+
+---
+
+# NORMAL MODE WORKFLOW
+
+If the mode is `normal`, follow this guided workflow:
+
+## Step 1: Create Initial Specification
+
+Follow the standard specification creation process (same as Pro mode steps 1-5 in the Pro Mode Workflow below), but with these modifications:
+
+- Create the spec with all placeholders filled based on user description
+- Make informed guesses for unclear areas and document in Assumptions section
+- Generate the specification file at SPEC_FILE
+
+## Step 2: Auto-Clarify (Guided Questions)
+
+After creating the initial spec, automatically present clarification opportunities to the user:
+
+### Analysis Phase
+1. Analyze the spec for areas that could benefit from clarification
+2. Identify top 3 most impactful areas (scope, behavior, constraints)
+3. Generate structured questions for each area
+
+### Present User Choice
+
+Display the following to the user:
+
+```markdown
+---
+## Spec Created Successfully
+
+Your specification has been created at: `{SPEC_FILE}`
+
+### Improve Your Spec (Optional)
+
+I've identified some areas that could benefit from clarification:
+
+**Question 1**: {Question about most impactful area}
+- Option A: {First option}
+- Option B: {Second option}
+- Custom: Type your own answer
+
+**Question 2**: {Question about second area}
+- Option A: {First option}
+- Option B: {Second option}
+- Custom: Type your own answer
+
+**Question 3**: {Question about third area}
+- Option A: {First option}
+- Option B: {Second option}
+- Custom: Type your own answer
+
+---
+
+### Your Choice:
+
+| Option | Action |
+|--------|--------|
+| **Answer questions** | Reply with your answers (e.g., "Q1: A, Q2: B, Q3: Custom - my answer") |
+| **SKIP → Next Step** | Type `SKIP` or `next` to accept current spec and proceed to `/spec-mix.plan` |
+
+---
+```
+
+### Handle User Response
+
+**If user answers questions:**
+1. Update the spec with provided answers
+2. Save the updated spec
+3. Present any remaining questions OR proceed to next step suggestion
+
+**If user types SKIP or next:**
+1. Confirm the current spec is finalized
+2. Display: "✓ Specification confirmed. Ready for next step."
+3. Suggest: "Run `/spec-mix.plan` to generate checklist, plan, and phase-based tasks."
+
+## Step 3: Completion Message (Normal Mode)
+
+After spec is confirmed (either by answering questions or SKIP):
+
+```markdown
+---
+## Specification Complete
+
+**Feature**: {BRANCH_NAME}
+**Spec File**: {SPEC_FILE}
+
+### Next Steps (Normal Mode Workflow):
+
+1. **Next**: Run `/spec-mix.plan` to generate:
+   - Quality checklist
+   - Implementation plan
+   - Phase-based tasks
+
+2. **Then**: Run `/spec-mix.implement` to:
+   - Execute phase by phase
+   - Generate walkthrough after each phase
+   - Review and accept completed work
+
+3. **Finally**: Run `/spec-mix.merge` to merge your feature
+
+---
+```
+
+**END OF NORMAL MODE WORKFLOW**
+
+---
+
+# PRO MODE WORKFLOW
+
+If the mode is `pro` or not specified, follow this workflow:
+
 ## User Input
 
 ```text

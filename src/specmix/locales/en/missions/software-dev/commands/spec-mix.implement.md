@@ -5,6 +5,207 @@ scripts:
   ps: scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 ---
 
+## Mode Detection
+
+**IMPORTANT**: First, check the project mode from `.spec-mix/config.json`:
+
+```bash
+cat .spec-mix/config.json 2>/dev/null | grep '"mode"' || echo "mode: pro"
+```
+
+- If `mode: "normal"` → Follow the **Normal Mode Workflow** section below
+- If `mode: "pro"` or no config found → Follow the **Pro Mode Workflow** section below
+
+---
+
+# NORMAL MODE WORKFLOW
+
+If the mode is `normal`, follow this phase-based implementation workflow with built-in walkthrough, review, and accept steps:
+
+## Overview (Normal Mode)
+
+Normal Mode executes implementation **phase by phase** with these key features:
+1. Execute one phase at a time
+2. Generate walkthrough after each phase completion
+3. Present review summary to user
+4. Offer Accept/Reject choice for each phase
+5. Only proceed to next phase after acceptance
+
+## Step 1: Load Phase Information
+
+1. Run `{SCRIPT}` to get FEATURE_DIR and task information
+2. Read `FEATURE_DIR/tasks.md` to identify phases
+3. Determine current phase (first incomplete phase)
+4. Display phase status:
+
+```
+Phase Progress:
+├─ Phase 1: {name} - ✓ Complete
+├─ Phase 2: {name} - ⏳ In Progress  ← Current
+├─ Phase 3: {name} - ○ Pending
+└─ Phase 4: {name} - ○ Pending
+```
+
+## Step 2: Execute Current Phase
+
+For the current phase:
+
+1. **Display Phase Details**:
+   ```markdown
+   ---
+   ## Executing Phase {N}: {Phase Name}
+
+   **Description**: {phase description}
+
+   **Deliverables**:
+   - {deliverable 1}
+   - {deliverable 2}
+
+   **Starting implementation...**
+   ---
+   ```
+
+2. **Implement the Phase**:
+   - Create/modify files as specified in deliverables
+   - Follow the implementation plan and data model
+   - Write tests if applicable
+   - Commit changes with descriptive messages
+
+3. **Mark Phase Complete in tasks.md**:
+   - Update the phase section with completion status
+
+## Step 3: Generate Walkthrough
+
+After phase implementation, automatically generate a walkthrough document:
+
+**Location**: `FEATURE_DIR/walkthrough-phase-{N}.md`
+
+```markdown
+# Walkthrough: Phase {N} - {Phase Name}
+
+**Generated**: {timestamp}
+**Feature**: {feature name}
+**Branch**: {branch name}
+
+## Summary
+{Brief description of what was accomplished in this phase}
+
+## Files Changed
+```
+{git diff --name-status for this phase}
+```
+
+## Key Changes
+
+### {Component 1}
+- **File**: {path}
+- **Changes**: {description}
+- **Why**: {rationale}
+
+### {Component 2}
+- **File**: {path}
+- **Changes**: {description}
+- **Why**: {rationale}
+
+## Tests & Verification
+- {Test results if applicable}
+- {Manual verification steps}
+
+## Commits
+```
+{git log --oneline for this phase}
+```
+
+## Notes
+{Any important observations or decisions made}
+```
+
+## Step 4: Present Review
+
+After generating walkthrough, present a review summary to the user:
+
+```markdown
+---
+## Phase {N} Complete - Review
+
+### Walkthrough Generated
+📄 `FEATURE_DIR/walkthrough-phase-{N}.md`
+
+### Summary
+{2-3 sentence summary of what was implemented}
+
+### Files Modified
+- {file list with brief descriptions}
+
+### Acceptance Criteria Status
+- [x] {Criteria 1} - Met
+- [x] {Criteria 2} - Met
+- [ ] {Criteria 3} - Partially met (explain)
+
+---
+
+### Your Decision:
+
+| Choice | Action |
+|--------|--------|
+| **ACCEPT** | Approve this phase and proceed to Phase {N+1} |
+| **REJECT** | Request changes (explain what needs to be fixed) |
+
+Type `ACCEPT` or `REJECT` with feedback:
+---
+```
+
+## Step 5: Handle User Decision
+
+**If user types ACCEPT:**
+1. Mark phase as accepted in tasks.md
+2. Update phase status to "Complete"
+3. Check if more phases remain:
+   - **If more phases**: Display "Phase {N+1} ready. Continue? (yes/no)"
+   - **If last phase**: Proceed to Final Completion
+
+**If user types REJECT:**
+1. Parse user feedback
+2. Display: "Understood. Please specify what needs to be changed."
+3. After user provides details, make the requested changes
+4. Re-run Step 3 (Generate Walkthrough) and Step 4 (Present Review)
+
+## Step 6: Final Completion (After All Phases)
+
+When all phases are accepted:
+
+```markdown
+---
+## Implementation Complete
+
+**All Phases Accepted**
+
+| Phase | Status |
+|-------|--------|
+| Phase 1: {name} | ✓ Accepted |
+| Phase 2: {name} | ✓ Accepted |
+| Phase 3: {name} | ✓ Accepted |
+
+### Generated Walkthroughs
+- `walkthrough-phase-1.md`
+- `walkthrough-phase-2.md`
+- `walkthrough-phase-3.md`
+
+### Final Step
+
+Run `/spec-mix.merge` to merge your feature branch to main.
+
+---
+```
+
+**END OF NORMAL MODE WORKFLOW**
+
+---
+
+# PRO MODE WORKFLOW
+
+If the mode is `pro` or not specified, follow this workflow:
+
 ## User Input
 
 ```text

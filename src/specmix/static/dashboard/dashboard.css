@@ -1291,3 +1291,100 @@ footer {
         width: 100%;
     }
 }
+
+/* ==================== Mode Badges ==================== */
+
+.badge-mode-normal {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-mode-pro {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== Phase Cards (Normal Mode) ==================== */
+
+.phase-card {
+    border-left: 4px solid var(--primary-color);
+}
+
+.phase-card .phase-header {
+    margin-bottom: 8px;
+}
+
+.phase-card .phase-header strong {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.phase-card .phase-progress {
+    margin-top: 8px;
+}
+
+.phase-card .progress-badge {
+    display: inline-block;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Phase status colors */
+.phase-card[data-lane="done"] {
+    border-left-color: var(--success-color);
+}
+
+.phase-card[data-lane="done"] .progress-badge {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.phase-card[data-lane="doing"] {
+    border-left-color: var(--warning-color);
+}
+
+.phase-card[data-lane="doing"] .progress-badge {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+}
+
+.phase-card[data-lane="for_review"] {
+    border-left-color: #6366f1;
+}
+
+.phase-card[data-lane="for_review"] .progress-badge {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: #6366f1;
+    color: #6366f1;
+}
+
+/* ==================== Walkthrough Badges ==================== */
+
+.walkthrough-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.walkthrough-badge:hover {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
+}

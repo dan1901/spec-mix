@@ -110,6 +110,33 @@
         "for_review": "검토 대기",
         "done": "완료"
       }
+    },
+    "mode": {
+      "list_header": "사용 가능한 모드",
+      "current_mode": "현재 모드: {mode}",
+      "switched_to": "모드 전환됨: {mode}",
+      "invalid_mode": "잘못된 모드: {mode}",
+      "mode_info": "모드 정보",
+      "normal": {
+        "name": "일반 모드",
+        "description": "자동 명확화와 단계별 구현을 포함한 가이드 워크플로우"
+      },
+      "pro": {
+        "name": "프로 모드",
+        "description": "각 워크플로우 단계를 개별 명령어로 완전 제어"
+      },
+      "workflow": {
+        "specify_complete": "사양 작성 완료",
+        "clarify_questions": "사양 개선하기 (선택사항)",
+        "skip_next": "다음 단계로 건너뛰기",
+        "answer_questions": "질문에 답하기",
+        "phase_progress": "단계 진행 상황",
+        "phase_complete": "단계 완료 - 검토",
+        "accept": "승인하고 다음으로",
+        "reject": "변경 요청",
+        "all_phases_complete": "모든 단계 승인됨",
+        "final_step": "/spec-mix.merge를 실행하여 기능을 병합하세요"
+      }
     }
   }
 }

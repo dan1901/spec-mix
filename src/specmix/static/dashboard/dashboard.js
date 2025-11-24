@@ -273,12 +273,33 @@ async function loadFeatures() {
 // Render feature card
 function renderFeatureCard(feature) {
     const badges = [];
+
+    // Mode badge
+    if (feature.mode === 'normal') {
+        badges.push(`<span class="feature-badge badge-mode-normal">Normal Mode</span>`);
+    } else if (feature.mode === 'pro') {
+        badges.push(`<span class="feature-badge badge-mode-pro">Pro Mode</span>`);
+    }
+
     if (feature.worktree) {
         badges.push(`<span class="feature-badge badge-worktree">Worktree: ${feature.worktree}</span>`);
     }
 
     const stats = [];
-    if (feature.kanban_stats) {
+
+    // Check if it's phase-based (Normal mode)
+    if (feature.is_phase_mode && feature.phases) {
+        const phases = Object.values(feature.phases);
+        const totalPhases = phases.length;
+        const completedPhases = phases.filter(p => p.status === 'done').length;
+        const currentPhase = phases.find(p => p.status === 'doing');
+
+        stats.push(`<span class="stat">📊 ${completedPhases}/${totalPhases} phases</span>`);
+        if (currentPhase) {
+            stats.push(`<span class="stat">⏳ ${currentPhase.title}</span>`);
+        }
+    } else if (feature.kanban_stats) {
+        // Standard kanban stats (Pro mode)
         const { planned, doing, for_review, done } = feature.kanban_stats;
         if (planned > 0) stats.push(`<span class="stat">📋 ${planned} planned</span>`);
         if (doing > 0) stats.push(`<span class="stat">🔨 ${doing} doing</span>`);
@@ -287,7 +308,7 @@ function renderFeatureCard(feature) {
     }
 
     const artifacts = Object.entries(feature.artifacts || {})
-        .filter(([name, exists]) => exists && name !== 'kanban')
+        .filter(([name, exists]) => exists && name !== 'kanban' && name !== 'phase_walkthroughs')
         .map(([name]) => `
             <span class="artifact-badge available"
                   data-feature-id="${feature.id}"
@@ -296,14 +317,26 @@ function renderFeatureCard(feature) {
             </span>
         `).join('');
 
+    // Add phase walkthrough badges if available
+    let walkthroughBadges = '';
+    if (feature.walkthrough_files && feature.walkthrough_files.length > 0) {
+        walkthroughBadges = feature.walkthrough_files.map(file => `
+            <span class="artifact-badge available walkthrough-badge"
+                  data-feature-id="${feature.id}"
+                  data-artifact="${file}">
+                ${file.replace('.md', '')}
+            </span>
+        `).join('');
+    }
+
     return `
-        <div class="feature-card" data-feature-id="${feature.id}">
+        <div class="feature-card" data-feature-id="${feature.id}" data-mode="${feature.mode || 'pro'}" data-phase-mode="${feature.is_phase_mode || false}">
             <div class="feature-header">
                 <div class="feature-name">${feature.name}</div>
                 ${badges.join('')}
             </div>
             ${stats.length > 0 ? `<div class="feature-stats">${stats.join('')}</div>` : ''}
-            ${artifacts ? `<div class="artifacts">${artifacts}</div>` : ''}
+            ${artifacts || walkthroughBadges ? `<div class="artifacts">${artifacts}${walkthroughBadges}</div>` : ''}
         </div>
     `;
 }
@@ -334,35 +367,102 @@ async function showKanban(featureId, pushState = true) {
         const response = await fetch(`/api/kanban/${featureId}`);
         const data = await response.json();
 
-        // Render lanes
-        Object.entries(data.lanes).forEach(([lane, tasks]) => {
-            const containerId = `lane-${lane === 'for_review' ? 'for-review' : lane}-content`;
-            const container = document.getElementById(containerId);
-
-            if (tasks.length === 0) {
-                container.innerHTML = '<p class="empty-state">No tasks</p>';
-            } else {
-                container.innerHTML = tasks.map(task => `
-                    <div class="task-card" data-task-id="${task.id}" data-lane="${lane}">
-                        <strong>${task.id}</strong>
-                        <div>${task.title}</div>
-                    </div>
-                `).join('');
-            }
-        });
-
-        // Add click handlers to task cards
-        document.querySelectorAll('.task-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const taskId = card.dataset.taskId;
-                const lane = card.dataset.lane;
-                openTaskModal(featureId, lane, taskId);
-            });
-        });
+        // Check if it's phase-based mode (Normal mode)
+        if (data.is_phase_mode && data.phases) {
+            renderPhaseBoard(featureId, data);
+        } else {
+            renderKanbanBoard(featureId, data);
+        }
 
     } catch (error) {
         console.error('Failed to load kanban:', error);
     }
+}
+
+// Render standard kanban board (Pro mode)
+function renderKanbanBoard(featureId, data) {
+    // Update lane titles for standard kanban
+    document.getElementById('lane-planned').textContent = i18n.lanes?.planned || 'Planned';
+    document.getElementById('lane-doing').textContent = i18n.lanes?.doing || 'Doing';
+    document.getElementById('lane-for-review').textContent = i18n.lanes?.for_review || 'For Review';
+    document.getElementById('lane-done').textContent = i18n.lanes?.done || 'Done';
+
+    // Render lanes
+    Object.entries(data.lanes).forEach(([lane, tasks]) => {
+        const containerId = `lane-${lane === 'for_review' ? 'for-review' : lane}-content`;
+        const container = document.getElementById(containerId);
+
+        if (tasks.length === 0) {
+            container.innerHTML = '<p class="empty-state">No tasks</p>';
+        } else {
+            container.innerHTML = tasks.map(task => `
+                <div class="task-card" data-task-id="${task.id}" data-lane="${lane}">
+                    <strong>${task.id}</strong>
+                    <div>${task.title}</div>
+                </div>
+            `).join('');
+        }
+    });
+
+    // Add click handlers to task cards
+    document.querySelectorAll('.task-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const taskId = card.dataset.taskId;
+            const lane = card.dataset.lane;
+            openTaskModal(featureId, lane, taskId);
+        });
+    });
+}
+
+// Render phase-based board (Normal mode)
+function renderPhaseBoard(featureId, data) {
+    // Update lane titles for phase mode
+    document.getElementById('lane-planned').textContent = '📋 Pending';
+    document.getElementById('lane-doing').textContent = '⏳ In Progress';
+    document.getElementById('lane-for-review').textContent = '👀 Review';
+    document.getElementById('lane-done').textContent = '✅ Completed';
+
+    // Group phases by status
+    const phasesByStatus = {
+        planned: [],
+        doing: [],
+        for_review: [],
+        done: []
+    };
+
+    Object.values(data.phases).forEach(phase => {
+        phasesByStatus[phase.status].push(phase);
+    });
+
+    // Render phases as cards in lanes
+    Object.entries(phasesByStatus).forEach(([status, phases]) => {
+        const containerId = `lane-${status === 'for_review' ? 'for-review' : status}-content`;
+        const container = document.getElementById(containerId);
+
+        if (phases.length === 0) {
+            container.innerHTML = '<p class="empty-state">No phases</p>';
+        } else {
+            container.innerHTML = phases.map(phase => `
+                <div class="task-card phase-card" data-task-id="${phase.id}" data-lane="${status}" data-phase-num="${phase.phase_num}">
+                    <div class="phase-header">
+                        <strong>${phase.title}</strong>
+                    </div>
+                    <div class="phase-progress">
+                        <span class="progress-badge">Progress: ${phase.progress}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+    });
+
+    // Add click handlers to phase cards
+    document.querySelectorAll('.phase-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const taskId = card.dataset.taskId;
+            const lane = card.dataset.lane;
+            openTaskModal(featureId, lane, taskId);
+        });
+    });
 }
 
 // Show artifact
