@@ -758,13 +758,24 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
                     for item in source_dir.iterdir():
                         dest_path = project_path / item.name
                         if item.is_dir():
-                            if dest_path.exists():
+                            # Handle symlinks first - remove and replace
+                            if dest_path.is_symlink():
+                                dest_path.unlink()
+                                shutil.copytree(item, dest_path)
+                            elif dest_path.exists():
                                 if verbose and not tracker:
                                     console.print(f"[yellow]Merging directory:[/yellow] {item.name}")
                                 for sub_item in item.rglob('*'):
                                     if sub_item.is_file():
                                         rel_path = sub_item.relative_to(item)
                                         dest_file = dest_path / rel_path
+                                        # Check for symlinks in parent path and remove them
+                                        for parent in dest_file.parents:
+                                            if parent == dest_path or parent == project_path:
+                                                break
+                                            if parent.is_symlink():
+                                                parent.unlink()
+                                                break
                                         dest_file.parent.mkdir(parents=True, exist_ok=True)
                                         # Special handling for .vscode/settings.json - merge instead of overwrite
                                         if dest_file.name == "settings.json" and dest_file.parent.name == ".vscode":
@@ -772,11 +783,6 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
                                         else:
                                             shutil.copy2(sub_item, dest_file)
                             else:
-                                # Remove existing symlink or directory before copying
-                                if dest_path.is_symlink():
-                                    dest_path.unlink()
-                                elif dest_path.exists():
-                                    shutil.rmtree(dest_path)
                                 shutil.copytree(item, dest_path)
                         else:
                             if dest_path.exists() and verbose and not tracker:
