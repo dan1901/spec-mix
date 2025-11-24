@@ -102,17 +102,17 @@ def _github_auth_headers(cli_token: str | None = None) -> dict:
 
 # Agent configuration with name, folder, install URL, and CLI tool requirement
 AGENT_CONFIG = {
-    "copilot": {
-        "name": "GitHub Copilot",
-        "folder": ".github/",
-        "install_url": None,  # IDE-based, no CLI check needed
-        "requires_cli": False,
-    },
     "claude": {
         "name": "Claude Code",
         "folder": ".claude/",
         "install_url": "https://docs.anthropic.com/en/docs/claude-code/setup",
         "requires_cli": True,
+    },
+    "copilot": {
+        "name": "GitHub Copilot",
+        "folder": ".github/",
+        "install_url": None,  # IDE-based, no CLI check needed
+        "requires_cli": False,
     },
     "gemini": {
         "name": "Gemini CLI",
@@ -126,23 +126,11 @@ AGENT_CONFIG = {
         "install_url": None,  # IDE-based
         "requires_cli": False,
     },
-    "qwen": {
-        "name": "Qwen Code",
-        "folder": ".qwen/",
-        "install_url": "https://github.com/QwenLM/qwen-code",
-        "requires_cli": True,
-    },
-    "opencode": {
-        "name": "opencode",
-        "folder": ".opencode/",
-        "install_url": "https://opencode.ai",
-        "requires_cli": True,
-    },
-    "codex": {
-        "name": "Codex CLI",
-        "folder": ".codex/",
-        "install_url": "https://github.com/openai/codex",
-        "requires_cli": True,
+    "kiro": {
+        "name": "Kiro",
+        "folder": ".kiro/",
+        "install_url": None,  # IDE-based
+        "requires_cli": False,
     },
     "windsurf": {
         "name": "Windsurf",
@@ -150,46 +138,16 @@ AGENT_CONFIG = {
         "install_url": None,  # IDE-based
         "requires_cli": False,
     },
-    "kilocode": {
-        "name": "Kilo Code",
-        "folder": ".kilocode/",
-        "install_url": None,  # IDE-based
-        "requires_cli": False,
-    },
-    "auggie": {
-        "name": "Auggie CLI",
-        "folder": ".augment/",
-        "install_url": "https://docs.augmentcode.com/cli/setup-auggie/install-auggie-cli",
-        "requires_cli": True,
-    },
-    "codebuddy": {
-        "name": "CodeBuddy",
-        "folder": ".codebuddy/",
-        "install_url": "https://www.codebuddy.ai/cli",
-        "requires_cli": True,
-    },
-    "roo": {
-        "name": "Roo Code",
-        "folder": ".roo/",
-        "install_url": None,  # IDE-based
-        "requires_cli": False,
-    },
-    "q": {
-        "name": "Amazon Q Developer CLI",
-        "folder": ".amazonq/",
-        "install_url": "https://aws.amazon.com/developer/learning/q-developer-cli/",
-        "requires_cli": True,
-    },
-    "amp": {
-        "name": "Amp",
-        "folder": ".agents/",
-        "install_url": "https://ampcode.com/manual#install",
-        "requires_cli": True,
-    },
     "antigravity": {
         "name": "Google Antigravity",
         "folder": ".agent/",
         "install_url": "https://antigravity.google.com",
+        "requires_cli": True,
+    },
+    "codex": {
+        "name": "Codex CLI",
+        "folder": ".codex/",
+        "install_url": "https://github.com/openai/codex",
         "requires_cli": True,
     },
 }
@@ -1052,7 +1010,7 @@ def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = 
 @app.command()
 def init(
     project_name: str = typer.Argument(None, help="Name for your new project directory (optional if using --here, or use '.' for current directory)"),
-    ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, gemini, copilot, cursor-agent, qwen, opencode, codex, windsurf, kilocode, auggie, codebuddy, amp, antigravity, roo, or q"),
+    ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, copilot, gemini, cursor-agent, kiro, windsurf, antigravity, or codex"),
     script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps"),
     language: str = typer.Option(None, "--lang", help="Language to use: en, ko (default: en)"),
     mission: str = typer.Option(None, "--mission", help="Mission to use: software-dev, research (default: software-dev)"),
