@@ -37,11 +37,11 @@ fi
 
 # Compare versions
 if [ "$LATEST_VERSION" == "$PYPROJECT_VERSION" ] || [ "$LATEST_TAG" == "$NEW_VERSION" ]; then
-    echo "✓ Version unchanged ($PYPROJECT_VERSION) - no release needed"
-    echo "should_release=false" >> $GITHUB_OUTPUT
-    echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+    echo "✓ Version unchanged ($PYPROJECT_VERSION) - will re-create release if exists"
 else
     echo "✓ Version changed: $LATEST_VERSION → $PYPROJECT_VERSION"
-    echo "should_release=true" >> $GITHUB_OUTPUT
-    echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 fi
+
+# Always allow release (check-release-exists.sh handles deletion if needed)
+echo "should_release=true" >> $GITHUB_OUTPUT
+echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
