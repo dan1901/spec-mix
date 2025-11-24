@@ -4,11 +4,87 @@ Spec Mix extends the original Spec Kit with powerful features for multi-language
 
 ## Overview
 
-This fork adds three major feature sets:
+This fork adds four major feature sets:
 
-1. **Multi-Language Support (i18n)** - Full internationalization support
-2. **Mission System** - Domain-specific workflow templates
-3. **Web Dashboard** - Visual project management interface
+1. **Mode System** - Normal/Pro workflow modes
+2. **Multi-Language Support (i18n)** - Full internationalization support
+3. **Mission System** - Domain-specific workflow templates
+4. **Web Dashboard** - Visual project management interface
+
+## Mode System
+
+Spec Mix offers two operational modes to match different user needs and experience levels.
+
+### Normal Mode (Default)
+
+Guided workflow with streamlined commands:
+
+- **Auto-clarify**: `/spec-mix.specify` creates spec then automatically presents clarification questions
+- **User choice**: Answer questions to refine spec OR skip to next step
+- **Phase-based tasks**: `/spec-mix.plan` generates checklist + plan + phase-level tasks (not detailed sub-tasks)
+- **Guided implementation**: `/spec-mix.implement` executes phase by phase with walkthrough and review
+- **Accept workflow**: After each phase, user gets Accept/Reject choice (not a command)
+
+**Normal Mode Workflow:**
+
+```text
+/spec-mix.specify "Feature description"
+    ↓
+Spec created → Auto-clarify questions
+    ↓
+[Answer questions] or [SKIP → Next Step]
+    ↓
+/spec-mix.plan
+    ↓
+Checklist + Plan + Phase-based Tasks
+    ↓
+/spec-mix.implement
+    ↓
+Phase 1 → Walkthrough → Review → [ACCEPT/REJECT]
+    ↓
+Phase 2 → Walkthrough → Review → [ACCEPT/REJECT]
+    ↓
+... all phases complete ...
+    ↓
+"Run /spec-mix.merge to finalize"
+```
+
+### Pro Mode
+
+Full control with all individual commands:
+
+- All commands available: constitution, specify, clarify, plan, tasks, implement, analyze, checklist, review, accept, merge, dashboard
+- Fine-grained control over each workflow step
+- Work Package based task management (kanban lanes)
+- Recommended for experienced users
+
+### Mode Commands
+
+```bash
+# List available modes
+spec-mix mode list
+
+# Check current mode
+spec-mix mode current
+
+# Switch mode
+spec-mix mode set normal
+spec-mix mode set pro
+
+# View mode details
+spec-mix mode info normal
+
+# Initialize project with specific mode
+spec-mix init my-project --mode pro
+```
+
+### Dashboard Mode Support
+
+The dashboard adapts to the current mode:
+
+- **Normal Mode**: Shows phase-based kanban board with phase progress
+- **Pro Mode**: Shows traditional Work Package kanban with lane management
+- Mode badges displayed on feature cards
 
 ## Multi-Language Support (i18n)
 

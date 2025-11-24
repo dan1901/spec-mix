@@ -32,19 +32,13 @@ Specify supports multiple AI agents by generating agent-specific command files a
 | Agent | Directory | Format | CLI Tool | Description |
 |-------|-----------|---------|----------|-------------|
 | **Claude Code** | `.claude/commands/` | Markdown | `claude` | Anthropic's Claude Code CLI |
-| **Gemini CLI** | `.gemini/commands/` | TOML | `gemini` | Google's Gemini CLI |
 | **GitHub Copilot** | `.github/prompts/` | Markdown | N/A (IDE-based) | GitHub Copilot in VS Code |
-| **Cursor** | `.cursor/commands/` | Markdown | `cursor-agent` | Cursor CLI |
-| **Qwen Code** | `.qwen/commands/` | TOML | `qwen` | Alibaba's Qwen Code CLI |
-| **opencode** | `.opencode/command/` | Markdown | `opencode` | opencode CLI |
-| **Codex CLI** | `.codex/commands/` | Markdown | `codex` | Codex CLI |
+| **Gemini CLI** | `.gemini/commands/` | TOML | `gemini` | Google's Gemini CLI |
+| **Cursor** | `.cursor/commands/` | Markdown | N/A (IDE-based) | Cursor IDE |
+| **Kiro** | `.kiro/` | Markdown | N/A (IDE-based) | AWS Kiro IDE |
 | **Windsurf** | `.windsurf/workflows/` | Markdown | N/A (IDE-based) | Windsurf IDE workflows |
-| **Kilo Code** | `.kilocode/rules/` | Markdown | N/A (IDE-based) | Kilo Code IDE |
-| **Auggie CLI** | `.augment/rules/` | Markdown | `auggie` | Auggie CLI |
-| **Roo Code** | `.roo/rules/` | Markdown | N/A (IDE-based) | Roo Code IDE |
-| **CodeBuddy CLI** | `.codebuddy/commands/` | Markdown | `codebuddy` | CodeBuddy CLI |
-| **Amazon Q Developer CLI** | `.amazonq/prompts/` | Markdown | `q` | Amazon Q Developer CLI |
-| **Amp** | `.agents/commands/` | Markdown | `amp` | Amp CLI |
+| **Google Antigravity** | `.agent/` | Markdown | `antigravity` | Google Antigravity CLI |
+| **Codex CLI** | `.codex/commands/` | Markdown | `codex` | OpenAI Codex CLI |
 
 ### Step-by-Step Integration Guide
 
@@ -87,7 +81,7 @@ This eliminates the need for special-case mappings throughout the codebase.
 Update the `--ai` parameter help text in the `init()` command to include the new agent:
 
 ```python
-ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, gemini, copilot, cursor-agent, qwen, opencode, codex, windsurf, kilocode, auggie, codebuddy, new-agent-cli, or q"),
+ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, copilot, gemini, cursor-agent, kiro, windsurf, antigravity, codex, or new-agent-cli"),
 ```
 
 Also update any function docstrings, examples, and error messages that list available agents.
@@ -108,7 +102,7 @@ Modify `.github/workflows/scripts/create-release-packages.sh`:
 ##### Add to ALL_AGENTS array
 
 ```bash
-ALL_AGENTS=(claude gemini copilot cursor-agent qwen opencode windsurf q)
+ALL_AGENTS=(claude copilot gemini cursor-agent kiro windsurf antigravity codex)
 ```
 
 ##### Add case statement for directory structure
@@ -304,19 +298,17 @@ echo "✅ Done"
 Require a command-line tool to be installed:
 
 - **Claude Code**: `claude` CLI
-- **Gemini CLI**: `gemini` CLI  
-- **Cursor**: `cursor-agent` CLI
-- **Qwen Code**: `qwen` CLI
-- **opencode**: `opencode` CLI
-- **Amazon Q Developer CLI**: `q` CLI
-- **CodeBuddy CLI**: `codebuddy` CLI
-- **Amp**: `amp` CLI
+- **Gemini CLI**: `gemini` CLI
+- **Google Antigravity**: `antigravity` CLI
+- **Codex CLI**: `codex` CLI
 
 ### IDE-Based Agents
 
 Work within integrated development environments:
 
 - **GitHub Copilot**: Built into VS Code/compatible editors
+- **Cursor**: Built into Cursor IDE
+- **Kiro**: Built into Kiro IDE
 - **Windsurf**: Built into Windsurf IDE
 
 ## Command File Formats
