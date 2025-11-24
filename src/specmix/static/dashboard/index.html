@@ -70,7 +70,18 @@
                     <button id="back-to-features" class="btn btn-secondary">← Back to Features</button>
                     <h2 id="kanban-title">Kanban Board</h2>
                 </div>
-                <div id="kanban-board" class="kanban-board">
+
+                <!-- Kanban Sub-tabs -->
+                <div class="kanban-tabs">
+                    <button class="kanban-tab active" data-kanban-tab="board">Tasks</button>
+                    <button class="kanban-tab" data-kanban-tab="walkthrough">
+                        Walkthrough
+                        <span class="walkthrough-count" id="walkthrough-count" style="display: none;">0</span>
+                    </button>
+                </div>
+
+                <!-- Tasks Board Tab -->
+                <div id="kanban-board" class="kanban-board kanban-tab-content active">
                     <div class="lane" data-lane="planned">
                         <h3 id="lane-planned">Planned</h3>
                         <div class="lane-content" id="lane-planned-content"></div>
@@ -86,6 +97,16 @@
                     <div class="lane" data-lane="done">
                         <h3 id="lane-done">Done</h3>
                         <div class="lane-content" id="lane-done-content"></div>
+                    </div>
+                </div>
+
+                <!-- Walkthrough Tab -->
+                <div id="kanban-walkthrough" class="kanban-tab-content" style="display: none;">
+                    <div id="walkthrough-selector" class="walkthrough-selector">
+                        <!-- Walkthrough file buttons will be inserted here -->
+                    </div>
+                    <div id="walkthrough-content" class="markdown-content">
+                        <p class="empty-state">Select a walkthrough to view</p>
                     </div>
                 </div>
             </div>
@@ -105,6 +126,57 @@
         <footer>
             <p>Spec Mix Dashboard • Auto-refreshing every 2 seconds</p>
         </footer>
+    </div>
+
+    <!-- Migrate Commit Modal -->
+    <div id="migrate-modal" class="modal">
+        <div class="modal-content migrate-modal-content">
+            <div class="modal-header">
+                <h2>Migrate to Spec-Driven Workflow</h2>
+                <button class="modal-close" onclick="closeMigrateModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Commit Info -->
+                <div class="migrate-commit-info">
+                    <div class="migrate-commit-header">
+                        <span class="migrate-commit-sha" id="migrate-sha"></span>
+                        <span class="migrate-commit-date" id="migrate-date"></span>
+                    </div>
+                    <div class="migrate-commit-message" id="migrate-message"></div>
+                    <div class="migrate-commit-author" id="migrate-author"></div>
+                    <div class="migrate-commit-stats" id="migrate-stats"></div>
+                </div>
+
+                <!-- Diff Preview -->
+                <details class="migrate-diff-section">
+                    <summary>View Diff</summary>
+                    <div class="migrate-diff-content" id="migrate-diff">
+                        <p class="loading">Loading diff...</p>
+                    </div>
+                </details>
+
+                <!-- Command Section -->
+                <div class="migrate-command-section">
+                    <label>Command to run in your AI agent:</label>
+                    <div class="migrate-command-box">
+                        <code id="migrate-command">/spec-mix.migrate</code>
+                        <button class="btn-copy" onclick="copyMigrateCommand()" title="Copy to clipboard">
+                            <span class="copy-icon">📋</span>
+                            <span class="copy-text">Copy</span>
+                        </button>
+                    </div>
+                    <p class="migrate-hint">
+                        Paste this command in Claude Code, GitHub Copilot, or other AI agents to generate retrospective specifications.
+                    </p>
+                </div>
+
+                <!-- Copy Success Toast -->
+                <div class="copy-toast" id="copy-toast">
+                    ✓ Command copied to clipboard!
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Task Detail Modal -->

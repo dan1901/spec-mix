@@ -1388,3 +1388,363 @@ footer {
 .walkthrough-badge:hover {
     background: linear-gradient(135deg, #d97706, #b45309) !important;
 }
+
+/* ==================== Kanban Sub-tabs ==================== */
+
+.kanban-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0;
+}
+
+.kanban-tab {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.kanban-tab:hover {
+    color: var(--text-color);
+    background: var(--bg-secondary);
+    border-radius: 8px 8px 0 0;
+}
+
+.kanban-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background: var(--bg-secondary);
+    border-radius: 8px 8px 0 0;
+}
+
+.walkthrough-count {
+    display: inline-block;
+    background: var(--warning-color);
+    color: white;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    min-width: 18px;
+    text-align: center;
+}
+
+.kanban-tab.active .walkthrough-count {
+    background: var(--primary-color);
+}
+
+/* Kanban Tab Content */
+.kanban-tab-content {
+    display: none;
+}
+
+.kanban-tab-content.active {
+    display: grid;
+}
+
+#kanban-walkthrough {
+    display: none;
+}
+
+#kanban-walkthrough.active {
+    display: block;
+}
+
+/* Walkthrough Selector */
+.walkthrough-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.walkthrough-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: all 0.2s;
+    text-transform: capitalize;
+}
+
+.walkthrough-btn:hover {
+    background: var(--bg-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.walkthrough-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Walkthrough Content */
+#walkthrough-content {
+    max-width: 900px;
+}
+
+#walkthrough-content .empty-state {
+    text-align: left;
+    padding: 40px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .kanban-tabs {
+        flex-wrap: wrap;
+    }
+
+    .walkthrough-selector {
+        flex-direction: column;
+    }
+
+    .walkthrough-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ==================== Migrate Modal ==================== */
+
+.migrate-modal-content {
+    max-width: 700px;
+}
+
+.migrate-commit-info {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.migrate-commit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.migrate-commit-sha {
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    font-size: 14px;
+    background: var(--bg-color);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.migrate-commit-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.migrate-commit-message {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.migrate-commit-author {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.migrate-commit-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.migrate-commit-stats .stat-item {
+    color: var(--text-secondary);
+}
+
+.migrate-commit-stats .stat-add {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.migrate-commit-stats .stat-del {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+/* Migrate Diff Section */
+.migrate-diff-section {
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.migrate-diff-section summary {
+    cursor: pointer;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: background 0.2s;
+    user-select: none;
+}
+
+.migrate-diff-section summary:hover {
+    background: var(--border-color);
+}
+
+.migrate-diff-section[open] summary {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.migrate-diff-content {
+    max-height: 300px;
+    overflow-y: auto;
+    background: #1e1e1e;
+}
+
+/* Migrate Command Section */
+.migrate-command-section {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .migrate-command-section {
+        background: linear-gradient(135deg, #1e3a5f, #1e293b);
+    }
+}
+
+.migrate-command-section label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.migrate-command-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.migrate-command-box code {
+    flex: 1;
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    font-size: 15px;
+    color: var(--primary-color);
+    font-weight: 600;
+    background: none;
+    padding: 0;
+}
+
+.btn-copy {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-copy:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+}
+
+.btn-copy:active {
+    transform: translateY(0);
+}
+
+.btn-copy .copy-icon {
+    font-size: 14px;
+}
+
+.migrate-hint {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Copy Toast */
+.copy-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--success-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2000;
+}
+
+.copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .migrate-modal-content {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .migrate-command-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .migrate-command-box code {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .btn-copy {
+        justify-content: center;
+    }
+}

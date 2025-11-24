@@ -3,6 +3,7 @@
 let i18n = {};
 let currentFeature = null;
 let currentArtifact = null;
+let currentWalkthroughFiles = [];
 let refreshInterval = null;
 
 // Get history state from URL hash
@@ -344,6 +345,7 @@ function renderFeatureCard(feature) {
 // Show kanban board for feature
 async function showKanban(featureId, pushState = true) {
     currentFeature = featureId;
+    currentWalkthroughFiles = [];
     showView('kanban-view');
 
     // Add to browser history
@@ -357,6 +359,9 @@ async function showKanban(featureId, pushState = true) {
 
     document.getElementById('kanban-title').textContent = `${i18n.kanban || 'Kanban Board'}: ${featureId}`;
 
+    // Reset to board tab
+    resetKanbanTabs();
+
     // Clear lanes
     ['planned', 'doing', 'for_review', 'done'].forEach(lane => {
         document.getElementById(`lane-${lane === 'for_review' ? 'for-review' : lane}-content`).innerHTML =
@@ -364,8 +369,34 @@ async function showKanban(featureId, pushState = true) {
     });
 
     try {
-        const response = await fetch(`/api/kanban/${featureId}`);
-        const data = await response.json();
+        // Fetch both kanban data and feature info for walkthrough files
+        const [kanbanResponse, featuresResponse] = await Promise.all([
+            fetch(`/api/kanban/${featureId}`),
+            fetch('/api/features')
+        ]);
+
+        const data = await kanbanResponse.json();
+        const features = await featuresResponse.json();
+
+        // Find current feature to get walkthrough files
+        const feature = features.find(f => f.id === featureId);
+        if (feature) {
+            // Collect all walkthrough files
+            currentWalkthroughFiles = [];
+
+            // Add single walkthrough.md if exists (Pro mode)
+            if (feature.artifacts && feature.artifacts.walkthrough) {
+                currentWalkthroughFiles.push('walkthrough.md');
+            }
+
+            // Add phase walkthroughs (Normal mode)
+            if (feature.walkthrough_files && feature.walkthrough_files.length > 0) {
+                currentWalkthroughFiles.push(...feature.walkthrough_files);
+            }
+        }
+
+        // Setup kanban tabs with walkthrough info
+        setupKanbanTabs(featureId);
 
         // Check if it's phase-based mode (Normal mode)
         if (data.is_phase_mode && data.phases) {
@@ -463,6 +494,151 @@ function renderPhaseBoard(featureId, data) {
             openTaskModal(featureId, lane, taskId);
         });
     });
+}
+
+// Reset kanban tabs to initial state
+function resetKanbanTabs() {
+    // Reset to board tab
+    document.querySelectorAll('.kanban-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.kanbanTab === 'board') {
+            tab.classList.add('active');
+        }
+    });
+
+    // Show board, hide walkthrough
+    document.getElementById('kanban-board').style.display = 'grid';
+    document.getElementById('kanban-walkthrough').style.display = 'none';
+
+    // Reset walkthrough content
+    document.getElementById('walkthrough-selector').innerHTML = '';
+    document.getElementById('walkthrough-content').innerHTML = '<p class="empty-state">Select a walkthrough to view</p>';
+}
+
+// Setup kanban tab switching
+function setupKanbanTabs(featureId) {
+    const walkthroughCountEl = document.getElementById('walkthrough-count');
+
+    // Update walkthrough count badge
+    if (currentWalkthroughFiles.length > 0) {
+        walkthroughCountEl.textContent = currentWalkthroughFiles.length;
+        walkthroughCountEl.style.display = 'inline-block';
+    } else {
+        walkthroughCountEl.style.display = 'none';
+    }
+
+    // Setup tab click handlers
+    document.querySelectorAll('.kanban-tab').forEach(tab => {
+        // Remove old listeners by cloning
+        const newTab = tab.cloneNode(true);
+        tab.parentNode.replaceChild(newTab, tab);
+    });
+
+    document.querySelectorAll('.kanban-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.dataset.kanbanTab;
+
+            // Update active tab
+            document.querySelectorAll('.kanban-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Show/hide content
+            if (tabName === 'board') {
+                document.getElementById('kanban-board').style.display = 'grid';
+                document.getElementById('kanban-walkthrough').style.display = 'none';
+            } else if (tabName === 'walkthrough') {
+                document.getElementById('kanban-board').style.display = 'none';
+                document.getElementById('kanban-walkthrough').style.display = 'block';
+
+                // Populate walkthrough selector if not already done
+                const selector = document.getElementById('walkthrough-selector');
+                if (selector.innerHTML === '') {
+                    renderWalkthroughSelector(featureId);
+                }
+            }
+        });
+    });
+}
+
+// Render walkthrough file selector
+function renderWalkthroughSelector(featureId) {
+    const selector = document.getElementById('walkthrough-selector');
+
+    if (currentWalkthroughFiles.length === 0) {
+        selector.innerHTML = '';
+        document.getElementById('walkthrough-content').innerHTML = `
+            <div class="empty-state">
+                <p>No walkthroughs available for this feature</p>
+                <p class="hint">Walkthroughs are generated during implementation using <code>/spec-mix.implement</code></p>
+            </div>
+        `;
+        return;
+    }
+
+    // Sort files: walkthrough.md first, then phase walkthroughs in order
+    const sortedFiles = [...currentWalkthroughFiles].sort((a, b) => {
+        if (a === 'walkthrough.md') return -1;
+        if (b === 'walkthrough.md') return 1;
+        // Extract phase numbers for sorting
+        const aMatch = a.match(/walkthrough-phase-(\d+)/);
+        const bMatch = b.match(/walkthrough-phase-(\d+)/);
+        if (aMatch && bMatch) {
+            return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+        }
+        return a.localeCompare(b);
+    });
+
+    // Render selector buttons
+    selector.innerHTML = sortedFiles.map((file, index) => {
+        const displayName = file === 'walkthrough.md'
+            ? 'Summary'
+            : file.replace('.md', '').replace('walkthrough-', '').replace('-', ' ');
+        return `
+            <button class="walkthrough-btn ${index === 0 ? 'active' : ''}"
+                    data-file="${file}">
+                ${displayName}
+            </button>
+        `;
+    }).join('');
+
+    // Add click handlers
+    document.querySelectorAll('.walkthrough-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active state
+            document.querySelectorAll('.walkthrough-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Load walkthrough content
+            loadWalkthrough(featureId, btn.dataset.file);
+        });
+    });
+
+    // Auto-load first walkthrough
+    if (sortedFiles.length > 0) {
+        loadWalkthrough(featureId, sortedFiles[0]);
+    }
+}
+
+// Load walkthrough content
+async function loadWalkthrough(featureId, fileName) {
+    const container = document.getElementById('walkthrough-content');
+    container.innerHTML = '<p class="loading">Loading walkthrough...</p>';
+
+    try {
+        const response = await fetch(`/api/artifact/${featureId}/${fileName}`);
+
+        if (!response.ok) {
+            throw new Error('Walkthrough not found');
+        }
+
+        const content = await response.text();
+        const html = marked.parse(content);
+        container.innerHTML = html;
+
+    } catch (error) {
+        console.error('Failed to load walkthrough:', error);
+        container.innerHTML = '<p class="error">Failed to load walkthrough</p>';
+    }
 }
 
 // Show artifact
@@ -1066,7 +1242,7 @@ async function loadUntrackedCommits() {
                     </div>
                     <div class="commit-actions">
                         <button class="btn btn-primary" onclick="generateSpecFromCommit('${commit.sha}')">
-                            🤖 Generate Spec
+                            📦 Migrate
                         </button>
                         <button class="btn btn-secondary" onclick="viewCommitDiff('${commit.sha}')">
                             View Diff
@@ -1086,10 +1262,170 @@ async function loadUntrackedCommits() {
     }
 }
 
-// Generate spec from commit (placeholder - will be implemented with /spec-mix.migrate)
-function generateSpecFromCommit(sha) {
-    alert(`Generating spec from commit ${sha}\n\nThis will use /spec-mix.migrate command to:\n1. Analyze commit code and changes\n2. Generate retrospective spec/plan/tasks\n3. Create new feature directory\n\nComing soon!`);
+// Open migrate modal for a commit
+async function generateSpecFromCommit(sha) {
+    const modal = document.getElementById('migrate-modal');
+    modal.classList.add('show');
+
+    // Reset diff section
+    document.getElementById('migrate-diff').innerHTML = '<p class="loading">Loading diff...</p>';
+    document.querySelector('.migrate-diff-section').removeAttribute('open');
+
+    // Find commit data from untracked list
+    try {
+        const response = await fetch('/api/untracked-commits');
+        const commits = await response.json();
+        const commit = commits.find(c => c.sha === sha);
+
+        if (commit) {
+            // Populate modal with commit info
+            document.getElementById('migrate-sha').textContent = sha.substring(0, 7);
+            document.getElementById('migrate-date').textContent = new Date(commit.date).toLocaleString();
+            document.getElementById('migrate-message').textContent = commit.message;
+            document.getElementById('migrate-author').textContent = `👤 ${commit.author}`;
+            document.getElementById('migrate-stats').innerHTML = `
+                <span class="stat-item">📁 ${commit.stats.files_changed} files</span>
+                <span class="stat-item stat-add">+${commit.stats.insertions}</span>
+                <span class="stat-item stat-del">-${commit.stats.deletions}</span>
+            `;
+        } else {
+            // Fallback for commits not in the untracked list
+            document.getElementById('migrate-sha').textContent = sha.substring(0, 7);
+            document.getElementById('migrate-date').textContent = '';
+            document.getElementById('migrate-message').textContent = 'Loading...';
+            document.getElementById('migrate-author').textContent = '';
+            document.getElementById('migrate-stats').innerHTML = '';
+        }
+
+        // Set command
+        document.getElementById('migrate-command').textContent = `/spec-mix.migrate ${sha.substring(0, 7)}`;
+
+        // Store full SHA for diff loading
+        modal.dataset.commitSha = sha;
+
+    } catch (error) {
+        console.error('Failed to load commit info:', error);
+    }
 }
+
+// Load diff when diff section is opened
+document.addEventListener('DOMContentLoaded', () => {
+    const diffSection = document.querySelector('.migrate-diff-section');
+    if (diffSection) {
+        diffSection.addEventListener('toggle', async (e) => {
+            if (diffSection.open) {
+                const modal = document.getElementById('migrate-modal');
+                const sha = modal.dataset.commitSha;
+                if (sha) {
+                    await loadMigrateDiff(sha);
+                }
+            }
+        });
+    }
+});
+
+// Load diff for migrate modal
+async function loadMigrateDiff(sha) {
+    const container = document.getElementById('migrate-diff');
+
+    try {
+        const response = await fetch(`/api/diff/${sha}`);
+
+        if (!response.ok) {
+            throw new Error('Failed to load diff');
+        }
+
+        const diffText = await response.text();
+
+        if (!diffText || diffText.trim() === '') {
+            container.innerHTML = '<p class="empty-state">No diff available</p>';
+            return;
+        }
+
+        // Parse and highlight diff
+        const fileDiffs = parseDiffByFile(diffText);
+
+        if (fileDiffs.length === 0) {
+            container.innerHTML = '<p class="empty-state">No diff available</p>';
+            return;
+        }
+
+        const html = fileDiffs.map(({fileName, diffContent}) => {
+            const highlightedDiff = highlightDiff(diffContent);
+            return `
+                <details class="file-diff-section" open>
+                    <summary class="file-diff-header">
+                        <span class="file-diff-icon">📄</span>
+                        <span class="file-diff-name">${escapeHtml(fileName)}</span>
+                    </summary>
+                    <pre class="diff-code">${highlightedDiff}</pre>
+                </details>
+            `;
+        }).join('');
+
+        container.innerHTML = html;
+
+    } catch (error) {
+        console.error('Failed to load diff:', error);
+        container.innerHTML = '<p class="error">Failed to load diff</p>';
+    }
+}
+
+// Close migrate modal
+function closeMigrateModal() {
+    const modal = document.getElementById('migrate-modal');
+    modal.classList.remove('show');
+}
+
+// Copy migrate command to clipboard
+async function copyMigrateCommand() {
+    const command = document.getElementById('migrate-command').textContent;
+
+    try {
+        await navigator.clipboard.writeText(command);
+
+        // Show toast
+        const toast = document.getElementById('copy-toast');
+        toast.classList.add('show');
+
+        // Hide toast after 2 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+
+    } catch (error) {
+        console.error('Failed to copy:', error);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = command;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+
+        // Show toast anyway
+        const toast = document.getElementById('copy-toast');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
+}
+
+// Close migrate modal when clicking outside
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('migrate-modal');
+    if (e.target === modal) {
+        closeMigrateModal();
+    }
+});
+
+// Close migrate modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeMigrateModal();
+    }
+});
 
 // View commit diff
 function viewCommitDiff(sha) {
