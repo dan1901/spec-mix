@@ -1,5 +1,8 @@
 ---
 description: Execute phase-based implementation with walkthrough and review (Normal Mode)
+scripts:
+  sh: scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks
+  ps: scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 ---
 
 ## Overview
@@ -12,10 +15,11 @@ Normal Mode executes implementation **phase by phase**:
 
 ## Step 1: Load Phase Info
 
+Run prerequisites script to get FEATURE_DIR:
 ```bash
-# Get feature directory
-FEATURE_DIR=$(cat .spec-mix/config.json | grep -o '"feature_dir"[^,]*' | cut -d'"' -f4)
+{SCRIPT}
 ```
+Parse `FEATURE_DIR` from JSON output.
 
 Read `$FEATURE_DIR/tasks.md` and display:
 ```
@@ -33,27 +37,38 @@ Phase Progress:
 4. Commit with descriptive messages
 5. Mark phase complete in tasks.md
 
-## Step 3: Generate Walkthrough
+## Step 3: Generate Walkthrough (MANDATORY)
 
-Create `$FEATURE_DIR/walkthrough-phase-{N}.md`:
+**You MUST write a walkthrough file** after completing each phase.
+
+1. Get changed files:
+   ```bash
+   git diff --name-status HEAD~1
+   ```
+
+2. **Write** `$FEATURE_DIR/walkthrough-phase-{N}.md` with this content:
 
 ```markdown
 # Walkthrough: Phase {N} - {Name}
 
-**Generated**: {timestamp}
+**Generated**: {current date/time}
 
 ## Summary
-{What was accomplished}
+{2-3 sentences describing what was accomplished in this phase}
 
 ## Files Changed
-{git diff --name-status}
+| Status | File |
+|--------|------|
+{table of changed files from git diff}
 
 ## Key Changes
-- **File**: {path} - {description}
+- **{file path}**: {what changed and why}
 
 ## Commits
-{git log --oneline}
+{list commits made for this phase}
 ```
+
+**Important**: This file is required for the review process. Do not skip this step.
 
 ## Step 4: Present Review
 

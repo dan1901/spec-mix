@@ -90,28 +90,44 @@ Move to review:
 bash .spec-mix/scripts/bash/move-task.sh WP## doing for_review $FEATURE_DIR
 ```
 
-### 8. Generate Walkthrough
+### 8. Generate Walkthrough (MANDATORY)
 
-Create `$FEATURE_DIR/walkthrough.md`:
+**You MUST write a walkthrough file** after completing each task.
+
+1. Get changed files:
+   ```bash
+   git diff --name-status HEAD~1
+   ```
+
+2. **Write** `$FEATURE_DIR/walkthrough.md` with this content:
 
 ```markdown
 # Implementation Walkthrough
 
-**Generated**: {timestamp}
+**Generated**: {current date/time}
+**Task**: WP## - {task title}
 
-## Tasks Completed
-- WP## - {description}
+## Summary
+{2-3 sentences describing what was implemented}
 
 ## Files Modified
-{git diff --name-status}
+| Status | File |
+|--------|------|
+{table of changed files from git diff}
 
 ## Key Changes
-- **{file}**: {change description}
+- **{file path}**: {what changed and why}
+
+## Commits
+{list commits made for this task with [WP##] tag}
 
 ## Next Steps
-1. Run /spec-mix.review
-2. After review, run /spec-mix.accept
+1. Run `/spec-mix.review` to review this implementation
+2. After approval, run `/spec-mix.accept`
+3. Finally, run `/spec-mix.merge` to merge to main
 ```
+
+**Important**: This file is required for the review process. Do not skip this step.
 
 ## Next Steps
 
