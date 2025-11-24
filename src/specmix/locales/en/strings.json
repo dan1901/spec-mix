@@ -111,6 +111,19 @@
         "done": "Done"
       }
     },
+    "add": {
+      "adding_agent": "Adding {agent} support to project...",
+      "not_spec_mix_project": "Not a Spec Mix project (no .spec-mix/ directory found)",
+      "run_init_first": "Run 'spec-mix init' first to create a project.",
+      "invalid_agent": "Invalid AI agent '{agent}'",
+      "available_agents": "Available agents: {agents}",
+      "agent_exists_warning": "Agent folder '{folder}' already exists",
+      "overwrite_warning": "Existing files will be overwritten.",
+      "force_overwrite": "--force flag set: overwriting existing '{folder}'",
+      "success": "{agent} support added successfully!",
+      "cli_install_hint": "Make sure {agent} CLI is installed:",
+      "ide_hint": "{agent} is IDE-based. Open your project in the IDE to use the commands."
+    },
     "mode": {
       "list_header": "Available Modes",
       "current_mode": "Current mode: {mode}",

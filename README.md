@@ -396,6 +396,7 @@ The `specify` command supports the following options:
 | Command     | Description                                                    |
 |-------------|----------------------------------------------------------------|
 | `init`      | Initialize a new Spec Mix project from the latest template    |
+| `add`       | Add support for an additional AI agent to an existing project  |
 | `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`, `kiro`, `windsurf`, `antigravity`, `codex`) |
 | `lang`      | Manage language packs (`list`, `current`, `set`, `install`)    |
 | `mode`      | Manage workflow modes (`list`, `current`, `set`, `info`)       |
@@ -419,6 +420,17 @@ The `specify` command supports the following options:
 | `--skip-tls`           | Flag     | Skip SSL/TLS verification (not recommended)                                 |
 | `--debug`              | Flag     | Enable detailed debug output for troubleshooting                            |
 | `--github-token`       | Option   | GitHub token for API requests (or set GH_TOKEN/GITHUB_TOKEN env variable)  |
+
+### `spec-mix add` Arguments & Options
+
+| Argument/Option        | Type     | Description                                                                  |
+|------------------------|----------|------------------------------------------------------------------------------|
+| `<agent>`              | Argument | AI agent to add: `claude`, `copilot`, `gemini`, `cursor-agent`, `kiro`, `windsurf`, `antigravity`, or `codex` |
+| `--list`, `-l`         | Flag     | List all available AI agents                                                 |
+| `--force`, `-f`        | Flag     | Overwrite existing agent files without confirmation                          |
+| `--script`             | Option   | Script type to use: `sh` or `ps` (default: auto-detect from project config) |
+| `--debug`              | Flag     | Enable detailed debug output for troubleshooting                            |
+| `--github-token`       | Option   | GitHub token for API requests                                                |
 
 ### Examples
 
@@ -478,6 +490,18 @@ spec-mix init my-project --ai claude --github-token ghp_your_token_here
 # Check system requirements
 spec-mix check
 
+# List available AI agents
+spec-mix add --list
+spec-mix add -l
+
+# Add another AI agent to existing project
+spec-mix add codex
+
+# Add agent with force overwrite (skip confirmation)
+spec-mix add claude --force
+
+# Add agent with specific script type
+spec-mix add gemini --script sh
 ```
 
 ### Available Slash Commands

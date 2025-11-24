@@ -111,6 +111,19 @@
         "done": "완료"
       }
     },
+    "add": {
+      "adding_agent": "프로젝트에 {agent} 지원 추가 중...",
+      "not_spec_mix_project": "Spec Mix 프로젝트가 아닙니다 (.spec-mix/ 디렉토리를 찾을 수 없음)",
+      "run_init_first": "먼저 'spec-mix init'을 실행하여 프로젝트를 생성하세요.",
+      "invalid_agent": "잘못된 AI 에이전트 '{agent}'",
+      "available_agents": "사용 가능한 에이전트: {agents}",
+      "agent_exists_warning": "에이전트 폴더 '{folder}'가 이미 존재합니다",
+      "overwrite_warning": "기존 파일이 덮어쓰기됩니다.",
+      "force_overwrite": "--force 플래그 설정됨: 기존 '{folder}' 덮어쓰기",
+      "success": "{agent} 지원이 성공적으로 추가되었습니다!",
+      "cli_install_hint": "{agent} CLI가 설치되어 있는지 확인하세요:",
+      "ide_hint": "{agent}은(는) IDE 기반입니다. IDE에서 프로젝트를 열어 명령어를 사용하세요."
+    },
     "mode": {
       "list_header": "사용 가능한 모드",
       "current_mode": "현재 모드: {mode}",

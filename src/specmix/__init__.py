@@ -141,8 +141,8 @@ AGENT_CONFIG = {
     "antigravity": {
         "name": "Google Antigravity",
         "folder": ".agent/",
-        "install_url": "https://antigravity.google.com",
-        "requires_cli": True,
+        "install_url": None,  # IDE-based
+        "requires_cli": False,
     },
     "codex": {
         "name": "Codex CLI",
@@ -1589,6 +1589,295 @@ def check():
 
 
 @app.command()
+def add(
+    agent: str = typer.Argument(None, help="AI agent to add: claude, copilot, gemini, cursor-agent, kiro, windsurf, antigravity, or codex"),
+    list_agents: bool = typer.Option(False, "--list", "-l", help="List all available AI agents"),
+    force: bool = typer.Option(False, "--force", "-f", help="Overwrite existing agent files without confirmation"),
+    script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps (default: auto-detect)"),
+    debug: bool = typer.Option(False, "--debug", help="Show verbose diagnostic output"),
+    github_token: str = typer.Option(None, "--github-token", help="GitHub token for API requests"),
+):
+    """
+    Add support for an additional AI agent to an existing Spec Mix project.
+
+    This command downloads and installs agent-specific files (commands, configurations)
+    for the specified AI agent into your current project.
+
+    Examples:
+        spec-mix add --list              # List available agents
+        spec-mix add -l                  # List available agents (short)
+        spec-mix add codex               # Add Codex support
+        spec-mix add claude --force      # Add Claude with overwrite
+        spec-mix add gemini --script sh  # Add Gemini with sh scripts
+    """
+    show_banner()
+
+    # If --list flag is provided, show available agents
+    if list_agents:
+        console.print("[bold cyan]Available AI Agents[/bold cyan]\n")
+
+        table = Table(show_header=True, header_style="bold")
+        table.add_column("Key", style="cyan")
+        table.add_column("Name", style="white")
+        table.add_column("Type", style="yellow")
+        table.add_column("Folder", style="dim")
+        table.add_column("Install URL", style="blue")
+
+        for key, config in AGENT_CONFIG.items():
+            agent_type = "CLI" if config["requires_cli"] else "IDE"
+            install_url = config["install_url"] or "-"
+            table.add_row(
+                key,
+                config["name"],
+                agent_type,
+                config["folder"],
+                install_url if len(install_url) < 40 else install_url[:37] + "..."
+            )
+
+        console.print(table)
+        console.print("\n[dim]Usage: spec-mix add <agent-key>[/dim]")
+        console.print("[dim]Example: spec-mix add codex[/dim]")
+        return
+
+    # If no agent specified, show usage help
+    if not agent:
+        console.print("[yellow]No agent specified.[/yellow]")
+        console.print("\n[dim]Usage:[/dim]")
+        console.print("  spec-mix add --list        - List available agents")
+        console.print("  spec-mix add <agent>       - Add an agent to current project")
+        console.print("\n[dim]Example: spec-mix add codex[/dim]")
+        raise typer.Exit(1)
+
+    # Add the specified agent
+    _add_agent_impl(agent, force, script_type, debug, github_token)
+
+
+def _add_agent_impl(agent: str, force: bool, script_type: str, debug: bool, github_token: str):
+    """Internal implementation for adding an agent."""
+    # Check if current directory is a Spec Mix project
+    project_path = Path.cwd()
+    spec_mix_dir = project_path / ".spec-mix"
+
+    if not spec_mix_dir.exists():
+        console.print("[red]Error:[/red] Not a Spec Mix project (no .spec-mix/ directory found)")
+        console.print("\n[dim]Run 'spec-mix init' first to create a project.[/dim]")
+        raise typer.Exit(1)
+
+    # Validate agent
+    if agent not in AGENT_CONFIG:
+        console.print(f"[red]Error:[/red] Invalid AI agent '{agent}'")
+        console.print(f"[dim]Available agents: {', '.join(AGENT_CONFIG.keys())}[/dim]")
+        raise typer.Exit(1)
+
+    agent_config = AGENT_CONFIG[agent]
+    agent_name = agent_config["name"]
+    agent_folder = agent_config["folder"]
+    agent_path = project_path / agent_folder
+
+    console.print(f"[cyan]Adding {agent_name} support to project...[/cyan]")
+
+    # Check if agent folder already exists
+    if agent_path.exists():
+        if not force:
+            console.print(f"\n[yellow]Warning:[/yellow] Agent folder '{agent_folder}' already exists")
+            console.print("[yellow]Existing files will be overwritten.[/yellow]")
+            response = typer.confirm("Do you want to continue?")
+            if not response:
+                console.print("[yellow]Operation cancelled[/yellow]")
+                raise typer.Exit(0)
+        else:
+            console.print(f"[yellow]--force flag set: overwriting existing '{agent_folder}'[/yellow]")
+
+    # Read project config for language and mission
+    config_file = spec_mix_dir / "config.json"
+    selected_lang = "en"
+    selected_mission = "software-dev"
+
+    if config_file.exists():
+        try:
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+            selected_lang = config.get('language', 'en')
+            selected_mission = config.get('mission', 'software-dev')
+        except Exception:
+            pass
+
+    # Determine script type
+    if script_type:
+        if script_type not in SCRIPT_TYPE_CHOICES:
+            console.print(f"[red]Error:[/red] Invalid script type '{script_type}'. Choose from: {', '.join(SCRIPT_TYPE_CHOICES.keys())}")
+            raise typer.Exit(1)
+        selected_script = script_type
+    else:
+        # Auto-detect from existing config or OS
+        if config_file.exists():
+            try:
+                with open(config_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                selected_script = config.get('script_type', 'ps' if os.name == 'nt' else 'sh')
+            except Exception:
+                selected_script = 'ps' if os.name == 'nt' else 'sh'
+        else:
+            selected_script = 'ps' if os.name == 'nt' else 'sh'
+
+    console.print(f"[dim]Language: {selected_lang}, Mission: {selected_mission}, Script: {selected_script}[/dim]")
+
+    # Download template to temp directory
+    tracker = StepTracker(f"Add {agent_name}")
+
+    tracker.add("fetch", "Fetch latest release")
+    tracker.add("extract", "Extract agent files")
+    tracker.add("link", "Link commands")
+    tracker.add("cleanup", "Cleanup")
+
+    with Live(tracker.render(), console=console, refresh_per_second=8, transient=True) as live:
+        tracker.attach_refresh(lambda: live.update(tracker.render()))
+
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                temp_path = Path(temp_dir)
+
+                # Download template
+                tracker.start("fetch", "contacting GitHub API")
+
+                verify = True
+                local_ssl_context = ssl_context if verify else False
+                local_client = httpx.Client(verify=local_ssl_context)
+
+                try:
+                    zip_path, meta = download_template_from_github(
+                        agent,
+                        temp_path,
+                        script_type=selected_script,
+                        verbose=False,
+                        show_progress=False,
+                        client=local_client,
+                        debug=debug,
+                        github_token=github_token
+                    )
+                    tracker.complete("fetch", f"release {meta['release']}")
+                except Exception as e:
+                    tracker.error("fetch", str(e))
+                    raise
+
+                # Extract to temp directory
+                tracker.start("extract", "extracting files")
+
+                extract_path = temp_path / "extracted"
+                extract_path.mkdir()
+
+                try:
+                    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                        zip_ref.extractall(extract_path)
+
+                    # Find the agent folder in extracted content
+                    extracted_items = list(extract_path.iterdir())
+
+                    # Handle nested directory structure
+                    source_dir = extract_path
+                    if len(extracted_items) == 1 and extracted_items[0].is_dir():
+                        source_dir = extracted_items[0]
+
+                    # Find agent folder
+                    source_agent_path = source_dir / agent_folder.rstrip('/')
+
+                    if not source_agent_path.exists():
+                        # Try without trailing slash
+                        source_agent_path = source_dir / agent_folder.rstrip('/').lstrip('.')
+                        if not source_agent_path.exists():
+                            tracker.error("extract", f"Agent folder not found in template")
+                            raise typer.Exit(1)
+
+                    # Copy agent folder to project
+                    if agent_path.exists():
+                        shutil.rmtree(agent_path)
+
+                    shutil.copytree(source_agent_path, agent_path)
+
+                    # Count copied files
+                    file_count = sum(1 for _ in agent_path.rglob('*') if _.is_file())
+                    tracker.complete("extract", f"{file_count} files")
+
+                except Exception as e:
+                    tracker.error("extract", str(e))
+                    raise
+
+                # Link commands to mission
+                tracker.start("link", "linking commands")
+
+                try:
+                    mission_commands_dir = spec_mix_dir / "active-mission" / "commands"
+
+                    if mission_commands_dir.exists():
+                        # Determine agent commands directory
+                        if agent == "antigravity":
+                            agent_commands_dir = agent_path / "workflows"
+                        else:
+                            agent_commands_dir = agent_path / "commands"
+
+                        # Remove existing and create symlink
+                        if agent_commands_dir.exists() or agent_commands_dir.is_symlink():
+                            if agent_commands_dir.is_symlink():
+                                agent_commands_dir.unlink()
+                            else:
+                                shutil.rmtree(agent_commands_dir)
+
+                        try:
+                            rel_target = os.path.relpath(mission_commands_dir, agent_commands_dir.parent)
+                            agent_commands_dir.symlink_to(rel_target, target_is_directory=True)
+                            tracker.complete("link", "symlinked to mission commands")
+                        except (OSError, NotImplementedError):
+                            # Fallback: copy files
+                            agent_commands_dir.mkdir(parents=True, exist_ok=True)
+                            for cmd_file in mission_commands_dir.glob("*.md"):
+                                shutil.copy2(cmd_file, agent_commands_dir / cmd_file.name)
+                            tracker.complete("link", "copied mission commands")
+                    else:
+                        tracker.skip("link", "no active mission commands")
+
+                except Exception as e:
+                    tracker.error("link", str(e))
+                    if debug:
+                        console.print(f"[yellow]Link error: {e}[/yellow]")
+
+                tracker.complete("cleanup", "temp files removed")
+
+        except Exception as e:
+            if debug:
+                console.print(f"[red]Error: {e}[/red]")
+            raise typer.Exit(1)
+
+    console.print(tracker.render())
+
+    # Update config with new agent (as additional agent)
+    try:
+        if config_file.exists():
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+
+            # Add to agents list if not exists
+            agents = config.get('agents', [config.get('ai_assistant', 'claude')])
+            if agent not in agents:
+                agents.append(agent)
+            config['agents'] = agents
+
+            with open(config_file, 'w', encoding='utf-8') as f:
+                json.dump(config, f, indent=2, ensure_ascii=False)
+    except Exception:
+        pass
+
+    console.print(f"\n[bold green]✓ {agent_name} support added successfully![/bold green]")
+
+    # Show next steps
+    if agent_config["requires_cli"]:
+        install_url = agent_config["install_url"]
+        console.print(f"\n[dim]Make sure {agent_name} CLI is installed:[/dim]")
+        console.print(f"[cyan]{install_url}[/cyan]")
+    else:
+        console.print(f"\n[dim]{agent_name} is IDE-based. Open your project in the IDE to use the commands.[/dim]")
+
+
+@app.command()
 def migrate(
     target_version: str = typer.Option(None, "--to", help="Target version to migrate to (default: latest)"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would be done without making changes"),
@@ -1651,7 +1940,6 @@ def mcp():
     import asyncio
     from .mcp_server import run
     asyncio.run(run())
-
 
 
 def main():
