@@ -772,6 +772,11 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
                                         else:
                                             shutil.copy2(sub_item, dest_file)
                             else:
+                                # Remove existing symlink or directory before copying
+                                if dest_path.is_symlink():
+                                    dest_path.unlink()
+                                elif dest_path.exists():
+                                    shutil.rmtree(dest_path)
                                 shutil.copytree(item, dest_path)
                         else:
                             if dest_path.exists() and verbose and not tracker:
