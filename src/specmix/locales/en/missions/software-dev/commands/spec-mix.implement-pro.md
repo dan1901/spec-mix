@@ -90,9 +90,9 @@ Move to review:
 bash .spec-mix/scripts/bash/move-task.sh WP## doing for_review $FEATURE_DIR
 ```
 
-### 8. Generate Walkthrough (MANDATORY)
+### 8. Generate Walkthrough (MANDATORY - DO NOT SKIP)
 
-**You MUST write a walkthrough file** after completing each task.
+⚠️ **DO NOT SKIP THIS STEP!** The walkthrough file is required for the review process.
 
 1. Get changed files:
    ```bash
@@ -127,7 +127,7 @@ bash .spec-mix/scripts/bash/move-task.sh WP## doing for_review $FEATURE_DIR
 3. Finally, run `/spec-mix.merge` to merge to main
 ```
 
-**Important**: This file is required for the review process. Do not skip this step.
+⚠️ **Important**: This file is required for the review process and dashboard visibility. Do not skip this step.
 
 ## Next Steps
 

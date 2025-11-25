@@ -183,7 +183,8 @@ build_variant() {
       cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.claude/commands/" 2>/dev/null || true ;;
     gemini)
       mkdir -p "$base_dir/.gemini/commands"
-      generate_commands gemini toml "{{args}}" "$base_dir/.gemini/commands" "$script"
+      # Gemini supports .md format same as claude
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.gemini/commands/" 2>/dev/null || true
       [[ -f agent_templates/gemini/GEMINI.md ]] && cp agent_templates/gemini/GEMINI.md "$base_dir/GEMINI.md" ;;
     copilot)
       mkdir -p "$base_dir/.github/prompts"

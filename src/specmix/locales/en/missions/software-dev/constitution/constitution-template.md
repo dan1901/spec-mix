@@ -10,7 +10,23 @@
 
 - Prioritize clarity over cleverness
 
-### 2. Testing Standards
+### 2. Clean Architecture
+
+- **Dependency Rule**: Dependencies must point inward only (Framework → Interface Adapter → Use Case → Entity)
+
+- **Layer Separation**:
+  - Entity: Core business rules (no external dependencies)
+  - Use Case: Application business logic
+  - Interface Adapter: Controllers, Presenters, Gateways
+  - Framework & Drivers: Web, DB, external libraries
+
+- **Separation of Concerns**: Each module/class follows Single Responsibility Principle (SRP)
+
+- **Testability**: Business logic must be unit-testable without frameworks/DB
+
+- **Framework Independence**: Core business logic must not depend on specific frameworks
+
+### 3. Testing Standards
 
 - All new features must include tests
 
@@ -20,7 +36,7 @@
 
 - Write tests that document expected behavior
 
-### 3. User Experience
+### 4. User Experience
 
 - Design with the end user in mind
 
@@ -30,7 +46,7 @@
 
 - Make interfaces intuitive and accessible
 
-### 4. Performance Requirements
+### 5. Performance Requirements
 
 - Optimize for common use cases
 
@@ -40,7 +56,7 @@
 
 - Balance performance with maintainability
 
-### 5. Documentation
+### 6. Documentation
 
 - Document public APIs and interfaces
 
@@ -50,7 +66,7 @@
 
 - Document architectural decisions
 
-### 6. Security
+### 7. Security
 
 - Validate all user inputs
 
@@ -60,7 +76,7 @@
 
 - Review code for vulnerabilities
 
-### 7. Collaboration
+### 8. Collaboration
 
 - Write descriptive commit messages
 

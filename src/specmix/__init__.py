@@ -1824,13 +1824,19 @@ def _add_agent_impl(agent: str, force: bool, script_type: str, debug: bool, gith
                 try:
                     mission_commands_dir = spec_mix_dir / "active-mission" / "commands"
 
-                    if mission_commands_dir.exists():
-                        # Determine agent commands directory
-                        if agent == "antigravity":
-                            agent_commands_dir = agent_path / "workflows"
-                        else:
-                            agent_commands_dir = agent_path / "commands"
+                    # Determine agent commands directory
+                    if agent == "antigravity":
+                        agent_commands_dir = agent_path / "workflows"
+                    else:
+                        agent_commands_dir = agent_path / "commands"
 
+                    # Check if mission commands exist and have files
+                    mission_has_commands = (
+                        mission_commands_dir.exists() and
+                        any(mission_commands_dir.glob("*.md"))
+                    )
+
+                    if mission_has_commands:
                         # Remove existing and create symlink
                         if agent_commands_dir.exists() or agent_commands_dir.is_symlink():
                             if agent_commands_dir.is_symlink():
@@ -1841,15 +1847,27 @@ def _add_agent_impl(agent: str, force: bool, script_type: str, debug: bool, gith
                         try:
                             rel_target = os.path.relpath(mission_commands_dir, agent_commands_dir.parent)
                             agent_commands_dir.symlink_to(rel_target, target_is_directory=True)
-                            tracker.complete("link", "symlinked to mission commands")
-                        except (OSError, NotImplementedError):
+                            cmd_count = len(list(mission_commands_dir.glob("*.md")))
+                            tracker.complete("link", f"symlinked ({cmd_count} commands)")
+                        except (OSError, NotImplementedError) as symlink_err:
+                            if debug:
+                                console.print(f"[yellow]Symlink failed: {symlink_err}, falling back to copy[/yellow]")
                             # Fallback: copy files
                             agent_commands_dir.mkdir(parents=True, exist_ok=True)
+                            cmd_count = 0
                             for cmd_file in mission_commands_dir.glob("*.md"):
                                 shutil.copy2(cmd_file, agent_commands_dir / cmd_file.name)
-                            tracker.complete("link", "copied mission commands")
+                                cmd_count += 1
+                            tracker.complete("link", f"copied {cmd_count} commands")
                     else:
-                        tracker.skip("link", "no active mission commands")
+                        # No mission commands available - keep downloaded package commands if any
+                        if agent_commands_dir.exists() and any(agent_commands_dir.glob("*")):
+                            cmd_count = len(list(agent_commands_dir.glob("*")))
+                            tracker.complete("link", f"using package commands ({cmd_count} files)")
+                        else:
+                            tracker.skip("link", "no commands available")
+                            if debug:
+                                console.print(f"[yellow]No commands in active-mission or package[/yellow]")
 
                 except Exception as e:
                     tracker.error("link", str(e))
