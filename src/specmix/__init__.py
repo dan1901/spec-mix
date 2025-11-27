@@ -1024,7 +1024,7 @@ def init(
     ai_assistant: str = typer.Option(None, "--ai", help="AI assistant to use: claude, copilot, gemini, cursor-agent, kiro, windsurf, antigravity, or codex"),
     script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps"),
     language: str = typer.Option(None, "--lang", help="Language to use: en, ko (default: en)"),
-    mission: str = typer.Option(None, "--mission", help="Mission to use: software-dev, research (default: software-dev)"),
+    mission: str = typer.Option(None, "--mission", help="Mission to use: software-dev, product-strategy, research (default: software-dev)"),
     mode: str = typer.Option(None, "--mode", help="Mode to use: normal, pro (default: pro)"),
     ignore_agent_tools: bool = typer.Option(False, "--ignore-agent-tools", help="Skip checks for AI agent tools like Claude Code"),
     no_git: bool = typer.Option(False, "--no-git", help="Skip git repository initialization"),
@@ -1181,7 +1181,7 @@ def init(
             selected_lang = "en"
 
     # Mission selection
-    AVAILABLE_MISSIONS = {"software-dev": "Software Development", "research": "Deep Research"}
+    AVAILABLE_MISSIONS = {"software-dev": "Software Development", "product-strategy": "Product Strategy (6-Pager)", "research": "Deep Research"}
     if mission:
         if mission not in AVAILABLE_MISSIONS:
             console.print(f"[red]Error:[/red] Invalid mission '{mission}'. Choose from: {', '.join(AVAILABLE_MISSIONS.keys())}")
