@@ -108,6 +108,55 @@ Finally, implement the solution:
 implement specs/002-create-taskify/plan.md
 ```
 
+## Product Strategy Example: 6-Pager
+
+For strategic planning and product documents, use the product-strategy mission:
+
+### Step 1: Initialize with Product Strategy Mission
+
+```bash
+spec-mix init my-product --mission product-strategy --ai claude
+cd my-product
+```
+
+### Step 2: Create 6-Pager with `/spec-mix.specify`
+
+```text
+/spec-mix.specify AI-powered personal finance app for millennials with automatic budget categorization and savings recommendations
+```
+
+The AI will:
+
+1. Ask clarifying questions about your product vision
+2. Automatically search the web for market data, competitors, and trends
+3. Generate a 14-section 6-Pager document with cited sources
+
+### Step 3: Deep Dive Analysis with `/spec-mix.analyze`
+
+```bash
+# Full analysis
+/spec-mix.analyze
+
+# Or specific area
+/spec-mix.analyze market
+/spec-mix.analyze competitor
+/spec-mix.analyze customer
+```
+
+### Step 4: Refine Based on Feedback
+
+```text
+/spec-mix.refine CFO requested more detailed CAC breakdown and LTV calculations
+```
+
+### Step 5: Prepare for Review
+
+```text
+/spec-mix.review stakeholder
+```
+
+For detailed 6-Pager usage, see the [6-Pager Guide](6pager.md).
+
 ## Key Principles
 
 - **Be explicit** about what you're building and why
@@ -118,6 +167,7 @@ implement specs/002-create-taskify/plan.md
 
 ## Next Steps
 
-- Read the complete methodology for in-depth guidance
-- Check out more examples in the repository
+- [6-Pager Guide](6pager.md) - Create strategic documents with web research
+- [Features Guide](features.md) - Explore all Spec Mix features
+- [Multi-Language Guide](i18n.md) - Use Spec Mix in your language
 - Explore the source code on GitHub

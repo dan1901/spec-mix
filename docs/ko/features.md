@@ -130,6 +130,31 @@ spec-mix init my-project --language ko
 spec-mix init my-app --mission software-dev
 ```
 
+#### 제품 전략 미션
+
+다음을 포함하는 제품 기획 및 전략 문서를 위해 설계:
+
+- Amazon 스타일 6-Pager 템플릿
+- 시장 규모 분석 (TAM/SAM/SOM)
+- 경쟁사 분석 프레임워크
+- 고객 페르소나 개발
+- 비즈니스 모델 캔버스
+- GTM 전략 기획
+- **자동 웹 리서치** 및 출처 인용
+
+```bash
+spec-mix init my-product --mission product-strategy
+```
+
+**주요 명령어:**
+
+- `/spec-mix.specify` - 대화형으로 6-Pager 작성
+- `/spec-mix.analyze` - 시장/경쟁사/고객 심층 분석
+- `/spec-mix.refine` - 피드백 반영 및 업데이트
+- `/spec-mix.review` - 이해관계자 리뷰 준비
+
+자세한 사용법은 [6-Pager 가이드](6pager.md)를 참조하세요.
+
 #### 연구 미션
 
 다음을 포함하는 연구 프로젝트를 위해 설계:
@@ -326,6 +351,7 @@ spec-mix dashboard
 ### 미션 선택
 
 - **소프트웨어 개발** - 앱, 서비스, 라이브러리, 도구용
+- **제품 전략** - 제품 기획, 6-Pager, 시장 분석용
 - **연구** - 연구, 분석, 실험, 논문용
 - 사용자 정의 미션 - 특수 워크플로용
 
@@ -373,6 +399,7 @@ spec-mix dashboard --verbose
 
 ## 다음 단계
 
+- [6-Pager 가이드](6pager.md) - 웹 리서치로 전략 문서 작성
 - [다국어 가이드](i18n.md) - i18n 기능 심층 탐구
 - [빠른 시작](quickstart.md) - Spec Mix 시작하기
 - [설치](installation.md) - 설치 옵션

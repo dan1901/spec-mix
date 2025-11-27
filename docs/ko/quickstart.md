@@ -107,6 +107,55 @@ AI 에이전트에게 구현 계획을 감사하도록 하세요:
 implement specs/002-create-taskify/plan.md
 ```
 
+## 제품 전략 예제: 6-Pager
+
+전략 기획 및 제품 문서에는 product-strategy 미션을 사용하세요:
+
+### 1단계: 제품 전략 미션으로 초기화
+
+```bash
+spec-mix init my-product --mission product-strategy --ai claude
+cd my-product
+```
+
+### 2단계: `/spec-mix.specify`로 6-Pager 생성
+
+```text
+/spec-mix.specify 자동 예산 분류 및 저축 추천 기능이 있는 밀레니얼 대상 AI 기반 개인 금융 앱
+```
+
+AI가 다음을 수행합니다:
+
+1. 제품 비전에 대한 명확화 질문
+2. 시장 데이터, 경쟁사, 트렌드에 대한 자동 웹 검색
+3. 출처가 인용된 14개 섹션의 6-Pager 문서 생성
+
+### 3단계: `/spec-mix.analyze`로 심층 분석
+
+```bash
+# 전체 분석
+/spec-mix.analyze
+
+# 또는 특정 영역
+/spec-mix.analyze market
+/spec-mix.analyze competitor
+/spec-mix.analyze customer
+```
+
+### 4단계: 피드백 기반 개선
+
+```text
+/spec-mix.refine CFO가 CAC 상세 분석과 LTV 계산을 요청함
+```
+
+### 5단계: 리뷰 준비
+
+```text
+/spec-mix.review stakeholder
+```
+
+자세한 6-Pager 사용법은 [6-Pager 가이드](6pager.md)를 참조하세요.
+
 ## 주요 원칙
 
 - 구축하려는 것과 이유에 대해 **명확하게 설명**하세요
@@ -117,6 +166,7 @@ implement specs/002-create-taskify/plan.md
 
 ## 다음 단계
 
-- 심층 가이드를 위해 전체 방법론 읽기
-- 저장소에서 더 많은 예제 확인
+- [6-Pager 가이드](6pager.md) - 웹 리서치로 전략 문서 작성
+- [기능 가이드](features.md) - Spec Mix의 모든 기능 탐색
+- [다국어 가이드](i18n.md) - 원하는 언어로 Spec Mix 사용
 - GitHub에서 소스 코드 탐색

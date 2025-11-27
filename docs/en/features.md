@@ -130,6 +130,31 @@ Optimized for building software applications with:
 spec-mix init my-app --mission software-dev
 ```
 
+#### Product Strategy Mission
+
+Designed for product planning and strategic documents with:
+
+- Amazon-style 6-Pager templates
+- Market size analysis (TAM/SAM/SOM)
+- Competitor analysis frameworks
+- Customer persona development
+- Business model canvas
+- GTM strategy planning
+- **Automatic web research** with source citation
+
+```bash
+spec-mix init my-product --mission product-strategy
+```
+
+**Key Commands:**
+
+- `/spec-mix.specify` - Create 6-Pager with guided conversation
+- `/spec-mix.analyze` - Deep market/competitor/customer analysis
+- `/spec-mix.refine` - Incorporate feedback and update
+- `/spec-mix.review` - Stakeholder review preparation
+
+See [6-Pager Guide](6pager.md) for detailed usage.
+
 #### Research Mission
 
 Designed for research projects with:
@@ -326,6 +351,7 @@ See [Multi-Language Guide](i18n.md) for detailed instructions.
 ### Mission Selection
 
 - **Software Development** - For apps, services, libraries, tools
+- **Product Strategy** - For product planning, 6-Pagers, market analysis
 - **Research** - For studies, analyses, experiments, papers
 - Custom missions - For specialized workflows
 
@@ -373,6 +399,7 @@ spec-mix dashboard --verbose
 
 ## Next Steps
 
+- [6-Pager Guide](6pager.md) - Create strategic documents with web research
 - [Multi-Language Guide](i18n.md) - Deep dive into i18n features
 - [Quick Start](quickstart.md) - Get started with Spec Mix
 - [Installation](installation.md) - Installation options
