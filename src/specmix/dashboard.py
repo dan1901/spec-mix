@@ -1346,7 +1346,7 @@ def get_untracked_commits(branch: str = 'HEAD', limit: int = 100) -> List[Dict[s
             try:
                 with open(migration_file, 'r', encoding='utf-8') as f:
                     content = f.read()
-                    # Try to parse as JSON
+                    # Try to parse as JSON first
                     try:
                         data = json.loads(content)
                         if 'migrated_commits' in data:
@@ -1354,9 +1354,24 @@ def get_untracked_commits(branch: str = 'HEAD', limit: int = 100) -> List[Dict[s
                                 migrated_commits.add(sha.lower()[:7])  # Short SHA
                                 migrated_commits.add(sha.lower())  # Full SHA
                     except json.JSONDecodeError:
-                        # Fallback: old format - extract SHA from text
+                        # Fallback: parse text format
+                        in_commits_section = False
                         for line in content.split('\n'):
-                            if 'commit' in line.lower() and ':' in line:
+                            line = line.strip()
+                            # Check for "Commits:" section header
+                            if line.lower() == 'commits:':
+                                in_commits_section = True
+                                continue
+                            # Parse commit list: "- abc1234: message"
+                            if in_commits_section and line.startswith('- '):
+                                parts = line[2:].split(':', 1)
+                                if parts:
+                                    sha = parts[0].strip()
+                                    if sha and len(sha) >= 7:
+                                        migrated_commits.add(sha.lower()[:7])
+                                        migrated_commits.add(sha.lower())
+                            # Also check for single commit format: "Migrated from commit: abc1234"
+                            elif 'migrated from commit' in line.lower() and ':' in line:
                                 sha = line.split(':')[-1].strip()
                                 if sha:
                                     migrated_commits.add(sha.lower()[:7])
