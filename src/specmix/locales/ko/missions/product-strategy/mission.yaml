@@ -1,0 +1,72 @@
+name: "제품 전략"
+description: "6-Pager 형식의 전략 문서를 작성하여 제품 기획을 체계화하는 미션"
+version: "1.0.0"
+domain: "product"
+
+# 디렉토리 경로 (미션 루트 기준 상대 경로)
+directories:
+  templates: "templates"
+  commands: "commands"
+  constitution: "constitution"
+
+# 워크플로우 설정
+workflow:
+  phases:
+    - name: "Discovery"
+      required: true
+      description: "시장, 고객, 경쟁사 조사"
+    - name: "Strategy"
+      required: true
+      description: "6-Pager 전략 문서 작성"
+    - name: "Refinement"
+      required: false
+      description: "피드백 기반 문서 개선"
+    - name: "Review"
+      required: true
+      description: "이해관계자 검토"
+    - name: "Finalization"
+      required: true
+      description: "최종 승인 및 공유"
+
+# 예상 아티팩트
+artifacts:
+  required:
+    - 6pager.md
+  optional:
+    - market-research.md
+    - competitor-analysis.md
+    - customer-interviews.md
+    - financial-model.md
+
+# 검증 체크리스트
+validation:
+  checks:
+    - check_market_size_defined
+    - check_personas_defined
+    - check_kpis_measurable
+    - check_risks_identified
+    - check_milestones_realistic
+
+# 에이전트 성격 및 컨텍스트
+agent_context:
+  personality: "당신은 전략적 사고와 데이터 기반 의사결정에 능숙한 제품 전략 컨설턴트입니다."
+  focus: "시장 기회, 고객 가치, 경쟁 우위, 실행 가능성"
+  principles:
+    - "고객 중심으로 사고하기"
+    - "데이터로 가설 검증하기"
+    - "명확하고 측정 가능한 목표 설정"
+    - "리스크를 미리 파악하고 대응책 마련"
+    - "간결하고 설득력 있는 커뮤니케이션"
+    - "실행 가능한 계획 수립"
+
+# 명령어별 설정
+commands:
+  specify:
+    focus: "6-Pager 전략 문서 작성"
+    avoid: "기술적 구현 세부사항"
+  analyze:
+    focus: "시장 분석, 경쟁사 분석, 고객 분석"
+    require: "데이터 기반 인사이트"
+  refine:
+    focus: "피드백 반영 및 문서 개선"
+    require: "변경 사항 추적"

@@ -1,0 +1,72 @@
+name: "Product Strategy"
+description: "Mission for creating 6-Pager strategic documents to systematize product planning"
+version: "1.0.0"
+domain: "product"
+
+# Directory paths (relative to mission root)
+directories:
+  templates: "templates"
+  commands: "commands"
+  constitution: "constitution"
+
+# Workflow configuration
+workflow:
+  phases:
+    - name: "Discovery"
+      required: true
+      description: "Market, customer, and competitor research"
+    - name: "Strategy"
+      required: true
+      description: "Create 6-Pager strategic document"
+    - name: "Refinement"
+      required: false
+      description: "Document improvement based on feedback"
+    - name: "Review"
+      required: true
+      description: "Stakeholder review"
+    - name: "Finalization"
+      required: true
+      description: "Final approval and distribution"
+
+# Expected artifacts
+artifacts:
+  required:
+    - 6pager.md
+  optional:
+    - market-research.md
+    - competitor-analysis.md
+    - customer-interviews.md
+    - financial-model.md
+
+# Validation checklist
+validation:
+  checks:
+    - check_market_size_defined
+    - check_personas_defined
+    - check_kpis_measurable
+    - check_risks_identified
+    - check_milestones_realistic
+
+# Agent personality and context
+agent_context:
+  personality: "You are a product strategy consultant skilled in strategic thinking and data-driven decision making."
+  focus: "Market opportunity, customer value, competitive advantage, execution feasibility"
+  principles:
+    - "Think customer-first"
+    - "Validate hypotheses with data"
+    - "Set clear and measurable goals"
+    - "Identify risks early and prepare mitigation plans"
+    - "Communicate concisely and persuasively"
+    - "Create actionable plans"
+
+# Command-specific settings
+commands:
+  specify:
+    focus: "6-Pager strategic document creation"
+    avoid: "Technical implementation details"
+  analyze:
+    focus: "Market analysis, competitor analysis, customer analysis"
+    require: "Data-driven insights"
+  refine:
+    focus: "Incorporate feedback and improve document"
+    require: "Track changes"
