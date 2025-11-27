@@ -1338,6 +1338,32 @@ def get_untracked_commits(branch: str = 'HEAD', limit: int = 100) -> List[Dict[s
     # - feat: WP04.3, fix: WP04
     wp_pattern = re.compile(r'\b(?:\[)?WP\d+(?:\.\d+)?(?:\])?', re.IGNORECASE)
 
+    # Load migrated commits from .migration-info files
+    migrated_commits = set()
+    specs_dir = Path.cwd() / 'specs'
+    if specs_dir.exists():
+        for migration_file in specs_dir.glob('*/.migration-info'):
+            try:
+                with open(migration_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    # Try to parse as JSON
+                    try:
+                        data = json.loads(content)
+                        if 'migrated_commits' in data:
+                            for sha in data['migrated_commits']:
+                                migrated_commits.add(sha.lower()[:7])  # Short SHA
+                                migrated_commits.add(sha.lower())  # Full SHA
+                    except json.JSONDecodeError:
+                        # Fallback: old format - extract SHA from text
+                        for line in content.split('\n'):
+                            if 'commit' in line.lower() and ':' in line:
+                                sha = line.split(':')[-1].strip()
+                                if sha:
+                                    migrated_commits.add(sha.lower()[:7])
+                                    migrated_commits.add(sha.lower())
+            except Exception:
+                pass
+
     try:
         # Get recent commits
         result = subprocess.run(
@@ -1368,6 +1394,10 @@ def get_untracked_commits(branch: str = 'HEAD', limit: int = 100) -> List[Dict[s
 
             # Skip merge commits and automated commits
             if message.startswith('Merge') or '[skip ci]' in message:
+                continue
+
+            # Skip if commit was already migrated
+            if sha.lower() in migrated_commits or sha.lower()[:7] in migrated_commits:
                 continue
 
             # Get commit stats and files

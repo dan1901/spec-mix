@@ -17,18 +17,35 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 This command helps migrate existing commits that don't have Work Package IDs into the spec-driven workflow. It analyzes what was actually implemented and generates retrospective specifications.
 
-**Input**: Commit SHA (required) - the commit to migrate
+**Input**: Commit SHA (one or more required) - the commits to migrate
 
-Given the commit SHA, do this:
+**Formats**:
+- Single commit: `abc1234`
+- Multiple commits: `abc1234 def5678 ghi9012` (space-separated)
+- Commit range: `abc1234..def5678` (range notation)
 
-1. **Validate Commit SHA**:
-   ```bash
-   git rev-parse --verify {COMMIT_SHA}
-   ```
-   - If invalid: ERROR "Invalid commit SHA: {COMMIT_SHA}"
-   - If valid: Proceed to analysis
+Given the commit SHA(s), do this:
 
-2. **Analyze Commit**:
+1. **Parse Input and Validate Commit SHAs**:
+
+   a. Detect input format:
+      - Range (contains `..`): Extract commit list with `git rev-list {START}..{END}`
+      - Multiple SHAs (space-separated): Validate each
+      - Single SHA: Validate directly
+
+   b. Validate each commit:
+      ```bash
+      git rev-parse --verify {COMMIT_SHA}
+      ```
+      - If invalid: ERROR "Invalid commit SHA: {COMMIT_SHA}"
+      - If all valid: Proceed to analysis
+
+   c. Sort commits by date:
+      ```bash
+      git rev-list --no-walk --date-order {COMMIT_SHA1} {COMMIT_SHA2} ...
+      ```
+
+2. **Analyze Commits** (perform for each commit, merge results for multiple):
 
    a. Get commit metadata:
       ```bash
@@ -189,12 +206,22 @@ Given the commit SHA, do this:
 
     c. Write tasks to `FEATURE_DIR/tasks/done/WP##.md`
 
-    d. Create migration metadata:
+    d. Create migration metadata (JSON format):
        ```bash
-       echo "Migrated from commit: {COMMIT_SHA}" > FEATURE_DIR/.migration-info
-       echo "Original commit date: {COMMIT_DATE}" >> FEATURE_DIR/.migration-info
-       echo "Original author: {AUTHOR}" >> FEATURE_DIR/.migration-info
+       cat > FEATURE_DIR/.migration-info << EOF
+       {
+         "migrated_commits": [
+           "{COMMIT_SHA_1}",
+           "{COMMIT_SHA_2}",
+           ...
+         ],
+         "migrated_at": "{TIMESTAMP}",
+         "commit_count": {N}
+       }
+       EOF
        ```
+
+       **Important**: This file is used by the dashboard to filter out commits from untracked list.
 
 11. **Present Results**:
 

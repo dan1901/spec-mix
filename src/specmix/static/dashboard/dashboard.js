@@ -244,8 +244,15 @@ async function loadFeatures() {
         document.getElementById('features-stats').textContent =
             `${features.length} feature${features.length !== 1 ? 's' : ''} • ${totalTasks} task${totalTasks !== 1 ? 's' : ''}`;
 
+        // Sort features by number descending (e.g., 003 > 002 > 001)
+        const sortedFeatures = [...features].sort((a, b) => {
+            const numA = parseInt((a.id || '').match(/^(\d+)/)?.[1] || '0', 10);
+            const numB = parseInt((b.id || '').match(/^(\d+)/)?.[1] || '0', 10);
+            return numB - numA;
+        });
+
         // Render features
-        container.innerHTML = features.map(feature => renderFeatureCard(feature)).join('');
+        container.innerHTML = sortedFeatures.map(feature => renderFeatureCard(feature)).join('');
 
         // Add click handlers
         document.querySelectorAll('.feature-card').forEach(card => {

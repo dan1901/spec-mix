@@ -17,18 +17,35 @@ scripts:
 
 이 명령어는 작업 패키지 ID가 없는 기존 커밋을 스펙 기반 워크플로우로 마이그레이션하는 데 도움을 줍니다. 실제로 구현된 내용을 분석하고 회고적 명세를 생성합니다.
 
-**입력**: 커밋 SHA (필수) - 마이그레이션할 커밋
+**입력**: 커밋 SHA (하나 이상 필수) - 마이그레이션할 커밋
+
+**형식**:
+- 단일 커밋: `abc1234`
+- 여러 커밋: `abc1234 def5678 ghi9012` (공백으로 구분)
+- 커밋 범위: `abc1234..def5678` (범위 지정)
 
 커밋 SHA가 주어지면 다음을 수행합니다:
 
-1. **커밋 SHA 검증**:
-   ```bash
-   git rev-parse --verify {COMMIT_SHA}
-   ```
-   - 유효하지 않은 경우: ERROR "유효하지 않은 커밋 SHA: {COMMIT_SHA}"
-   - 유효한 경우: 분석 진행
+1. **입력 파싱 및 커밋 SHA 검증**:
 
-2. **커밋 분석**:
+   a. 입력 형식 감지:
+      - 범위 (`..` 포함): `git rev-list {START}..{END}` 로 커밋 목록 추출
+      - 여러 SHA (공백으로 구분): 각각 검증
+      - 단일 SHA: 직접 검증
+
+   b. 각 커밋 검증:
+      ```bash
+      git rev-parse --verify {COMMIT_SHA}
+      ```
+      - 유효하지 않은 경우: ERROR "유효하지 않은 커밋 SHA: {COMMIT_SHA}"
+      - 모든 커밋이 유효한 경우: 분석 진행
+
+   c. 커밋 목록 정렬 (시간순):
+      ```bash
+      git rev-list --no-walk --date-order {COMMIT_SHA1} {COMMIT_SHA2} ...
+      ```
+
+2. **커밋 분석** (각 커밋에 대해 수행, 여러 커밋은 결과 통합):
 
    a. 커밋 메타데이터 가져오기:
       ```bash
@@ -189,12 +206,22 @@ scripts:
 
     c. 작업을 `FEATURE_DIR/tasks/done/WP##.md`에 쓰기
 
-    d. 마이그레이션 메타데이터 생성:
+    d. 마이그레이션 메타데이터 생성 (JSON 형식):
        ```bash
-       echo "마이그레이션 원본 커밋: {COMMIT_SHA}" > FEATURE_DIR/.migration-info
-       echo "원본 커밋 날짜: {COMMIT_DATE}" >> FEATURE_DIR/.migration-info
-       echo "원본 작성자: {AUTHOR}" >> FEATURE_DIR/.migration-info
+       cat > FEATURE_DIR/.migration-info << EOF
+       {
+         "migrated_commits": [
+           "{COMMIT_SHA_1}",
+           "{COMMIT_SHA_2}",
+           ...
+         ],
+         "migrated_at": "{TIMESTAMP}",
+         "commit_count": {N}
+       }
+       EOF
        ```
+
+       **중요**: 이 파일은 대시보드에서 untracked commits를 필터링하는 데 사용됩니다.
 
 11. **결과 발표**:
 
