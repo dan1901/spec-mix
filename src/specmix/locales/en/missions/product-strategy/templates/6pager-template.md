@@ -356,10 +356,34 @@ Q1          Q2          Q3          Q4
 |------|------------|
 | | |
 
-### B. References
+### B. References and Sources
 
-- [Reference 1]
-- [Reference 2]
+**Reliability Criteria**:
+- 🟢 **Verified**: Official statistics, IR materials, academic papers, research firm reports
+- 🟡 **Reference**: News articles, industry blogs, unofficial estimates
+- 🔴 **Estimated**: Self-calculated, assumption-based
+
+#### Market Data
+
+| Data | Value | Source | Reliability | Access Date |
+|------|-------|--------|-------------|-------------|
+| | | [Source](URL) | 🟢/🟡/🔴 | YYYY-MM-DD |
+
+#### Competitor Information
+
+| Competitor | Info | Source | Reliability | Access Date |
+|------------|------|--------|-------------|-------------|
+| | | [Source](URL) | 🟢/🟡/🔴 | YYYY-MM-DD |
+
+#### Customer/Trend Data
+
+| Data | Content | Source | Reliability | Access Date |
+|------|---------|--------|-------------|-------------|
+| | | [Source](URL) | 🟢/🟡/🔴 | YYYY-MM-DD |
+
+#### Other References
+
+- [Reference Name](URL) - Description
 
 ### C. Change History
 

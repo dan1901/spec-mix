@@ -328,6 +328,82 @@ Based on analysis results, recommend updates to these sections:
 
 ---
 
+## Web Research Execution
+
+During analysis, **actively use web searches** to collect the latest data.
+
+### Market Data Search
+
+```
+Search queries:
+- "[industry] market size 2024"
+- "[industry] TAM SAM SOM"
+- "[industry] CAGR growth forecast"
+- "[industry] market report analysis"
+```
+
+**Priority search sites**:
+- Statista (statista.com)
+- Grand View Research
+- MarketsandMarkets
+- IBISWorld
+- Government statistics agencies
+
+### Competitor Information Search
+
+```
+Search queries:
+- "[competitor] funding series valuation"
+- "[competitor] revenue ARR"
+- "[competitor] pricing plans features"
+- "[industry] top companies market share"
+- "[competitor] G2 reviews rating"
+```
+
+**Priority search sites**:
+- Crunchbase (crunchbase.com)
+- G2 (g2.com)
+- Capterra (capterra.com)
+- LinkedIn (linkedin.com)
+- Official websites
+
+### Customer/Trend Search
+
+```
+Search queries:
+- "[target customer] challenges pain points"
+- "[industry] trends 2024 2025"
+- "[problem area] user research study"
+- "[industry] customer behavior survey"
+```
+
+### Source Recording Format
+
+Record all search results with sources in this format:
+
+```markdown
+## Sources
+
+### Market Data
+| Data | Value | Source | Reliability | Access Date |
+|------|-------|--------|-------------|-------------|
+| Global Market Size | $50B | [Statista](URL) | 🟢 Verified | 2024-01-15 |
+| CAGR Growth Rate | 12.5% | [Grand View](URL) | 🟢 Verified | 2024-01-15 |
+
+### Competitor Information
+| Competitor | Info | Source | Reliability | Access Date |
+|------------|------|--------|-------------|-------------|
+| Company A | $10M ARR | [Crunchbase](URL) | 🟡 Reference | 2024-01-15 |
+| Company B | 4.5/5 rating | [G2](URL) | 🟢 Verified | 2024-01-15 |
+```
+
+**Reliability criteria**:
+- 🟢 **Verified**: Official statistics, IR materials, academic papers, research firm reports
+- 🟡 **Reference**: News articles, industry blogs, unofficial estimates
+- 🔴 **Estimated**: Self-calculated, assumption-based
+
+---
+
 ## Analysis Tips
 
 ### Finding Market Data

@@ -213,9 +213,71 @@ Collect necessary information for each section through conversation. Don't ask t
 2. What are the **mitigation strategies** for each risk?
 ```
 
-### Step 4: Generate 6-Pager Document
+### Step 4: Web Research (Automatic)
 
-Based on collected information, generate the 6-Pager document.
+Based on user input and conversation, **automatically perform web searches** to enhance data quality.
+
+#### 4.1 Market Data Search
+
+Perform web searches with these keywords:
+
+```
+Search query examples:
+- "[industry] market size 2024 2025"
+- "[industry] TAM SAM market report"
+- "[industry] industry growth rate CAGR"
+- "[industry] market forecast"
+```
+
+**Processing search results**:
+1. Prioritize reliable sources (Statista, Gartner, IDC, government statistics, industry reports)
+2. Prioritize recent data (2023 onwards)
+3. Record source URL and publication date
+
+#### 4.2 Competitor Information Search
+
+```
+Search query examples:
+- "[competitor] company overview"
+- "[competitor] funding valuation"
+- "[competitor] vs [competitor] comparison"
+- "[industry] market share competitors"
+- "[competitor] pricing plans"
+```
+
+**Processing search results**:
+1. Check pricing and features on official websites
+2. Verify company info on Crunchbase, LinkedIn
+3. Check reputation on review sites (G2, Capterra)
+
+#### 4.3 Customer/Trend Search
+
+```
+Search query examples:
+- "[target customer] pain points survey"
+- "[industry] customer trends 2024"
+- "[problem area] user research insights"
+```
+
+#### 4.4 Source Management
+
+Record sources for all searched data in this format:
+
+```markdown
+| Data | Value | Source | Access Date |
+|------|-------|--------|-------------|
+| Global SaaS Market Size | $197B (2023) | [Statista](https://statista.com/...) | 2024-01-15 |
+| Competitor A Pricing | $29/mo | [Official Website](https://competitor-a.com/pricing) | 2024-01-15 |
+```
+
+**Source Reliability Classification**:
+- 🟢 **Verified**: Official statistics, company IR materials, academic papers
+- 🟡 **Reference**: Industry reports, news articles, expert opinions
+- 🔴 **Estimated**: Self-calculated, assumption-based estimates
+
+### Step 5: Generate 6-Pager Document
+
+Based on collected information and web research results, generate the 6-Pager document.
 
 1. **Load Template**:
    ```
@@ -237,7 +299,7 @@ Based on collected information, generate the 6-Pager document.
    specs/strategy/6pager.md
    ```
 
-### Step 5: Summarize Items Needing Validation
+### Step 6: Summarize Items Needing Validation
 
 After writing, summarize and present to user:
 
