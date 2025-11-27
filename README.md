@@ -412,7 +412,7 @@ The `specify` command supports the following options:
 | `--ai`                 | Option   | AI assistant to use: `claude`, `copilot`, `gemini`, `cursor-agent`, `kiro`, `windsurf`, `antigravity`, or `codex` |
 | `--script`             | Option   | Script variant to use: `sh` (bash/zsh) or `ps` (PowerShell)                 |
 | `--lang`               | Option   | Language to use: `en`, `ko` (default: `en`)                                 |
-| `--mission`            | Option   | Mission to use: `software-dev`, `research` (default: `software-dev`)        |
+| `--mission`            | Option   | Mission to use: `software-dev`, `product-strategy`, `research` (default: `software-dev`) |
 | `--mode`               | Option   | Mode to use: `normal`, `pro` (default: `normal`)                            |
 | `--ignore-agent-tools` | Flag     | Skip checks for AI agent tools like Claude Code                             |
 | `--no-git`             | Flag     | Skip git repository initialization                                          |
@@ -465,6 +465,9 @@ spec-mix init my-project --ai claude --mode pro
 
 # Initialize with Korean language
 spec-mix init my-project --ai claude --lang ko
+
+# Initialize with product strategy mission
+spec-mix init my-project --ai claude --mission product-strategy
 
 # Initialize with research mission
 spec-mix init my-project --ai claude --mission research

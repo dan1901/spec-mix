@@ -43,6 +43,44 @@ spec-mix init my-web-app --mission software-dev
 /spec-mix.tasks Break down into backend and frontend work
 ```
 
+### Product Strategy
+
+**Best for:** Product planning, 6-Pager documents, market analysis, business cases
+
+**Features:**
+
+- Amazon-style 6-Pager strategic documents
+- Market size analysis (TAM/SAM/SOM)
+- Customer persona development
+- Competitive analysis frameworks
+- Business model canvas
+- GTM strategy planning
+
+**Templates:**
+
+- `6pager-template.md` - 14-section strategic document
+- `constitution-template.md` - Product strategy principles
+
+**Commands:**
+
+- `/spec-mix.specify` - Create 6-Pager through guided conversation
+- `/spec-mix.analyze` - Deep market/competitor/customer analysis
+- `/spec-mix.refine` - Improve document based on feedback
+- `/spec-mix.review` - Stakeholder review checklists
+
+**Example Use Case:**
+
+```bash
+spec-mix init my-product --mission product-strategy
+
+# Use product strategy commands
+/spec-mix.specify AI-powered budgeting app for millennials
+/spec-mix.analyze market
+/spec-mix.analyze competitor
+/spec-mix.refine Update TAM to $10B based on Gartner report
+/spec-mix.review stakeholder
+```
+
 ### Research
 
 **Best for:** Academic research, data analysis, experiments, studies, papers
@@ -153,6 +191,15 @@ Commands focus on building features:
 - **`/spec-mix.review`** - Code review checklist
 - **`/spec-mix.accept`** - Acceptance criteria verification
 
+### Product Strategy Commands
+
+Commands focus on strategic planning:
+
+- **`/spec-mix.specify`** - Create 6-Pager strategic document
+- **`/spec-mix.analyze`** - Market/competitor/customer analysis
+- **`/spec-mix.refine`** - Incorporate feedback and update document
+- **`/spec-mix.review`** - Stakeholder review and approval
+
 ### Research Commands
 
 Commands focus on research workflow:
@@ -230,6 +277,14 @@ spec-mix init test --mission my-mission
 - Need feature-based specifications
 - Focus on implementation details
 - Require code quality checks
+
+**Use Product Strategy when:**
+
+- Creating product planning documents
+- Need market/competitor analysis
+- Developing business cases
+- Preparing stakeholder presentations
+- Writing 6-Pager strategic documents
 
 **Use Research when:**
 
@@ -323,6 +378,29 @@ cd todo-app
 # Review and accept
 /spec-mix.review
 /spec-mix.accept
+```
+
+### Product Strategy Workflow
+
+```bash
+# Initialize
+spec-mix init my-saas --mission product-strategy
+
+cd my-saas
+
+# Create 6-Pager (guided conversation)
+/spec-mix.specify B2B SaaS for project management
+
+# Deep analysis
+/spec-mix.analyze market       # TAM/SAM/SOM analysis
+/spec-mix.analyze competitor   # Competitive landscape
+/spec-mix.analyze customer     # Persona development
+
+# Incorporate feedback
+/spec-mix.refine CFO requested more detailed unit economics
+
+# Stakeholder review
+/spec-mix.review stakeholder
 ```
 
 ### Research Workflow

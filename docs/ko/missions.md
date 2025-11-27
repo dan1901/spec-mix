@@ -43,6 +43,44 @@ spec-mix init my-web-app --mission software-dev
 /spec-mix.tasks 백엔드와 프론트엔드 작업으로 분해
 ```
 
+### 제품 전략
+
+**적합한 경우:** 제품 기획, 6-Pager 문서, 시장 분석, 비즈니스 케이스
+
+**기능:**
+
+- Amazon 스타일 6-Pager 전략 문서
+- 시장 규모 분석 (TAM/SAM/SOM)
+- 고객 페르소나 개발
+- 경쟁사 분석 프레임워크
+- 비즈니스 모델 캔버스
+- GTM 전략 기획
+
+**템플릿:**
+
+- `6pager-template.md` - 14개 섹션 전략 문서
+- `constitution-template.md` - 제품 전략 원칙
+
+**명령:**
+
+- `/spec-mix.specify` - 대화형으로 6-Pager 작성
+- `/spec-mix.analyze` - 시장/경쟁사/고객 심층 분석
+- `/spec-mix.refine` - 피드백 기반 문서 개선
+- `/spec-mix.review` - 이해관계자 리뷰 체크리스트
+
+**사용 예시:**
+
+```bash
+spec-mix init my-product --mission product-strategy
+
+# 제품 전략 명령 사용
+/spec-mix.specify 밀레니얼을 위한 AI 기반 가계부 앱
+/spec-mix.analyze market
+/spec-mix.analyze competitor
+/spec-mix.refine Gartner 리포트 기반으로 TAM을 $10B로 업데이트
+/spec-mix.review stakeholder
+```
+
 ### 연구
 
 **적합한 경우:** 학술 연구, 데이터 분석, 실험, 연구, 논문
@@ -153,6 +191,15 @@ spec-mix mission current
 - **`/spec-mix.review`** - 코드 리뷰 체크리스트
 - **`/spec-mix.accept`** - 승인 기준 검증
 
+### 제품 전략 명령
+
+전략 기획에 중점을 둔 명령:
+
+- **`/spec-mix.specify`** - 6-Pager 전략 문서 작성
+- **`/spec-mix.analyze`** - 시장/경쟁사/고객 분석
+- **`/spec-mix.refine`** - 피드백 반영 및 문서 업데이트
+- **`/spec-mix.review`** - 이해관계자 리뷰 및 승인
+
 ### 연구 명령
 
 연구 워크플로에 중점을 둔 명령:
@@ -230,6 +277,14 @@ spec-mix init test --mission my-mission
 - 기능 기반 사양 필요
 - 구현 세부사항에 집중
 - 코드 품질 검사 필요
+
+**제품 전략을 사용하는 경우:**
+
+- 제품 기획 문서 작성
+- 시장/경쟁사 분석 필요
+- 비즈니스 케이스 개발
+- 이해관계자 프레젠테이션 준비
+- 6-Pager 전략 문서 작성
 
 **연구를 사용하는 경우:**
 
@@ -323,6 +378,29 @@ cd todo-app
 # 검토 및 승인
 /spec-mix.review
 /spec-mix.accept
+```
+
+### 제품 전략 워크플로
+
+```bash
+# 초기화
+spec-mix init my-saas --mission product-strategy
+
+cd my-saas
+
+# 6-Pager 작성 (대화형 가이드)
+/spec-mix.specify B2B 프로젝트 관리 SaaS
+
+# 심층 분석
+/spec-mix.analyze market       # TAM/SAM/SOM 분석
+/spec-mix.analyze competitor   # 경쟁 환경 분석
+/spec-mix.analyze customer     # 페르소나 개발
+
+# 피드백 반영
+/spec-mix.refine CFO가 Unit Economics 상세화 요청
+
+# 이해관계자 리뷰
+/spec-mix.review stakeholder
 ```
 
 ### 연구 워크플로
