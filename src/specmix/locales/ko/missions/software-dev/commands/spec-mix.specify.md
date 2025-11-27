@@ -35,8 +35,8 @@ Parse BRANCH_NAME and SPEC_FILE from JSON output.
 
 ### 3. Load Context
 
-- Read `spec-template.md` for structure
-- Read `constitution.md` if exists (for project principles)
+- Read `.spec-mix/active-mission/templates/spec-template.md` for structure
+- Read `specs/constitution.md` if exists (for project principles)
 
 ### 4. Write Specification
 

@@ -27,8 +27,8 @@ Parse: FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH
 ### 1. Load Context
 
 - Read FEATURE_SPEC (spec.md)
-- Read `constitution.md` if exists
-- Load plan template
+- Read `specs/constitution.md` if exists (for project principles)
+- Load plan template from `.spec-mix/active-mission/templates/plan-template.md`
 
 ### 2. Fill Technical Context
 

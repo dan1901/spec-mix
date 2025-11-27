@@ -59,10 +59,10 @@ bash .spec-mix/scripts/bash/move-task.sh WP## planned doing $FEATURE_DIR
 ### 4. Load Context
 
 Read (in order):
-1. `tasks.md` - task list
-2. `plan.md` - architecture
-3. `constitution.md` - principles (if exists)
-4. `data-model.md` (if exists)
+1. `{SPEC_DIR}/tasks.md` - task list
+2. `{SPEC_DIR}/plan.md` - architecture
+3. `specs/constitution.md` - project principles (if exists)
+4. `{SPEC_DIR}/data-model.md` (if exists)
 
 ### 5. Implement
 
