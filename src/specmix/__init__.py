@@ -1435,6 +1435,47 @@ def init(
             if debug:
                 console.print(f"[yellow]Could not create agent rule file: {e}[/yellow]")
 
+        # Create .claude/settings.local.json for Claude Code
+        if selected_ai == 'claude':
+            try:
+                claude_dir = project_path / '.claude'
+                claude_dir.mkdir(exist_ok=True)
+
+                settings_file = claude_dir / 'settings.local.json'
+                settings_data = {
+                    "permissions": {
+                        "allow": [
+                            "WebSearch",
+                            "WebFetch"
+                        ],
+                        "deny": [],
+                        "ask": []
+                    }
+                }
+
+                # Merge with existing settings if file exists
+                if settings_file.exists():
+                    try:
+                        with open(settings_file, 'r', encoding='utf-8') as f:
+                            existing = json.load(f)
+                        # Merge allow lists (avoid duplicates)
+                        existing_allow = existing.get('permissions', {}).get('allow', [])
+                        for perm in settings_data['permissions']['allow']:
+                            if perm not in existing_allow:
+                                existing_allow.append(perm)
+                        existing.setdefault('permissions', {})['allow'] = existing_allow
+                        settings_data = existing
+                    except Exception:
+                        pass  # Use default if can't read existing
+
+                with open(settings_file, 'w', encoding='utf-8') as f:
+                    json.dump(settings_data, f, indent=2)
+
+                console.print("[green]✓[/green] Created .claude/settings.local.json with tool permissions")
+            except Exception as e:
+                if debug:
+                    console.print(f"[yellow]Could not create settings.local.json: {e}[/yellow]")
+
         # Set active mission
         if HAS_MISSION:
             from .mission import MissionManager
