@@ -287,10 +287,17 @@ function renderFeatureCard(feature) {
         badges.push(`<span class="feature-badge badge-mode-normal">Normal Mode</span>`);
     } else if (feature.mode === 'pro') {
         badges.push(`<span class="feature-badge badge-mode-pro">Pro Mode</span>`);
+    } else if (feature.mode === 'hotfix' || feature.is_hotfix_dir) {
+        badges.push(`<span class="feature-badge badge-hotfix">Hotfix</span>`);
     }
 
     if (feature.worktree) {
         badges.push(`<span class="feature-badge badge-worktree">Worktree: ${feature.worktree}</span>`);
+    }
+
+    // Fixes badge
+    if (feature.fixes_count && feature.fixes_count > 0) {
+        badges.push(`<span class="feature-badge badge-fixes">${feature.fixes_count} fix${feature.fixes_count > 1 ? 'es' : ''}</span>`);
     }
 
     const stats = [];

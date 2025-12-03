@@ -361,6 +361,69 @@ Run `/spec-mix.constitution` to create one interactively, or use the template at
         self.wfile.write(json.dumps(data, ensure_ascii=False, indent=2).encode('utf-8'))
 
 
+def get_hotfix_info(hotfix_dir: Path) -> Optional[Dict[str, Any]]:
+    """Get information about the hotfix directory"""
+    try:
+        hotfix_files = list(hotfix_dir.glob('HOTFIX-*.md'))
+        if not hotfix_files:
+            return None
+
+        # Count hotfixes by status (parse frontmatter)
+        status_counts = {'analyzing': 0, 'planning': 0, 'implementing': 0, 'verifying': 0, 'done': 0}
+        hotfixes = []
+
+        for hf_file in hotfix_files:
+            try:
+                with open(hf_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+
+                # Parse frontmatter
+                status = 'analyzing'
+                priority = 'P2'
+                if content.startswith('---'):
+                    lines = content.split('\n')
+                    for line in lines[1:]:
+                        if line.strip() == '---':
+                            break
+                        if line.startswith('status:'):
+                            status = line.split(':')[1].strip()
+                        elif line.startswith('priority:'):
+                            priority = line.split(':')[1].strip()
+
+                status_counts[status] = status_counts.get(status, 0) + 1
+                hotfixes.append({
+                    'id': hf_file.stem,
+                    'status': status,
+                    'priority': priority,
+                    'path': str(hf_file)
+                })
+            except:
+                pass
+
+        return {
+            'id': 'hotfix',
+            'name': 'Hotfixes',
+            'path': str(hotfix_dir),
+            'worktree': None,
+            'mode': 'hotfix',
+            'is_hotfix_dir': True,
+            'artifacts': {'fixes': True},
+            'fixes_count': len(hotfix_files),
+            'hotfixes': hotfixes,
+            'status_counts': status_counts,
+            'kanban_stats': {
+                'planned': status_counts.get('analyzing', 0) + status_counts.get('planning', 0),
+                'doing': status_counts.get('implementing', 0),
+                'for_review': status_counts.get('verifying', 0),
+                'done': status_counts.get('done', 0)
+            },
+            'total_tasks': len(hotfix_files)
+        }
+    except Exception as e:
+        print(f"Error reading hotfix directory {hotfix_dir}: {e}")
+        return None
+
+
 def scan_all_features() -> List[Dict[str, Any]]:
     """Scan for all features in specs/ and .worktrees/"""
     features = []
@@ -370,6 +433,13 @@ def scan_all_features() -> List[Dict[str, Any]]:
     if specs_dir.exists():
         for feature_dir in specs_dir.iterdir():
             if feature_dir.is_dir() and not feature_dir.name.startswith('.'):
+                # Skip hotfix directory - handle separately
+                if feature_dir.name == 'hotfix':
+                    # Scan hotfix directory for HOTFIX-*.md files
+                    hotfix_info = get_hotfix_info(feature_dir)
+                    if hotfix_info:
+                        features.append(hotfix_info)
+                    continue
                 feature_info = get_feature_info(feature_dir)
                 if feature_info:
                     features.append(feature_info)
@@ -419,6 +489,14 @@ def get_feature_info(feature_path: Path, worktree: Optional[str] = None) -> Opti
 
         for artifact in artifacts:
             info['artifacts'][artifact.replace('.md', '')] = (feature_path / artifact).exists()
+
+        # Check for fixes directory
+        fixes_dir = feature_path / 'fixes'
+        fixes_count = 0
+        if fixes_dir.exists() and fixes_dir.is_dir():
+            fixes_count = len(list(fixes_dir.glob('FIX*.md')))
+        info['fixes_count'] = fixes_count
+        info['artifacts']['fixes'] = fixes_dir.exists() and fixes_count > 0
 
         # Check for phase-based walkthroughs (Normal mode)
         phase_walkthroughs = list(feature_path.glob('walkthrough-phase-*.md'))
