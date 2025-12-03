@@ -53,7 +53,7 @@ Spec Mix는 사용자의 필요와 경험 수준에 맞는 두 가지 운영 모
 
 모든 개별 명령어로 완전한 제어:
 
-- 모든 명령어 사용 가능: constitution, specify, clarify, plan, tasks, implement, analyze, checklist, review, accept, merge, dashboard
+- 모든 명령어 사용 가능: constitution, specify, clarify, plan, tasks, implement, analyze, checklist, review, accept, merge, fix, dashboard
 - 각 워크플로 단계에 대한 세밀한 제어
 - 워크 패키지 기반 작업 관리 (칸반 레인)
 - 경험 있는 사용자에게 권장
@@ -125,6 +125,7 @@ spec-mix init my-project --language ko
 - 작업 분해 구조
 - 코드 리뷰 체크리스트
 - 테스트 가이드라인
+- 경량 버그 수정 워크플로 (`/spec-mix.fix`)
 
 ```bash
 spec-mix init my-app --mission software-dev

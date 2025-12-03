@@ -124,7 +124,8 @@ spec-kit/
 │   │   ├── update-agent-context.sh # Agent context file updates
 │   │   ├── setup-worktree.sh      # Git worktree management (NEW)
 │   │   ├── move-task.sh           # Task lane movement (NEW)
-│   │   └── merge-feature.sh       # Feature branch merging (NEW)
+│   │   ├── merge-feature.sh       # Feature branch merging (NEW)
+│   │   └── create-fix.sh          # Lightweight bug fix creation (NEW)
 │   └── powershell/                # PowerShell equivalents
 ├── memory/                         # Project memory/constitution examples
 ├── docs/                           # Documentation site files
@@ -199,6 +200,10 @@ Slash commands are markdown files in `templates/commands/` that contain detailed
 5. `/spec-mix.tasks` → Generate task breakdown
 6. `/spec-mix.analyze` → Cross-artifact analysis (optional, before implement)
 7. `/spec-mix.implement` → Execute implementation
+
+**Standalone Commands:**
+
+- `/spec-mix.fix` → Create lightweight bug fix (can be run anytime from feature branch or main)
 
 ## Key Design Principles
 
@@ -299,6 +304,9 @@ scripts/bash/move-task.sh WP01 planned doing specs/001-user-auth
 
 # Merge with options
 scripts/bash/merge-feature.sh --feature 001-user-auth --strategy squash --push
+
+# Create lightweight bug fix
+scripts/bash/create-fix.sh --json "bug description here"
 ```
 
 ### Mode System (Normal/Pro)

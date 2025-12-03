@@ -53,7 +53,7 @@ Phase 2 → Walkthrough → Review → [ACCEPT/REJECT]
 
 Full control with all individual commands:
 
-- All commands available: constitution, specify, clarify, plan, tasks, implement, analyze, checklist, review, accept, merge, dashboard
+- All commands available: constitution, specify, clarify, plan, tasks, implement, analyze, checklist, review, accept, merge, fix, dashboard
 - Fine-grained control over each workflow step
 - Work Package based task management (kanban lanes)
 - Recommended for experienced users
@@ -125,6 +125,7 @@ Optimized for building software applications with:
 - Task breakdown structures
 - Code review checklists
 - Testing guidelines
+- Lightweight bug fix workflow (`/spec-mix.fix`)
 
 ```bash
 spec-mix init my-app --mission software-dev

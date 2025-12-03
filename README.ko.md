@@ -432,6 +432,7 @@ Spec-Driven Development 워크플로우를 위한 필수 명령:
 | `/spec-mix.review`    | `for_review` 레인의 완료된 작업을 검토하고 승인된 작업을 `done`으로 이동     |
 | `/spec-mix.accept`    | 병합 전에 포괄적인 검사로 기능 준비 확인     |
 | `/spec-mix.merge`     | 정리 옵션으로 기능 브랜치를 main으로 병합 (여러 전략 지원) |
+| `/spec-mix.fix`       | 최소한의 문서로 경량 버그 수정 생성 (관련 Work Package 자동 연결) |
 
 #### 선택적 명령
 

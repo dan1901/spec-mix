@@ -557,6 +557,7 @@ Commands for managing feature development with worktrees and task lanes:
 | `/spec-mix.review`    | Review completed work in the `for_review` lane and move approved tasks to `done` |
 | `/spec-mix.accept`    | Verify feature readiness with comprehensive checks before merging     |
 | `/spec-mix.merge`     | Merge feature branch to main with cleanup options (supports multiple strategies) |
+| `/spec-mix.fix`       | Create lightweight bug fixes with minimal documentation (auto-links to related Work Packages) |
 
 #### Optional Commands
 
