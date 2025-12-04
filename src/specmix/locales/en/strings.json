@@ -60,7 +60,14 @@
       "implement": "/spec-mix.implement - Execute implementation",
       "clarify": "/spec-mix.clarify (optional) - Ask structured questions to de-risk ambiguous areas before planning (run before /spec-mix.plan if used)",
       "analyze": "/spec-mix.analyze (optional) - Cross-artifact consistency & alignment report (after /spec-mix.tasks, before /spec-mix.implement)",
-      "checklist": "/spec-mix.checklist (optional) - Generate quality checklists to validate requirements completeness, clarity, and consistency (after /spec-mix.plan)"
+      "checklist": "/spec-mix.checklist (optional) - Generate quality checklists to validate requirements completeness, clarity, and consistency (after /spec-mix.plan)",
+      "workflow_commands": "Workflow Management Commands",
+      "workflow_description": "Commands for managing feature development, reviews, and merges",
+      "dashboard": "/spec-mix.dashboard - Launch web dashboard to visualize features and kanban boards",
+      "review": "/spec-mix.review - Review completed work in for_review lane",
+      "accept": "/spec-mix.accept - Verify feature readiness before merging",
+      "merge": "/spec-mix.merge - Merge feature branch to main",
+      "fix": "/spec-mix.fix - Create lightweight bug fix with minimal documentation"
     },
     "security": {
       "title": "Agent Folder Security",

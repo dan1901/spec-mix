@@ -60,7 +60,14 @@
       "implement": "/spec-mix.implement - 구현 실행",
       "clarify": "/spec-mix.clarify (선택사항) - 계획 전 모호한 영역을 명확히 하기 위한 구조화된 질문 (/spec-mix.plan 전에 실행)",
       "analyze": "/spec-mix.analyze (선택사항) - 교차 아티팩트 일관성 및 정렬 보고서 (/spec-mix.tasks 후, /spec-mix.implement 전)",
-      "checklist": "/spec-mix.checklist (선택사항) - 요구사항 완전성, 명확성, 일관성 검증을 위한 품질 체크리스트 생성 (/spec-mix.plan 후)"
+      "checklist": "/spec-mix.checklist (선택사항) - 요구사항 완전성, 명확성, 일관성 검증을 위한 품질 체크리스트 생성 (/spec-mix.plan 후)",
+      "workflow_commands": "워크플로우 관리 명령어",
+      "workflow_description": "기능 개발, 리뷰, 병합을 관리하는 명령어",
+      "dashboard": "/spec-mix.dashboard - 웹 대시보드를 실행하여 기능 및 칸반 보드 시각화",
+      "review": "/spec-mix.review - for_review 레인의 완료된 작업 검토",
+      "accept": "/spec-mix.accept - 병합 전 기능 준비 상태 확인",
+      "merge": "/spec-mix.merge - 기능 브랜치를 main으로 병합",
+      "fix": "/spec-mix.fix - 최소 문서로 경량 버그 수정 생성"
     },
     "security": {
       "title": "에이전트 폴더 보안",

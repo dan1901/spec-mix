@@ -1602,6 +1602,19 @@ args = ["mcp"]
     console.print()
     console.print(enhancements_panel)
 
+    workflow_lines = [
+        f"{t('cli.steps.workflow_description')}",
+        "",
+        f"○ [cyan]{t('cli.steps.dashboard')}[/]",
+        f"○ [cyan]{t('cli.steps.review')}[/]",
+        f"○ [cyan]{t('cli.steps.accept')}[/]",
+        f"○ [cyan]{t('cli.steps.merge')}[/]",
+        f"○ [cyan]{t('cli.steps.fix')}[/]"
+    ]
+    workflow_panel = Panel("\n".join(workflow_lines), title=t('cli.steps.workflow_commands'), border_style="cyan", padding=(1,2))
+    console.print()
+    console.print(workflow_panel)
+
 @app.command()
 def check():
     """Check that all required tools are installed."""
