@@ -33,27 +33,77 @@ Phase Progress:
 4. Commit with descriptive messages
 5. Mark phase complete in tasks.md
 
-## Step 3: Generate Walkthrough
+## Step 3: Walkthrough 생성 (필수)
 
-Create `$FEATURE_DIR/walkthrough-phase-{N}.md`:
+각 단계 완료 후 **반드시 walkthrough 파일을 작성**해야 합니다. 이 파일은 프로젝트의 **작업 메모리** 역할을 합니다 - 무엇을 했고 왜 했는지에 대한 기록입니다.
+
+1. 변경된 파일과 diff 가져오기:
+   ```bash
+   # 변경된 파일 목록
+   git diff --name-status HEAD~{N}  # N = 이 단계의 커밋 수
+
+   # 실제 코드 변경 내용
+   git diff HEAD~{N} --unified=5
+   ```
+
+2. `$FEATURE_DIR/walkthrough-phase-{N}.md` **파일 작성**:
 
 ```markdown
 # Walkthrough: Phase {N} - {Name}
 
-**Generated**: {timestamp}
+**생성일**: {현재 날짜/시간}
+**커밋 수**: {이 단계의 커밋 수}
 
-## Summary
-{What was accomplished}
+## 요약
+{이 단계에서 수행한 작업을 2-3문장으로 설명}
 
-## Files Changed
-{git diff --name-status}
+## 변경된 파일
+| 상태 | 파일 | 설명 |
+|------|------|------|
+| M | src/component.ts | 유효성 검사 로직 추가 |
+| A | src/utils/helper.ts | 새 유틸리티 함수 |
+{git diff로 얻은 변경 파일 테이블}
 
-## Key Changes
-- **File**: {path} - {description}
+## 상세 변경 내역
 
-## Commits
-{git log --oneline}
+### {파일 경로 1}
+**목적**: {이 파일을 변경한 이유}
+
+```diff
+{이 파일의 실제 diff - git diff HEAD~N -- path/to/file 사용}
 ```
+
+### {파일 경로 2}
+**목적**: {이 파일을 변경한 이유}
+
+```diff
+{이 파일의 실제 diff}
+```
+
+{변경된 각 중요 파일에 대해 반복}
+
+## 주요 결정 사항
+- **결정**: {어떤 결정을 내렸는지}
+  - **이유**: {이 접근 방식을 선택한 이유}
+  - **고려한 대안**: {거부된 다른 옵션들}
+
+## 작업 메모리 노트
+> 나중에 이 코드를 다시 볼 때 참고할 컨텍스트와 메모:
+> - {구현 선택에 대한 중요한 컨텍스트}
+> - {주의할 점이나 기억해야 할 사항}
+> - {확인해야 할 의존성이나 관련 파일}
+
+## 커밋
+| 해시 | 메시지 |
+|------|--------|
+{git log --oneline으로 이 단계의 커밋 목록}
+```
+
+**중요**:
+- 이 파일은 **작업 메모리** 역할을 합니다 - 당신이나 다른 개발자가 무엇을 했고 왜 했는지 이해할 수 있을 정도로 충분한 세부 정보를 포함하세요
+- 중요한 변경 사항에 대한 실제 diff를 포함하세요
+- 결정 사항과 그 이유를 문서화하세요
+- 나중에 이 코드를 다시 볼 때 도움이 될 메모를 추가하세요
 
 ## Step 4: Present Review
 

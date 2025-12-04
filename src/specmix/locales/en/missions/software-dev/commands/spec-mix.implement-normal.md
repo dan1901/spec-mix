@@ -39,11 +39,15 @@ Phase Progress:
 
 ## Step 3: Generate Walkthrough (MANDATORY)
 
-**You MUST write a walkthrough file** after completing each phase.
+**You MUST write a walkthrough file** after completing each phase. This serves as **working memory** for the project - a record of what was done and why.
 
-1. Get changed files:
+1. Get changed files and diffs:
    ```bash
-   git diff --name-status HEAD~1
+   # List of changed files
+   git diff --name-status HEAD~{N}  # N = number of commits in this phase
+
+   # Get actual code changes
+   git diff HEAD~{N} --unified=5
    ```
 
 2. **Write** `$FEATURE_DIR/walkthrough-phase-{N}.md` with this content:
@@ -52,23 +56,58 @@ Phase Progress:
 # Walkthrough: Phase {N} - {Name}
 
 **Generated**: {current date/time}
+**Commits**: {number of commits in this phase}
 
 ## Summary
 {2-3 sentences describing what was accomplished in this phase}
 
 ## Files Changed
-| Status | File |
-|--------|------|
+| Status | File | Description |
+|--------|------|-------------|
+| M | src/component.ts | Added validation logic |
+| A | src/utils/helper.ts | New utility functions |
 {table of changed files from git diff}
 
-## Key Changes
-- **{file path}**: {what changed and why}
+## Detailed Changes
 
-## Commits
-{list commits made for this phase}
+### {file path 1}
+**Purpose**: {why this file was changed}
+
+```diff
+{actual diff for this file - use git diff HEAD~N -- path/to/file}
 ```
 
-**Important**: This file is required for the review process. Do not skip this step.
+### {file path 2}
+**Purpose**: {why this file was changed}
+
+```diff
+{actual diff for this file}
+```
+
+{repeat for each significant file changed}
+
+## Key Decisions
+- **Decision**: {what decision was made}
+  - **Reason**: {why this approach was chosen}
+  - **Alternatives considered**: {other options that were rejected}
+
+## Working Memory Notes
+> Context and notes for future reference when revisiting this code:
+> - {important context about implementation choices}
+> - {gotchas or things to remember}
+> - {dependencies or related files to check}
+
+## Commits
+| Hash | Message |
+|------|---------|
+{list commits made for this phase with git log --oneline}
+```
+
+**Important**:
+- This file serves as **working memory** - include enough detail that you or another developer can understand what was done and why
+- Include actual diffs for significant changes
+- Document decisions and their reasoning
+- Add notes that would be helpful when revisiting this code later
 
 ## Step 4: Present Review
 
