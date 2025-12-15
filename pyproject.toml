@@ -1,6 +1,6 @@
 [project]
 name = "spec-mix"
-version = "alpha-0.2.10"
+version = "0.2.10a0"
 description = "Spec Mix - Enhanced Spec Kit with multi-language support, mission system, and web dashboard for Spec-Driven Development (SDD)."
 requires-python = ">=3.11"
 dependencies = [
