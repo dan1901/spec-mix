@@ -18,9 +18,10 @@ if [[ $# -ne 1 ]]; then
   exit 1
 fi
 NEW_VERSION="$1"
-# Support semantic versioning with pre-release tags (e.g., v1.0.0-alpha.1, v1.0.0-beta, v1.0.0-rc.1)
-if [[ ! $NEW_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?(\+[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?$ ]]; then
-  echo "Version must look like v0.0.0 or v0.0.0-alpha.1 (semantic versioning)" >&2
+# Support semantic versioning and PEP 440 pre-release tags
+# Examples: v1.0.0, v1.0.0-alpha.1, v1.0.0a1, v0.2.10a1, v1.0.0b2, v1.0.0rc1
+if [[ ! $NEW_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+((-[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)|([ab]|rc)[0-9]+)?(\+[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?$ ]]; then
+  echo "Version must look like v0.0.0, v0.0.0-alpha.1, or v0.0.0a1 (semantic/PEP 440)" >&2
   exit 1
 fi
 
