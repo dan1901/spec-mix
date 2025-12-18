@@ -32,8 +32,15 @@ import tempfile
 import shutil
 import shlex
 import json
+from importlib.metadata import version as get_version, PackageNotFoundError
 from pathlib import Path
 from typing import Optional, Tuple
+
+# Get version from package metadata
+try:
+    __version__ = get_version("spec-mix")
+except PackageNotFoundError:
+    __version__ = "0.0.0-dev"
 
 import typer
 import httpx
@@ -396,8 +403,20 @@ def show_banner():
     console.print(Align.center(Text(TAGLINE, style="bold green")))
     console.print()
 
+def version_callback(value: bool):
+    """Print version and exit."""
+    if value:
+        console.print(f"spec-mix version {__version__}")
+        raise typer.Exit()
+
+
 @app.callback()
-def callback(ctx: typer.Context):
+def callback(
+    ctx: typer.Context,
+    version: bool = typer.Option(
+        None, "--version", "-V", callback=version_callback, is_eager=True, help="Show version and exit"
+    ),
+):
     """Show banner when no subcommand is provided."""
     if ctx.invoked_subcommand is None and "--help" not in sys.argv and "-h" not in sys.argv:
         show_banner()
