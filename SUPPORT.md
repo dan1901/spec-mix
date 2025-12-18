@@ -13,16 +13,13 @@ For help or questions about using this project, please:
 
 ## Project Status
 
-**Spec Mix** is a fork of the original Spec Kit project with enhanced features including:
+**Spec Mix** is a toolkit for Spec-Driven Development (SDD) with features including:
 
 - Multi-language support (i18n)
 - Mission-based workflow templates
 - Web dashboard for project management
-
-This is maintained as a personal/team fork with additional functionality. For core Spec Kit features and discussions, please refer to the [upstream repository](https://github.com/github/spec-kit).
+- Multiple AI agent support (Claude, Copilot, Gemini, Cursor, etc.)
 
 ## Support Policy
 
 Support for this project is limited to the resources listed above. We will do our best to respond to issues and questions in a timely manner.
-
-For features specific to this fork (multi-language support, missions, dashboard), please open issues in this repository. For general Spec Kit questions, consider checking the upstream project as well.

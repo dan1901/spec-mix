@@ -131,7 +131,7 @@ When submitting AI-assisted contributions, please ensure they include:
 We reserve the right to close contributions that appear to be:
 
 - Untested changes submitted without verification
-- Generic suggestions that don't address specific Spec Kit needs
+- Generic suggestions that don't address specific Spec Mix needs
 - Bulk submissions that show no human review or understanding
 
 ### Guidelines for success
