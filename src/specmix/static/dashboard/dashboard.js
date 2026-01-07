@@ -1094,7 +1094,7 @@ async function loadTaskReviews(featureId, taskId, lane) {
             container.innerHTML = `
                 <div class="empty-state">
                     <p>No reviews found for this task</p>
-                    <p class="hint">Reviews will appear here when tasks are reviewed using <code>/spec-mix.review</code> or <code>/spec-mix.review-interactive</code></p>
+                    <p class="hint">Reviews will appear here when tasks are reviewed using <code>/spec-mix.review</code></p>
                 </div>
             `;
             return;

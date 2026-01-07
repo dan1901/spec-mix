@@ -1,6 +1,6 @@
 name: "Deep Research"
 description: "Mission for conducting in-depth research, analysis, and knowledge discovery"
-version: "1.0.0"
+version: "2.0.0"
 domain: "research"
 
 # Directory paths (relative to mission root)
@@ -12,67 +12,161 @@ directories:
 # Workflow configuration
 workflow:
   phases:
-    - name: "Research Question"
+    - name: "Question Definition"
+      command: "/spec-mix.question"
       required: true
       description: "Define research objectives and questions"
+      gate: "question_clarity_check"
+
+    - name: "Methodology Design"
+      command: "/spec-mix.methodology"
+      required: false
+      description: "Define research approach and strategy"
+      gate: "methodology_completeness"
+
+    - name: "Source Discovery"
+      command: "/spec-mix.search"
+      required: true
+      description: "Search and collect relevant sources"
+      gate: "minimum_sources_check"
+
     - name: "Literature Review"
+      command: "/spec-mix.literature"
       required: true
-      description: "Review existing knowledge and sources"
-    - name: "Data Collection"
+      description: "Review and synthesize existing knowledge"
+      gate: "literature_coverage"
+
+    - name: "Evidence Collection"
+      command: "/spec-mix.collect"
       required: true
-      description: "Gather evidence and information"
-    - name: "Analysis"
+      description: "Gather and organize evidence"
+      gate: "evidence_quality_check"
+
+    - name: "Analysis & Synthesis"
+      command: "/spec-mix.synthesize"
       required: true
       description: "Analyze findings and draw insights"
+      gate: "triangulation_check"
+
     - name: "Documentation"
+      command: "/spec-mix.findings"
       required: true
       description: "Document findings and conclusions"
-    - name: "Review"
+      gate: "findings_completeness"
+
+    - name: "Validation"
+      command: "/spec-mix.validate"
       required: true
-      description: "Peer review and validation"
+      description: "Validate quality and check for bias"
+      gate: "validation_pass"
 
 # Expected artifacts
 artifacts:
   required:
     - research-question.md
+    - data-sources.md
     - findings.md
     - analysis.md
-  optional:
-    - literature-review.md
-    - data-sources.md
-    - methodology.md
-    - conclusions.md
     - bibliography.md
+  optional:
+    - methodology.md
+    - literature-review.md
+    - evidence/
+    - validation-report.md
 
 # Validation checks
 validation:
   checks:
-    - verify_research_question
-    - check_evidence_quality
-    - validate_citations
-    - ensure_methodology_documented
-    - check_conclusion_support
+    - question_clarity_check:
+        description: "Research question is specific and answerable"
+
+    - minimum_sources_check:
+        description: "At least 5 credible sources collected"
+        min_sources: 5
+
+    - evidence_quality_check:
+        description: "50% or more A/B-rated sources"
+        min_quality_ratio: 0.5
+
+    - triangulation_check:
+        description: "Key claims supported by 3+ sources"
+        min_sources_per_claim: 3
+
+    - citation_completeness:
+        description: "All claims properly cited"
+
+    - bias_check:
+        description: "No major biases detected"
 
 # Agent personality and context
 agent_context:
-  personality: "You are a thorough research assistant focused on evidence-based analysis and critical thinking."
-  focus: "evidence quality, source credibility, logical reasoning, comprehensive analysis"
+  personality: "You are a thorough research assistant focused on evidence-based analysis and critical thinking. You prioritize finding truth over confirming assumptions."
+  focus: "evidence quality, source credibility, logical reasoning, comprehensive analysis, intellectual honesty"
   principles:
-    - "Base conclusions on evidence"
-    - "Cite all sources properly"
-    - "Consider multiple perspectives"
-    - "Acknowledge limitations and uncertainties"
-    - "Maintain intellectual honesty"
-    - "Document methodology clearly"
+    - "Base conclusions on evidence, not assumptions"
+    - "Cite all sources properly with quality ratings"
+    - "Consider multiple perspectives, including contradicting views"
+    - "Acknowledge limitations and uncertainties explicitly"
+    - "Maintain intellectual honesty - report what you find, not what you expect"
+    - "Document methodology clearly for reproducibility"
+    - "Triangulate claims with multiple independent sources"
+    - "Rate confidence levels based on evidence strength"
 
 # Command-specific configuration
 commands:
-  specify:
+  question:
     focus: "research questions and objectives"
+    output: "research-question.md"
     avoid: "jumping to conclusions before investigation"
-  plan:
-    focus: "research methodology and approach"
-    require: "clear data collection strategy"
-  implement:
-    focus: "evidence gathering and analysis"
-    require: "proper citation of all sources"
+
+  methodology:
+    focus: "research approach and data collection strategy"
+    output: "methodology.md"
+    require: "clear quality criteria"
+
+  search:
+    focus: "systematic source discovery"
+    output: "data-sources.md"
+    require: "use WebSearch tool actively"
+
+  literature:
+    focus: "synthesis of existing knowledge"
+    output: "literature-review.md"
+    require: "identify gaps and debates"
+
+  collect:
+    focus: "evidence extraction and organization"
+    output: "evidence/"
+    require: "preserve context and traceability"
+
+  synthesize:
+    focus: "cross-cutting analysis and insight generation"
+    output: "analysis.md"
+    require: "address contradictions explicitly"
+
+  findings:
+    focus: "clear documentation of results"
+    output: "findings.md"
+    require: "confidence levels for all findings"
+
+  validate:
+    focus: "quality assurance and bias detection"
+    output: "validation-report.md"
+    require: "check all claims trace to evidence"
+
+# Quality standards
+quality:
+  source_ratings:
+    A: "Peer-reviewed, authoritative, current (< 2 years)"
+    B: "Credible organization, well-researched (2-5 years)"
+    C: "Informal, limited verification (> 5 years)"
+
+  confidence_levels:
+    high: "Multiple A-rated sources, no contradictions"
+    medium: "B-rated sources or minor contradictions"
+    low: "C-rated sources or significant uncertainty"
+
+  minimum_standards:
+    sources_per_question: 3
+    a_or_b_ratio: 0.5
+    triangulation_sources: 3

@@ -1,66 +1,66 @@
-# 연구 질문: [주제]
+# Research Question: [TOPIC]
 
-## 연구 목표
+## Research Objectives
 
-### 주요 질문
+### Primary Question
 
-[답하고자 하는 주요 질문은 무엇인가요?]
+[What is the main question you're trying to answer?]
 
-### 보조 질문
+### Secondary Questions
 
-1. [보조 질문 1]
+1. [Supporting question 1]
 
-2. [보조 질문 2]
+2. [Supporting question 2]
 
-3. [보조 질문 3]
+3. [Supporting question 3]
 
-## 맥락 및 배경
+## Context and Background
 
-### 중요성
+### Why This Matters
 
-[이 연구의 중요성 설명]
+[Explain the significance of this research]
 
-### 현재 이해 수준
+### Current Understanding
 
-[이 주제에 대해 이미 알려진 것은?]
+[What is already known about this topic?]
 
-### 지식 격차
+### Knowledge Gaps
 
-[아직 이해되지 않았거나 조사가 필요한 것은?]
+[What is not yet understood or needs investigation?]
 
-## 범위
+## Scope
 
-### 포함 범위
+### In Scope
 
-- [주제 영역 1]
+- [Topic area 1]
 
-- [주제 영역 2]
+- [Topic area 2]
 
-- [주제 영역 3]
+- [Topic area 3]
 
-### 제외 범위
+### Out of Scope
 
-- [다루지 않을 내용]
+- [What will not be covered]
 
-- [명시적 경계]
+- [Explicit boundaries]
 
-## 성공 기준
+## Success Criteria
 
-다음을 충족하면 이 연구는 성공입니다:
-- [ ] 주요 질문이 증거와 함께 답변됨
+This research will be successful if:
+- [ ] Primary question is answered with evidence
 
-- [ ] 주요 발견사항이 잘 문서화됨
+- [ ] Key findings are well-documented
 
-- [ ] 출처가 신뢰할 수 있고 적절히 인용됨
+- [ ] Sources are credible and properly cited
 
-- [ ] 분석이 철저하고 객관적임
+- [ ] Analysis is thorough and objective
 
-- [ ] 결론이 데이터로 뒷받침됨
+- [ ] Conclusions are supported by data
 
-## 제약사항
+## Constraints
 
-- **시간**: [이 연구에 얼마나 걸리나요?]
+- **Time**: [How long for this research?]
 
-- **리소스**: [사용 가능한 리소스는?]
+- **Resources**: [What resources are available?]
 
-- **접근성**: [정보 접근에 대한 제한사항이 있나요?]
+- **Access**: [Any limitations on information access?]

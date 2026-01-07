@@ -1,97 +1,97 @@
-# 연구 발견사항: [주제]
+# Research Findings: [TOPIC]
 
-## 요약
+## Executive Summary
 
-[주요 발견사항에 대한 간략한 개요 - 2-3 문단]
+[Brief overview of key findings - 2-3 paragraphs]
 
-## 주요 발견사항
+## Key Findings
 
-### 발견사항 1: [제목]
+### Finding 1: [Title]
 
-**증거:**
+**Evidence:**
 
-- [출처 1 및 인용]
+- [Source 1 with citation]
 
-- [출처 2 및 인용]
+- [Source 2 with citation]
 
-- [데이터 포인트 또는 관찰]
+- [Data point or observation]
 
-**분석:**
-[이 증거가 무엇을 말해주나요?]
+**Analysis:**
+[What does this evidence tell us?]
 
-**신뢰도:** 높음 / 중간 / 낮음
-**시사점:** [이것이 의미하는 바는?]
-
----
-
-### 발견사항 2: [제목]
-
-**증거:**
-
-- [출처 1 및 인용]
-
-- [출처 2 및 인용]
-
-**분석:**
-[증거 해석]
-
-**신뢰도:** 높음 / 중간 / 낮음
-**시사점:** [실질적 영향]
+**Confidence Level:** High / Medium / Low
+**Implications:** [What does this mean?]
 
 ---
 
-### 발견사항 3: [제목]
+### Finding 2: [Title]
 
-**증거:**
+**Evidence:**
 
-- [뒷받침 데이터]
+- [Source 1 with citation]
 
-**분석:**
-[해석]
+- [Source 2 with citation]
 
-**신뢰도:** 높음 / 중간 / 낮음
-**시사점:** [제안하는 바]
+**Analysis:**
+[Interpretation of the evidence]
 
-## 데이터 출처
+**Confidence Level:** High / Medium / Low
+**Implications:** [Practical impact]
 
-### 1차 출처
+---
 
-1. [출처 이름] - [유형] - [접근 날짜]
+### Finding 3: [Title]
 
-2. [출처 이름] - [유형] - [접근 날짜]
+**Evidence:**
 
-### 2차 출처
+- [Supporting data]
 
-1. [출처 이름] - [유형] - [접근 날짜]
+**Analysis:**
+[Your interpretation]
 
-2. [출처 이름] - [유형] - [접근 날짜]
+**Confidence Level:** High / Medium / Low
+**Implications:** [What this suggests]
 
-## 방법론
+## Data Sources
 
-### 데이터 수집 접근법
+### Primary Sources
 
-[정보는 어떻게 수집되었나요?]
+1. [Source name] - [Type] - [Date accessed]
 
-### 분석 방법
+2. [Source name] - [Type] - [Date accessed]
 
-[데이터는 어떻게 분석되었나요?]
+### Secondary Sources
 
-### 한계
+1. [Source name] - [Type] - [Date accessed]
 
-- [한계 1]
+2. [Source name] - [Type] - [Date accessed]
 
-- [한계 2]
+## Methodology
 
-- [한계 3]
+### Data Collection Approach
 
-## 예상치 못한 발견사항
+[How was information gathered?]
 
-[무엇이 놀라웠나요? 무엇이 가정과 모순되었나요?]
+### Analysis Methods
 
-## 추가 연구 질문
+[How was data analyzed?]
 
-1. [이 연구에서 나온 질문]
+### Limitations
 
-2. [조사가 필요한 다른 영역]
+- [Limitation 1]
 
-3. [남아있는 격차]
+- [Limitation 2]
+
+- [Limitation 3]
+
+## Unexpected Findings
+
+[What surprised you? What contradicted assumptions?]
+
+## Questions for Further Research
+
+1. [Question that emerged from this research]
+
+2. [Another area needing investigation]
+
+3. [Gaps that remain]

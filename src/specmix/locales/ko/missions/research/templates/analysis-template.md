@@ -1,91 +1,91 @@
-# 분석: [주제]
+# Analysis: [TOPIC]
 
-## 연구 질문 재검토
+## Research Question Revisited
 
-**원래 질문:** [연구 질문 명시]
+**Original Question:** [State the research question]
 
-**답변:** [증거 기반 답변]
+**Answer:** [Your evidence-based answer]
 
-## 교차 주제
+## Cross-Cutting Themes
 
-### 주제 1: [제목]
+### Theme 1: [Title]
 
-[여러 발견사항에 걸친 패턴 논의]
+[Discussion of patterns across multiple findings]
 
-**뒷받침 증거:**
+**Supporting Evidence:**
 
-- [이 주제를 뒷받침하는 발견사항]
+- [Finding that supports this theme]
 
-- [또 다른 뒷받침 발견사항]
+- [Another supporting finding]
 
-### 주제 2: [제목]
+### Theme 2: [Title]
 
-[또 다른 패턴 또는 주제]
+[Another pattern or theme]
 
-**뒷받침 증거:**
+**Supporting Evidence:**
 
-- [증거]
+- [Evidence]
 
-- [증거]
+- [Evidence]
 
-## 종합
+## Synthesis
 
-### 증거가 보여주는 것
+### What the Evidence Shows
 
-[모든 발견사항을 종합한 포괄적 관점]
+[Comprehensive view of all findings together]
 
-### 대안적 해석
+### Alternative Interpretations
 
-[이 데이터를 이해할 수 있는 다른 방법은?]
+[What other ways could this data be understood?]
 
-### 가장 강력한 증거
+### Strongest Evidence
 
-[어떤 발견사항이 가장 신뢰할 수 있으며 그 이유는?]
+[Which findings are most reliable and why?]
 
-### 가장 약한 증거
+### Weakest Evidence
 
-[어떤 발견사항이 더 많은 뒷받침이 필요한가?]
+[Which findings need more support?]
 
-## 시사점
+## Implications
 
-### 이론적 시사점
+### Theoretical Implications
 
-[이것이 주제 이해에 대해 의미하는 바는?]
+[What does this mean for understanding the topic?]
 
-### 실질적 시사점
+### Practical Implications
 
-[이것이 어떤 행동이나 결정에 정보를 제공하나?]
+[What actions or decisions does this inform?]
 
-### 향후 연구 방향
+### Future Research Directions
 
-1. [연구 방향 1]
+1. [Research direction 1]
 
-2. [연구 방향 2]
+2. [Research direction 2]
 
-3. [연구 방향 3]
+3. [Research direction 3]
 
-## 결론
+## Conclusions
 
-### 주요 결론
+### Primary Conclusions
 
-1. [신뢰도 수준과 함께 주요 결론]
+1. [Main conclusion with confidence level]
 
-2. [신뢰도 수준과 함께 두 번째 결론]
+2. [Second conclusion with confidence level]
 
-3. [신뢰도 수준과 함께 세 번째 결론]
+3. [Third conclusion with confidence level]
 
-### 주의사항 및 한계
+### Caveats and Limitations
 
-- [명심해야 할 중요한 한계]
+- [Important limitation to keep in mind]
 
-- [결론을 내릴 수 있는 범위]
+- [Boundary of what can be concluded]
 
-- [불확실한 영역]
+- [Areas of uncertainty]
 
-### 권장사항
+### Recommendations
 
-1. [발견사항에 기반한 실행 가능한 권장사항]
+1. [Actionable recommendation based on findings]
 
-2. [또 다른 권장사항]
+2. [Another recommendation]
 
-3. [최종 권장사항]
+3. [Final recommendation]

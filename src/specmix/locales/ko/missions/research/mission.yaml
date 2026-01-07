@@ -1,6 +1,6 @@
 name: "심층 연구"
-description: "심층적인 연구, 분석 및 지식 발견을 위한 미션"
-version: "1.0.0"
+description: "심층적인 연구, 분석, 지식 발견을 위한 미션"
+version: "2.0.0"
 domain: "research"
 
 # 디렉토리 경로 (미션 루트 기준 상대 경로)
@@ -9,70 +9,164 @@ directories:
   commands: "commands"
   constitution: "constitution"
 
-# 워크플로우 설정
+# 워크플로우 구성
 workflow:
   phases:
-    - name: "Research Question"
+    - name: "연구 질문 정의"
+      command: "/spec-mix.question"
       required: true
-      description: "연구 목표 및 질문 정의"
-    - name: "Literature Review"
-      required: true
-      description: "기존 지식 및 출처 검토"
-    - name: "Data Collection"
-      required: true
-      description: "증거 및 정보 수집"
-    - name: "Analysis"
-      required: true
-      description: "발견 사항 분석 및 인사이트 도출"
-    - name: "Documentation"
-      required: true
-      description: "발견 사항 및 결론 문서화"
-    - name: "Review"
-      required: true
-      description: "동료 검토 및 검증"
+      description: "연구 목표와 질문 정의"
+      gate: "question_clarity_check"
 
-# 예상 아티팩트
+    - name: "방법론 설계"
+      command: "/spec-mix.methodology"
+      required: false
+      description: "연구 접근법과 전략 정의"
+      gate: "methodology_completeness"
+
+    - name: "자료 탐색"
+      command: "/spec-mix.search"
+      required: true
+      description: "관련 자료 검색 및 수집"
+      gate: "minimum_sources_check"
+
+    - name: "문헌 검토"
+      command: "/spec-mix.literature"
+      required: true
+      description: "기존 지식 검토 및 종합"
+      gate: "literature_coverage"
+
+    - name: "증거 수집"
+      command: "/spec-mix.collect"
+      required: true
+      description: "증거 수집 및 정리"
+      gate: "evidence_quality_check"
+
+    - name: "분석 및 종합"
+      command: "/spec-mix.synthesize"
+      required: true
+      description: "발견사항 분석 및 통찰 도출"
+      gate: "triangulation_check"
+
+    - name: "문서화"
+      command: "/spec-mix.findings"
+      required: true
+      description: "발견사항 및 결론 문서화"
+      gate: "findings_completeness"
+
+    - name: "검증"
+      command: "/spec-mix.validate"
+      required: true
+      description: "품질 검증 및 편향 확인"
+      gate: "validation_pass"
+
+# 예상 산출물
 artifacts:
   required:
     - research-question.md
+    - data-sources.md
     - findings.md
     - analysis.md
-  optional:
-    - literature-review.md
-    - data-sources.md
-    - methodology.md
-    - conclusions.md
     - bibliography.md
+  optional:
+    - methodology.md
+    - literature-review.md
+    - evidence/
+    - validation-report.md
 
-# 검증 체크리스트
+# 검증 체크
 validation:
   checks:
-    - verify_research_question
-    - check_evidence_quality
-    - validate_citations
-    - ensure_methodology_documented
-    - check_conclusion_support
+    - question_clarity_check:
+        description: "연구 질문이 구체적이고 답변 가능함"
+
+    - minimum_sources_check:
+        description: "최소 5개 이상의 신뢰할 수 있는 출처 수집"
+        min_sources: 5
+
+    - evidence_quality_check:
+        description: "50% 이상 A/B 등급 출처"
+        min_quality_ratio: 0.5
+
+    - triangulation_check:
+        description: "핵심 주장은 3개 이상 출처로 뒷받침"
+        min_sources_per_claim: 3
+
+    - citation_completeness:
+        description: "모든 주장에 적절한 인용"
+
+    - bias_check:
+        description: "주요 편향 미검출"
 
 # 에이전트 성격 및 컨텍스트
 agent_context:
-  personality: "당신은 증거 기반 분석과 비판적 사고에 중점을 둔 철저한 연구 도우미입니다."
-  focus: "증거 품질, 출처 신뢰성, 논리적 추론, 포괄적 분석"
+  personality: "당신은 증거 기반 분석과 비판적 사고에 집중하는 철저한 연구 보조원입니다. 가정을 확인하는 것보다 진실을 찾는 것을 우선시합니다."
+  focus: "증거 품질, 출처 신뢰성, 논리적 추론, 포괄적 분석, 지적 정직성"
   principles:
-    - "증거를 기반으로 결론 도출"
-    - "모든 출처를 적절히 인용"
-    - "다양한 관점 고려"
-    - "한계 및 불확실성 인정"
-    - "지적 정직성 유지"
-    - "방법론을 명확하게 문서화"
+    - "가정이 아닌 증거에 기반하여 결론 도출"
+    - "모든 출처를 품질 등급과 함께 적절히 인용"
+    - "반대 의견을 포함한 다양한 관점 고려"
+    - "한계와 불확실성을 명시적으로 인정"
+    - "지적 정직성 유지 - 기대하는 것이 아닌 발견한 것을 보고"
+    - "재현 가능성을 위해 방법론을 명확히 문서화"
+    - "여러 독립 출처로 주장 교차검증"
+    - "증거 강도에 따른 신뢰도 수준 평가"
 
-# 명령어별 설정
+# 명령어별 구성
 commands:
-  specify:
-    focus: "연구 질문 및 목표"
-    avoid: "조사 전 성급한 결론"
-  plan:
-    focus: "연구 방법론 및 접근법"
-    require: "명확한 데이터 수집 전략"
-  implement:
-    focus: "증거 수집 및 분석"
-    require: "모든 출처의 적절한 인용"
+  question:
+    focus: "연구 질문과 목표"
+    output: "research-question.md"
+    avoid: "조사 전 결론으로 뛰어넘기"
+
+  methodology:
+    focus: "연구 접근법과 데이터 수집 전략"
+    output: "methodology.md"
+    require: "명확한 품질 기준"
+
+  search:
+    focus: "체계적 자료 탐색"
+    output: "data-sources.md"
+    require: "WebSearch 도구 적극 활용"
+
+  literature:
+    focus: "기존 지식 종합"
+    output: "literature-review.md"
+    require: "격차와 논쟁 식별"
+
+  collect:
+    focus: "증거 추출 및 정리"
+    output: "evidence/"
+    require: "컨텍스트와 추적성 보존"
+
+  synthesize:
+    focus: "교차 분석 및 통찰 생성"
+    output: "analysis.md"
+    require: "모순을 명시적으로 다루기"
+
+  findings:
+    focus: "결과의 명확한 문서화"
+    output: "findings.md"
+    require: "모든 발견에 신뢰도 수준 포함"
+
+  validate:
+    focus: "품질 보증 및 편향 탐지"
+    output: "validation-report.md"
+    require: "모든 주장이 증거로 추적되는지 확인"
+
+# 품질 기준
+quality:
+  source_ratings:
+    A: "동료 검토, 권위 있음, 최신 (< 2년)"
+    B: "신뢰할 수 있는 기관, 잘 연구됨 (2-5년)"
+    C: "비공식, 제한된 검증 (> 5년)"
+
+  confidence_levels:
+    high: "다수의 A등급 출처, 모순 없음"
+    medium: "B등급 출처 또는 사소한 모순"
+    low: "C등급 출처 또는 상당한 불확실성"
+
+  minimum_standards:
+    sources_per_question: 3
+    a_or_b_ratio: 0.5
+    triangulation_sources: 3

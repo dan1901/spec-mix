@@ -51,3 +51,7 @@ yarn-error.log*
 *.zip
 sdd-*/
 /CLAUDE.md
+
+# Local development
+.spec-mix/
+docs/outputs/
