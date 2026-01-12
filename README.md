@@ -570,6 +570,43 @@ Additional commands for enhanced quality and validation:
 | `/spec-mix.checklist` | Generate custom quality checklists that validate requirements completeness, clarity, and consistency (like "unit tests for English") |
 | `/spec-mix.sync`      | Sync context by reading all project artifacts for agent handoff (use when switching agents) |
 
+### Available Agents (Claude Code Only)
+
+Agents are autonomous assistants that can perform complex multi-step tasks. After installing Spec Mix with Claude Code, these agents become available:
+
+| Agent | Description | Usage |
+|-------|-------------|-------|
+| `sdd-spec-writer` | Converts user requirements into SDD-optimized specification documents | `@agent-sdd-spec-writer <your requirements>` |
+
+#### SDD Spec Writer Agent
+
+The `sdd-spec-writer` agent helps you create structured specification documents from rough ideas or requirements.
+
+**Example usage:**
+
+```text
+@agent-sdd-spec-writer I want to build a user authentication system with email and social login
+```
+
+**What it does:**
+
+1. Analyzes your requirements
+2. Asks clarifying questions (platform, tech stack, features)
+3. Offers default assumptions for quick start
+4. Generates a comprehensive specification document
+5. Provides next steps for the SDD workflow
+
+**Quick start with defaults:**
+
+```text
+@agent-sdd-spec-writer 계산기를 만들고 싶어
+> (Agent asks clarifying questions)
+> 기본으로 진행해줘
+> (Agent generates full specification)
+```
+
+The generated specification is optimized for use with `/spec-mix.specify` workflow.
+
 ### Environment Variables
 
 | Variable         | Description                                                                                    |
