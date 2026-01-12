@@ -181,7 +181,20 @@ build_variant() {
     claude)
       mkdir -p "$base_dir/.claude/commands"
       # Copy from active-mission instead of regenerating
-      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.claude/commands/" 2>/dev/null || true ;;
+      cp "$SPEC_DIR/active-mission/commands"/*.md "$base_dir/.claude/commands/" 2>/dev/null || true
+      # Copy agents if they exist
+      if [[ -d .claude/agents ]]; then
+        mkdir -p "$base_dir/.claude/agents"
+        cp .claude/agents/*.md "$base_dir/.claude/agents/" 2>/dev/null || true
+        echo "Copied .claude/agents -> $base_dir/.claude/agents"
+      fi
+      # Copy skills if they exist
+      if [[ -d .claude/skills ]]; then
+        mkdir -p "$base_dir/.claude/skills"
+        cp -r .claude/skills/* "$base_dir/.claude/skills/" 2>/dev/null || true
+        echo "Copied .claude/skills -> $base_dir/.claude/skills"
+      fi
+      ;;
     gemini)
       mkdir -p "$base_dir/.gemini/commands"
       # Gemini uses files without extension
