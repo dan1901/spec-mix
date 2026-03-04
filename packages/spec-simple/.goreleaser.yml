@@ -1,4 +1,9 @@
+version: 2
+
 project_name: spec-simple
+
+monorepo:
+  tag_prefix: spec-simple/
 
 builds:
   - main: .
