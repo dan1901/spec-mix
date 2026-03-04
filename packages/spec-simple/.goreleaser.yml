@@ -1,0 +1,34 @@
+project_name: spec-simple
+
+builds:
+  - main: .
+    binary: spec-simple
+    ldflags:
+      - -s -w -X github.com/letsur/spec-kit/packages/spec-simple/cmd.version={{.Version}}
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: checksums.txt
+
+brews:
+  - repository:
+      owner: letsur
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: https://github.com/letsur/spec-kit
+    description: Simplified SDD toolkit for Claude Code
+    install: |
+      bin.install "spec-simple"
